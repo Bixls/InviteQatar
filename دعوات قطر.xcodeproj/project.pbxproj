@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		184B65301B3F60AC00B1483C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B652F1B3F60AC00B1483C /* main.m */; };
 		184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65321B3F60AC00B1483C /* AppDelegate.m */; };
-		184B65361B3F60AC00B1483C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65351B3F60AC00B1483C /* ViewController.m */; };
 		184B65391B3F60AC00B1483C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184B65371B3F60AC00B1483C /* Main.storyboard */; };
 		184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184B653A1B3F60AC00B1483C /* Images.xcassets */; };
 		184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 184B653C1B3F60AC00B1483C /* LaunchScreen.xib */; };
 		184B654A1B3F60AC00B1483C /* _________Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65491B3F60AC00B1483C /* _________Tests.m */; };
+		184B65551B3F84A700B1483C /* WelcomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65541B3F84A700B1483C /* WelcomePageViewController.m */; };
+		184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65571B3F944D00B1483C /* SignUpViewController.m */; };
+		184B655A1B3F9C6D00B1483C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */; };
+		184B655D1B3FBD9900B1483C /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B655C1B3FBD9900B1483C /* SignInViewController.m */; };
+		184B65601B3FC52900B1483C /* ConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B655F1B3FC52900B1483C /* ConfirmationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +36,21 @@
 		184B652F1B3F60AC00B1483C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		184B65311B3F60AC00B1483C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		184B65321B3F60AC00B1483C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		184B65341B3F60AC00B1483C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		184B65351B3F60AC00B1483C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		184B65381B3F60AC00B1483C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		184B653A1B3F60AC00B1483C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		184B653D1B3F60AC00B1483C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		184B65431B3F60AC00B1483C /* دعوات قطرTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "دعوات قطرTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		184B65481B3F60AC00B1483C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		184B65491B3F60AC00B1483C /* _________Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "_________Tests.m"; sourceTree = "<group>"; };
+		184B65531B3F84A700B1483C /* WelcomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomePageViewController.h; sourceTree = "<group>"; };
+		184B65541B3F84A700B1483C /* WelcomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomePageViewController.m; sourceTree = "<group>"; };
+		184B65561B3F944D00B1483C /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		184B65571B3F944D00B1483C /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		184B655B1B3FBD9900B1483C /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		184B655C1B3FBD9900B1483C /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		184B655E1B3FC52900B1483C /* ConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmationViewController.h; sourceTree = "<group>"; };
+		184B655F1B3FC52900B1483C /* ConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184B655A1B3F9C6D00B1483C /* MobileCoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,11 +93,18 @@
 		184B652C1B3F60AC00B1483C /* دعوات قطر */ = {
 			isa = PBXGroup;
 			children = (
+				184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */,
 				184B65311B3F60AC00B1483C /* AppDelegate.h */,
 				184B65321B3F60AC00B1483C /* AppDelegate.m */,
-				184B65341B3F60AC00B1483C /* ViewController.h */,
-				184B65351B3F60AC00B1483C /* ViewController.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
+				184B65531B3F84A700B1483C /* WelcomePageViewController.h */,
+				184B65541B3F84A700B1483C /* WelcomePageViewController.m */,
+				184B65561B3F944D00B1483C /* SignUpViewController.h */,
+				184B65571B3F944D00B1483C /* SignUpViewController.m */,
+				184B655B1B3FBD9900B1483C /* SignInViewController.h */,
+				184B655C1B3FBD9900B1483C /* SignInViewController.m */,
+				184B655E1B3FC52900B1483C /* ConfirmationViewController.h */,
+				184B655F1B3FC52900B1483C /* ConfirmationViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -219,8 +238,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				184B65361B3F60AC00B1483C /* ViewController.m in Sources */,
+				184B655D1B3FBD9900B1483C /* SignInViewController.m in Sources */,
+				184B65601B3FC52900B1483C /* ConfirmationViewController.m in Sources */,
+				184B65551B3F84A700B1483C /* WelcomePageViewController.m in Sources */,
 				184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */,
+				184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */,
 				184B65301B3F60AC00B1483C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,6 +438,7 @@
 				184B654F1B3F60AC00B1483C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		184B65501B3F60AC00B1483C /* Build configuration list for PBXNativeTarget "دعوات قطرTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +447,7 @@
 				184B65521B3F60AC00B1483C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

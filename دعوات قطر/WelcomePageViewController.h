@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  WelcomePageViewController.h
 //  دعوات قطر
 //
 //  Created by Adham Gad on 28,6//15.
@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface WelcomePageViewController : UIViewController 
+
 
 
 @end
