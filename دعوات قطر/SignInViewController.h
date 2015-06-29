@@ -10,7 +10,8 @@
 
 @interface SignInViewController : UIViewController <UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *usernameField;
+@property (weak, nonatomic) IBOutlet UITextField *mobileField;
+
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
 - (IBAction)btnSignInPressed:(id)sender;

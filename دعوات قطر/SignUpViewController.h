@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "chooseGroupViewController.h"
 
-@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
+@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,chooseGroupViewControllerDelegate>
 
 
 
