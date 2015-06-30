@@ -25,7 +25,7 @@
     
     self.postDict = [[NSDictionary alloc]init];
     
-    //self.allValues = @[@"Mac",@"iphone",@"ipad",@"imac",@"itunes",@"apple watch"];
+    
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
@@ -39,8 +39,8 @@
     self.postDict = @{
                       @"FunctionName":@"searchUsers" ,
                       @"inputs":@[@{@"Key":self.searchController.searchBar.text,
-                                    @"start":@"1",
-                                    @"limit":@"3"}]};
+                                    @"start":@"0",
+                                    @"limit":@"50000"}]};
 
     [self postRequest:self.postDict];
     NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF beginswith[c] %@",self.searchController.searchBar.text];

@@ -19,6 +19,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *editNameField;
 - (IBAction)btnSavePressed:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *btn1;
+@property (weak, nonatomic) IBOutlet UIButton *btn2;
+@property (weak, nonatomic) IBOutlet UIButton *btn3;
+@property (weak, nonatomic) IBOutlet UIButton *btn4;
+@property (weak, nonatomic) IBOutlet UIButton *btn5;
+
 @end
 
 @implementation EditAccountViewController
@@ -28,6 +34,43 @@
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.maskInbox = [self.userDefaults objectForKey:@"maskInbox"];
     
+    NSInteger first = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:0]] integerValue];
+    NSInteger second = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:1]]integerValue];
+    NSInteger third = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:2]]integerValue];
+    NSInteger fourth = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:3]]integerValue];
+    NSInteger fifth = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:4]]integerValue];
+
+    if (first == 1) {
+        [self.btn1 setTitle:@"الأعراس \u2713" forState:UIControlStateNormal];
+    }else{
+        [self.btn1 setTitle:@"الأعراس \u2001" forState:UIControlStateNormal];
+    }
+    
+    if (second == 1) {
+        [self.btn2 setTitle:@"العزاء \u2713" forState:UIControlStateNormal];
+    }else{
+        [self.btn2 setTitle:@"العزاء \u2001" forState:UIControlStateNormal];
+    }
+    
+    if (third == 1) {
+        [self.btn3 setTitle:@"تخرج \u2713" forState:UIControlStateNormal];
+    }else{
+        [self.btn3 setTitle:@"تخرج \u2001" forState:UIControlStateNormal];
+    }
+
+    if (fourth == 1) {
+        [self.btn4 setTitle:@"تهنيئة \u2713" forState:UIControlStateNormal];
+    }else{
+        [self.btn4 setTitle:@"تهنيئة \u2001" forState:UIControlStateNormal];
+    }
+    
+    if (fifth == 1) {
+        [self.btn5 setTitle:@"مناسبات \u2713" forState:UIControlStateNormal];
+    }else{
+        [self.btn5 setTitle:@"مناسبات \u2001" forState:UIControlStateNormal];
+    }
+
+       
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -106,6 +149,11 @@
         [self.userDefaults synchronize];
         NSLog(@"%@",maskInbox);
         
+        if (notValue == 1) {
+            [self.btn1 setTitle:@"الأعراس \u2713" forState:UIControlStateNormal];
+        }else{
+            [self.btn1 setTitle:@"الأعراس \u2001" forState:UIControlStateNormal];
+        }
 
     }else if ([sender tag] == 1){
         
@@ -117,6 +165,11 @@
         [self.userDefaults setValue:maskInbox forKey:@"maskInbox"];
         [self.userDefaults synchronize];
         NSLog(@"%@",maskInbox);
+        if (notValue == 1) {
+            [self.btn2 setTitle:@"العزاء \u2713" forState:UIControlStateNormal];
+        }else{
+            [self.btn2 setTitle:@"العزاء \u2001" forState:UIControlStateNormal];
+        }
 
         
     }else if ([sender tag] == 2){
@@ -129,6 +182,13 @@
         [self.userDefaults setValue:maskInbox forKey:@"maskInbox"];
         [self.userDefaults synchronize];
         NSLog(@"%@",maskInbox);
+        
+        if (notValue == 1) {
+            [self.btn3 setTitle:@"تخرج \u2713" forState:UIControlStateNormal];
+        }else{
+            [self.btn3 setTitle:@"تخرج \u2001" forState:UIControlStateNormal];
+        }
+
 
         
     }else if ([sender tag] == 3){
@@ -141,6 +201,11 @@
         [self.userDefaults setValue:maskInbox forKey:@"maskInbox"];
         [self.userDefaults synchronize];
         NSLog(@"%@",maskInbox);
+        if (notValue == 1) {
+            [self.btn4 setTitle:@"تهنيئة \u2713" forState:UIControlStateNormal];
+        }else{
+            [self.btn4 setTitle:@"تهنيئة \u2001" forState:UIControlStateNormal];
+        }
 
         
     }else if ([sender tag] == 4){
@@ -153,6 +218,11 @@
         [self.userDefaults setValue:maskInbox forKey:@"maskInbox"];
         [self.userDefaults synchronize];
         NSLog(@"%@",maskInbox);
+        if (notValue == 1) {
+            [self.btn5 setTitle:@"مناسبات \u2713" forState:UIControlStateNormal];
+        }else{
+            [self.btn5 setTitle:@"مناسبات \u2001" forState:UIControlStateNormal];
+        }
 
         
     }

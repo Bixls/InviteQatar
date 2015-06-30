@@ -82,7 +82,8 @@
     imageRequest.allowCompressedResponse = NO;
     imageRequest.useCookiePersistence = NO;
     imageRequest.shouldCompressRequestBody = NO;
-    [imageRequest setPostValue:@"9" forKey:@"id"];
+    [imageRequest setPostValue:@"6" forKey:@"id"];
+    [imageRequest setPostValue:@"user" forKey:@"type"];
     [imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     
     
@@ -130,7 +131,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        self.profilePicture.image = image;
+        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
         
     }
 }
@@ -140,6 +141,13 @@
     
 }
 
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
 
 #pragma mark - Buttons 
 

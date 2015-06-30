@@ -8,17 +8,23 @@
 
 #import "GroupViewController.h"
 #import "ASIHTTPRequest.h"
+#import <UIKit/UIKit.h>
 
 @interface GroupViewController ()
 
 @property (nonatomic,strong) NSArray *users;
+@property (nonatomic) int flag;
+
 @end
 
 @implementation GroupViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSDictionary *postDict = @{@"FunctionName":@"getUsersbyGroup" , @"inputs":@[@{@"groupID":@"2",@"start":@"1",@"limit":@"50000"}]};
+    self.flag = 0;
+    NSDictionary *postDict = @{@"FunctionName":@"getUsersbyGroup" , @"inputs":@[@{@"groupID":@"2",@"start":@"0",@"limit":@"50000"}]};
+    
+ 
     [self postRequest:postDict];
     
 }
@@ -103,16 +109,29 @@
 
 
 - (IBAction)btnMarkAllPressed:(id)sender {
+    
     for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
         NSUInteger ints[2] = {0,i};
         NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
         UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
         if ([cell.textLabel.text isEqualToString:@"\u2713"]) {
-            cell.textLabel.text = @"\u2001";
+            if(self.flag == 1){
+                cell.textLabel.text = @"\u2001";
+            }
+        }else if (self.flag==1){
+            //do nothing
         }else{
             cell.textLabel.text = @"\u2713";
         }
     }
+    self.flag = !(self.flag);
+    if (self.flag == 1) {
+        [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2713" forState:UIControlStateNormal];
+    }else{
+        [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2001" forState:UIControlStateNormal];
+    }
+    
+    NSLog(@"%ld",(long)self.flag);
     [self.tableView reloadData];
 }
 @end
