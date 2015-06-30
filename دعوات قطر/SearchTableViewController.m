@@ -1,0 +1,143 @@
+//
+//  SearchTableViewController.m
+//  دعوات قطر
+//
+//  Created by Adham Gad on 30,6//15.
+//  Copyright (c) 2015 Bixls. All rights reserved.
+//
+
+#import "SearchTableViewController.h"
+#import "ASIHTTPRequest.h"
+
+@interface SearchTableViewController ()
+
+@property (nonatomic,strong) NSArray *allValues;
+@property (nonatomic,strong) NSMutableArray *filteredValues;
+@property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic,strong) NSDictionary *postDict;
+
+@end
+
+@implementation SearchTableViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.postDict = [[NSDictionary alloc]init];
+    
+    //self.allValues = @[@"Mac",@"iphone",@"ipad",@"imac",@"itunes",@"apple watch"];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    [self.tableView reloadData];
+    
+}
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    self.postDict = @{
+                      @"FunctionName":@"searchUsers" ,
+                      @"inputs":@[@{@"Key":self.searchController.searchBar.text,
+                                    @"start":@"1",
+                                    @"limit":@"3"}]};
+
+    [self postRequest:self.postDict];
+    NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF beginswith[c] %@",self.searchController.searchBar.text];
+    NSArray *arr  = [self.allValues filteredArrayUsingPredicate:searchPredicate];
+    self.filteredValues = [NSMutableArray arrayWithArray:arr];
+    [self.tableView reloadData];
+    NSLog(@"%@",[NSString stringWithFormat:@"%@",self.searchController.searchBar.text]);
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    if (self.searchController.active) {
+        return self.filteredValues.count;
+    }else{
+        return self.allValues.count;
+    }
+
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+
+    if (cell==nil) {
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+    }
+    
+    if (self.searchController.active) {
+        NSDictionary *temp = self.filteredValues[indexPath.row];
+        cell.textLabel.text = temp[@"name"];
+        
+    }else {
+        cell.textLabel.text = self.allValues[indexPath.row];
+    }
+
+    
+    return cell;
+}
+
+#pragma mark - Connection Setup
+
+-(void)postRequest:(NSDictionary *)postDict{
+    
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+    NSString *urlString = @"http://bixls.com/Qatar/" ;
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    request.delegate = self;
+    request.username =@"admin";
+    request.password = @"admin";
+    [request setRequestMethod:@"POST"];
+    [request addRequestHeader:@"Authorization" value:authValue];
+    [request addRequestHeader:@"Accept" value:@"application/json"];
+    [request addRequestHeader:@"content-type" value:@"application/json"];
+    request.allowCompressedResponse = NO;
+    request.useCookiePersistence = NO;
+    request.shouldCompressRequestBody = NO;
+    if (!([self.searchController.searchBar.text isEqual:nil])) {
+        [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
+        [request startAsynchronous];
+    }
+   
+ 
+    
+    
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    //NSLog(@"%@",responseString);
+    
+    // Use when fetching binary data
+    NSData *responseData = [request responseData];
+    self.filteredValues = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    NSLog(@"%@",self.filteredValues);
+    [self.tableView reloadData];
+    
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSLog(@"%@",error);
+}
+
+
+@end

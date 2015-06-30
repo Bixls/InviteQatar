@@ -43,6 +43,9 @@
 		184B65941B4088E700B1483C /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 184B65931B4088E700B1483C /* libz.1.dylib */; };
 		184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65971B40E12100B1483C /* chooseGroupViewController.m */; };
 		184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B659A1B411A0A00B1483C /* HomePageViewController.m */; };
+		184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B659D1B41E9F400B1483C /* EditAccountViewController.m */; };
+		184B65A11B421C0200B1483C /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65A01B421C0200B1483C /* GroupViewController.m */; };
+		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,8 +107,14 @@
 		184B65931B4088E700B1483C /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = usr/lib/libz.1.dylib; sourceTree = SDKROOT; };
 		184B65961B40E12100B1483C /* chooseGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chooseGroupViewController.h; sourceTree = "<group>"; };
 		184B65971B40E12100B1483C /* chooseGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = chooseGroupViewController.m; sourceTree = "<group>"; };
-		184B65991B411A0A00B1483C /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
-		184B659A1B411A0A00B1483C /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
+		184B65991B411A0A00B1483C /* HomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomePageViewController.h; path = ../HomePageViewController.h; sourceTree = "<group>"; };
+		184B659A1B411A0A00B1483C /* HomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomePageViewController.m; path = ../HomePageViewController.m; sourceTree = "<group>"; };
+		184B659C1B41E9F400B1483C /* EditAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountViewController.h; sourceTree = "<group>"; };
+		184B659D1B41E9F400B1483C /* EditAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountViewController.m; sourceTree = "<group>"; };
+		184B659F1B421C0200B1483C /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		184B65A01B421C0200B1483C /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
+		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,8 +143,6 @@
 		184B65211B3F60AC00B1483C = {
 			isa = PBXGroup;
 			children = (
-				184B65991B411A0A00B1483C /* HomePageViewController.h */,
-				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
 				184B65951B40DDD700B1483C /* Frameworks */,
 				184B652C1B3F60AC00B1483C /* دعوات قطر */,
 				184B65461B3F60AC00B1483C /* دعوات قطرTests */,
@@ -169,6 +176,14 @@
 				184B655C1B3FBD9900B1483C /* SignInViewController.m */,
 				184B655E1B3FC52900B1483C /* ConfirmationViewController.h */,
 				184B655F1B3FC52900B1483C /* ConfirmationViewController.m */,
+				184B65991B411A0A00B1483C /* HomePageViewController.h */,
+				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
+				184B659C1B41E9F400B1483C /* EditAccountViewController.h */,
+				184B659D1B41E9F400B1483C /* EditAccountViewController.m */,
+				184B659F1B421C0200B1483C /* GroupViewController.h */,
+				184B65A01B421C0200B1483C /* GroupViewController.m */,
+				18A202DC1B424D94005BD875 /* SearchTableViewController.h */,
+				18A202DD1B424D94005BD875 /* SearchTableViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -338,6 +353,7 @@
 				184B65821B4080D600B1483C /* ASIDataDecompressor.h in Sources */,
 				184B65861B40817700B1483C /* ASIFormDataRequest.m in Sources */,
 				184B65831B4080D600B1483C /* ASIDataCompressor.h in Sources */,
+				18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */,
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
 				184B65771B40804A00B1483C /* ASIAuthenticationDialog.h in Sources */,
 				184B656E1B407F6B00B1483C /* ASIHTTPRequest.h in Sources */,
@@ -351,6 +367,8 @@
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
 				184B65731B407F6B00B1483C /* Reachability.h in Sources */,
+				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
+				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
 				184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */,
 				184B65811B4080BC00B1483C /* ASIDataCompressor.m in Sources */,
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,

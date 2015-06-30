@@ -69,8 +69,27 @@
     request.useCookiePersistence = NO;
     request.shouldCompressRequestBody = NO;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
-    [request startAsynchronous];
+    
+    ASIFormDataRequest *imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
+    [imageRequest setUseKeychainPersistence:YES];
+    imageRequest.delegate = self;
+    imageRequest.username = @"admin";
+    imageRequest.password = @"admin";
+    [imageRequest setRequestMethod:@"POST"];
+    [imageRequest addRequestHeader:@"Authorization" value:authValue];
+    [imageRequest addRequestHeader:@"Accept" value:@"application/json"];
+    [imageRequest addRequestHeader:@"content-type" value:@"application/json"];
+    imageRequest.allowCompressedResponse = NO;
+    imageRequest.useCookiePersistence = NO;
+    imageRequest.shouldCompressRequestBody = NO;
+    [imageRequest setPostValue:@"9" forKey:@"id"];
+    [imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    
+    
 
+    
+    [request startAsynchronous];
+    [imageRequest startAsynchronous];
     
 }
 
@@ -106,6 +125,7 @@
 #pragma mark - Image Picker delegate methods
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
@@ -144,8 +164,7 @@
                                @"inputs":@[@{@"name":self.nameField.text,
                                              @"Mobile":self.mobileField.text,
                                              @"password":self.passwordField.text,
-                                             @"groupID":(NSString *)self.selectedGroup[@"id"],
-                                             @"ProfilePic":@"11"}]};
+                                             @"groupID":(NSString *)self.selectedGroup[@"id"]}]};
     
     NSLog(@"%@",(NSString *)self.selectedGroup[@"id"]);
     [self postRequest:postDict];
