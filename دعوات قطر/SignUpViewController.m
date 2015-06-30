@@ -10,6 +10,9 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+
+
+
 @interface SignUpViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *profilePicture;
@@ -19,7 +22,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *mobileField;
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseGroup;
 
+@property (strong,nonatomic)UIActivityIndicatorView * spinner;
 @property (strong,nonatomic) NSDictionary *selectedGroup;
+@property (strong,nonatomic) NSUserDefaults *userDefaults;
+@property (strong,nonatomic) ASIFormDataRequest *imageRequest;
 
 @end
 
@@ -27,7 +33,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.selectedGroup = @{@"id":@"default"} ;
+    
+//    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    [self.spinner setCenter:CGPointMake([[UIScreen mainScreen] bounds].size.width/2.0, [[UIScreen mainScreen] bounds].size.height/2.0)];
+//    [self.view addSubview:self.spinner];
     
 }
 
@@ -70,28 +81,40 @@
     request.shouldCompressRequestBody = NO;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
     
-    ASIFormDataRequest *imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
-    [imageRequest setUseKeychainPersistence:YES];
-    imageRequest.delegate = self;
-    imageRequest.username = @"admin";
-    imageRequest.password = @"admin";
-    [imageRequest setRequestMethod:@"POST"];
-    [imageRequest addRequestHeader:@"Authorization" value:authValue];
-    [imageRequest addRequestHeader:@"Accept" value:@"application/json"];
-    [imageRequest addRequestHeader:@"content-type" value:@"application/json"];
-    imageRequest.allowCompressedResponse = NO;
-    imageRequest.useCookiePersistence = NO;
-    imageRequest.shouldCompressRequestBody = NO;
-    [imageRequest setPostValue:@"6" forKey:@"id"];
-    [imageRequest setPostValue:@"user" forKey:@"type"];
-    [imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    
     
     
 
     
     [request startAsynchronous];
-    [imageRequest startAsynchronous];
     
+   
+    
+}
+
+-(void)postPicture {
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+ 
+
+    
+    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
+    [self.imageRequest setUseKeychainPersistence:YES];
+    self.imageRequest.delegate = self;
+    self.imageRequest.username = @"admin";
+    self.imageRequest.password = @"admin";
+    [self.imageRequest setRequestMethod:@"POST"];
+    [self.imageRequest addRequestHeader:@"Authorization" value:authValue];
+    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
+    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
+    self.imageRequest.allowCompressedResponse = NO;
+    self.imageRequest.useCookiePersistence = NO;
+    self.imageRequest.shouldCompressRequestBody = NO;
+    [self.imageRequest setPostValue:@"6" forKey:@"id"];
+    [self.imageRequest setPostValue:@"user" forKey:@"type"];
+    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    [self.imageRequest startAsynchronous];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -102,7 +125,9 @@
     
     // Use when fetching binary data
     NSData *responseData = [request responseData];
-    NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil]);
+    NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+   
+    
     
 }
 
@@ -134,6 +159,8 @@
         self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
         
     }
+    [self postPicture];
+    
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -176,6 +203,7 @@
     
     NSLog(@"%@",(NSString *)self.selectedGroup[@"id"]);
     [self postRequest:postDict];
+    
 }
 @end
 
