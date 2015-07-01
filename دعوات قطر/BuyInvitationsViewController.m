@@ -9,12 +9,16 @@
 #import "BuyInvitationsViewController.h"
 #import "ConnectionAdapter.h"
 #import "ASIHTTPRequest.h"
+#import "CellInvitationTableView.h"
 
 @interface BuyInvitationsViewController ()
 
 @property(nonatomic,strong) ConnectionAdapter *connection;
 @property(nonatomic,strong) NSDictionary *postDict;
 @property(nonatomic,strong) NSArray *responseArray;
+@property(nonatomic,strong) NSDictionary *selectedItem;
+@property(nonatomic,strong) NSArray *tableArray;
+@property(nonatomic) NSInteger flag;
 
 @end
 
@@ -22,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.flag =0 ;
     self.postDict = @{
                       @"FunctionName":@"getInvitationList" ,
                       @"inputs":@[@{@"limit":@"10"}]};
@@ -32,6 +36,39 @@
 }
 
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+    
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.tableArray.count;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"Cell";
+    
+    CellInvitationTableView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    if (cell==nil) {
+        cell=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    if (self.flag == 0) {
+        NSDictionary *tempDict = self.tableArray[indexPath.row];
+        cell.label0.text = tempDict[@"price"];
+        cell.label1.text = tempDict[@"packageName"];
+        cell.label2.text = tempDict[@"number"];
+        
+        return cell ;
+    }
+
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedItem = self.responseArray[indexPath.row];
+    self.flag =1;
+}
 
 #pragma mark - Connection Setup
 
@@ -69,9 +106,13 @@
     
     // Use when fetching binary data
     NSData *responseData = [request responseData];
+    if (self.flag == 0) {
+         self.tableArray = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    }
     self.responseArray = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSLog(@"%@",self.responseArray);
     
+    [self.tableView reloadData];
     
     
 }
@@ -83,4 +124,15 @@
 }
 
 
+
+- (IBAction)btnBuyNowPressed:(id)sender {
+    int id = [self.selectedItem[@"id"]integerValue] ;
+    self.postDict = @{
+                      @"FunctionName":@"addInvPoints" ,
+                      @"inputs":@[@{@"memberID":@"3",@"invitationID":[NSNumber numberWithInt:id]}]};
+    if (self.flag==1) {
+        [self postRequest:self.postDict];
+    }
+    
+}
 @end

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
 		18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B031B4374810036A345 /* ConnectionAdapter.m */; };
+		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
 		184B65301B3F60AC00B1483C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B652F1B3F60AC00B1483C /* main.m */; };
 		184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65321B3F60AC00B1483C /* AppDelegate.m */; };
 		184B65391B3F60AC00B1483C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184B65371B3F60AC00B1483C /* Main.storyboard */; };
@@ -65,6 +66,8 @@
 		18243B001B43730B0036A345 /* BuyInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInvitationsViewController.m; sourceTree = "<group>"; };
 		18243B021B4374810036A345 /* ConnectionAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionAdapter.h; sourceTree = "<group>"; };
 		18243B031B4374810036A345 /* ConnectionAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionAdapter.m; sourceTree = "<group>"; };
+		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
+		18243B121B43BA720036A345 /* CellInvitationTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInvitationTableView.m; sourceTree = "<group>"; };
 		184B652A1B3F60AC00B1483C /* دعوات قطر.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "دعوات قطر.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		184B652E1B3F60AC00B1483C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		184B652F1B3F60AC00B1483C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 		184B65211B3F60AC00B1483C = {
 			isa = PBXGroup;
 			children = (
+				18243B111B43BA720036A345 /* CellInvitationTableView.h */,
+				18243B121B43BA720036A345 /* CellInvitationTableView.m */,
 				184B65951B40DDD700B1483C /* Frameworks */,
 				184B652C1B3F60AC00B1483C /* دعوات قطر */,
 				184B65461B3F60AC00B1483C /* دعوات قطرTests */,
@@ -377,6 +382,7 @@
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
 				184B65731B407F6B00B1483C /* Reachability.h in Sources */,
+				18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */,
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
 				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
 				184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */,

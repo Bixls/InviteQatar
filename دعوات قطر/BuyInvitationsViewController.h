@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BuyInvitationsViewController : UIViewController 
+@interface BuyInvitationsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+
+- (IBAction)btnBuyNowPressed:(id)sender;
 
 
 
