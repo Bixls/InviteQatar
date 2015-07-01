@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
+		18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B031B4374810036A345 /* ConnectionAdapter.m */; };
 		184B65301B3F60AC00B1483C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B652F1B3F60AC00B1483C /* main.m */; };
 		184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65321B3F60AC00B1483C /* AppDelegate.m */; };
 		184B65391B3F60AC00B1483C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184B65371B3F60AC00B1483C /* Main.storyboard */; };
@@ -59,6 +61,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyInvitationsViewController.h; sourceTree = "<group>"; };
+		18243B001B43730B0036A345 /* BuyInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInvitationsViewController.m; sourceTree = "<group>"; };
+		18243B021B4374810036A345 /* ConnectionAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionAdapter.h; sourceTree = "<group>"; };
+		18243B031B4374810036A345 /* ConnectionAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionAdapter.m; sourceTree = "<group>"; };
 		184B652A1B3F60AC00B1483C /* دعوات قطر.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "دعوات قطر.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		184B652E1B3F60AC00B1483C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		184B652F1B3F60AC00B1483C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -165,6 +171,8 @@
 				184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */,
 				184B65311B3F60AC00B1483C /* AppDelegate.h */,
 				184B65321B3F60AC00B1483C /* AppDelegate.m */,
+				18243B021B4374810036A345 /* ConnectionAdapter.h */,
+				18243B031B4374810036A345 /* ConnectionAdapter.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
 				184B65531B3F84A700B1483C /* WelcomePageViewController.h */,
 				184B65541B3F84A700B1483C /* WelcomePageViewController.m */,
@@ -184,6 +192,8 @@
 				184B65A01B421C0200B1483C /* GroupViewController.m */,
 				18A202DC1B424D94005BD875 /* SearchTableViewController.h */,
 				18A202DD1B424D94005BD875 /* SearchTableViewController.m */,
+				18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */,
+				18243B001B43730B0036A345 /* BuyInvitationsViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -370,6 +380,7 @@
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
 				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
 				184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */,
+				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				184B65811B4080BC00B1483C /* ASIDataCompressor.m in Sources */,
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,
 				184B65761B40802500B1483C /* ASIAuthenticationDialog.m in Sources */,
@@ -380,6 +391,7 @@
 				184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */,
 				184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */,
 				184B65301B3F60AC00B1483C /* main.m in Sources */,
+				18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
