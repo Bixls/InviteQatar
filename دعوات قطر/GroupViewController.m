@@ -13,6 +13,7 @@
 @interface GroupViewController ()
 
 @property (nonatomic,strong) NSArray *users;
+@property (nonatomic,strong) NSArray *events;
 @property (nonatomic) int flag;
 
 @end
@@ -22,11 +23,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.flag = 0;
-    NSDictionary *postDict = @{@"FunctionName":@"getUsersbyGroup" , @"inputs":@[@{@"groupID":@"2",@"start":@"0",@"limit":@"50000"}]};
     
- 
-    [self postRequest:postDict];
     
+    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" , @"inputs":@[@{@"groupID":@"2",@"start":@"0",@"limit":@"50000"}]};
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+    
+    NSDictionary *getEventsDict = @{@"FunctionName":@"getGroupEvents" , @"inputs":@[@{@"groupID":@"2",@"start":@"0",@"limit":@"50000"}]};
+    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
+    
+    [self postRequest:getUSersDict withTag:getUsersTag];
+    [self postRequest:getEventsDict withTag:getEventsTag];
+
 }
 
 #pragma mark - Table view Data Source methods
@@ -63,7 +70,7 @@
 
 #pragma mark - Connection setup
 
--(void)postRequest:(NSDictionary *)postDict{
+-(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -82,6 +89,7 @@
     request.allowCompressedResponse = NO;
     request.useCookiePersistence = NO;
     request.shouldCompressRequestBody = NO;
+    request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
     [request startAsynchronous];
     
@@ -96,7 +104,16 @@
     
     // Use when fetching binary data
     NSData *responseData = [request responseData];
-    self.users = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    NSString *key = [request.userInfo objectForKey:@"key"];
+    if ([key isEqualToString:@"getUsers"]) {
+        self.users = array;
+        NSLog(@"%@",self.users);
+    }else {
+        self.events = array;
+        NSLog(@"%@",self.events);
+    }
+    
     [self.tableView reloadData];
 }
 
