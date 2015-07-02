@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomePageViewController : UIViewController
+@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>
+
+
+@property (weak, nonatomic) IBOutlet UICollectionView *groupsCollectionView;
+
 
 @end

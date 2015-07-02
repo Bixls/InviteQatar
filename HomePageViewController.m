@@ -8,7 +8,7 @@
 
 #import "HomePageViewController.h"
 #import "ASIHTTPRequest.h"
-
+#import "cellGroupsCollectionView.h"
 
 @interface HomePageViewController ()
 
@@ -16,6 +16,7 @@
 
 @property (nonatomic , strong) NSArray *responseArray;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (nonatomic,strong) NSArray *imageArray;
 
 
 @end
@@ -24,14 +25,56 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background.jpg"]]];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.imageArray = @[[UIImage imageNamed:@"3emadi.png"],[UIImage imageNamed:@"3etebi.png"],[UIImage imageNamed:@"elka3bi.png"],[UIImage imageNamed:@"elna3emi.png"],[UIImage imageNamed:@"eltamimi.png"],[UIImage imageNamed:@"ka7tani.png"],[UIImage imageNamed:@"kbesi.png"],[UIImage imageNamed:@"mare5i.png"],[UIImage imageNamed:@"eldosri.png"],[UIImage imageNamed:@"elhawager.png"],[UIImage imageNamed:@"elmra.png"],[UIImage imageNamed:@"elmasnad.png"]];
+    
     NSDictionary *postDict = @{
                                @"FunctionName":@"getGroupList" ,
                                @"inputs":@[@{@"limit":[NSNumber numberWithInt:10]}]};
     [self postRequest:postDict];
-    [self.scrollView setContentSize:CGSizeMake(self.scrollView.frame.size.width, 1000.0)];
+    
+    
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    
+    self.navigationItem.backBarButtonItem = nil;
+    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
+                                        nil] forState:UIControlStateNormal];
+    backbutton.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.backBarButtonItem = backbutton;
+
+    
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    if ([self.userDefaults integerForKey:@"signedIn"] == 0) {
+        [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
+    }
+}
+
+#pragma mark - Collection View methods
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.imageArray.count;
+}
+
+- (cellGroupsCollectionView *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"Cell";
+    
+    cellGroupsCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    cell.groupPP.image = self.imageArray[indexPath.row];
+   
+    
+    return cell ;
+}
 
 #pragma mark - Connection setup
 

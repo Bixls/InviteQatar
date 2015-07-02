@@ -10,6 +10,8 @@
 
 @interface SignInViewController : UIViewController <UITextFieldDelegate>
 
+@property (nonatomic) int userID;
+
 @property (weak, nonatomic) IBOutlet UITextField *mobileField;
 
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;

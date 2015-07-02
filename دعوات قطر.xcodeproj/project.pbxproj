@@ -10,6 +10,11 @@
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
 		18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B031B4374810036A345 /* ConnectionAdapter.m */; };
 		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
+		183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183957011B45382300B47FC2 /* cellGroupsCollectionView.m */; };
+		183957151B453C1E00B47FC2 /* eldosri.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957131B453C1E00B47FC2 /* eldosri.png */; };
+		183957161B453C1E00B47FC2 /* elmasnad.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957141B453C1E00B47FC2 /* elmasnad.png */; };
+		183957191B453C6500B47FC2 /* elhawager.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957171B453C6500B47FC2 /* elhawager.png */; };
+		1839571A1B453C6500B47FC2 /* elmra.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957181B453C6500B47FC2 /* elmra.png */; };
 		184B65301B3F60AC00B1483C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B652F1B3F60AC00B1483C /* main.m */; };
 		184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65321B3F60AC00B1483C /* AppDelegate.m */; };
 		184B65391B3F60AC00B1483C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184B65371B3F60AC00B1483C /* Main.storyboard */; };
@@ -48,6 +53,7 @@
 		184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B659A1B411A0A00B1483C /* HomePageViewController.m */; };
 		184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B659D1B41E9F400B1483C /* EditAccountViewController.m */; };
 		184B65A11B421C0200B1483C /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65A01B421C0200B1483C /* GroupViewController.m */; };
+		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
 /* End PBXBuildFile section */
@@ -69,6 +75,12 @@
 		18243B031B4374810036A345 /* ConnectionAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionAdapter.m; sourceTree = "<group>"; };
 		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
 		18243B121B43BA720036A345 /* CellInvitationTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInvitationTableView.m; sourceTree = "<group>"; };
+		183957001B45382300B47FC2 /* cellGroupsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cellGroupsCollectionView.h; path = "دعوات قطر/cellGroupsCollectionView.h"; sourceTree = "<group>"; };
+		183957011B45382300B47FC2 /* cellGroupsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = cellGroupsCollectionView.m; path = "دعوات قطر/cellGroupsCollectionView.m"; sourceTree = "<group>"; };
+		183957131B453C1E00B47FC2 /* eldosri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eldosri.png; sourceTree = "<group>"; };
+		183957141B453C1E00B47FC2 /* elmasnad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elmasnad.png; sourceTree = "<group>"; };
+		183957171B453C6500B47FC2 /* elhawager.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elhawager.png; sourceTree = "<group>"; };
+		183957181B453C6500B47FC2 /* elmra.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elmra.png; sourceTree = "<group>"; };
 		184B652A1B3F60AC00B1483C /* دعوات قطر.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "دعوات قطر.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		184B652E1B3F60AC00B1483C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		184B652F1B3F60AC00B1483C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -123,6 +135,8 @@
 		184B659D1B41E9F400B1483C /* EditAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountViewController.m; sourceTree = "<group>"; };
 		184B659F1B421C0200B1483C /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
 		184B65A01B421C0200B1483C /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
@@ -152,11 +166,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		183956F91B4515A900B47FC2 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				184B65531B3F84A700B1483C /* WelcomePageViewController.h */,
+				184B65541B3F84A700B1483C /* WelcomePageViewController.m */,
+				184B65561B3F944D00B1483C /* SignUpViewController.h */,
+				184B65571B3F944D00B1483C /* SignUpViewController.m */,
+				184B65961B40E12100B1483C /* chooseGroupViewController.h */,
+				184B65971B40E12100B1483C /* chooseGroupViewController.m */,
+				184B655B1B3FBD9900B1483C /* SignInViewController.h */,
+				184B655C1B3FBD9900B1483C /* SignInViewController.m */,
+				184B655E1B3FC52900B1483C /* ConfirmationViewController.h */,
+				184B655F1B3FC52900B1483C /* ConfirmationViewController.m */,
+			);
+			name = Authentication;
+			sourceTree = "<group>";
+		};
 		184B65211B3F60AC00B1483C = {
 			isa = PBXGroup;
 			children = (
 				18243B111B43BA720036A345 /* CellInvitationTableView.h */,
 				18243B121B43BA720036A345 /* CellInvitationTableView.m */,
+				183957001B45382300B47FC2 /* cellGroupsCollectionView.h */,
+				183957011B45382300B47FC2 /* cellGroupsCollectionView.m */,
+				18D1CBB11B44C47A00B8B787 /* Images */,
 				184B65951B40DDD700B1483C /* Frameworks */,
 				184B652C1B3F60AC00B1483C /* دعوات قطر */,
 				184B65461B3F60AC00B1483C /* دعوات قطرTests */,
@@ -182,16 +216,7 @@
 				18243B021B4374810036A345 /* ConnectionAdapter.h */,
 				18243B031B4374810036A345 /* ConnectionAdapter.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
-				184B65531B3F84A700B1483C /* WelcomePageViewController.h */,
-				184B65541B3F84A700B1483C /* WelcomePageViewController.m */,
-				184B65561B3F944D00B1483C /* SignUpViewController.h */,
-				184B65571B3F944D00B1483C /* SignUpViewController.m */,
-				184B65961B40E12100B1483C /* chooseGroupViewController.h */,
-				184B65971B40E12100B1483C /* chooseGroupViewController.m */,
-				184B655B1B3FBD9900B1483C /* SignInViewController.h */,
-				184B655C1B3FBD9900B1483C /* SignInViewController.m */,
-				184B655E1B3FC52900B1483C /* ConfirmationViewController.h */,
-				184B655F1B3FC52900B1483C /* ConfirmationViewController.m */,
+				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
 				184B659C1B41E9F400B1483C /* EditAccountViewController.h */,
@@ -240,6 +265,8 @@
 		184B65951B40DDD700B1483C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */,
+				187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */,
 				184B65931B4088E700B1483C /* libz.1.dylib */,
 				184B65911B4082E300B1483C /* CFNetwork.framework */,
 				184B658F1B4082CF00B1483C /* libz.dylib */,
@@ -268,6 +295,17 @@
 				184B656C1B407DB700B1483C /* Reachability.m */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		18D1CBB11B44C47A00B8B787 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				183957131B453C1E00B47FC2 /* eldosri.png */,
+				183957171B453C6500B47FC2 /* elhawager.png */,
+				183957181B453C6500B47FC2 /* elmra.png */,
+				183957141B453C1E00B47FC2 /* elmasnad.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,9 +388,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				183957151B453C1E00B47FC2 /* eldosri.png in Resources */,
 				184B65391B3F60AC00B1483C /* Main.storyboard in Resources */,
+				183957161B453C1E00B47FC2 /* elmasnad.png in Resources */,
 				184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */,
+				183957191B453C6500B47FC2 /* elhawager.png in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
+				1839571A1B453C6500B47FC2 /* elmra.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,8 +433,10 @@
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
 				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
+				187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */,
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
+				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,
 				184B65811B4080BC00B1483C /* ASIDataCompressor.m in Sources */,
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,
 				184B65761B40802500B1483C /* ASIAuthenticationDialog.m in Sources */,
@@ -529,6 +573,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "دعوات قطر/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -539,6 +584,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "دعوات قطر/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

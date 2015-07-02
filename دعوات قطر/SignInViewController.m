@@ -11,6 +11,9 @@
 
 @interface SignInViewController ()
 
+@property (strong,nonatomic) NSUserDefaults *userDefaults;
+@property (nonatomic) int savedID;
+
 @end
 
 @implementation SignInViewController
@@ -18,6 +21,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    if (self.userID) {
+        [self.userDefaults setValue:[NSNumber numberWithInteger:self.userID] forKey:@"userID"];
+    }
+    self.savedID = [[self.userDefaults objectForKey:@"userID"]integerValue];
+    
 }
 
 -(void)postRequest:(NSDictionary *)postDict{

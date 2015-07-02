@@ -12,6 +12,8 @@
 
 @interface ConfirmationViewController ()
 
+@property (strong,nonatomic) NSUserDefaults *userDefaults;
+@property (nonatomic) int savedID;
 
 @property (weak, nonatomic) IBOutlet UIImageView *responseImage;
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
@@ -25,6 +27,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+   
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID = [self.userDefaults integerForKey:@"userID"];
+    
+    NSLog(@"Self.user id = %d",self.userID);
 
 }
 
@@ -67,6 +74,10 @@
         self.responseLabel.text = @"كود التفعيل خطأ" ;
     }else if ([self.responseDictionary[@"success"] integerValue]== 1){
         self.responseLabel.text = @"شكراً لك تم تفعيل حسابك";
+        [self.userDefaults setInteger:1 forKey:@"signedIn"];
+        [self.userDefaults synchronize];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     NSLog(@"%@",self.responseDictionary);
  
@@ -93,9 +104,9 @@
 #pragma mark Buttons 
 
 - (IBAction)btnConfirmPressed:(id)sender {
-    NSDictionary *postDict = @{@"FunctionName":@"Verify" , @"inputs":@[@{@"id":@"6",
+    NSDictionary *postDict = @{@"FunctionName":@"Verify" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%d",self.userID],
                                                                                                                                                                               @"Verified":self.confirmField.text}]};
-
+    
     [self postRequest:postDict];
 }
 @end

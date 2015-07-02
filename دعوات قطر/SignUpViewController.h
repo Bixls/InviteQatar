@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "chooseGroupViewController.h"
 
-@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,chooseGroupViewControllerDelegate>
+@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,chooseGroupViewControllerDelegate,UIActionSheetDelegate , UIAlertViewDelegate>
 
 
 
 - (IBAction)btnSignUpPressed:(id)sender;
+- (IBAction)btnBackgroundPressed:(id)sender;
 
 @end

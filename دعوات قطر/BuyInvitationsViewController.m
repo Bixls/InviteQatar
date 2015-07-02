@@ -55,7 +55,7 @@
     
     if (self.flag == 0) {
         NSDictionary *tempDict = self.tableArray[indexPath.row];
-        cell.label0.text = tempDict[@"price"];
+        cell.label0.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
         cell.label1.text = tempDict[@"packageName"];
         cell.label2.text = tempDict[@"number"];
         

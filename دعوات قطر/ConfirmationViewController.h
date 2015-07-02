@@ -10,6 +10,9 @@
 
 @interface ConfirmationViewController : UIViewController <UITextFieldDelegate>
 
+
+@property (nonatomic) int userID;
+
 @property (weak, nonatomic) IBOutlet UITextField *confirmField;
 
 

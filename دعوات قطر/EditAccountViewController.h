@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EditAccountViewController : UIViewController <UITextFieldDelegate>
+@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 
 
