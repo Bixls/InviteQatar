@@ -17,8 +17,14 @@
 @property(nonatomic,strong) NSDictionary *postDict;
 @property(nonatomic,strong) NSArray *responseArray;
 @property(nonatomic,strong) NSDictionary *selectedItem;
-@property(nonatomic,strong) NSArray *tableArray;
-@property(nonatomic) NSInteger flag;
+@property(nonatomic,strong) NSString *selectedItemType;
+@property (nonatomic,strong)NSIndexPath *selectedIndexPath;
+@property (nonatomic,strong)UITableView *selectedTableView;
+@property (nonatomic,strong) NSMutableArray *normalPackages;
+@property (nonatomic,strong) NSMutableArray *VIPPackages;
+@property (nonatomic) NSInteger cellPressed;
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (nonatomic) int userID;
 
 @end
 
@@ -26,53 +32,121 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.flag =0 ;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID = [self.userDefaults integerForKey:@"userID"];
+    
+    self.normalPackages = [[NSMutableArray alloc]init];
+    self.VIPPackages = [[NSMutableArray alloc]init];
+    
+    self.cellPressed =0 ;
     self.postDict = @{
                       @"FunctionName":@"getInvitationList" ,
-                      @"inputs":@[@{@"limit":@"10"}]};
+                      @"inputs":@[@{@"limit":@"1000"}]};
+    NSMutableDictionary *invitationsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invitations",@"key", nil];
     
-    [self postRequest:self.postDict];
+    [self postRequest:self.postDict withTag:invitationsTag];
     
 }
 
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-    
-}
+#pragma mark - Table view Methods 
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.tableArray.count;
+    if (tableView.tag ==0) {
+        return self.normalPackages.count;
+    }else{
+        return self.VIPPackages.count;
+    }
+    
+    
 }
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
-    CellInvitationTableView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (cell==nil) {
-        cell=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
     
-    if (self.flag == 0) {
-        NSDictionary *tempDict = self.tableArray[indexPath.row];
+    
+    
+    if (tableView.tag == 0) {
+        CellInvitationTableView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        NSDictionary *tempDict = self.normalPackages[indexPath.row];
         cell.label0.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
         cell.label1.text = tempDict[@"packageName"];
         cell.label2.text = tempDict[@"number"];
+        cell.backgroundColor = [UIColor clearColor];
+       
+        return cell;
+    }if (tableView.tag == 1){
+        CellInvitationTableView *cell2 = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
+        if (cell2==nil) {
+            cell2=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
         
-        return cell ;
+        NSDictionary *tempDict = self.VIPPackages[indexPath.row];
+        cell2.label00.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
+        cell2.label11.text = tempDict[@"packageName"];
+        cell2.label22.text = tempDict[@"number"];
+        cell2.backgroundColor = [UIColor clearColor];
+        return cell2;
     }
-
-    return cell;
+    return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedItem = self.responseArray[indexPath.row];
-    self.flag =1;
+    NSDictionary *nowPressed = [[NSDictionary alloc]init];
+    
+    if (tableView.tag==0) {
+        nowPressed =self.normalPackages[indexPath.row];
+    }else {
+        nowPressed = self.VIPPackages[indexPath.row];
+    }
+    
+    
+    
+    if (tableView.tag == 0 && [self.selectedItemType isEqualToString:@"normal"] && [self.selectedItem isEqual:nowPressed]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.selectedItemType = nil;
+        self.selectedItem = nil;
+        self.selectedIndexPath = nil;
+        self.selectedTableView = nil;
+    }else if (tableView.tag == 1 && [self.selectedItemType isEqualToString:@"vip"] && [self.selectedItem isEqual:nowPressed]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.selectedItemType = nil;
+        self.selectedItem = nil;
+        self.selectedIndexPath = nil;
+        self.selectedTableView = nil;
+    }else if (self.selectedItemType ==nil) {
+        if (tableView.tag == 0) {
+            self.selectedItem = self.normalPackages[indexPath.row];
+            self.selectedItemType = @"normal";
+            self.selectedIndexPath = indexPath;
+            self.selectedTableView = tableView;
+        }else{
+            self.selectedItem = self.VIPPackages[indexPath.row];
+            self.selectedItemType = @"vip";
+            self.selectedIndexPath = indexPath;
+            self.selectedTableView = tableView;
+        }
+    }else{
+       
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفوا" message:@"تم إختيار باقه بالفعل" delegate:self cancelButtonTitle:@"اغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
+        [self.selectedTableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+        
+    }
+    
+       
+    
 }
 
 #pragma mark - Connection Setup
 
--(void)postRequest:(NSDictionary *)postDict{
+-(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -91,7 +165,7 @@
     request.allowCompressedResponse = NO;
     request.useCookiePersistence = NO;
     request.shouldCompressRequestBody = NO;
-    
+    request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
     [request startAsynchronous];
     
@@ -106,14 +180,26 @@
     
     // Use when fetching binary data
     NSData *responseData = [request responseData];
-    if (self.flag == 0) {
-         self.tableArray = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    }
-    self.responseArray = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    
+    self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSLog(@"%@",self.responseArray);
     
-    [self.tableView reloadData];
+    NSString *key = [request.userInfo objectForKey:@"key"];
+    if ([key isEqualToString:@"invitations"]) {
+        for (NSDictionary *dict in self.responseArray) {
+            if ([dict[@"VIP"]intValue]==0) {
+                [self.normalPackages addObject:dict];
+                
+            }else{
+                [self.VIPPackages addObject:dict];
+            }
+        }
+        
+        [self.tableView reloadData];
+        [self.vipTableView reloadData];
+    }
     
+
     
 }
 
@@ -126,12 +212,20 @@
 
 
 - (IBAction)btnBuyNowPressed:(id)sender {
+    
+    
     int id = [self.selectedItem[@"id"]integerValue] ;
+    
     self.postDict = @{
                       @"FunctionName":@"addInvPoints" ,
-                      @"inputs":@[@{@"memberID":@"3",@"invitationID":[NSNumber numberWithInt:id]}]};
-    if (self.flag==1) {
-        [self postRequest:self.postDict];
+                      @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%d",self.userID],@"invitationID":[NSNumber numberWithInt:id]}]};
+//    if (self.cellPressed==1) {
+//        [self postRequest:self.postDict];
+//    }
+    NSMutableDictionary *buyNowTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"buyNow",@"key", nil];
+    
+    if (self.selectedIndexPath) {
+        [self postRequest:self.postDict withTag:buyNowTag];
     }
     
 }

@@ -54,6 +54,7 @@
 		184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B659D1B41E9F400B1483C /* EditAccountViewController.m */; };
 		184B65A11B421C0200B1483C /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65A01B421C0200B1483C /* GroupViewController.m */; };
 		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
+		187C63911B461CF900B3E3EA /* da3wa.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63901B461CF900B3E3EA /* da3wa.png */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
 /* End PBXBuildFile section */
@@ -137,6 +138,7 @@
 		184B65A01B421C0200B1483C /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		187C63901B461CF900B3E3EA /* da3wa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = da3wa.png; sourceTree = "<group>"; };
 		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				187C63901B461CF900B3E3EA /* da3wa.png */,
 				183957131B453C1E00B47FC2 /* eldosri.png */,
 				183957171B453C6500B47FC2 /* elhawager.png */,
 				183957181B453C6500B47FC2 /* elmra.png */,
@@ -392,6 +395,7 @@
 				184B65391B3F60AC00B1483C /* Main.storyboard in Resources */,
 				183957161B453C1E00B47FC2 /* elmasnad.png in Resources */,
 				184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */,
+				187C63911B461CF900B3E3EA /* da3wa.png in Resources */,
 				183957191B453C6500B47FC2 /* elhawager.png in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				1839571A1B453C6500B47FC2 /* elmra.png in Resources */,
