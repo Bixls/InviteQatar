@@ -55,6 +55,9 @@
 		184B65A11B421C0200B1483C /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65A01B421C0200B1483C /* GroupViewController.m */; };
 		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
 		187C63911B461CF900B3E3EA /* da3wa.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63901B461CF900B3E3EA /* da3wa.png */; };
+		187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63931B46259900B3E3EA /* MyProfileViewController.m */; };
+		187C63971B4626D500B3E3EA /* navbarFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63951B4626D500B3E3EA /* navbarFace.png */; };
+		187C63981B4626D500B3E3EA /* tabBarFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63961B4626D500B3E3EA /* tabBarFace.png */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
 /* End PBXBuildFile section */
@@ -139,6 +142,10 @@
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		187C63901B461CF900B3E3EA /* da3wa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = da3wa.png; sourceTree = "<group>"; };
+		187C63921B46259900B3E3EA /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
+		187C63931B46259900B3E3EA /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
+		187C63951B4626D500B3E3EA /* navbarFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarFace.png; sourceTree = "<group>"; };
+		187C63961B4626D500B3E3EA /* tabBarFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarFace.png; sourceTree = "<group>"; };
 		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
@@ -229,6 +236,8 @@
 				18A202DD1B424D94005BD875 /* SearchTableViewController.m */,
 				18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */,
 				18243B001B43730B0036A345 /* BuyInvitationsViewController.m */,
+				187C63921B46259900B3E3EA /* MyProfileViewController.h */,
+				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
 				18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */,
 				18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
@@ -302,6 +311,8 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				187C63951B4626D500B3E3EA /* navbarFace.png */,
+				187C63961B4626D500B3E3EA /* tabBarFace.png */,
 				187C63901B461CF900B3E3EA /* da3wa.png */,
 				183957131B453C1E00B47FC2 /* eldosri.png */,
 				183957171B453C6500B47FC2 /* elhawager.png */,
@@ -399,6 +410,8 @@
 				183957191B453C6500B47FC2 /* elhawager.png in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				1839571A1B453C6500B47FC2 /* elmra.png in Resources */,
+				187C63981B4626D500B3E3EA /* tabBarFace.png in Resources */,
+				187C63971B4626D500B3E3EA /* navbarFace.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +462,7 @@
 				184B65601B3FC52900B1483C /* ConfirmationViewController.m in Sources */,
 				184B65551B3F84A700B1483C /* WelcomePageViewController.m in Sources */,
 				184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */,
+				187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */,
 				184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */,
 				184B65301B3F60AC00B1483C /* main.m in Sources */,
 				18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */,

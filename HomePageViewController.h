@@ -13,5 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *groupsCollectionView;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *profileBarBtn;
 
 @end

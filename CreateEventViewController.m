@@ -19,6 +19,10 @@
 @property (nonatomic) int vipFlag;
 @property (strong,nonatomic) ASIFormDataRequest *imageRequest;
 @property (strong,nonatomic) NSString *imageURL;
+@property (strong , nonatomic) NSUserDefaults *userDefaults;
+@property (nonatomic) int userID;
+@property (nonatomic) int flag;
+@property (nonatomic) int uploaded;
 
 
 @end
@@ -27,7 +31,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID  = [self.userDefaults integerForKey:@"userID"];
+    NSLog(@"%d",self.userID);
     self.invitationTypes = @[@"الأعراس",@"العزاء",@"تخرج",@"تهنيئه",@"مناسبات"];
     self.commentsFlag = 0;
     self.vipFlag = 0;
@@ -75,9 +83,11 @@
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         self.imagePicker.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
-        
+        NSMutableDictionary *postPictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"postPicture",@"key", nil];
+        [self postPictureWithTag:postPictureTag];
+        self.flag = 1;
     }
-    [self postPicture];
+   
     
 }
 
@@ -98,7 +108,7 @@
 
 #pragma mark - Connection setup
 
--(void)postRequest:(NSDictionary *)postDict{
+-(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -117,6 +127,7 @@
     request.allowCompressedResponse = NO;
     request.useCookiePersistence = NO;
     request.shouldCompressRequestBody = NO;
+    request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
     
     [request startAsynchronous];
@@ -125,7 +136,7 @@
     
 }
 
--(void)postPicture {
+-(void)postPictureWithTag:(NSMutableDictionary *)dict{
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
@@ -146,6 +157,7 @@
     
     self.imageRequest.useCookiePersistence = NO;
     self.imageRequest.shouldCompressRequestBody = NO;
+    self.imageRequest.userInfo = dict;
     [self.imageRequest setPostValue:@"6" forKey:@"id"];
     [self.imageRequest setPostValue:@"user" forKey:@"type"];
     [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.imagePicker.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
@@ -154,23 +166,25 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    // Use when fetching text data
-    NSString *responseString = [request responseString];
-   // NSLog(@"%@",responseString);
     
-    // Use when fetching binary data
+    //NSString *responseString = [request responseString];
+   
     NSData *responseData = [request responseData];
     NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     
-    if (responseDict[@"url"]) {
+    if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"postPicture"]) {
         self.imageURL = responseDict[@"url"];
         NSLog(@"%@",self.imageURL);
-        NSLog(@"%@",responseDict);
-        
+        self.uploaded = 1;
     }else{
-        NSLog(@"%@",responseDict);
+        if ([responseDict[@"success"]integerValue]==1) {
+            NSLog(@"Event Created !");
+            NSLog(@"%@",responseDict);
+        }
+        NSLog(@"%d",[[responseDict objectForKey:@"success"]intValue]);
     }
-    
+    NSLog(@"%@",responseDict);
+
     
 }
 
@@ -211,17 +225,47 @@
 }
 
 - (IBAction)btnSubmitPressed:(id)sender {
-    NSDictionary *postDict = @{@"FunctionName":@"CreateEvent" ,
-                               @"inputs":@[@{@"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
-                                             @"CreatorID":@"1", //User ID
-                                             @"eventType":[NSString stringWithFormat:@"%ld",(long)self.selectedType],
-                                             @"subject":self.textField.text,
-                                             @"description":self.textView.text,
-                                             @"picture":self.imageURL,
-                                             @"TimeEnded":@"2015-06-30 22:44:23",
-                                             @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
-                                             }]};
-    [self postRequest:postDict];
+    
+    if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1)) {
+        if (self.flag == 1 && self.uploaded == 1 ) {
+            
+            NSDictionary *postDict = @{@"FunctionName":@"CreateEvent" ,
+                                       @"inputs":@[@{@"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
+                                                     @"CreatorID":[NSString stringWithFormat:@"%d",self.userID],
+                                                     @"eventType":[NSString stringWithFormat:@"%ld",(long)self.selectedType],
+                                                     @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
+                                                     @"description":[NSString stringWithFormat:@"%@",self.textView.text],
+                                                     @"picture":self.imageURL,
+                                                     @"TimeEnded":@"2015-06-30 20:44:23",
+                                                     @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
+                                                     }]};
+
+            NSLog(@"%@",postDict);
+            NSMutableDictionary *createEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"createEvent",@"key", nil];
+            
+            [self postRequest:postDict withTag:createEventTag];
+            
+            
+        }else if (self.flag == 1){
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }else {
+            
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            
+        }
+        
+    } else{
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+
+    
+    
+    
+    
 }
 
 - (IBAction)btnMarkCommentsPressed:(id)sender {
