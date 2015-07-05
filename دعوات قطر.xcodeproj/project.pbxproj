@@ -58,6 +58,10 @@
 		187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63931B46259900B3E3EA /* MyProfileViewController.m */; };
 		187C63971B4626D500B3E3EA /* navbarFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63951B4626D500B3E3EA /* navbarFace.png */; };
 		187C63981B4626D500B3E3EA /* tabBarFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63961B4626D500B3E3EA /* tabBarFace.png */; };
+		187C639B1B473FE200B3E3EA /* InviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C639A1B473FE200B3E3EA /* InviteViewController.m */; };
+		187C639E1B47470F00B3E3EA /* groupCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C639D1B47470F00B3E3EA /* groupCollectionViewCell.m */; };
+		187C63A71B478CE000B3E3EA /* AllSectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */; };
+		187C63AA1B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63A91B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
 /* End PBXBuildFile section */
@@ -146,6 +150,14 @@
 		187C63931B46259900B3E3EA /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
 		187C63951B4626D500B3E3EA /* navbarFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navbarFace.png; sourceTree = "<group>"; };
 		187C63961B4626D500B3E3EA /* tabBarFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarFace.png; sourceTree = "<group>"; };
+		187C63991B473FE200B3E3EA /* InviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteViewController.h; sourceTree = "<group>"; };
+		187C639A1B473FE200B3E3EA /* InviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteViewController.m; sourceTree = "<group>"; };
+		187C639C1B47470F00B3E3EA /* groupCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = groupCollectionViewCell.h; path = "دعوات قطر/groupCollectionViewCell.h"; sourceTree = "<group>"; };
+		187C639D1B47470F00B3E3EA /* groupCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = groupCollectionViewCell.m; path = "دعوات قطر/groupCollectionViewCell.m"; sourceTree = "<group>"; };
+		187C63A51B478CE000B3E3EA /* AllSectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllSectionsViewController.h; sourceTree = "<group>"; };
+		187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllSectionsViewController.m; sourceTree = "<group>"; };
+		187C63A81B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AllSectionsCellTableViewCell.h; path = "دعوات قطر/AllSectionsCellTableViewCell.h"; sourceTree = "<group>"; };
+		187C63A91B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AllSectionsCellTableViewCell.m; path = "دعوات قطر/AllSectionsCellTableViewCell.m"; sourceTree = "<group>"; };
 		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
@@ -199,6 +211,10 @@
 				18243B121B43BA720036A345 /* CellInvitationTableView.m */,
 				183957001B45382300B47FC2 /* cellGroupsCollectionView.h */,
 				183957011B45382300B47FC2 /* cellGroupsCollectionView.m */,
+				187C639C1B47470F00B3E3EA /* groupCollectionViewCell.h */,
+				187C639D1B47470F00B3E3EA /* groupCollectionViewCell.m */,
+				187C63A81B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.h */,
+				187C63A91B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m */,
 				18D1CBB11B44C47A00B8B787 /* Images */,
 				184B65951B40DDD700B1483C /* Frameworks */,
 				184B652C1B3F60AC00B1483C /* دعوات قطر */,
@@ -230,8 +246,8 @@
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
 				184B659C1B41E9F400B1483C /* EditAccountViewController.h */,
 				184B659D1B41E9F400B1483C /* EditAccountViewController.m */,
-				184B659F1B421C0200B1483C /* GroupViewController.h */,
-				184B65A01B421C0200B1483C /* GroupViewController.m */,
+				187C63991B473FE200B3E3EA /* InviteViewController.h */,
+				187C639A1B473FE200B3E3EA /* InviteViewController.m */,
 				18A202DC1B424D94005BD875 /* SearchTableViewController.h */,
 				18A202DD1B424D94005BD875 /* SearchTableViewController.m */,
 				18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */,
@@ -240,6 +256,10 @@
 				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
 				18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */,
 				18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */,
+				184B659F1B421C0200B1483C /* GroupViewController.h */,
+				184B65A01B421C0200B1483C /* GroupViewController.m */,
+				187C63A51B478CE000B3E3EA /* AllSectionsViewController.h */,
+				187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -436,11 +456,15 @@
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
 				184B65771B40804A00B1483C /* ASIAuthenticationDialog.h in Sources */,
 				184B656E1B407F6B00B1483C /* ASIHTTPRequest.h in Sources */,
+				187C639E1B47470F00B3E3EA /* groupCollectionViewCell.m in Sources */,
+				187C63AA1B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m in Sources */,
+				187C639B1B473FE200B3E3EA /* InviteViewController.m in Sources */,
 				184B657A1B40805E00B1483C /* ASIInputStream.m in Sources */,
 				184B656F1B407F6B00B1483C /* ASICacheDelegate.h in Sources */,
 				184B65891B40818400B1483C /* ASINetworkQueue.m in Sources */,
 				184B65701B407F6B00B1483C /* ASIHTTPRequestConfig.h in Sources */,
 				184B657E1B40809E00B1483C /* ASIDataDecompressor.m in Sources */,
+				187C63A71B478CE000B3E3EA /* AllSectionsViewController.m in Sources */,
 				184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */,
 				184B65711B407F6B00B1483C /* ASIHTTPRequestDelegate.h in Sources */,
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,

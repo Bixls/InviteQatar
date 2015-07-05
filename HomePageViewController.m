@@ -25,9 +25,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
      UIImage *profileImage = [[UIImage imageNamed:@"navbarFace.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background.jpg"]]];
+    
     [self.profileBarBtn setImage:profileImage];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.imageArray = @[[UIImage imageNamed:@"3emadi.png"],[UIImage imageNamed:@"3etebi.png"],[UIImage imageNamed:@"elka3bi.png"],[UIImage imageNamed:@"elna3emi.png"],[UIImage imageNamed:@"eltamimi.png"],[UIImage imageNamed:@"ka7tani.png"],[UIImage imageNamed:@"kbesi.png"],[UIImage imageNamed:@"mare5i.png"],[UIImage imageNamed:@"eldosri.png"],[UIImage imageNamed:@"elhawager.png"],[UIImage imageNamed:@"elmra.png"],[UIImage imageNamed:@"elmasnad.png"]];

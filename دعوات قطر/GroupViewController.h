@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GroupViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface GroupViewController : UIViewController  <UICollectionViewDataSource,UICollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnMarkAll;
+@property (weak, nonatomic) IBOutlet UIButton *btnMoreGroups;
 
 
-- (IBAction)btnMarkAllPressed:(id)sender;
+
+
+
 
 @end

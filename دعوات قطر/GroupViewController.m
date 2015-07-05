@@ -9,12 +9,17 @@
 #import "GroupViewController.h"
 #import "ASIHTTPRequest.h"
 #import <UIKit/UIKit.h>
-
+#import "groupCollectionViewCell.h"
 @interface GroupViewController ()
 
-@property (nonatomic,strong) NSArray *users;
 @property (nonatomic,strong) NSArray *events;
-@property (nonatomic) int flag;
+@property (nonatomic,strong) NSString *eventImageURL;
+@property (nonatomic,strong) NSString *eventName;
+@property (nonatomic,strong) NSString *eventPlace;
+@property (nonatomic,strong) NSString *eventOwner;
+@property (nonatomic,strong) NSString *eventTime;
+
+
 
 @end
 
@@ -23,50 +28,82 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//    [self.collectionView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:NULL];
     
-    self.flag = 0;
+
     
-    
-    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" , @"inputs":@[@{@"groupID":@"2",@"start":@"0",@"limit":@"50000"}]};
-    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
-    
-    NSDictionary *getEventsDict = @{@"FunctionName":@"getGroupEvents" , @"inputs":@[@{@"groupID":@"2",@"start":@"0",@"limit":@"50000"}]};
+    NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"2",
+                                                                                 @"catID":@"2",
+                                                                                 @"start":@"0",@"limit":@"10"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
+    //self.imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg";
+//    NSURL *url = [NSURL URLWithString:self.imageURL];
+//    NSData *data = [NSData dataWithContentsOfURL:url];
+//    UIImage *img = [[UIImage alloc]initWithData:data];
+   // self.imageView.image = img ;
     
-    [self postRequest:getUSersDict withTag:getUsersTag];
     [self postRequest:getEventsDict withTag:getEventsTag];
 
 }
 
-#pragma mark - Table view Data Source methods
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+//    [self.btnSeeMoreGroups setTitle:@"المزيد" forState:UIControlStateNormal];
+//}
+//
+//-(void)viewDidDisappear:(BOOL)animated{
+//    [self.collectionView removeObserver:self forKeyPath:@"contentSize"];
+//}
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  self.users.count;
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
 }
 
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.events.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (cell==nil) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    NSDictionary *tempDict = self.users[indexPath.row];
-    cell.detailTextLabel.text = tempDict[@"name"];
+    groupCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    NSDictionary *currentEvent = self.events[indexPath.section];
+    cell.subject.text = [currentEvent objectForKey:@"subject"];;
+    cell.creator.text = [currentEvent objectForKey:@"CreatorName"];;
+    cell.time.text = [currentEvent objectForKey:@"TimeEnded"];;
     
-    return cell ;
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        //Background Thread
+        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+        UIImage *img = [[UIImage alloc]initWithData:data];
+        
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            //Run UI Updates
+            cell.profilePic.image = img ;
+        });
+    });
+
+    
+    [self.btnMoreGroups setTitle:@"المزيد" forState:UIControlStateNormal];
+    
+
+//    self.owner.text =(NSString *)
+//    self.date.text = currentEvent [@"TimeEnded"];
+   // NSLog(@"%@",currentEvent);
+//    NSLog(@"%@",[currentEvent valueForKey:@"CreatorName"]);
+    
+
+    
+    return cell;
+
 }
 
-#pragma mark - Table view Delegate methods 
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.textLabel.text isEqualToString:@"\u2713"]) {
-        cell.textLabel.text = @"\u2001";
-    }else{
-        cell.textLabel.text = @"\u2713";
-    }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 
@@ -100,23 +137,18 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    // Use when fetching text data
-    NSString *responseString = [request responseString];
-    NSLog(@"%@",responseString);
     
-    // Use when fetching binary data
+    //NSString *responseString = [request responseString];
+   
     NSData *responseData = [request responseData];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
-    if ([key isEqualToString:@"getUsers"]) {
-        self.users = array;
-        NSLog(@"%@",self.users);
-    }else {
-        self.events = array;
-        NSLog(@"%@",self.events);
-    }
+    self.events = array;
     
-    [self.tableView reloadData];
+    NSLog(@"%@",self.events);
+    
+    [self.collectionView reloadData];
+    
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -127,30 +159,4 @@
 
 
 
-- (IBAction)btnMarkAllPressed:(id)sender {
-    
-    for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
-        NSUInteger ints[2] = {0,i};
-        NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
-        UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if ([cell.textLabel.text isEqualToString:@"\u2713"]) {
-            if(self.flag == 1){
-                cell.textLabel.text = @"\u2001";
-            }
-        }else if (self.flag==1){
-            //do nothing
-        }else{
-            cell.textLabel.text = @"\u2713";
-        }
-    }
-    self.flag = !(self.flag);
-    if (self.flag == 1) {
-        [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2713" forState:UIControlStateNormal];
-    }else{
-        [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2001" forState:UIControlStateNormal];
-    }
-    
-    NSLog(@"%ld",(long)self.flag);
-    [self.tableView reloadData];
-}
 @end
