@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecEventsViewController : UIViewController
+@interface SecEventsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic) NSInteger selectedSection;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
