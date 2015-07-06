@@ -9,6 +9,8 @@
 #import "SecEventsViewController.h"
 #import "ASIHTTPRequest.h"
 #import "SecEventTableViewCell.h"
+#import "Pods/SVPullToRefresh/SVPullToRefresh/SVPullToRefresh.h"
+
 
 
 @interface SecEventsViewController ()
@@ -16,7 +18,8 @@
 @property (nonatomic,strong) NSMutableArray *allEvents;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
-
+@property (nonatomic,strong) NSArray *receivedArray;
+@property (nonatomic) NSInteger populate;
 
 @end
 
@@ -24,8 +27,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.populate = 0;
+//    [self setupDataSource];
+    __weak SecEventsViewController *weakSelf = self;
     // Do any additional setup after loading the view.
-
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        self.populate = 1;
+        self.start = self.limit;
+        self.limit = self.limit+10;
+        [self getEvents];
+       
+    }];
     self.start = 0 ;
     self.limit = 10;
     self.allEvents = [[NSMutableArray alloc]init];
@@ -34,15 +46,34 @@
 }
 
 
+- (void)insertRowAtBottomWithArray:(NSArray *)arr {
+    if (arr) {
+        __weak SecEventsViewController *weakSelf = self;
+        
+        int64_t delayInSeconds = 2.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [weakSelf.tableView beginUpdates];
+            [self.allEvents addObjectsFromArray:arr];
+            [weakSelf.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:weakSelf.allEvents.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+            [weakSelf.tableView endUpdates];
+            [weakSelf.tableView.infiniteScrollingView stopAnimating];
+
+        });
+
+    }
+    
+}
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
     
 }
 
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.allEvents.count;
 }
+
 -(SecEventTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
@@ -123,12 +154,18 @@
     NSData *responseData = [request responseData];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
-    if ([key isEqualToString:@"sectionEvents"]&& array ) {
+    if ([key isEqualToString:@"sectionEvents"]&& array && (self.populate == 0)) {
         [self.allEvents addObjectsFromArray:array];
-        
+        [self.tableView reloadData];
+    }else{
+         //[self insertRowAtBottomWithArray:self.receivedArray];
+        [self.allEvents addObjectsFromArray:array];
+        [self.tableView reloadData];
+        [self.tableView.infiniteScrollingView stopAnimating];
     }
     NSLog(@"%@",self.allEvents);
-    [self.tableView reloadData];
+   
+    //
     
     
 }

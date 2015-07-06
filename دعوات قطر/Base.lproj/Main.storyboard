@@ -890,7 +890,7 @@
                                     </connections>
                                 </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Footer" id="rKM-uh-Uih" customClass="AllSectionFooterCollectionReusableView">
-                                    <rect key="frame" x="0.0" y="105" width="288" height="50"/>
+                                    <rect key="frame" x="0.0" y="105" width="288" height="30"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sqb-PI-bGb">
@@ -1714,7 +1714,6 @@
         <!--Navigation Controller-->
         <scene sceneID="gMK-Sh-mZq">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jSn-NZ-jfu" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iGm-fi-9wG" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="H6g-zL-T9O"/>
@@ -1727,6 +1726,7 @@
                         <segue destination="7B3-dT-SsQ" kind="relationship" relationship="rootViewController" id="y1q-Es-aBK"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jSn-NZ-jfu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="828" y="2996"/>
         </scene>
