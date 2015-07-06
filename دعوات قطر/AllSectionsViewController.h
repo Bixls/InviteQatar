@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AllSectionsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface AllSectionsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+- (IBAction)btnSeeMorePressed:(id)sender;
 
 @end

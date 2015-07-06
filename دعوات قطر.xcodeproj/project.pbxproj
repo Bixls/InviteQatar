@@ -61,7 +61,14 @@
 		187C639B1B473FE200B3E3EA /* InviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C639A1B473FE200B3E3EA /* InviteViewController.m */; };
 		187C639E1B47470F00B3E3EA /* groupCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C639D1B47470F00B3E3EA /* groupCollectionViewCell.m */; };
 		187C63A71B478CE000B3E3EA /* AllSectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */; };
-		187C63AA1B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63A91B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m */; };
+		187C63B01B49181000B3E3EA /* TestCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63AF1B49181000B3E3EA /* TestCollectionViewController.m */; };
+		187C63B61B491BCC00B3E3EA /* testCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63B51B491BCC00B3E3EA /* testCollectionViewCell.m */; };
+		187C63B91B491FAE00B3E3EA /* testheaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63B81B491FAE00B3E3EA /* testheaderCollectionReusableView.m */; };
+		187C63BC1B49488400B3E3EA /* AllSectionsCellCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63BB1B49488400B3E3EA /* AllSectionsCellCollectionView.m */; };
+		187C63BF1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63BE1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.m */; };
+		187C63C21B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63C11B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m */; };
+		187C63C81B49795100B3E3EA /* SecEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63C71B49795100B3E3EA /* SecEventsViewController.m */; };
+		187C63CB1B497CF100B3E3EA /* testoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63CA1B497CF100B3E3EA /* testoViewController.m */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
 /* End PBXBuildFile section */
@@ -156,8 +163,22 @@
 		187C639D1B47470F00B3E3EA /* groupCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = groupCollectionViewCell.m; path = "دعوات قطر/groupCollectionViewCell.m"; sourceTree = "<group>"; };
 		187C63A51B478CE000B3E3EA /* AllSectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllSectionsViewController.h; sourceTree = "<group>"; };
 		187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllSectionsViewController.m; sourceTree = "<group>"; };
-		187C63A81B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AllSectionsCellTableViewCell.h; path = "دعوات قطر/AllSectionsCellTableViewCell.h"; sourceTree = "<group>"; };
-		187C63A91B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AllSectionsCellTableViewCell.m; path = "دعوات قطر/AllSectionsCellTableViewCell.m"; sourceTree = "<group>"; };
+		187C63AE1B49181000B3E3EA /* TestCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestCollectionViewController.h; path = ../TestCollectionViewController.h; sourceTree = "<group>"; };
+		187C63AF1B49181000B3E3EA /* TestCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestCollectionViewController.m; path = ../TestCollectionViewController.m; sourceTree = "<group>"; };
+		187C63B41B491BCC00B3E3EA /* testCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testCollectionViewCell.h; path = "دعوات قطر/testCollectionViewCell.h"; sourceTree = "<group>"; };
+		187C63B51B491BCC00B3E3EA /* testCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = testCollectionViewCell.m; path = "دعوات قطر/testCollectionViewCell.m"; sourceTree = "<group>"; };
+		187C63B71B491FAE00B3E3EA /* testheaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testheaderCollectionReusableView.h; path = "دعوات قطر/testheaderCollectionReusableView.h"; sourceTree = "<group>"; };
+		187C63B81B491FAE00B3E3EA /* testheaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = testheaderCollectionReusableView.m; path = "دعوات قطر/testheaderCollectionReusableView.m"; sourceTree = "<group>"; };
+		187C63BA1B49488400B3E3EA /* AllSectionsCellCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllSectionsCellCollectionView.h; sourceTree = "<group>"; };
+		187C63BB1B49488400B3E3EA /* AllSectionsCellCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllSectionsCellCollectionView.m; sourceTree = "<group>"; };
+		187C63BD1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllSectionHeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		187C63BE1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllSectionHeaderCollectionReusableView.m; sourceTree = "<group>"; };
+		187C63C01B49525500B3E3EA /* AllSectionFooterCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AllSectionFooterCollectionReusableView.h; path = "دعوات قطر/AllSectionFooterCollectionReusableView.h"; sourceTree = "<group>"; };
+		187C63C11B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AllSectionFooterCollectionReusableView.m; path = "دعوات قطر/AllSectionFooterCollectionReusableView.m"; sourceTree = "<group>"; };
+		187C63C61B49795100B3E3EA /* SecEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SecEventsViewController.h; path = ../SecEventsViewController.h; sourceTree = "<group>"; };
+		187C63C71B49795100B3E3EA /* SecEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecEventsViewController.m; path = ../SecEventsViewController.m; sourceTree = "<group>"; };
+		187C63C91B497CF100B3E3EA /* testoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testoViewController.h; sourceTree = "<group>"; };
+		187C63CA1B497CF100B3E3EA /* testoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testoViewController.m; sourceTree = "<group>"; };
 		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
@@ -213,8 +234,16 @@
 				183957011B45382300B47FC2 /* cellGroupsCollectionView.m */,
 				187C639C1B47470F00B3E3EA /* groupCollectionViewCell.h */,
 				187C639D1B47470F00B3E3EA /* groupCollectionViewCell.m */,
-				187C63A81B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.h */,
-				187C63A91B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m */,
+				187C63BA1B49488400B3E3EA /* AllSectionsCellCollectionView.h */,
+				187C63BB1B49488400B3E3EA /* AllSectionsCellCollectionView.m */,
+				187C63B41B491BCC00B3E3EA /* testCollectionViewCell.h */,
+				187C63B51B491BCC00B3E3EA /* testCollectionViewCell.m */,
+				187C63B71B491FAE00B3E3EA /* testheaderCollectionReusableView.h */,
+				187C63BD1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.h */,
+				187C63BE1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.m */,
+				187C63C01B49525500B3E3EA /* AllSectionFooterCollectionReusableView.h */,
+				187C63C11B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m */,
+				187C63B81B491FAE00B3E3EA /* testheaderCollectionReusableView.m */,
 				18D1CBB11B44C47A00B8B787 /* Images */,
 				184B65951B40DDD700B1483C /* Frameworks */,
 				184B652C1B3F60AC00B1483C /* دعوات قطر */,
@@ -241,6 +270,8 @@
 				18243B021B4374810036A345 /* ConnectionAdapter.h */,
 				18243B031B4374810036A345 /* ConnectionAdapter.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
+				187C63C91B497CF100B3E3EA /* testoViewController.h */,
+				187C63CA1B497CF100B3E3EA /* testoViewController.m */,
 				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
@@ -260,6 +291,10 @@
 				184B65A01B421C0200B1483C /* GroupViewController.m */,
 				187C63A51B478CE000B3E3EA /* AllSectionsViewController.h */,
 				187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */,
+				187C63C61B49795100B3E3EA /* SecEventsViewController.h */,
+				187C63C71B49795100B3E3EA /* SecEventsViewController.m */,
+				187C63AE1B49181000B3E3EA /* TestCollectionViewController.h */,
+				187C63AF1B49181000B3E3EA /* TestCollectionViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -453,11 +488,13 @@
 				184B65861B40817700B1483C /* ASIFormDataRequest.m in Sources */,
 				184B65831B4080D600B1483C /* ASIDataCompressor.h in Sources */,
 				18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */,
+				187C63B01B49181000B3E3EA /* TestCollectionViewController.m in Sources */,
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
 				184B65771B40804A00B1483C /* ASIAuthenticationDialog.h in Sources */,
 				184B656E1B407F6B00B1483C /* ASIHTTPRequest.h in Sources */,
 				187C639E1B47470F00B3E3EA /* groupCollectionViewCell.m in Sources */,
-				187C63AA1B47AD5F00B3E3EA /* AllSectionsCellTableViewCell.m in Sources */,
+				187C63B61B491BCC00B3E3EA /* testCollectionViewCell.m in Sources */,
+				187C63BC1B49488400B3E3EA /* AllSectionsCellCollectionView.m in Sources */,
 				187C639B1B473FE200B3E3EA /* InviteViewController.m in Sources */,
 				184B657A1B40805E00B1483C /* ASIInputStream.m in Sources */,
 				184B656F1B407F6B00B1483C /* ASICacheDelegate.h in Sources */,
@@ -466,6 +503,7 @@
 				184B657E1B40809E00B1483C /* ASIDataDecompressor.m in Sources */,
 				187C63A71B478CE000B3E3EA /* AllSectionsViewController.m in Sources */,
 				184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */,
+				187C63B91B491FAE00B3E3EA /* testheaderCollectionReusableView.m in Sources */,
 				184B65711B407F6B00B1483C /* ASIHTTPRequestDelegate.h in Sources */,
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
@@ -475,6 +513,8 @@
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
 				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
 				187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */,
+				187C63C81B49795100B3E3EA /* SecEventsViewController.m in Sources */,
+				187C63CB1B497CF100B3E3EA /* testoViewController.m in Sources */,
 				184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */,
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,
@@ -488,8 +528,10 @@
 				184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */,
 				187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */,
 				184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */,
+				187C63C21B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m in Sources */,
 				184B65301B3F60AC00B1483C /* main.m in Sources */,
 				18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */,
+				187C63BF1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

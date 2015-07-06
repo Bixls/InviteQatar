@@ -8,15 +8,19 @@
 
 #import "AllSectionsViewController.h"
 #import "ASIHTTPRequest.h"
-#import "AllSectionsCellTableViewCell.h"
+#import "AllSectionsCellCollectionView.h"
+#import "AllSectionHeaderCollectionReusableView.h"
+#import "AllSectionFooterCollectionReusableView.h"
+#import "SecEventsViewController.h"
 
 @interface AllSectionsViewController ()
 
 @property (nonatomic,strong) NSArray *allSections;
 @property (nonatomic,strong) NSMutableArray *allEvents;
 @property (nonatomic) int skeletonSections;
-@property (nonatomic) NSMutableArray *sectionContent;
+@property (nonatomic) NSMutableDictionary *sectionContent;
 @property (nonatomic) int flag;
+@property (nonatomic) NSInteger selectedSection;
 
 @end
 
@@ -26,7 +30,7 @@
     [super viewDidLoad];
     self.flag = 0;
     // Do any additional setup after loading the view.
-    self.sectionContent = [[NSMutableArray alloc]init];
+    self.sectionContent = [[NSMutableDictionary alloc]init];
     NSDictionary *getAllSections = @{@"FunctionName":@"getEventCategories" , @"inputs":@[@{
                                                                                              }]};
     NSMutableDictionary *getAllSectionsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getSections",@"key", nil];
@@ -36,18 +40,9 @@
     
     
 }
-
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return self.allSections.count;
-    
-}
-
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (self.sectionContent.count) {
-        NSArray *content = self.sectionContent[section];
+        NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)section+1]];
         return content.count;
     }
     else{
@@ -55,16 +50,19 @@
     }
 }
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+     return self.allSections.count;
+}
 
--(AllSectionsCellTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(AllSectionsCellCollectionView *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"Cell";
     
-    AllSectionsCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (cell==nil) {
-        cell=[[AllSectionsCellTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    if (self.flag == self.allSections.count) {
-        NSArray *content = self.sectionContent[indexPath.section];
+    AllSectionsCellCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    if (self.allSections.count) {
+
+        NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
+        NSLog(@"%@",self.sectionContent);
         NSLog(@"%@",content);
         if (content.count) {
             NSDictionary *event = content[indexPath.row];
@@ -76,90 +74,48 @@
                 NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
                 NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
                 UIImage *img = [[UIImage alloc]initWithData:data];
-                UIView *sectionView = [self.tableView headerViewForSection:indexPath.section];
-                [self.tableView bringSubviewToFront:sectionView];
+                //                UIView *sectionView = [self.tableView headerViewForSection:indexPath.section];
+                //                [self.tableView bringSubviewToFront:sectionView];
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     //Run UI Updates
                     cell.eventPicture.image = img;
                     
                 });
             });
-                    }
+        }
     }
-    
     return cell;
+
 }
 
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    UILabel *label = [[UILabel alloc]init];
-//    NSDictionary *Dict = self.allSections[section];
-//    label.text = [NSString stringWithFormat:@"%@  ",Dict[@"catName"]];
-//    label.backgroundColor =[UIColor clearColor];
-//    label.textAlignment = NSTextAlignmentRight;
-//
-//    
-//    return label.text;
-//}
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    
+    UICollectionReusableView *reusableview = nil;
+    if (kind == UICollectionElementKindSectionHeader) {
+        AllSectionHeaderCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header" forIndexPath:indexPath];
+        NSDictionary *Dict = self.allSections[indexPath.section];
+        header.headerLabel.text = [NSString stringWithFormat:@"%@",Dict[@"catName"]];
+        reusableview = header;
+    }
+    if (kind== UICollectionElementKindSectionFooter) {
+        AllSectionFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+        footer.btnSeeMore.tag = indexPath.section;
+        reusableview = footer;
+    }
+    return reusableview;
+}
 
-//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    // 1. The view for the header
-//    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 22)];
-//    
-//    // 2. Set a custom background color and a border
-//    headerView.backgroundColor = [UIColor colorWithWhite:0.5f alpha:1.0f];
-//    headerView.layer.borderColor = [UIColor colorWithWhite:0.5 alpha:1.0].CGColor;
-//    headerView.layer.borderWidth = 1.0;
-//    
-//    // 3. Add a label
-//    UILabel* headerLabel = [[UILabel alloc] init];
-//    headerLabel.frame = CGRectMake(5, 2, tableView.frame.size.width - 5, 18);
-//    headerLabel.backgroundColor = [UIColor clearColor];
-//    headerLabel.textColor = [UIColor whiteColor];
-//    headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
-//    headerLabel.text = @"This is the custom header view";
-//    headerLabel.textAlignment = NSTextAlignmentLeft;
-//    
-//    // 4. Add the label to the header view
-//    [headerView addSubview:headerLabel];
-//    
-//    // 5. Finally return
-//    return headerView;
-//}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedSection = indexPath.section ;
+    [self performSegueWithIdentifier:@"enterSection" sender:self];
+}
 
-
-
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    UILabel *label = [[UILabel alloc]init];
-//    NSDictionary *Dict = self.allSections[section];
-//    label.text = [NSString stringWithFormat:@"%@",Dict[@"catName"]];
-//    label.backgroundColor =[UIColor clearColor];
-//    label.textAlignment = NSTextAlignmentRight;
-//    label.textColor = [UIColor whiteColor];
-//
-//    
-//    return label;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 22;
-//}
-
-//- (NSIndexPath *)tableView:(UITableView *)tableView
-//targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath
-//       toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
-//{
-//    if (proposedDestinationIndexPath.section != sourceIndexPath.section)
-//    {
-//        //keep cell where it was...
-//        return sourceIndexPath;
-//    }
-//    
-//    //ok to move cell to proposed path...
-//    return proposedDestinationIndexPath;
-//}
-
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"enterSection"]) {
+        SecEventsViewController *secEventsController = segue.destinationViewController;
+        secEventsController.selectedSection = self.selectedSection;
+    }
+}
 
 -(void)getEvents {
     
@@ -169,7 +125,8 @@
                                                                                  @"catID":[NSString stringWithFormat:@"%d",i],
                                                                                  @"start":@"0",
                                                                                  @"limit":@"5"}]};
-        NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
+        NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"key", nil];
+        
         [self postRequest:getEvents withTag:getEventsTag];
     }
     
@@ -217,28 +174,47 @@
     
     if ([key isEqualToString:@"getSections"]) {
         self.allSections = array ;
+        //NSLog(@"%@",self.allSections);
         [self getEvents];
-        [self.tableView reloadData];
-    }
-    
-    if ([key isEqualToString:@"getEvents"]) {
-        self.skeletonSections = 1;
-        [self.sectionContent addObject:array];
-        self.flag++;
-        if (self.flag == self.allSections.count) {
-            [self.tableView reloadData];
-        }
+        
     }
     NSLog(@"%@",array);
+ 
+    for (int i = 1 ; i <=self.allSections.count; i++) {
+        if ([key isEqualToString:[NSString stringWithFormat:@"%d",i]]) {
+            self.skeletonSections = 1;
+            [self.sectionContent setObject:array forKey:[NSString stringWithFormat:@"%d",i]];
+            
+            [self.collectionView reloadData];
+        }
+    }
+    self.flag++;
+    if (self.flag == self.allSections.count) {
+        [self.collectionView reloadData];
+    }
+//    if ([key isEqualToString:@"getEvents"]) {
+//        
+//        [self.sectionContent addObject:array];
+//        
+//        
+//        
+//    }
+   // NSLog(@"%@",array);
     
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+    //NSLog(@"%@",error);
 }
 
 
 
+- (IBAction)btnSeeMorePressed:(id)sender {
+    UIButton *pressedBtn = (UIButton *)sender;
+    self.selectedSection = pressedBtn.tag + 1;
+    NSLog(@"Section : %ld",(long)self.selectedSection);
+    
+}
 @end
