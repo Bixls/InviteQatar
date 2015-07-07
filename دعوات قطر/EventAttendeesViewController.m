@@ -10,14 +10,14 @@
 #import "AttendeeTableViewCell.h"
 #import "ASIHTTPRequest.h"
 #import <SVPullToRefresh.h>
-
+#import "UserViewController.h"
 @interface EventAttendeesViewController ()
 
 @property (nonatomic,strong) NSMutableArray *allUsers;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
 @property (nonatomic) NSInteger populate;
-
+@property (nonatomic,strong)NSDictionary *selectedUser;
 @end
 
 @implementation EventAttendeesViewController
@@ -57,8 +57,6 @@
     
 }
 
-
-
 #pragma mark - TableView DataSource Methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -94,6 +92,21 @@
 
     
     return cell ;
+}
+
+#pragma mark - Table View Delegate Methods 
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedUser = self.allUsers[indexPath.row];
+    [self performSegueWithIdentifier:@"showUser" sender:self];
+}
+
+#pragma mark - Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showUser"]) {
+        UserViewController *userController = segue.destinationViewController;
+        userController.user = self.selectedUser;
+    }
 }
 
 #pragma mark - Connection Setup
