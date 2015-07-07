@@ -76,6 +76,8 @@
 		18EA68291B4B566000F482FB /* EventAttendeesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68281B4B566000F482FB /* EventAttendeesViewController.m */; };
 		18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */; };
 		18EA682F1B4B6C6F00F482FB /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA682E1B4B6C6F00F482FB /* UserViewController.m */; };
+		18EA68311B4B806000F482FB /* PicFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EA68301B4B806000F482FB /* PicFrame.png */; };
+		18EA68331B4B82E100F482FB /* PicFrame2.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EA68321B4B82E100F482FB /* PicFrame2.png */; };
 		841C5DFEE3B6EF173475CBA7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E71B13EE20BEF99BEFA3ED8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -200,6 +202,8 @@
 		18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttendeeTableViewCell.m; path = "دعوات قطر/AttendeeTableViewCell.m"; sourceTree = "<group>"; };
 		18EA682D1B4B6C6F00F482FB /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		18EA682E1B4B6C6F00F482FB /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		18EA68301B4B806000F482FB /* PicFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PicFrame.png; sourceTree = "<group>"; };
+		18EA68321B4B82E100F482FB /* PicFrame2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PicFrame2.png; sourceTree = "<group>"; };
 		468BD36381F55A3ECC251532 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4E71B13EE20BEF99BEFA3ED8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		53FE3654E95DB801B3C933F1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -402,6 +406,8 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				18EA68321B4B82E100F482FB /* PicFrame2.png */,
+				18EA68301B4B806000F482FB /* PicFrame.png */,
 				187C63951B4626D500B3E3EA /* navbarFace.png */,
 				187C63961B4626D500B3E3EA /* tabBarFace.png */,
 				187C63901B461CF900B3E3EA /* da3wa.png */,
@@ -511,9 +517,11 @@
 				183957161B453C1E00B47FC2 /* elmasnad.png in Resources */,
 				184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */,
 				187C63911B461CF900B3E3EA /* da3wa.png in Resources */,
+				18EA68331B4B82E100F482FB /* PicFrame2.png in Resources */,
 				183957191B453C6500B47FC2 /* elhawager.png in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				1839571A1B453C6500B47FC2 /* elmra.png in Resources */,
+				18EA68311B4B806000F482FB /* PicFrame.png in Resources */,
 				187C63981B4626D500B3E3EA /* tabBarFace.png in Resources */,
 				187C63971B4626D500B3E3EA /* navbarFace.png in Resources */,
 			);

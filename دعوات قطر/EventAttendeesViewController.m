@@ -24,7 +24,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    
+    self.navigationItem.backBarButtonItem = nil;
+    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
+                                        nil] forState:UIControlStateNormal];
+    backbutton.tintColor = [UIColor whiteColor];
+    self.navigationItem.backBarButtonItem = backbutton;
+
+    
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         self.populate = 1 ;
         self.start = self.start+10 ;
