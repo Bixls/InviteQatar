@@ -104,6 +104,12 @@
     
 }
 
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSLog(@"%@",error);
+}
+
 
 - (IBAction)btnViewAttendeesPressed:(id)sender {
     [self performSegueWithIdentifier:@"showAttendees" sender:self];

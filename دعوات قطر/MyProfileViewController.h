@@ -10,4 +10,9 @@
 
 @interface MyProfileViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIImageView *myProfilePicture;
+@property (weak, nonatomic) IBOutlet UILabel *myName;
+@property (weak, nonatomic) IBOutlet UILabel *myGroup;
+
+
 @end

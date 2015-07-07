@@ -7,13 +7,13 @@
 //
 
 #import "BuyInvitationsViewController.h"
-#import "ConnectionAdapter.h"
+
 #import "ASIHTTPRequest.h"
 #import "CellInvitationTableView.h"
 
 @interface BuyInvitationsViewController ()
 
-@property(nonatomic,strong) ConnectionAdapter *connection;
+
 @property(nonatomic,strong) NSDictionary *postDict;
 @property(nonatomic,strong) NSArray *responseArray;
 @property(nonatomic,strong) NSDictionary *selectedItem;

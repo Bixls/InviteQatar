@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
-		18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B031B4374810036A345 /* ConnectionAdapter.m */; };
 		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
 		183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183957011B45382300B47FC2 /* cellGroupsCollectionView.m */; };
 		183957151B453C1E00B47FC2 /* eldosri.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957131B453C1E00B47FC2 /* eldosri.png */; };
@@ -95,8 +94,6 @@
 		180B11EA1B4B133400133E7C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyInvitationsViewController.h; sourceTree = "<group>"; };
 		18243B001B43730B0036A345 /* BuyInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInvitationsViewController.m; sourceTree = "<group>"; };
-		18243B021B4374810036A345 /* ConnectionAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionAdapter.h; sourceTree = "<group>"; };
-		18243B031B4374810036A345 /* ConnectionAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionAdapter.m; sourceTree = "<group>"; };
 		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
 		18243B121B43BA720036A345 /* CellInvitationTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInvitationTableView.m; sourceTree = "<group>"; };
 		183957001B45382300B47FC2 /* cellGroupsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cellGroupsCollectionView.h; path = "دعوات قطر/cellGroupsCollectionView.h"; sourceTree = "<group>"; };
@@ -300,8 +297,6 @@
 				184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */,
 				184B65311B3F60AC00B1483C /* AppDelegate.h */,
 				184B65321B3F60AC00B1483C /* AppDelegate.m */,
-				18243B021B4374810036A345 /* ConnectionAdapter.h */,
-				18243B031B4374810036A345 /* ConnectionAdapter.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
 				187C63C91B497CF100B3E3EA /* testoViewController.h */,
 				187C63CA1B497CF100B3E3EA /* testoViewController.m */,
@@ -625,7 +620,6 @@
 				184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */,
 				187C63C21B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m in Sources */,
 				184B65301B3F60AC00B1483C /* main.m in Sources */,
-				18243B041B4374810036A345 /* ConnectionAdapter.m in Sources */,
 				187C63BF1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
