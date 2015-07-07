@@ -72,6 +72,9 @@
 		187C63CE1B4A326400B3E3EA /* SecEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63CD1B4A326400B3E3EA /* SecEventTableViewCell.m */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
+		18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68251B4B3BCD00F482FB /* EventViewController.m */; };
+		18EA68291B4B566000F482FB /* EventAttendeesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68281B4B566000F482FB /* EventAttendeesViewController.m */; };
+		18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */; };
 		841C5DFEE3B6EF173475CBA7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E71B13EE20BEF99BEFA3ED8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +191,12 @@
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
 		18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateEventViewController.m; path = ../CreateEventViewController.m; sourceTree = "<group>"; };
+		18EA68241B4B3BCD00F482FB /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
+		18EA68251B4B3BCD00F482FB /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
+		18EA68271B4B566000F482FB /* EventAttendeesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAttendeesViewController.h; sourceTree = "<group>"; };
+		18EA68281B4B566000F482FB /* EventAttendeesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventAttendeesViewController.m; sourceTree = "<group>"; };
+		18EA682A1B4B57C800F482FB /* AttendeeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AttendeeTableViewCell.h; path = "دعوات قطر/AttendeeTableViewCell.h"; sourceTree = "<group>"; };
+		18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttendeeTableViewCell.m; path = "دعوات قطر/AttendeeTableViewCell.m"; sourceTree = "<group>"; };
 		468BD36381F55A3ECC251532 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4E71B13EE20BEF99BEFA3ED8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		53FE3654E95DB801B3C933F1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -254,6 +263,8 @@
 				187C63C11B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m */,
 				187C63CC1B4A326400B3E3EA /* SecEventTableViewCell.h */,
 				187C63CD1B4A326400B3E3EA /* SecEventTableViewCell.m */,
+				18EA682A1B4B57C800F482FB /* AttendeeTableViewCell.h */,
+				18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */,
 				187C63B41B491BCC00B3E3EA /* testCollectionViewCell.h */,
 				187C63B51B491BCC00B3E3EA /* testCollectionViewCell.m */,
 				187C63B71B491FAE00B3E3EA /* testheaderCollectionReusableView.h */,
@@ -310,6 +321,10 @@
 				187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */,
 				187C63C61B49795100B3E3EA /* SecEventsViewController.h */,
 				187C63C71B49795100B3E3EA /* SecEventsViewController.m */,
+				18EA68241B4B3BCD00F482FB /* EventViewController.h */,
+				18EA68251B4B3BCD00F482FB /* EventViewController.m */,
+				18EA68271B4B566000F482FB /* EventAttendeesViewController.h */,
+				18EA68281B4B566000F482FB /* EventAttendeesViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -553,6 +568,7 @@
 				187C63B01B49181000B3E3EA /* TestCollectionViewController.m in Sources */,
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
 				184B65771B40804A00B1483C /* ASIAuthenticationDialog.h in Sources */,
+				18EA68291B4B566000F482FB /* EventAttendeesViewController.m in Sources */,
 				184B656E1B407F6B00B1483C /* ASIHTTPRequest.h in Sources */,
 				187C639E1B47470F00B3E3EA /* groupCollectionViewCell.m in Sources */,
 				187C63B61B491BCC00B3E3EA /* testCollectionViewCell.m in Sources */,
@@ -568,11 +584,13 @@
 				187C63B91B491FAE00B3E3EA /* testheaderCollectionReusableView.m in Sources */,
 				184B65711B407F6B00B1483C /* ASIHTTPRequestDelegate.h in Sources */,
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
+				18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
 				184B65731B407F6B00B1483C /* Reachability.h in Sources */,
 				18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */,
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
+				18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */,
 				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
 				187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				187C63C81B49795100B3E3EA /* SecEventsViewController.m in Sources */,
