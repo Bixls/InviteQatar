@@ -36,6 +36,7 @@
     [super viewDidLoad];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     
+    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];

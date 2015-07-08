@@ -55,6 +55,7 @@
 		1873C2141B4D7D000026C905 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2131B4D7D000026C905 /* ViewController.m */; };
 		1873C21A1B4D83200026C905 /* TestNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2191B4D83200026C905 /* TestNewsCollectionViewCell.m */; };
 		1873C21D1B4D89300026C905 /* testCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C21C1B4D89300026C905 /* testCollectionViewCell.m */; };
+		1873C21F1B4DA6080026C905 /* GroupFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 1873C21E1B4DA6080026C905 /* GroupFrame.png */; };
 		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
 		187C63911B461CF900B3E3EA /* da3wa.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63901B461CF900B3E3EA /* da3wa.png */; };
 		187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63931B46259900B3E3EA /* MyProfileViewController.m */; };
@@ -165,6 +166,7 @@
 		1873C2191B4D83200026C905 /* TestNewsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestNewsCollectionViewCell.m; sourceTree = "<group>"; };
 		1873C21B1B4D89300026C905 /* testCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testCollectionViewCell.h; path = "دعوات قطر/testCollectionViewCell.h"; sourceTree = "<group>"; };
 		1873C21C1B4D89300026C905 /* testCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = testCollectionViewCell.m; path = "دعوات قطر/testCollectionViewCell.m"; sourceTree = "<group>"; };
+		1873C21E1B4DA6080026C905 /* GroupFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GroupFrame.png; sourceTree = "<group>"; };
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		187C63901B461CF900B3E3EA /* da3wa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = da3wa.png; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1873C21E1B4DA6080026C905 /* GroupFrame.png */,
 				18EA68321B4B82E100F482FB /* PicFrame2.png */,
 				18EA68301B4B806000F482FB /* PicFrame.png */,
 				187C63951B4626D500B3E3EA /* navbarFace.png */,
@@ -527,6 +530,7 @@
 				183957161B453C1E00B47FC2 /* elmasnad.png in Resources */,
 				184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */,
 				187C63911B461CF900B3E3EA /* da3wa.png in Resources */,
+				1873C21F1B4DA6080026C905 /* GroupFrame.png in Resources */,
 				18EA68331B4B82E100F482FB /* PicFrame2.png in Resources */,
 				183957191B453C6500B47FC2 /* elhawager.png in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
