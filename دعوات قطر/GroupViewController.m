@@ -19,7 +19,7 @@
 @property (nonatomic,strong) NSString *eventOwner;
 @property (nonatomic,strong) NSString *eventTime;
 
-
+@property (nonatomic) NSInteger groupID;
 
 @end
 
@@ -39,16 +39,14 @@
                                         [UIFont systemFontOfSize:18],NSFontAttributeName,
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
-    
     self.navigationItem.backBarButtonItem = backbutton;
 
-//    [self.collectionView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:NULL];
+    self.groupID = [self.group[@"id"]integerValue];
+    NSLog(@"%ld",(long)self.groupID);
     
-
-    
-    NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"2",
-                                                                                 @"catID":@"2",
-                                                                                 @"start":@"0",@"limit":@"10"}]};
+    NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
+                                                                                 @"catID":@"-1",
+                                                                                 @"start":@"0",@"limit":@"3"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
     //self.imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg";
 //    NSURL *url = [NSURL URLWithString:self.imageURL];

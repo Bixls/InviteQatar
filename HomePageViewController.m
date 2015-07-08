@@ -11,6 +11,9 @@
 #import "cellGroupsCollectionView.h"
 #import "HomeNewsCollectionViewCell.h"
 #import "HomeEventsTableViewCell.h"
+#import "EventViewController.h"
+#import "GroupViewController.h"
+
 @interface HomePageViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -21,6 +24,8 @@
 @property (nonatomic,strong) NSArray *groups;
 @property (nonatomic,strong) NSArray *news;
 @property (nonatomic,strong) NSArray *events;
+@property (nonatomic,strong) NSDictionary *selectedEvent;
+@property (nonatomic,strong) NSDictionary *selectedGroup;
 
 
 @end
@@ -92,7 +97,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (collectionView.tag == 0) {
-        return self.imageArray.count;
+        return self.groups.count;
     }else{
         return self.news.count;
     }
@@ -103,7 +108,16 @@
     
     if (collectionView.tag == 0) {
         cellGroupsCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-        cell.groupPP.image = self.imageArray[indexPath.row];
+        NSDictionary *tempGroup = self.groups[indexPath.item];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+            UIImage *image = [[UIImage alloc]initWithData:imgData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cell.groupPP.image = image;
+            });
+        });
         return cell;
     }else{
         HomeNewsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
@@ -125,6 +139,17 @@
     }
     
     return nil ;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (collectionView.tag == 0) {
+        self.selectedGroup = self.groups[indexPath.item];
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        [self performSegueWithIdentifier:@"group" sender:self];
+    }else if (collectionView.tag == 1){
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        [self performSegueWithIdentifier:@"news" sender:self];
+    }
 }
 
 #pragma mark - TableView DataSource 
@@ -166,6 +191,24 @@
     return cell ;
 }
 
+#pragma mark - Tableview delegate 
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.eventsTableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.selectedEvent = self.events[indexPath.row];
+    [self performSegueWithIdentifier:@"event" sender:self];
+}
+
+#pragma mark - Segue 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"event"]) {
+        EventViewController *eventController = segue.destinationViewController;
+        eventController.event = self.selectedEvent;
+    }else if ([segue.identifier isEqualToString:@"group"]){
+        GroupViewController *groupController = segue.destinationViewController;
+        groupController.group = self.selectedGroup;
+    }
+}
 
 #pragma mark - Connection setup
 
@@ -207,7 +250,7 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getGroups"]) {
         self.groups = responseArray;
-        //reload
+        [self.groupsCollectionView reloadData];
     }else if([key isEqualToString:@"getNews"]){
         self.news = responseArray;
         [self.newsCollectionView reloadData];

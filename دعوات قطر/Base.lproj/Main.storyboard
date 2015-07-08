@@ -559,7 +559,6 @@
                                                         </view>
                                                         <connections>
                                                             <outlet property="groupPP" destination="JSw-Ak-xOg" id="fho-xg-8x5"/>
-                                                            <segue destination="7B3-dT-SsQ" kind="push" id="zIG-S7-qbq"/>
                                                         </connections>
                                                     </collectionViewCell>
                                                 </cells>
@@ -614,13 +613,13 @@
                                                 </connections>
                                             </collectionView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="اخر الافراح" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4o-Za-IAu">
-                                                <rect key="frame" x="130" y="409" width="60" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <rect key="frame" x="126" y="430" width="68" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bz0-Re-JAd">
-                                                <rect key="frame" x="11" y="435" width="299" height="264"/>
+                                                <rect key="frame" x="11" y="456" width="299" height="264"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GroupCell" rowHeight="70" id="pwf-67-iIY" customClass="HomeEventsTableViewCell">
@@ -715,6 +714,8 @@
                         <outlet property="newsCollectionView" destination="HOV-Hr-Q8s" id="aeQ-vi-MeX"/>
                         <outlet property="scrollView" destination="wDn-cb-PpP" id="YLh-vb-ClR"/>
                         <segue destination="Oyu-FG-B7Z" kind="modal" identifier="welcomeSegue" id="1pT-BA-v8b"/>
+                        <segue destination="Pnj-oQ-lDE" kind="push" identifier="event" id="7J1-Rt-qJs"/>
+                        <segue destination="7B3-dT-SsQ" kind="push" identifier="group" id="ms9-Dg-RBK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yxL-as-OWW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -759,7 +760,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DlJ-hQ-Fgx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="247" y="3448"/>
+            <point key="canvasLocation" x="223" y="4080"/>
         </scene>
         <!--Group View Controller-->
         <scene sceneID="Nga-MN-V1C">
@@ -866,7 +867,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l27-d1-8WH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="726" y="2947"/>
+            <point key="canvasLocation" x="637" y="3180"/>
         </scene>
         <!--All Sections View Controller-->
         <scene sceneID="Gbp-Kw-jdW">
@@ -999,7 +1000,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qOI-Ua-Th2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1860" y="3104"/>
+            <point key="canvasLocation" x="1059" y="3180"/>
         </scene>
         <!--Sec Events View Controller-->
         <scene sceneID="Liy-kg-UWM">
@@ -1086,7 +1087,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cEK-zn-0h1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2314" y="3104"/>
+            <point key="canvasLocation" x="1510" y="3053"/>
         </scene>
         <!--Event View Controller-->
         <scene sceneID="EEZ-bC-LzC">
@@ -1177,7 +1178,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qZJ-5n-s9k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2750" y="2445"/>
+            <point key="canvasLocation" x="3014" y="2461"/>
         </scene>
         <!--Event Attendees View Controller-->
         <scene sceneID="PA2-fZ-fow">
@@ -1251,7 +1252,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Na7-p6-8QM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3205" y="2445"/>
+            <point key="canvasLocation" x="3469" y="2461"/>
         </scene>
         <!--User View Controller-->
         <scene sceneID="sUv-0E-Xhh">
@@ -1294,7 +1295,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yky-sq-Ugz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3612" y="2445"/>
+            <point key="canvasLocation" x="3876" y="2461"/>
         </scene>
         <!--Invite View Controller-->
         <scene sceneID="TPl-pv-hmc">
@@ -1384,7 +1385,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EhM-OL-psZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1371" y="3858"/>
+            <point key="canvasLocation" x="1387" y="4794"/>
         </scene>
         <!--Test Collection View Controller-->
         <scene sceneID="gPo-WT-Uze">
@@ -1460,7 +1461,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="usf-Xg-cCT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2372" y="3873"/>
+            <point key="canvasLocation" x="2388" y="4809"/>
         </scene>
         <!--Testo View Controller-->
         <scene sceneID="8pk-vn-E4P">
@@ -1479,7 +1480,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p5a-nd-xkz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2859" y="3873"/>
+            <point key="canvasLocation" x="2875" y="4809"/>
         </scene>
         <!--Buy Invitations View Controller-->
         <scene sceneID="isX-R7-iCl">
@@ -2181,7 +2182,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KSD-oe-8ao" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1840" y="3873"/>
+            <point key="canvasLocation" x="1856" y="4809"/>
         </scene>
     </scenes>
     <resources>
@@ -2199,6 +2200,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="blW-Gs-6i2"/>
+        <segue reference="7J1-Rt-qJs"/>
     </inferredMetricsTieBreakers>
 </document>
