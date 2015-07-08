@@ -97,16 +97,10 @@
     request.shouldCompressRequestBody = NO;
     request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
-    
-    
-    
-    
 
     
     [request startAsynchronous];
-    
-   
-    
+
 }
 
 -(void)postPicturewithTag:(NSMutableDictionary *)dict{
@@ -129,8 +123,8 @@
     self.imageRequest.useCookiePersistence = NO;
     self.imageRequest.shouldCompressRequestBody = NO;
     self.imageRequest.userInfo = dict;
-    [self.imageRequest setPostValue:@"6" forKey:@"id"];
-    [self.imageRequest setPostValue:@"user" forKey:@"type"];
+//    [self.imageRequest setPostValue:@"6" forKey:@"id"];
+//    [self.imageRequest setPostValue:@"user" forKey:@"type"];
     [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];
 }
@@ -147,7 +141,7 @@
     if ([key isEqualToString:@"pictureTag"]) {
         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSLog(@"%@",responseDict);
-        self.imageURL = responseDict[@"url"];
+        self.imageURL = responseDict[@"id"];
         self.uploaded =1;
     }else {
         self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -156,11 +150,13 @@
         NSLog(@"USER ID %d",self.userID);
         [self.userDefaults setInteger:self.userID forKey:@"userID"];
         [self.userDefaults synchronize];
-        self.activateFlag = 1;
-        [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
+        //self.activateFlag = 1;
+        //[self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
+        [self.userDefaults setInteger:1 forKey:@"Guest"];
+        [self.userDefaults setInteger:1 forKey:@"signedIn"];
         [self.userDefaults synchronize];
         
-        [self performSegueWithIdentifier:@"activationSegue" sender:self];
+        [self dismissViewControllerAnimated:YES completion:nil];
         
     }
    
@@ -250,7 +246,7 @@
 - (IBAction)btnSignUpPressed:(id)sender {
     
     
-    if (self.activateFlag == 0) {
+//    if (self.activateFlag == 0) {
         if ((self.nameField.text.length != 0) && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length != 0) && (self.selectedGroup != nil)) {
             if (self.flag == 1 && self.uploaded == 1 ) {
                 
@@ -264,7 +260,6 @@
                 NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
                 
                 [self postRequest:postDict withTag:registerTag];
-                
                 
             }else if (self.flag == 1){
                 UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
@@ -282,45 +277,7 @@
             [alertView show];
         }
 
-    }else if (self.activateFlag == 1){
-    
-        if ((self.nameField.text.length != 0)  && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length !=0) &&(self.selectedGroup !=nil)) {
-            if (self.flag == 1 && self.uploaded == 1 ) {
-                
-                NSDictionary *postDict = @{@"FunctionName":@"Register" ,
-                                           @"inputs":@[@{@"name":self.nameField.text,
-                                                         @"Mobile":self.mobileField.text,
-                                                         @"password":self.passwordField.text,
-                                                         @"groupID":(NSString *)self.selectedGroup[@"id"],
-                                                         @"ProfilePic":self.imageURL}]};
-                
-                NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
-                
-                [self postRequest:postDict withTag:registerTag];
-                
-            }else if (self.flag == 1){
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-                [alertView show];
-                
-            }else {
-                
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-                [alertView show];
-                
-            }
-        }else{
-            int value = [self.userDefaults integerForKey:@"userID"];
-            if (value) {
-                [self performSegueWithIdentifier:@"activationSegue" sender:self];
-                self.activateFlag = 1;
-                [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-                [self.userDefaults synchronize];
-            }
-            
-        }
-        
-    }
-   
+//    }
     
 }
 

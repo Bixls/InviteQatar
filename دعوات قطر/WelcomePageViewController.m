@@ -10,14 +10,14 @@
 
 @interface WelcomePageViewController ()
 
+@property (nonatomic,strong)NSUserDefaults *userDefaults ;
+
 @end
 
 @implementation WelcomePageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-//    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"back.png"]]];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                              forBarMetrics:UIBarMetricsDefault];
@@ -30,8 +30,9 @@
                                         [UIFont systemFontOfSize:18],NSFontAttributeName,
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
-   
     self.navigationItem.backBarButtonItem = backbutton;
+    
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,14 +40,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)btnGuestPressed:(id)sender {
+    [self.userDefaults setInteger:1 forKey:@"Guest"];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
-
 @end

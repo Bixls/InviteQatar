@@ -71,6 +71,8 @@
 		187C63CE1B4A326400B3E3EA /* SecEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63CD1B4A326400B3E3EA /* SecEventTableViewCell.m */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
+		18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */; };
+		18D831751B4CE6E9003F5A86 /* HomeEventsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */; };
 		18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68251B4B3BCD00F482FB /* EventViewController.m */; };
 		18EA68291B4B566000F482FB /* EventAttendeesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68281B4B566000F482FB /* EventAttendeesViewController.m */; };
 		18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */; };
@@ -193,6 +195,10 @@
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
 		18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateEventViewController.m; path = ../CreateEventViewController.m; sourceTree = "<group>"; };
+		18D831701B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeNewsCollectionViewCell.h; path = "دعوات قطر/HomeNewsCollectionViewCell.h"; sourceTree = "<group>"; };
+		18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeNewsCollectionViewCell.m; path = "دعوات قطر/HomeNewsCollectionViewCell.m"; sourceTree = "<group>"; };
+		18D831731B4CE6E9003F5A86 /* HomeEventsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeEventsTableViewCell.h; path = "دعوات قطر/HomeEventsTableViewCell.h"; sourceTree = "<group>"; };
+		18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeEventsTableViewCell.m; path = "دعوات قطر/HomeEventsTableViewCell.m"; sourceTree = "<group>"; };
 		18EA68241B4B3BCD00F482FB /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		18EA68251B4B3BCD00F482FB /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		18EA68271B4B566000F482FB /* EventAttendeesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAttendeesViewController.h; sourceTree = "<group>"; };
@@ -277,6 +283,10 @@
 				18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */,
 				18EA68371B4BAED500F482FB /* MyEventsTableViewCell.h */,
 				18EA68381B4BAED500F482FB /* MyEventsTableViewCell.m */,
+				18D831701B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.h */,
+				18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */,
+				18D831731B4CE6E9003F5A86 /* HomeEventsTableViewCell.h */,
+				18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */,
 				187C63B41B491BCC00B3E3EA /* testCollectionViewCell.h */,
 				187C63B51B491BCC00B3E3EA /* testCollectionViewCell.m */,
 				187C63B71B491FAE00B3E3EA /* testheaderCollectionReusableView.h */,
@@ -313,20 +323,20 @@
 				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
+				187C63921B46259900B3E3EA /* MyProfileViewController.h */,
+				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
 				184B659C1B41E9F400B1483C /* EditAccountViewController.h */,
 				184B659D1B41E9F400B1483C /* EditAccountViewController.m */,
+				18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */,
+				18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */,
+				18EA68341B4BA8DD00F482FB /* MyEventsViewController.h */,
+				18EA68351B4BA8DD00F482FB /* MyEventsViewController.m */,
 				187C63991B473FE200B3E3EA /* InviteViewController.h */,
 				187C639A1B473FE200B3E3EA /* InviteViewController.m */,
 				18A202DC1B424D94005BD875 /* SearchTableViewController.h */,
 				18A202DD1B424D94005BD875 /* SearchTableViewController.m */,
 				18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */,
 				18243B001B43730B0036A345 /* BuyInvitationsViewController.m */,
-				187C63921B46259900B3E3EA /* MyProfileViewController.h */,
-				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
-				18EA68341B4BA8DD00F482FB /* MyEventsViewController.h */,
-				18EA68351B4BA8DD00F482FB /* MyEventsViewController.m */,
-				18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */,
-				18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */,
 				184B659F1B421C0200B1483C /* GroupViewController.h */,
 				184B65A01B421C0200B1483C /* GroupViewController.m */,
 				187C63A51B478CE000B3E3EA /* AllSectionsViewController.h */,
@@ -582,6 +592,7 @@
 				184B65821B4080D600B1483C /* ASIDataDecompressor.h in Sources */,
 				184B65861B40817700B1483C /* ASIFormDataRequest.m in Sources */,
 				184B65831B4080D600B1483C /* ASIDataCompressor.h in Sources */,
+				18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */,
 				18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */,
 				187C63B01B49181000B3E3EA /* TestCollectionViewController.m in Sources */,
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
@@ -623,6 +634,7 @@
 				184B65811B4080BC00B1483C /* ASIDataCompressor.m in Sources */,
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,
 				184B65761B40802500B1483C /* ASIAuthenticationDialog.m in Sources */,
+				18D831751B4CE6E9003F5A86 /* HomeEventsTableViewCell.m in Sources */,
 				184B65661B407CCE00B1483C /* ASIHTTPRequest.m in Sources */,
 				184B655D1B3FBD9900B1483C /* SignInViewController.m in Sources */,
 				184B65601B3FC52900B1483C /* ConfirmationViewController.m in Sources */,

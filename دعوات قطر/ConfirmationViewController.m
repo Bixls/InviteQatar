@@ -71,13 +71,12 @@
     NSData *responseData = [request responseData];
     self.responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     if ([self.responseDictionary[@"success"] integerValue] == 0) {
-        self.responseLabel.text = @"كود التفعيل خطأ" ;
+        self.responseLabel.text = @"عفوا كودالتفعيل خطأ" ;
     }else if ([self.responseDictionary[@"success"] integerValue]== 1){
         self.responseLabel.text = @"شكراً لك تم تفعيل حسابك";
-        [self.userDefaults setInteger:1 forKey:@"signedIn"];
+        [self.userDefaults setInteger:0 forKey:@"Guest"];
         [self.userDefaults synchronize];
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
+        //[self dismissViewControllerAnimated:YES completion:nil];
     }
     NSLog(@"%@",self.responseDictionary);
  
@@ -109,4 +108,9 @@
     
     [self postRequest:postDict];
 }
+
+- (IBAction)btnDismiss:(id)sender {
+    [self.confirmField resignFirstResponder];
+}
+
 @end

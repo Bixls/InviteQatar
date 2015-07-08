@@ -12,7 +12,8 @@
 @interface SignInViewController ()
 
 @property (strong,nonatomic) NSUserDefaults *userDefaults;
-@property (nonatomic) int savedID;
+@property (nonatomic) NSInteger savedID;
+@property (nonatomic,strong) NSDictionary *user;
 
 @end
 
@@ -20,12 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
-    if (self.userID) {
-        [self.userDefaults setValue:[NSNumber numberWithInteger:self.userID] forKey:@"userID"];
-    }
-    self.savedID = [[self.userDefaults objectForKey:@"userID"]integerValue];
+//    if (self.userID) {
+//        [self.userDefaults setInteger:self.userID forKey:@"userID"];
+//    }
+    self.savedID = [self.userDefaults integerForKey:@"userID"];
+    
     
 }
 
@@ -58,12 +60,22 @@
 {
     // Use when fetching text data
     NSString *responseString = [request responseString];
-    NSLog(@"%@",responseString);
     
-    // Use when fetching binary data
     NSData *responseData = [request responseData];
     NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil]);
-    
+    self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    NSString *temp = [NSString stringWithFormat:@"%@",self.user[@"Mobile"]];
+    NSInteger userID = [self.user[@"id"]integerValue];
+    NSInteger guest = ![self.user[@"Verified"]integerValue];
+    NSLog(@"%ld",(long)guest);
+    if ([temp isEqualToString:self.mobileField.text]) {
+        [self.userDefaults setInteger:1 forKey:@"signedIn"];
+        [self.userDefaults setInteger:guest forKey:@"Guest"];
+        [self.userDefaults setObject:self.user forKey:@"user"];
+        [self.userDefaults setInteger:userID forKey:@"userID"];
+        [self.userDefaults synchronize];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -90,4 +102,7 @@
                                                                                        @"password":self.passwordField.text}]};
     [self postRequest:postDict];
 }
+
+
+
 @end

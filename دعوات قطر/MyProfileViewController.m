@@ -27,12 +27,24 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-    
+
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
-    //NSLog(@"%ld",self.userID);
     
-    [self getUser];
+    if ([self.userDefaults integerForKey:@"Guest"] != 1) {
+        [self.btnActivateAccount setHidden:YES];
+        [self.imgActivateAccount setHidden:YES];
+    }else{
+        [self.myGroup setHidden:YES];
+        [self.btnAllEvents setEnabled:NO];
+        [self.btnEditAccount setEnabled:NO];
+        [self.btnNewEvent setEnabled:NO];
+    }
+    //NSLog(@"%ld",self.userID);
+    if (self.userID) {
+        [self getUser];
+    }
+    
     
 }
 
@@ -83,6 +95,7 @@
     NSData *responseData = [request responseData];
     NSDictionary *receivedDict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
+    NSLog(@"%@",receivedDict);
     if ([key isEqualToString:@"getUser"]) {
         self.user = receivedDict;
         [self updateUI];
@@ -100,7 +113,7 @@
     self.myName.text = self.user[@"name"];
     self.myGroup.text = self.user[@"GName"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *imgURLString = [NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",self.user[@"ProfilePic"]];
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
         NSURL *imgURL = [NSURL URLWithString:imgURLString];
         NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
         UIImage *image = [[UIImage alloc]initWithData:imgData];
@@ -109,5 +122,15 @@
         });
     });
 }
+
+- (IBAction)btnSignoutPressed:(id)sender {
+    [self.userDefaults setInteger:0 forKey:@"Guest"];
+    [self.userDefaults setInteger:0 forKey:@"signedIn"];
+    [self.userDefaults setInteger:0 forKey:@"userID"];
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    //[self performSegueWithIdentifier:@"welcome" sender:self];
+}
+
+
 
 @end
