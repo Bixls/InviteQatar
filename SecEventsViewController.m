@@ -105,7 +105,8 @@
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"EventPic"]];
+       // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         UIImage *img = [[UIImage alloc]initWithData:data];
         dispatch_async(dispatch_get_main_queue(), ^(void){
@@ -141,7 +142,7 @@
 
 -(void)getEvents {
     
-        NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"2",
+        NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":[NSString stringWithFormat:@"%ld",(long)self.selectedSection],
                                                                                  @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
                                                                                  @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]};

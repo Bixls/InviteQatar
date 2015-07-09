@@ -56,6 +56,11 @@
 		1873C21A1B4D83200026C905 /* TestNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2191B4D83200026C905 /* TestNewsCollectionViewCell.m */; };
 		1873C21D1B4D89300026C905 /* testCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C21C1B4D89300026C905 /* testCollectionViewCell.m */; };
 		1873C21F1B4DA6080026C905 /* GroupFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 1873C21E1B4DA6080026C905 /* GroupFrame.png */; };
+		1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2211B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m */; };
+		1873C2251B4DCB760026C905 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2241B4DCB760026C905 /* NewsViewController.m */; };
+		1873C2281B4DE7280026C905 /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2271B4DE7280026C905 /* CommentsViewController.m */; };
+		1873C22E1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C22D1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m */; };
+		1873C2311B4E0EB20026C905 /* CommentsSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2301B4E0EB20026C905 /* CommentsSecondTableViewCell.m */; };
 		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
 		187C63911B461CF900B3E3EA /* da3wa.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63901B461CF900B3E3EA /* da3wa.png */; };
 		187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63931B46259900B3E3EA /* MyProfileViewController.m */; };
@@ -167,6 +172,16 @@
 		1873C21B1B4D89300026C905 /* testCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testCollectionViewCell.h; path = "دعوات قطر/testCollectionViewCell.h"; sourceTree = "<group>"; };
 		1873C21C1B4D89300026C905 /* testCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = testCollectionViewCell.m; path = "دعوات قطر/testCollectionViewCell.m"; sourceTree = "<group>"; };
 		1873C21E1B4DA6080026C905 /* GroupFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GroupFrame.png; sourceTree = "<group>"; };
+		1873C2201B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsFooterCollectionReusableView.h; sourceTree = "<group>"; };
+		1873C2211B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsFooterCollectionReusableView.m; sourceTree = "<group>"; };
+		1873C2231B4DCB760026C905 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsViewController.h; path = ../NewsViewController.h; sourceTree = "<group>"; };
+		1873C2241B4DCB760026C905 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsViewController.m; path = ../NewsViewController.m; sourceTree = "<group>"; };
+		1873C2261B4DE7280026C905 /* CommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsViewController.h; sourceTree = "<group>"; };
+		1873C2271B4DE7280026C905 /* CommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsViewController.m; sourceTree = "<group>"; };
+		1873C22C1B4DFDEA0026C905 /* CommentsFirstTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentsFirstTableViewCell.h; path = ../CommentsFirstTableViewCell.h; sourceTree = "<group>"; };
+		1873C22D1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentsFirstTableViewCell.m; path = ../CommentsFirstTableViewCell.m; sourceTree = "<group>"; };
+		1873C22F1B4E0EB20026C905 /* CommentsSecondTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsSecondTableViewCell.h; sourceTree = "<group>"; };
+		1873C2301B4E0EB20026C905 /* CommentsSecondTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsSecondTableViewCell.m; sourceTree = "<group>"; };
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		187C63901B461CF900B3E3EA /* da3wa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = da3wa.png; sourceTree = "<group>"; };
@@ -316,7 +331,6 @@
 				184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */,
 				184B65311B3F60AC00B1483C /* AppDelegate.h */,
 				184B65321B3F60AC00B1483C /* AppDelegate.m */,
-				184B65371B3F60AC00B1483C /* Main.storyboard */,
 				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
@@ -336,6 +350,8 @@
 				18243B001B43730B0036A345 /* BuyInvitationsViewController.m */,
 				184B659F1B421C0200B1483C /* GroupViewController.h */,
 				184B65A01B421C0200B1483C /* GroupViewController.m */,
+				1873C2201B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.h */,
+				1873C2211B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m */,
 				187C63A51B478CE000B3E3EA /* AllSectionsViewController.h */,
 				187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */,
 				187C63C61B49795100B3E3EA /* SecEventsViewController.h */,
@@ -346,6 +362,15 @@
 				18EA68281B4B566000F482FB /* EventAttendeesViewController.m */,
 				18EA682D1B4B6C6F00F482FB /* UserViewController.h */,
 				18EA682E1B4B6C6F00F482FB /* UserViewController.m */,
+				1873C2231B4DCB760026C905 /* NewsViewController.h */,
+				1873C2241B4DCB760026C905 /* NewsViewController.m */,
+				1873C2261B4DE7280026C905 /* CommentsViewController.h */,
+				1873C2271B4DE7280026C905 /* CommentsViewController.m */,
+				1873C22C1B4DFDEA0026C905 /* CommentsFirstTableViewCell.h */,
+				1873C22D1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m */,
+				1873C22F1B4E0EB20026C905 /* CommentsSecondTableViewCell.h */,
+				1873C2301B4E0EB20026C905 /* CommentsSecondTableViewCell.m */,
+				184B65371B3F60AC00B1483C /* Main.storyboard */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -594,8 +619,10 @@
 				1873C2141B4D7D000026C905 /* ViewController.m in Sources */,
 				18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */,
 				18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */,
+				1873C2281B4DE7280026C905 /* CommentsViewController.m in Sources */,
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
 				184B65771B40804A00B1483C /* ASIAuthenticationDialog.h in Sources */,
+				1873C2311B4E0EB20026C905 /* CommentsSecondTableViewCell.m in Sources */,
 				18EA68291B4B566000F482FB /* EventAttendeesViewController.m in Sources */,
 				184B656E1B407F6B00B1483C /* ASIHTTPRequest.h in Sources */,
 				187C639E1B47470F00B3E3EA /* groupCollectionViewCell.m in Sources */,
@@ -609,6 +636,7 @@
 				187C63A71B478CE000B3E3EA /* AllSectionsViewController.m in Sources */,
 				184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */,
 				184B65711B407F6B00B1483C /* ASIHTTPRequestDelegate.h in Sources */,
+				1873C22E1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m in Sources */,
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
 				18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
@@ -628,6 +656,7 @@
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,
 				18EA68391B4BAED500F482FB /* MyEventsTableViewCell.m in Sources */,
+				1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */,
 				184B65811B4080BC00B1483C /* ASIDataCompressor.m in Sources */,
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,
 				184B65761B40802500B1483C /* ASIAuthenticationDialog.m in Sources */,
@@ -641,6 +670,7 @@
 				187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */,
 				184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */,
 				187C63C21B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m in Sources */,
+				1873C2251B4DCB760026C905 /* NewsViewController.m in Sources */,
 				184B65301B3F60AC00B1483C /* main.m in Sources */,
 				187C63BF1B494BF500B3E3EA /* AllSectionHeaderCollectionReusableView.m in Sources */,
 			);

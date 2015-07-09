@@ -10,9 +10,13 @@
 #import "ASIHTTPRequest.h"
 #import <UIKit/UIKit.h>
 #import "groupCollectionViewCell.h"
+#import "GroupsFooterCollectionReusableView.h"
+#import "AllSectionsViewController.h"
+#import "EventViewController.h"
 @interface GroupViewController ()
 
 @property (nonatomic,strong) NSArray *events;
+@property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSString *eventImageURL;
 @property (nonatomic,strong) NSString *eventName;
 @property (nonatomic,strong) NSString *eventPlace;
@@ -78,14 +82,15 @@
     static NSString *cellIdentifier = @"Cell";
     
     groupCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    NSDictionary *currentEvent = self.events[indexPath.section];
+    NSDictionary *currentEvent = self.events[indexPath.item];
     cell.subject.text = [currentEvent objectForKey:@"subject"];;
     cell.creator.text = [currentEvent objectForKey:@"CreatorName"];;
     cell.time.text = [currentEvent objectForKey:@"TimeEnded"];;
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",currentEvent[@"EventPic"]];
+       // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         UIImage *img = [[UIImage alloc]initWithData:data];
         
@@ -94,20 +99,36 @@
             cell.profilePic.image = img ;
         });
     });
-
-    
-    [self.btnMoreGroups setTitle:@"المزيد" forState:UIControlStateNormal];
-    
-
-//    self.owner.text =(NSString *)
-//    self.date.text = currentEvent [@"TimeEnded"];
-   // NSLog(@"%@",currentEvent);
-//    NSLog(@"%@",[currentEvent valueForKey:@"CreatorName"]);
-    
-
     
     return cell;
 
+}
+
+-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    
+    UICollectionReusableView *reusableview = nil;
+    if (kind== UICollectionElementKindSectionFooter) {
+        GroupsFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+        //footer.btnSeeMore.tag = indexPath.section;
+        reusableview = footer;
+    }
+    return reusableview;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    self.selectedEvent = self.events[indexPath.item];
+    [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    [self performSegueWithIdentifier:@"showEvent" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showSections"]) {
+        AllSectionsViewController *allSectionsController = segue.destinationViewController;
+        allSectionsController.groupID = self.groupID;
+    }else if ([segue.identifier isEqualToString:@"showEvent"]){
+        EventViewController *eventController = segue.destinationViewController;
+        eventController.event = self.selectedEvent;
+    }
 }
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {

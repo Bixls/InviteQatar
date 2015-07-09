@@ -12,6 +12,7 @@
 #import "AllSectionHeaderCollectionReusableView.h"
 #import "AllSectionFooterCollectionReusableView.h"
 #import "SecEventsViewController.h"
+#import "EventViewController.h"
 
 @interface AllSectionsViewController ()
 
@@ -21,6 +22,7 @@
 @property (nonatomic) NSMutableDictionary *sectionContent;
 @property (nonatomic) int flag;
 @property (nonatomic) NSInteger selectedSection;
+@property (nonatomic,strong) NSDictionary *selectedEvent;
 
 @end
 
@@ -85,11 +87,11 @@
             cell.eventDate.text = event[@"TimeEnded"];
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
                 //Background Thread
-                NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"EventPic"]];
+                //NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
                 NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
                 UIImage *img = [[UIImage alloc]initWithData:data];
-                //                UIView *sectionView = [self.tableView headerViewForSection:indexPath.section];
-                //                [self.tableView bringSubviewToFront:sectionView];
+               
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     //Run UI Updates
                     cell.eventPicture.image = img;
@@ -121,13 +123,19 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedSection = indexPath.section ;
-    [self performSegueWithIdentifier:@"enterSection" sender:self];
+    NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
+    self.selectedEvent = content[indexPath.row];
+    [self performSegueWithIdentifier:@"enterEvent" sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"enterSection"]) {
         SecEventsViewController *secEventsController = segue.destinationViewController;
         secEventsController.selectedSection = self.selectedSection;
+        secEventsController.groupID = self.groupID;
+    }else if ([segue.identifier isEqualToString:@"enterEvent"]){
+        EventViewController *eventController = segue.destinationViewController;
+        eventController.event = self.selectedEvent;
     }
 }
 
@@ -135,7 +143,7 @@
     
     for (int i =1 ; i <=self.allSections.count ; i++) {
        
-        NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"2",
+        NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":[NSString stringWithFormat:@"%d",i],
                                                                                  @"start":@"0",
                                                                                  @"limit":@"5"}]};

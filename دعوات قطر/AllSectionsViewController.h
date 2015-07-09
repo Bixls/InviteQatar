@@ -10,6 +10,7 @@
 
 @interface AllSectionsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>
 
+@property (nonatomic) NSInteger groupID;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 - (IBAction)btnSeeMorePressed:(id)sender;

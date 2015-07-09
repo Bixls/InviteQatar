@@ -13,6 +13,7 @@
 #import "HomeEventsTableViewCell.h"
 #import "EventViewController.h"
 #import "GroupViewController.h"
+#import "NewsViewController.h"
 
 @interface HomePageViewController ()
 
@@ -26,6 +27,7 @@
 @property (nonatomic,strong) NSArray *events;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSDictionary *selectedGroup;
+@property (nonatomic,strong) NSDictionary *selectedNews;
 
 
 @end
@@ -148,6 +150,8 @@
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
+        self.selectedNews = self.news[indexPath.item];
+        NSLog(@"Seleected news %@",self.selectedNews);
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"news" sender:self];
     }
@@ -208,6 +212,9 @@
     }else if ([segue.identifier isEqualToString:@"group"]){
         GroupViewController *groupController = segue.destinationViewController;
         groupController.group = self.selectedGroup;
+    }else if ([segue.identifier isEqualToString:@"news"]){
+        NewsViewController *newsController = segue.destinationViewController;
+        newsController.news = self.selectedNews;
     }
 }
 

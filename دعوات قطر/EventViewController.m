@@ -8,8 +8,17 @@
 
 #import "EventViewController.h"
 #import "ASIHTTPRequest.h"
+#import "CommentsViewController.h"
 
 @interface EventViewController ()
+
+@property (nonatomic)NSInteger userID;
+@property (nonatomic)NSInteger eventID;
+@property (nonatomic)NSInteger eventType;
+@property (nonatomic)UIImage *eventImage;
+@property (nonatomic)NSInteger allowComments;
+@property (nonatomic,strong)NSString *eventDescription;
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
 
 @end
 
@@ -29,39 +38,90 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-
     
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID = [self.userDefaults integerForKey:@"userID"];
+    self.eventID = [self.event[@"Eventid"]integerValue];
+    self.eventType = 0;
+    
+    [self updateUI];
+    [self isInvited];
+    [self getEvent];
+   
+    
+}
+
+-(void)updateUI {
+
     NSLog(@"EVEENT %@",self.event);
     self.eventSubject.text = self.event[@"subject"];
     self.creatorName.text = self.event[@"CreatorName"];
-    self.eventDate.text = self.event[@"TimeEnded"];
+    NSString *dateString = self.event[@"TimeEnded"];
+    NSString *date = [dateString substringToIndex:10];
+    NSString *tempTime = [dateString substringFromIndex:11];
+    NSString *time = [tempTime substringToIndex:5];
+    self.eventTime.text = time;
+    self.eventDate.text = date ;
+    
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
-        NSString *creatorPic = [NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",self.event[@"CreatorPic"]];
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"EventPic"]];
+        NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"CreatorPic"]];
         NSData *eventData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         NSData *creatorData = [NSData dataWithContentsOfURL:[NSURL URLWithString:creatorPic]];
-        UIImage *eventImage = [[UIImage alloc]initWithData:eventData];
+        self.eventImage = [[UIImage alloc]initWithData:eventData];
         UIImage *creatorImage = [[UIImage alloc]initWithData:creatorData];
         dispatch_async(dispatch_get_main_queue(), ^(void){
             //Run UI Updates
-            self.eventPicture.image = eventImage;
+            self.eventPicture.image = self.eventImage;
             self.creatorPicture.image = creatorImage;
         });
     });
+    if (self.allowComments == 1) {
+        [self.btnComments setHidden:NO];
+    }else{
+        [self.btnComments setHidden:YES];
+    }
 
+}
+#pragma mark - Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showComments"]) {
+        CommentsViewController *commentController = segue.destinationViewController;
+        commentController.postID = self.eventID;
+        commentController.postImage = self.eventImage;
+        commentController.postDescription = self.eventDescription;
+        commentController.postType = self.eventType;
+    }
+}
+
+#pragma mark - Connection Setup
+
+-(void)getEvent {
+    
+    NSDictionary *getEvent = @{@"FunctionName":@"getEventbyID" , @"inputs":@[@{
+                                                                                 @"Eventid":[NSString stringWithFormat:@"%ld",(long)self.eventID]
+                                                                                 }]};
+    
+    NSLog(@"%@",getEvent);
+    NSMutableDictionary *getEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvent",@"key", nil];
+    
+    [self postRequest:getEvent withTag:getEventTag];
     
 }
 
 
-#pragma mark - Connection Setup
 
--(void)getEvents {
-    self.eventSubject = self.event[@"subject"];
-    self.creatorName = self.event[@"CreatorName"];
-    NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"2",
+-(void)isInvited {
+    NSInteger eventID = [self.event[@"Eventid"] integerValue];
+    NSDictionary *getEvents = @{@"FunctionName":@"isInvited" , @"inputs":@[@{
+                                                                               @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                               @"eventID":[NSString stringWithFormat:@"%ld",(long)eventID]
                                                                             }]};
-    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sectionEvents",@"key", nil];
+    //[NSString stringWithFormat:@"%ld",(long)self.userID]
+    //[NSString stringWithFormat:@"%ld",(long)eventID]
+    NSLog(@"%@",getEvents);
+    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"isInvited",@"key", nil];
     
     [self postRequest:getEvents withTag:getEventsTag];
     
@@ -97,10 +157,20 @@
 {
     
     //NSString *responseString = [request responseString];
-    
     NSData *responseData = [request responseData];
-    NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    
     NSString *key = [request.userInfo objectForKey:@"key"];
+    if ([key isEqualToString:@"isInvited"]) {
+        NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@",array);
+    }else if ([key isEqualToString:@"getEvent"]){
+        
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"Full event %@",dict);
+        self.allowComments = [dict[@"comments"]integerValue];
+        self.eventDescription = dict[@"description"];
+        [self updateUI];
+    }
     
 }
 
@@ -113,5 +183,9 @@
 
 - (IBAction)btnViewAttendeesPressed:(id)sender {
     [self performSegueWithIdentifier:@"showAttendees" sender:self];
+}
+
+- (IBAction)btnShowCommentsPressed:(id)sender {
+    [self performSegueWithIdentifier:@"showComments" sender:self];
 }
 @end

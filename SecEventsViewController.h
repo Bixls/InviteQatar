@@ -10,6 +10,7 @@
 
 @interface SecEventsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger selectedSection;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
