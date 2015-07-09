@@ -17,6 +17,8 @@
 @property (nonatomic)NSInteger eventType;
 @property (nonatomic)UIImage *eventImage;
 @property (nonatomic)NSInteger allowComments;
+@property (nonatomic)NSInteger isInvited;
+@property (nonatomic)NSInteger isJoined;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 
@@ -39,15 +41,17 @@
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
     
+    self.isJoined = -1;
+    self.isInvited =-1;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.eventID = [self.event[@"Eventid"]integerValue];
     self.eventType = 0;
     
     [self updateUI];
-    [self isInvited];
+    [self getInvited];
     [self getEvent];
-   
+    [self getJoined];
     
 }
 
@@ -62,6 +66,20 @@
     NSString *time = [tempTime substringToIndex:5];
     self.eventTime.text = time;
     self.eventDate.text = date ;
+    if (self.allowComments == 1) {
+        [self.btnComments setHidden:NO];
+    }else{
+        [self.btnComments setHidden:YES];
+    }
+    if (self.isInvited == 0) {
+        [self.btnGoing setHidden:YES];
+    }else if (self.isInvited == 1 && self.isJoined == 0){
+        [self.btnGoing setHidden:NO];
+        [self.btnGoing setTitle:@"الذهاب؟" forState:UIControlStateNormal];
+    }else if(self.isInvited == 1 && self.isJoined == 1){
+        [self.btnGoing setHidden:NO];
+        [self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
+    }
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
@@ -77,11 +95,7 @@
             self.creatorPicture.image = creatorImage;
         });
     });
-    if (self.allowComments == 1) {
-        [self.btnComments setHidden:NO];
-    }else{
-        [self.btnComments setHidden:YES];
-    }
+
 
 }
 #pragma mark - Segue
@@ -110,9 +124,7 @@
     
 }
 
-
-
--(void)isInvited {
+-(void)getInvited {
     NSInteger eventID = [self.event[@"Eventid"] integerValue];
     NSDictionary *getEvents = @{@"FunctionName":@"isInvited" , @"inputs":@[@{
                                                                                @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
@@ -126,6 +138,51 @@
     [self postRequest:getEvents withTag:getEventsTag];
     
 }
+
+-(void)getJoined {
+    NSInteger eventID = [self.event[@"Eventid"] integerValue];
+    NSDictionary *getEvents = @{@"FunctionName":@"isJoind" , @"inputs":@[@{
+                                                                               @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                               @"eventID":[NSString stringWithFormat:@"%ld",(long)eventID]
+                                                                               }]};
+    //[NSString stringWithFormat:@"%ld",(long)self.userID]
+    //[NSString stringWithFormat:@"%ld",(long)eventID]
+    NSLog(@"%@",getEvents);
+    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"isJoind",@"key", nil];
+    
+    [self postRequest:getEvents withTag:getEventsTag];
+    
+}
+
+-(void)joinEvent{
+    NSInteger eventID = [self.event[@"Eventid"] integerValue];
+    NSDictionary *leaveEvent= @{@"FunctionName":@"JoinEvent" , @"inputs":@[@{
+                                                                               @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                               @"eventID":[NSString stringWithFormat:@"%ld",(long)eventID]
+                                                                               }]};
+    //[NSString stringWithFormat:@"%ld",(long)self.userID]
+    //[NSString stringWithFormat:@"%ld",(long)eventID]
+    NSLog(@"%@",leaveEvent);
+    NSMutableDictionary *leaveEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"joinEvent",@"key", nil];
+    
+    [self postRequest:leaveEvent withTag:leaveEventTag];
+    
+}
+
+-(void)leaveEvent{
+    NSInteger eventID = [self.event[@"Eventid"] integerValue];
+    NSDictionary *leaveEvent = @{@"FunctionName":@"LeaveEvent" , @"inputs":@[@{
+                                                                               @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                               @"eventID":[NSString stringWithFormat:@"%ld",(long)eventID]
+                                                                               }]};
+    //[NSString stringWithFormat:@"%ld",(long)self.userID]
+    //[NSString stringWithFormat:@"%ld",(long)eventID]
+    NSLog(@"%@",leaveEvent);
+    NSMutableDictionary *leaveEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"leaveEvent",@"key", nil];
+    [self postRequest:leaveEvent withTag:leaveEventTag];
+    
+}
+
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
@@ -161,14 +218,39 @@
     
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"isInvited"]) {
-        NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",array);
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"invitation %@",dict);
+        self.isInvited = [dict[@"sucess"]integerValue];
+        [self updateUI];
     }else if ([key isEqualToString:@"getEvent"]){
         
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSLog(@"Full event %@",dict);
         self.allowComments = [dict[@"comments"]integerValue];
         self.eventDescription = dict[@"description"];
+        [self updateUI];
+    }else if ([key isEqualToString:@"joinEvent"]){
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"Joined!! %@",dict);
+        if ([dict[@"sucess"]integerValue] == 1) {
+            self.isJoined = 1;
+            //[self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
+            NSLog(@"bardo 3adam zahab");
+            [self updateUI];
+        }
+    }else if ([key isEqualToString:@"isJoind"]){
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"Sorry Joined!! %@",dict);
+        self.isJoined = [dict[@"sucess"]integerValue];
+        [self updateUI];
+    }else if ([key isEqualToString:@"leaveEvent"]){
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"Left  %@",dict);
+        if ([dict[@"sucess"]integerValue] == 1) {
+            self.isJoined = 0;
+        }
+       // self.isJoined = [dict[@"sucess"]integerValue];
+        //[self updateUI];
         [self updateUI];
     }
     
@@ -187,5 +269,13 @@
 
 - (IBAction)btnShowCommentsPressed:(id)sender {
     [self performSegueWithIdentifier:@"showComments" sender:self];
+}
+
+- (IBAction)btnGoingPressed:(id)sender {
+    if (self.isInvited == 1 && self.isJoined == 1) {
+        [self leaveEvent];
+    }else if(self.isInvited ==1 && self.isJoined == 0){
+        [self joinEvent];
+    }
 }
 @end

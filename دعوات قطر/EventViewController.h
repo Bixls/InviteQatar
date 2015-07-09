@@ -19,9 +19,11 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *eventDate;
 @property (weak, nonatomic) IBOutlet UIButton *btnComments;
+@property (weak, nonatomic) IBOutlet UIButton *btnGoing;
 
 - (IBAction)btnViewAttendeesPressed:(id)sender;
 - (IBAction)btnShowCommentsPressed:(id)sender;
+- (IBAction)btnGoingPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTime;
 

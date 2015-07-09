@@ -1393,13 +1393,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mNr-qx-VN6">
-                                <rect key="frame" x="109" y="518" width="102" height="30"/>
-                                <state key="normal" title="الذهاب الي المناسبة">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nbO-aH-ZAK">
                                 <rect key="frame" x="25" y="485" width="70" height="30"/>
                                 <state key="normal" title="الذاهبون">
@@ -1411,12 +1404,23 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6hh-rS-t7B">
-                                <rect key="frame" x="137" y="502" width="73" height="30"/>
-                                <state key="normal" title="comments">
+                                <rect key="frame" x="137" y="485" width="47" height="30"/>
+                                <state key="normal" title="التعليقات">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="btnShowCommentsPressed:" destination="Pnj-oQ-lDE" eventType="touchUpInside" id="AbX-OQ-exm"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mNr-qx-VN6">
+                                <rect key="frame" x="104" y="518" width="113" height="30"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnGoingPressed:" destination="Pnj-oQ-lDE" eventType="touchUpInside" id="6nO-gG-2ol"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1425,6 +1429,7 @@
                     <navigationItem key="navigationItem" id="sGp-EE-GE4"/>
                     <connections>
                         <outlet property="btnComments" destination="6hh-rS-t7B" id="LUa-cs-U6h"/>
+                        <outlet property="btnGoing" destination="mNr-qx-VN6" id="JUc-RS-1at"/>
                         <outlet property="creatorName" destination="SIB-CG-Ee7" id="XN4-2A-l5c"/>
                         <outlet property="creatorPicture" destination="TEG-kW-8Fi" id="kFu-FN-Q98"/>
                         <outlet property="eventDate" destination="9ic-Kt-WfW" id="xbs-1O-S9s"/>
