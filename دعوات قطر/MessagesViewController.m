@@ -1,0 +1,153 @@
+//
+//  MessagesViewController.m
+//  دعوات قطر
+//
+//  Created by Adham Gad on 9,7//15.
+//  Copyright (c) 2015 Bixls. All rights reserved.
+//
+
+#import "MessagesViewController.h"
+#import "ASIHTTPRequest.h"
+#import "MessagesFirstTableViewCell.h"
+
+@interface MessagesViewController ()
+
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (nonatomic) NSInteger userID;
+@property (nonatomic) NSInteger start;
+@property (nonatomic) NSInteger limit;
+@property (nonatomic,strong)NSMutableArray *messages;
+
+
+@end
+
+@implementation MessagesViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID = [self.userDefaults integerForKey:@"userID"];
+    self.messages = [[NSMutableArray alloc]init];
+    self.start = 0;
+    self.limit = 1;
+    [self getMessages];
+}
+
+#pragma mark - TableView DataSource
+
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+    
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return self.messages.count+1;
+   
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    
+    if(indexPath.row<(self.messages.count)){
+        MessagesFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[MessagesFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        }
+        NSLog(@"MEssagesss %@",self.messages);
+        NSLog(@"MEssagesss %ld",(long)indexPath.row);
+        NSDictionary *message = self.messages[indexPath.row];
+        cell.msgSender.text = message[@"name"];
+        cell.msgSubject.text = message[@"Subject"];
+        return cell;
+        
+    }else if (indexPath.row == self.messages.count){
+        
+        MessagesFirstTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
+        if (cell1==nil) {
+            cell1=[[MessagesFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
+        }
+        
+        return cell1;
+    }
+   
+    
+    return nil ;
+}
+
+#pragma mark - TableView Delegate 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Connection Setup
+
+-(void)getMessages {
+    
+    NSDictionary *getMessages = @{@"FunctionName":@"RetriveInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                             @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
+                                                                             @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]};
+    NSMutableDictionary *getMessagesTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getMessages",@"key", nil];
+    [self postRequest:getMessages withTag:getMessagesTag];
+    
+}
+
+-(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
+    
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+    NSString *urlString = @"http://bixls.com/Qatar/" ;
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    request.delegate = self;
+    request.username =@"admin";
+    request.password = @"admin";
+    [request setRequestMethod:@"POST"];
+    [request addRequestHeader:@"Authorization" value:authValue];
+    [request addRequestHeader:@"Accept" value:@"application/json"];
+    [request addRequestHeader:@"content-type" value:@"application/json"];
+    request.allowCompressedResponse = NO;
+    request.useCookiePersistence = NO;
+    request.shouldCompressRequestBody = NO;
+    request.userInfo = dict;
+    [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
+    [request startAsynchronous];
+    
+    
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    
+    //NSString *responseString = [request responseString];
+    
+    NSData *responseData = [request responseData];
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    NSString *key = [request.userInfo objectForKey:@"key"];
+    if ([key isEqualToString:@"getMessages"]) {
+        
+        [self.messages addObjectsFromArray:array];
+        NSLog(@"%@",self.messages);
+        [self.tableView reloadData];
+    }
+
+    
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSLog(@"%@",error);
+}
+
+
+- (IBAction)btnSeeMorePressed:(id)sender {
+    self.start = self.start+1;
+    [self getMessages];
+ 
+}
+@end

@@ -61,6 +61,9 @@
 		1873C2281B4DE7280026C905 /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2271B4DE7280026C905 /* CommentsViewController.m */; };
 		1873C22E1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C22D1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m */; };
 		1873C2311B4E0EB20026C905 /* CommentsSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2301B4E0EB20026C905 /* CommentsSecondTableViewCell.m */; };
+		1873C2341B4E4C360026C905 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2331B4E4C360026C905 /* MessagesViewController.m */; };
+		1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */; };
+		1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2391B4E60490026C905 /* ReadMessageViewController.m */; };
 		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
 		187C63911B461CF900B3E3EA /* da3wa.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63901B461CF900B3E3EA /* da3wa.png */; };
 		187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63931B46259900B3E3EA /* MyProfileViewController.m */; };
@@ -182,6 +185,12 @@
 		1873C22D1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentsFirstTableViewCell.m; path = ../CommentsFirstTableViewCell.m; sourceTree = "<group>"; };
 		1873C22F1B4E0EB20026C905 /* CommentsSecondTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsSecondTableViewCell.h; sourceTree = "<group>"; };
 		1873C2301B4E0EB20026C905 /* CommentsSecondTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsSecondTableViewCell.m; sourceTree = "<group>"; };
+		1873C2321B4E4C360026C905 /* MessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesViewController.h; sourceTree = "<group>"; };
+		1873C2331B4E4C360026C905 /* MessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesViewController.m; sourceTree = "<group>"; };
+		1873C2351B4E540B0026C905 /* MessagesFirstTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesFirstTableViewCell.h; sourceTree = "<group>"; };
+		1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesFirstTableViewCell.m; sourceTree = "<group>"; };
+		1873C2381B4E60490026C905 /* ReadMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadMessageViewController.h; path = ../ReadMessageViewController.h; sourceTree = "<group>"; };
+		1873C2391B4E60490026C905 /* ReadMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadMessageViewController.m; path = ../ReadMessageViewController.m; sourceTree = "<group>"; };
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		187C63901B461CF900B3E3EA /* da3wa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = da3wa.png; sourceTree = "<group>"; };
@@ -370,6 +379,12 @@
 				1873C22D1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m */,
 				1873C22F1B4E0EB20026C905 /* CommentsSecondTableViewCell.h */,
 				1873C2301B4E0EB20026C905 /* CommentsSecondTableViewCell.m */,
+				1873C2321B4E4C360026C905 /* MessagesViewController.h */,
+				1873C2331B4E4C360026C905 /* MessagesViewController.m */,
+				1873C2351B4E540B0026C905 /* MessagesFirstTableViewCell.h */,
+				1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */,
+				1873C2381B4E60490026C905 /* ReadMessageViewController.h */,
+				1873C2391B4E60490026C905 /* ReadMessageViewController.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
@@ -643,7 +658,9 @@
 				184B65731B407F6B00B1483C /* Reachability.h in Sources */,
 				18EA682F1B4B6C6F00F482FB /* UserViewController.m in Sources */,
 				18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */,
+				1873C2341B4E4C360026C905 /* MessagesViewController.m in Sources */,
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
+				1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */,
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
 				18EA68361B4BA8DD00F482FB /* MyEventsViewController.m in Sources */,
 				18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */,
@@ -656,6 +673,7 @@
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,
 				18EA68391B4BAED500F482FB /* MyEventsTableViewCell.m in Sources */,
+				1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */,
 				1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */,
 				184B65811B4080BC00B1483C /* ASIDataCompressor.m in Sources */,
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,
