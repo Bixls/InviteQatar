@@ -514,8 +514,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wDn-cb-PpP">
                                 <rect key="frame" x="0.0" y="28" width="320" height="540"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UA6-uW-Bpc">
-                                        <rect key="frame" x="0.0" y="-498" width="320" height="1030"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UA6-uW-Bpc">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1030"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZSX-aA-yxu">
                                                 <rect key="frame" x="0.0" y="114" width="106" height="56"/>
@@ -643,13 +643,55 @@
                                                 </connections>
                                             </collectionView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="اخر المناسبات" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4o-Za-IAu">
-                                                <rect key="frame" x="119" y="430" width="82" height="21"/>
+                                                <rect key="frame" x="119" y="413" width="82" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Vx-VF-vUN">
+                                                <rect key="frame" x="17" y="732" width="290" height="321"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UFX-uQ-uBe">
+                                                    <size key="itemSize" width="78" height="98"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Mem-Nt-gzI" customClass="cellGroupsCollectionView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                            <rect key="frame" x="0.0" y="0.0" width="78" height="98"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JSw-Ak-xOg">
+                                                                    <rect key="frame" x="-2" y="9" width="80" height="80"/>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                            <integer key="value" value="7"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </imageView>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GroupFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="12u-KH-pA4">
+                                                                    <rect key="frame" x="-5" y="-2" width="92" height="102"/>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <connections>
+                                                            <outlet property="groupPP" destination="JSw-Ak-xOg" id="fho-xg-8x5"/>
+                                                        </connections>
+                                                    </collectionViewCell>
+                                                </cells>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="6y6-Qu-Fbo" id="5bI-cj-5eS"/>
+                                                    <outlet property="delegate" destination="6y6-Qu-Fbo" id="oQ2-UW-7p7"/>
+                                                </connections>
+                                            </collectionView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bz0-Re-JAd">
-                                                <rect key="frame" x="11" y="456" width="299" height="264"/>
+                                                <rect key="frame" x="11" y="442" width="299" height="274"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <prototypes>
                                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GroupCell" rowHeight="70" id="pwf-67-iIY" customClass="HomeEventsTableViewCell">
@@ -701,54 +743,34 @@
                                                             <outlet property="eventSubject" destination="QRM-ua-2AF" id="cOK-g2-hTH"/>
                                                         </connections>
                                                     </tableViewCell>
+                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="49" id="OW0-Wm-UXd" customClass="HomeEventsTableViewCell">
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OW0-Wm-UXd" id="f1n-9t-4tV">
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="FKJ-Ag-9fA">
+                                                                    <rect key="frame" x="208" y="-4" width="83" height="58"/>
+                                                                </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLA-2Y-xD5">
+                                                                    <rect key="frame" x="208" y="8" width="83" height="30"/>
+                                                                    <state key="normal" title="المزيد">
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="btnSeeMorePressed:" destination="6y6-Qu-Fbo" eventType="touchUpInside" id="2Gj-Kr-jLW"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </tableViewCellContentView>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </tableViewCell>
                                                 </prototypes>
                                                 <connections>
                                                     <outlet property="dataSource" destination="6y6-Qu-Fbo" id="urW-Jx-wjx"/>
                                                     <outlet property="delegate" destination="6y6-Qu-Fbo" id="fRL-TV-Vwn"/>
                                                 </connections>
                                             </tableView>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Vx-VF-vUN">
-                                                <rect key="frame" x="17" y="709" width="290" height="321"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UFX-uQ-uBe">
-                                                    <size key="itemSize" width="78" height="98"/>
-                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                </collectionViewFlowLayout>
-                                                <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Mem-Nt-gzI" customClass="cellGroupsCollectionView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                            <rect key="frame" x="0.0" y="0.0" width="78" height="98"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JSw-Ak-xOg">
-                                                                    <rect key="frame" x="-2" y="9" width="80" height="80"/>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                            <integer key="value" value="7"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="GroupFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="12u-KH-pA4">
-                                                                    <rect key="frame" x="-5" y="-2" width="92" height="102"/>
-                                                                </imageView>
-                                                            </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        </view>
-                                                        <connections>
-                                                            <outlet property="groupPP" destination="JSw-Ak-xOg" id="fho-xg-8x5"/>
-                                                        </connections>
-                                                    </collectionViewCell>
-                                                </cells>
-                                                <connections>
-                                                    <outlet property="dataSource" destination="6y6-Qu-Fbo" id="5bI-cj-5eS"/>
-                                                    <outlet property="delegate" destination="6y6-Qu-Fbo" id="oQ2-UW-7p7"/>
-                                                </connections>
-                                            </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -792,6 +814,7 @@
                         <segue destination="7B3-dT-SsQ" kind="push" identifier="group" id="ms9-Dg-RBK"/>
                         <segue destination="hJq-kc-YJO" kind="push" identifier="news" id="ehv-QV-wmo"/>
                         <segue destination="fTr-wW-5Si" kind="push" id="bv2-cl-mfF"/>
+                        <segue destination="iD8-It-8QM" kind="push" identifier="seeMore" id="FzJ-6b-ZNA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yxL-as-OWW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1288,7 +1311,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l27-d1-8WH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1225" y="2628"/>
+            <point key="canvasLocation" x="950" y="2593"/>
         </scene>
         <!--All Sections View Controller-->
         <scene sceneID="Gbp-Kw-jdW">
@@ -1422,7 +1445,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qOI-Ua-Th2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1647" y="2628"/>
+            <point key="canvasLocation" x="1296" y="2593"/>
         </scene>
         <!--Sec Events View Controller-->
         <scene sceneID="Liy-kg-UWM">
@@ -3004,7 +3027,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="7J1-Rt-qJs"/>
+        <segue reference="7b2-VU-GhD"/>
+        <segue reference="FzJ-6b-ZNA"/>
         <segue reference="IoJ-de-HAV"/>
     </inferredMetricsTieBreakers>
 </document>

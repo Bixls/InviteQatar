@@ -22,5 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *newsCollectionView;
 
+- (IBAction)btnSeeMorePressed:(id)sender;
 
 @end

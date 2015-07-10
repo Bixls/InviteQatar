@@ -14,6 +14,7 @@
 #import "EventViewController.h"
 #import "GroupViewController.h"
 #import "NewsViewController.h"
+#import "AllSectionsViewController.h"
 
 @interface HomePageViewController ()
 
@@ -111,7 +112,7 @@
     
     if (collectionView.tag == 0) {
         cellGroupsCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-        NSLog(@"%d",indexPath.item);
+        NSLog(@"%ld",indexPath.item);
         NSDictionary *tempGroup = self.groups[indexPath.item];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
@@ -151,6 +152,7 @@
     if (collectionView.tag == 0) {
         self.selectedGroup = self.groups[indexPath.item];
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        NSLog(@"%@",self.selectedGroup);
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
         self.selectedNews = self.news[indexPath.item];
@@ -169,34 +171,48 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.events.count;
+    if (self.events.count > 0) {
+        return self.events.count + 1;
+    }else{
+        return 0;
+    }
+    
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"GroupCell";
     
-    HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (cell==nil) {
-        cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    NSDictionary *tempEvent = self.events[indexPath.item];
-    cell.eventSubject.text =tempEvent[@"subject"];
-    cell.eventCreator.text = tempEvent[@"CreatorName"];
-    cell.eventDate.text = tempEvent[@"TimeEnded"];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempEvent[@"EventPic"]];
-        NSURL *imgURL = [NSURL URLWithString:imgURLString];
-        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-        UIImage *image = [[UIImage alloc]initWithData:imgData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            cell.eventImage.image = image;
+    if (indexPath.row < 3) {
+        HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        
+        NSDictionary *tempEvent = self.events[indexPath.item];
+        cell.eventSubject.text =tempEvent[@"subject"];
+        cell.eventCreator.text = tempEvent[@"CreatorName"];
+        cell.eventDate.text = tempEvent[@"TimeEnded"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempEvent[@"EventPic"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+            UIImage *image = [[UIImage alloc]initWithData:imgData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cell.eventImage.image = image;
+            });
+            
         });
         
-    });
-
-    
-    return cell ;
+        
+        return cell ;
+    }else if (indexPath.row == 3){
+        HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        return cell;
+    }
+    return nil;
 }
 
 #pragma mark - Tableview delegate 
@@ -218,6 +234,9 @@
     }else if ([segue.identifier isEqualToString:@"news"]){
         NewsViewController *newsController = segue.destinationViewController;
         newsController.news = self.selectedNews;
+    }else if ([segue.identifier isEqualToString:@"seeMore"]){
+        AllSectionsViewController *allSectionsController=  segue.destinationViewController;
+        allSectionsController.groupID = -1;
     }
 }
 
@@ -289,4 +308,7 @@
 }
 
 
+- (IBAction)btnSeeMorePressed:(id)sender {
+    [self performSegueWithIdentifier:@"seeMore" sender:self];
+}
 @end

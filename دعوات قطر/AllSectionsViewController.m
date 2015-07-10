@@ -67,7 +67,7 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-     return self.allSections.count;
+     return self.sectionContent.count;
 }
 
 -(AllSectionsCellCollectionView *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -142,12 +142,12 @@
 -(void)getEvents {
     
     for (int i =1 ; i <=self.allSections.count ; i++) {
-       
+        NSDictionary *section = self.allSections[i-1];
         NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
-                                                                                 @"catID":[NSString stringWithFormat:@"%d",i],
+                                                                                 @"catID":[NSString stringWithFormat:@"%@",section[@"catID"]],
                                                                                  @"start":@"0",
-                                                                                 @"limit":@"5"}]};
-        NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%d",i],@"key", nil];
+                                                                                 @"limit":@"5"}]};//Default values
+        NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%@",section[@"catID"]],@"key", nil];
         
         [self postRequest:getEvents withTag:getEventsTag];
     }
@@ -196,20 +196,24 @@
     
     if ([key isEqualToString:@"getSections"]) {
         self.allSections = array ;
-        //NSLog(@"%@",self.allSections);
+        NSLog(@"%@",array);
         [self getEvents];
         
     }
     NSLog(@"%@",array);
  
     for (int i = 1 ; i <=self.allSections.count; i++) {
-        if ([key isEqualToString:[NSString stringWithFormat:@"%d",i]]) {
-            self.skeletonSections = 1;
-            [self.sectionContent setObject:array forKey:[NSString stringWithFormat:@"%d",i]];
-            
-            [self.collectionView reloadData];
+        NSDictionary *section = self.allSections[i-1];
+        if ([key isEqualToString:section[@"catID"]]) {
+            if (array.count>0) {
+                self.skeletonSections = 1;
+                NSLog(@"arraay %@",array);
+                [self.sectionContent setObject:array forKey:[NSString stringWithFormat:@"%d",i]];
+                [self.collectionView reloadData];
+            }
         }
     }
+    NSLog(@"%@",self.sectionContent);
     self.flag++;
     if (self.flag == self.allSections.count) {
         [self.collectionView reloadData];
