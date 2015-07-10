@@ -57,7 +57,7 @@
     
     NSDictionary *getGroups = @{
                                @"FunctionName":@"getGroupList" ,
-                               @"inputs":@[@{@"limit":[NSNumber numberWithInt:3]}]};
+                               @"inputs":@[@{@"limit":[NSNumber numberWithInteger:5000]}]};
      NSMutableDictionary *getGroupsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getGroups",@"key", nil];
     NSDictionary *getNews = @{
                                 @"FunctionName":@"GetNewsList" ,
@@ -111,17 +111,20 @@
     
     if (collectionView.tag == 0) {
         cellGroupsCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+        NSLog(@"%d",indexPath.item);
         NSDictionary *tempGroup = self.groups[indexPath.item];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
+            NSLog(@"%@",imgURLString);
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
             dispatch_async(dispatch_get_main_queue(), ^{
                 cell.groupPP.image = image;
+                
             });
         });
-        return cell;
+       return cell;
     }else{
         HomeNewsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
         NSDictionary *tempNews = self.news[indexPath.item];
@@ -258,6 +261,8 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getGroups"]) {
         self.groups = responseArray;
+        NSLog(@"Groupssss %@",self.groups);
+        
         [self.groupsCollectionView reloadData];
     }else if([key isEqualToString:@"getNews"]){
         self.news = responseArray;

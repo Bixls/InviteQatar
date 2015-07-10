@@ -80,6 +80,7 @@
 #pragma mark - TableView Delegate 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self performSegueWithIdentifier:@"readMessage" sender:self];
 }
 
 #pragma mark - Connection Setup

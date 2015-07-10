@@ -64,6 +64,7 @@
 		1873C2341B4E4C360026C905 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2331B4E4C360026C905 /* MessagesViewController.m */; };
 		1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */; };
 		1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2391B4E60490026C905 /* ReadMessageViewController.m */; };
+		1873C23D1B4E67BC0026C905 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C23C1B4E67BC0026C905 /* FeedbackViewController.m */; };
 		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
 		187C63911B461CF900B3E3EA /* da3wa.png in Resources */ = {isa = PBXBuildFile; fileRef = 187C63901B461CF900B3E3EA /* da3wa.png */; };
 		187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63931B46259900B3E3EA /* MyProfileViewController.m */; };
@@ -191,6 +192,8 @@
 		1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesFirstTableViewCell.m; sourceTree = "<group>"; };
 		1873C2381B4E60490026C905 /* ReadMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadMessageViewController.h; path = ../ReadMessageViewController.h; sourceTree = "<group>"; };
 		1873C2391B4E60490026C905 /* ReadMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadMessageViewController.m; path = ../ReadMessageViewController.m; sourceTree = "<group>"; };
+		1873C23B1B4E67BC0026C905 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		1873C23C1B4E67BC0026C905 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		187C63901B461CF900B3E3EA /* da3wa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = da3wa.png; sourceTree = "<group>"; };
@@ -385,6 +388,8 @@
 				1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */,
 				1873C2381B4E60490026C905 /* ReadMessageViewController.h */,
 				1873C2391B4E60490026C905 /* ReadMessageViewController.m */,
+				1873C23B1B4E67BC0026C905 /* FeedbackViewController.h */,
+				1873C23C1B4E67BC0026C905 /* FeedbackViewController.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
@@ -683,6 +688,7 @@
 				184B65661B407CCE00B1483C /* ASIHTTPRequest.m in Sources */,
 				184B655D1B3FBD9900B1483C /* SignInViewController.m in Sources */,
 				184B65601B3FC52900B1483C /* ConfirmationViewController.m in Sources */,
+				1873C23D1B4E67BC0026C905 /* FeedbackViewController.m in Sources */,
 				184B65551B3F84A700B1483C /* WelcomePageViewController.m in Sources */,
 				184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */,
 				187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */,

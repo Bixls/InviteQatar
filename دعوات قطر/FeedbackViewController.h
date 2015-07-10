@@ -1,5 +1,5 @@
 //
-//  ReadMessageViewController.h
+//  FeedbackViewController.h
 //  دعوات قطر
 //
 //  Created by Adham Gad on 9,7//15.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReadMessageViewController : UIViewController
-
-@property(nonatomic)NSInteger messageID;
+@interface FeedbackViewController : UIViewController
 
 @end
