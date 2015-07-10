@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "EditAccountTableViewCell.h"
 
 @interface EditAccountViewController ()
 
@@ -23,6 +24,8 @@
 @property (nonatomic)NSInteger userID;
 @property (nonatomic,strong)NSArray *categories;
 @property (nonatomic,strong)NSArray *blockList;
+@property (nonatomic,strong)NSMutableArray *listArray;
+@property (nonatomic,strong)NSDictionary *user;
 
 @property (weak, nonatomic) IBOutlet UITextField *editNameField;
 - (IBAction)btnSavePressed:(id)sender;
@@ -39,87 +42,109 @@
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.blockList = [[NSMutableArray alloc]init];
+    self.listArray = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.maskInbox = [self.userDefaults objectForKey:@"maskInbox"];
     self.userID = [self.userDefaults integerForKey:@"userID"];
-    //NSLog(@"EDIT ACC USER ID %ld",(long)self.userID);
-    NSInteger first = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:0]] integerValue];
-    NSInteger second = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:1]]integerValue];
-    NSInteger third = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:2]]integerValue];
-    NSInteger fourth = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:3]]integerValue];
-    NSInteger fifth = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:4]]integerValue];
+    self.editNameField.text = self.userName;
+    if (self.userPic) {
+        self.profilePic.image = self.userPic;
+    }else{
+        [self getUser];
+    }
 
-//    if (first == 1) {
-//        [self.btn1 setTitle:@"الأعراس \u2713" forState:UIControlStateNormal];
-//    }else{
-//        [self.btn1 setTitle:@"الأعراس" forState:UIControlStateNormal];
-//    }
-//    
-//    if (second == 1) {
-//        [self.btn2 setTitle:@"العزاء \u2713" forState:UIControlStateNormal];
-//    }else{
-//        [self.btn2 setTitle:@"العزاء" forState:UIControlStateNormal];
-//    }
-//    
-//    if (third == 1) {
-//        [self.btn3 setTitle:@"تخرج \u2713" forState:UIControlStateNormal];
-//    }else{
-//        [self.btn3 setTitle:@"تخرج" forState:UIControlStateNormal];
-//    }
-//
-//    if (fourth == 1) {
-//        [self.btn4 setTitle:@"تهنيئة \u2713" forState:UIControlStateNormal];
-//    }else{
-//        [self.btn4 setTitle:@"تهنيئة" forState:UIControlStateNormal];
-//    }
-//    
-//    if (fifth == 1) {
-//        [self.btn5 setTitle:@"مناسبات \u2713" forState:UIControlStateNormal];
-//    }else{
-//        [self.btn5 setTitle:@"مناسبات" forState:UIControlStateNormal];
-//    }
+
     [self getCategories];
     [self getBlockList];
     
 }
-
+-(void)viewDidAppear:(BOOL)animated {
+    self.editNameField.text = self.userName;
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
     
 }
 
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.categories.count;
 }
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    EditAccountTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     if (cell==nil) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell=[[EditAccountTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     NSDictionary *category = self.categories[indexPath.row];
-    cell.detailTextLabel.text =category[@"catName"];
+    cell.detailLabel.text =category[@"catName"];
     NSLog(@"%lu",(unsigned long)self.blockList.count);
     if (self.blockList.count > 0) {
-        
-        for (NSDictionary *blocked in self.blockList) {
-            
-            NSInteger blockedID = [blocked[@"InvitationID"]integerValue];
+        for (NSDictionary *blocked in self.listArray) {
+            NSInteger blockedID = [blocked[@"id"]integerValue];
             NSInteger categoryID = [category[@"catID"]integerValue];
             if (blockedID == categoryID) {
-                cell.textLabel.text = @"111";
-                
+                cell.leftLabel.text = @"\u2713";
             }
         }
     }
     return cell ;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    EditAccountTableViewCell *cell =(EditAccountTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *category = self.categories[indexPath.row];
+    if (self.blockList.count > 0) {
+        for (NSDictionary *blocked in self.blockList) {
+            NSInteger blockedID = [blocked[@"InvitationID"]integerValue];
+            NSInteger categoryID = [category[@"catID"]integerValue];
+            
+            if (blockedID == categoryID && [cell.leftLabel.text isEqualToString:@"\u2713"]) {
+                cell.leftLabel.text = @"";
+                NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+                [self.listArray removeObject:selected];
+                NSLog(@"%@",self.listArray);
+                return;
+            }else if (blockedID == categoryID){
+                cell.leftLabel.text = @"\u2713";
+                NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+                [self.listArray addObject:selected];
+                NSLog(@"%@",self.listArray);
+                return;
+            }else if (blockedID !=categoryID && [cell.leftLabel.text isEqualToString:@""]){
+                cell.leftLabel.text = @"\u2713";
+                NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+                [self.listArray addObject:selected];
+                NSLog(@"%@",self.listArray);
+                return;
+            }else if (blockedID !=categoryID && [cell.leftLabel.text isEqualToString:@"\u2713"]){
+                cell.leftLabel.text = @"";
+                NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+                [self.listArray removeObject:selected];
+                NSLog(@"%@",self.listArray);
+                return;
+            }
+        }
+    }
+    
+    
+}
 
 #pragma mark - Connection setup
+
+-(void)getUser {
+    
+    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                             }]};
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    
+    [self postRequest:getUser withTag:getUserTag];
+    
+}
+
 
 -(void)getCategories {
     
@@ -132,8 +157,6 @@
     [self postRequest:getCategories withTag:getCategoriesTag];
     
 }
-
-
 
 -(void)getBlockList {
     
@@ -193,7 +216,7 @@
     self.imageRequest.useCookiePersistence = NO;
     self.imageRequest.shouldCompressRequestBody = NO;
     self.imageRequest.userInfo = dict;
-    [self.imageRequest setPostValue:[NSString stringWithFormat:@"%d",self.userID] forKey:@"id"];
+    [self.imageRequest setPostValue:[NSString stringWithFormat:@"%ld",(long)self.userID] forKey:@"id"];
     [self.imageRequest setPostValue:@"user" forKey:@"type"];
     [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePic.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];
@@ -211,11 +234,14 @@
         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.imageURL = responseDict[@"url"];
         self.uploaded =1;
-    }else if([key isEqualToString:@"save"]){
-        NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     }else if ([key isEqualToString:@"blocklist"]){
         NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.blockList = response;
+        for (NSDictionary *invit in self.blockList) {
+            NSInteger invitID = [invit[@"InvitationID"]integerValue];
+            NSDictionary *dict = @{@"id":[NSString stringWithFormat:@"%ld",(long)invitID]};
+            [self.listArray addObject:dict];
+        }
         [self.tableView reloadData];
         NSLog(@"%@",response);
     }else if ([key isEqualToString:@"categories"]){
@@ -224,8 +250,20 @@
         NSLog(@"%@",self.categories);
         [self.tableView reloadData];
        
+    }else if ([key isEqualToString:@"getUser"]){
+        NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        
+        self.user = responseDict;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+            UIImage *image = [[UIImage alloc]initWithData:imgData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.profilePic.image = image;
+            });
+        });
     }
-    
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -234,34 +272,40 @@
     NSLog(@"%@",error);
 }
 
--(void)setMarks{
-    //
-}
+
 
 #pragma mark - Buttons
 
 - (IBAction)btnSavePressed:(id)sender {
-    NSDictionary *postDict = [[NSDictionary alloc]init ];
-    NSMutableDictionary *saveTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"save",@"key", nil];
+    NSDictionary *editName = [[NSDictionary alloc]init ];
+    NSDictionary *editBlockList = [[NSDictionary alloc]init ];
+    NSMutableDictionary *editNameTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editName",@"key", nil];
+    NSMutableDictionary *editBlockListTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editBlockList",@"key", nil];
     
-    if (self.name.length != 0 ) {
-        postDict = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":@"6",
-                                                                                  @"name":self.name,
-                                                                                  
-                                                                                  @"maskInbox":self.maskInbox}]};
-        
+    if (self.editNameField.text.length != 0 ) {
+        editName = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",self.userID],
+                                                                                  @"name":self.editNameField.text,
+                                                                    
+                                                                                    }]};
+        editBlockList = @{@"FunctionName":@"SetBlockList" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",self.userID],
+                                                                    @"listArray":self.listArray,
+                                                                    
+                                                                    }]};
+        if (self.flag == 1) {
+            NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
+            [self postPicturewithTag:pictureTag];
+
+            [self postRequest:editName withTag:editNameTag];
+            [self postRequest:editBlockList withTag:editBlockListTag];
+           
+        }else {
+            [self postRequest:editName withTag:editNameTag];
+            [self postRequest:editBlockList withTag:editBlockListTag];
+        }
         
     }else{
-        postDict = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":@"6",
-                                                                    @"maskInbox":self.maskInbox}]};
-    }
-    
-    if (self.flag == 1) {
-        if (self.uploaded==1) {
-            [self postRequest:postDict withTag:saveTag];
-        }
-    }else {
-        [self postRequest:postDict withTag:saveTag];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عذرا" message:@"من فضلك تأكد من إدخال الإسم" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
     }
     
     
@@ -291,9 +335,6 @@
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         self.profilePic.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
-        
-        NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
-        [self postPicturewithTag:pictureTag];
         self.flag = 1;
     }
     
@@ -423,5 +464,43 @@
 //
 //
 //}
+
+
+//NSLog(@"EDIT ACC USER ID %ld",(long)self.userID);
+//    NSInteger first = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:0]] integerValue];
+//    NSInteger second = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:1]]integerValue];
+//    NSInteger third = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:2]]integerValue];
+//    NSInteger fourth = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:3]]integerValue];
+//    NSInteger fifth = [[NSString stringWithFormat:@"%c", [self.maskInbox characterAtIndex:4]]integerValue];
+
+//    if (first == 1) {
+//        [self.btn1 setTitle:@"الأعراس \u2713" forState:UIControlStateNormal];
+//    }else{
+//        [self.btn1 setTitle:@"الأعراس" forState:UIControlStateNormal];
+//    }
+//
+//    if (second == 1) {
+//        [self.btn2 setTitle:@"العزاء \u2713" forState:UIControlStateNormal];
+//    }else{
+//        [self.btn2 setTitle:@"العزاء" forState:UIControlStateNormal];
+//    }
+//
+//    if (third == 1) {
+//        [self.btn3 setTitle:@"تخرج \u2713" forState:UIControlStateNormal];
+//    }else{
+//        [self.btn3 setTitle:@"تخرج" forState:UIControlStateNormal];
+//    }
+//
+//    if (fourth == 1) {
+//        [self.btn4 setTitle:@"تهنيئة \u2713" forState:UIControlStateNormal];
+//    }else{
+//        [self.btn4 setTitle:@"تهنيئة" forState:UIControlStateNormal];
+//    }
+//
+//    if (fifth == 1) {
+//        [self.btn5 setTitle:@"مناسبات \u2713" forState:UIControlStateNormal];
+//    }else{
+//        [self.btn5 setTitle:@"مناسبات" forState:UIControlStateNormal];
+//    }
 
 @end

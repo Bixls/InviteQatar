@@ -8,6 +8,7 @@
 
 #import "MyProfileViewController.h"
 #import "ASIHTTPRequest.h"
+#import "EditAccountViewController.h"
 
 @interface MyProfileViewController ()
 
@@ -48,16 +49,30 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    if (self.userID) {
+        [self getUser];
+    }
+    
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"editProfile"]) {
+        EditAccountViewController *editAccount = segue.destinationViewController;
+        editAccount.userName = self.user[@"name"];
+        editAccount.userPic = self.myProfilePicture.image;
+    }
+}
 
 #pragma mark - Connection Setup
 
 -(void)getUser {
    
-    NSDictionary *getEvents = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID],
+    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                                              }]};
-    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
     
-    [self postRequest:getEvents withTag:getEventsTag];
+    [self postRequest:getUser withTag:getUserTag];
     
 }
 

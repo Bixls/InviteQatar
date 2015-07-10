@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */; };
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
 		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
+		182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629151B4F72FB002E784F /* EditAccountTableViewCell.m */; };
+		182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629181B4F7CBC002E784F /* ChooseTypeViewController.m */; };
+		1826291C1B4F7F92002E784F /* ChooseTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */; };
 		183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183957011B45382300B47FC2 /* cellGroupsCollectionView.m */; };
 		183957151B453C1E00B47FC2 /* eldosri.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957131B453C1E00B47FC2 /* eldosri.png */; };
 		183957161B453C1E00B47FC2 /* elmasnad.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957141B453C1E00B47FC2 /* elmasnad.png */; };
@@ -105,10 +109,18 @@
 
 /* Begin PBXFileReference section */
 		180B11EA1B4B133400133E7C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		1813C2EF1B4F98720044CDDB /* ChooseDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseDateViewController.h; sourceTree = "<group>"; };
+		1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDateViewController.m; sourceTree = "<group>"; };
 		18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyInvitationsViewController.h; sourceTree = "<group>"; };
 		18243B001B43730B0036A345 /* BuyInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInvitationsViewController.m; sourceTree = "<group>"; };
 		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
 		18243B121B43BA720036A345 /* CellInvitationTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInvitationTableView.m; sourceTree = "<group>"; };
+		182629141B4F72FB002E784F /* EditAccountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountTableViewCell.h; sourceTree = "<group>"; };
+		182629151B4F72FB002E784F /* EditAccountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountTableViewCell.m; sourceTree = "<group>"; };
+		182629171B4F7CBC002E784F /* ChooseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseTypeViewController.h; sourceTree = "<group>"; };
+		182629181B4F7CBC002E784F /* ChooseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseTypeViewController.m; sourceTree = "<group>"; };
+		1826291A1B4F7F92002E784F /* ChooseTypeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseTypeTableViewCell.h; sourceTree = "<group>"; };
+		1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseTypeTableViewCell.m; sourceTree = "<group>"; };
 		183957001B45382300B47FC2 /* cellGroupsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cellGroupsCollectionView.h; path = "دعوات قطر/cellGroupsCollectionView.h"; sourceTree = "<group>"; };
 		183957011B45382300B47FC2 /* cellGroupsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = cellGroupsCollectionView.m; path = "دعوات قطر/cellGroupsCollectionView.m"; sourceTree = "<group>"; };
 		183957131B453C1E00B47FC2 /* eldosri.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eldosri.png; sourceTree = "<group>"; };
@@ -350,8 +362,16 @@
 				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
 				184B659C1B41E9F400B1483C /* EditAccountViewController.h */,
 				184B659D1B41E9F400B1483C /* EditAccountViewController.m */,
+				182629141B4F72FB002E784F /* EditAccountTableViewCell.h */,
+				182629151B4F72FB002E784F /* EditAccountTableViewCell.m */,
 				18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */,
 				18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */,
+				182629171B4F7CBC002E784F /* ChooseTypeViewController.h */,
+				182629181B4F7CBC002E784F /* ChooseTypeViewController.m */,
+				1813C2EF1B4F98720044CDDB /* ChooseDateViewController.h */,
+				1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */,
+				1826291A1B4F7F92002E784F /* ChooseTypeTableViewCell.h */,
+				1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */,
 				18EA68341B4BA8DD00F482FB /* MyEventsViewController.h */,
 				18EA68351B4BA8DD00F482FB /* MyEventsViewController.m */,
 				187C63991B473FE200B3E3EA /* InviteViewController.h */,
@@ -660,10 +680,12 @@
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
 				18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
+				182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */,
 				184B65731B407F6B00B1483C /* Reachability.h in Sources */,
 				18EA682F1B4B6C6F00F482FB /* UserViewController.m in Sources */,
 				18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */,
 				1873C2341B4E4C360026C905 /* MessagesViewController.m in Sources */,
+				182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */,
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
 				1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */,
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
@@ -675,8 +697,10 @@
 				187C63C81B49795100B3E3EA /* SecEventsViewController.m in Sources */,
 				187C63CE1B4A326400B3E3EA /* SecEventTableViewCell.m in Sources */,
 				184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */,
+				1826291C1B4F7F92002E784F /* ChooseTypeTableViewCell.m in Sources */,
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,
+				1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */,
 				18EA68391B4BAED500F482FB /* MyEventsTableViewCell.m in Sources */,
 				1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */,
 				1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */,

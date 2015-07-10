@@ -20,10 +20,11 @@
 @property (strong,nonatomic) ASIFormDataRequest *imageRequest;
 @property (strong,nonatomic) NSString *imageURL;
 @property (strong , nonatomic) NSUserDefaults *userDefaults;
-@property (nonatomic) int userID;
+@property (nonatomic) NSInteger userID;
 @property (nonatomic) int flag;
 @property (nonatomic) int uploaded;
-
+@property(nonatomic,strong)NSDictionary *selectedCategory;
+@property (nonatomic,strong) NSString *selectedDate;
 
 @end
 
@@ -33,10 +34,12 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+    
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
-    NSLog(@"%d",self.userID);
-    self.invitationTypes = @[@"الأعراس",@"العزاء",@"تخرج",@"تهنيئه",@"مناسبات"];
+    //NSLog(@"%ld",(long)self.userID);
+    //self.invitationTypes = @[@"الأعراس",@"العزاء",@"تخرج",@"تهنيئه",@"مناسبات"];
     self.commentsFlag = 0;
     self.vipFlag = 0;
     [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
@@ -45,11 +48,27 @@
     
 }
 
-#pragma mark - Action Sheet Delegate Methods
+#pragma mark - Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"invitationTypes"]) {
+        ChooseTypeViewController *chooseTypeController = segue.destinationViewController;
+        chooseTypeController.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"chooseDate"]){
+        ChooseDateViewController *chooseDateController = segue.destinationViewController;
+        chooseDateController.delegate = self;
+    }
+}
 
-- (void)actionSheet:(UIActionSheet * )actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    self.selectedType = buttonIndex;
-    NSLog(@"%ld",(long)self.selectedType);
+#pragma mark - ChooseType ViewController Delegate
+-(void)selectedCategory:(NSDictionary *)category{
+    self.selectedCategory = category;
+    [self.btnChooseType setTitle:category[@"catName"] forState:UIControlStateNormal];
+}
+
+#pragma mark - ChooseDate ViewController Delegate 
+-(void)selectedDate:(NSString *)date{
+    self.selectedDate = date;
+    [self.btnChooseDate setTitle:self.selectedDate forState:UIControlStateNormal];
 }
 
 
@@ -215,28 +234,22 @@
 }
 
 - (IBAction)btnChooseInvitation:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"اختيار نوع الدعوة" delegate:self cancelButtonTitle:@"إلغاء" destructiveButtonTitle:nil
-                                                   otherButtonTitles:self.invitationTypes[0],
-                                  self.invitationTypes[1],
-                                  self.invitationTypes[2],
-                                  self.invitationTypes[3],
-                                  self.invitationTypes[4],nil];
-    [actionSheet showInView:self.view];
+    [self performSegueWithIdentifier:@"invitationTypes" sender:self];
 }
 
 - (IBAction)btnSubmitPressed:(id)sender {
     
-    if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1)) {
+    if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0)) {
         if (self.flag == 1 && self.uploaded == 1 ) {
             
             NSDictionary *postDict = @{@"FunctionName":@"CreateEvent" ,
                                        @"inputs":@[@{@"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
-                                                     @"CreatorID":[NSString stringWithFormat:@"%d",self.userID],
+                                                     @"CreatorID":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                      @"eventType":[NSString stringWithFormat:@"%ld",(long)self.selectedType],
                                                      @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
                                                      @"description":[NSString stringWithFormat:@"%@",self.textView.text],
                                                      @"picture":self.imageURL,
-                                                     @"TimeEnded":@"2015-06-30 20:44:23",
+                                                     @"TimeEnded":self.selectedDate,
                                                      @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
                                                      }]};
 
@@ -289,7 +302,12 @@
 
 }
 
-
+- (IBAction)datePickerAction:(id)sender {
+    [self performSegueWithIdentifier:@"chooseDate" sender:self];
+}
 
 
 @end
+
+
+

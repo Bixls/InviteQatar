@@ -10,6 +10,9 @@
 
 @interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 
+@property (nonatomic,strong)NSString *userName;
+@property (nonatomic,strong)UIImage *userPic;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 
