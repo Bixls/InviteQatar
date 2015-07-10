@@ -13,10 +13,14 @@
 #import "GroupsFooterCollectionReusableView.h"
 #import "AllSectionsViewController.h"
 #import "EventViewController.h"
+#import "GroupNewsCollectionViewCell.h"
+#import "NewsViewController.h"
 @interface GroupViewController ()
 
 @property (nonatomic,strong) NSArray *events;
+@property (nonatomic,strong) NSArray *news;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
+@property (nonatomic,strong) NSDictionary *selectedNews;
 @property (nonatomic,strong) NSString *eventImageURL;
 @property (nonatomic,strong) NSString *eventName;
 @property (nonatomic,strong) NSString *eventPlace;
@@ -46,29 +50,25 @@
     self.navigationItem.backBarButtonItem = backbutton;
 
     self.groupID = [self.group[@"id"]integerValue];
-    NSLog(@"%ld",(long)self.groupID);
+    //NSLog(@"%ld",(long)self.groupID);
     
     NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":@"-1",
                                                                                  @"start":@"0",@"limit":@"3"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
-    //self.imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg";
-//    NSURL *url = [NSURL URLWithString:self.imageURL];
-//    NSData *data = [NSData dataWithContentsOfURL:url];
-//    UIImage *img = [[UIImage alloc]initWithData:data];
-   // self.imageView.image = img ;
-    
     [self postRequest:getEventsDict withTag:getEventsTag];
+    
+    NSDictionary *getNews = @{
+                              @"FunctionName":@"GetNewsList" ,
+                              @"inputs":@[@{@"GroupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
+                                            @"start":[NSString stringWithFormat:@"%d",0],
+                                            @"limit":[NSString stringWithFormat:@"%d",3]}]};
+    NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
 
+    
+    [self postRequest:getNews withTag:getNewsTag];
 }
 
-//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-//    [self.btnSeeMoreGroups setTitle:@"المزيد" forState:UIControlStateNormal];
-//}
-//
-//-(void)viewDidDisappear:(BOOL)animated{
-//    [self.collectionView removeObserver:self forKeyPath:@"contentSize"];
-//}
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -79,29 +79,52 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdentifier = @"Cell";
-    
-    groupCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    NSDictionary *currentEvent = self.events[indexPath.item];
-    cell.subject.text = [currentEvent objectForKey:@"subject"];;
-    cell.creator.text = [currentEvent objectForKey:@"CreatorName"];;
-    cell.time.text = [currentEvent objectForKey:@"TimeEnded"];;
-    
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",currentEvent[@"EventPic"]];
-       // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        UIImage *img = [[UIImage alloc]initWithData:data];
+   
+    if (collectionView.tag==0) {
+        groupCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+        NSDictionary *currentEvent = self.events[indexPath.item];
+        cell.subject.text = [currentEvent objectForKey:@"subject"];;
+        cell.creator.text = [currentEvent objectForKey:@"CreatorName"];;
+        cell.time.text = [currentEvent objectForKey:@"TimeEnded"];;
         
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            //Run UI Updates
-            cell.profilePic.image = img ;
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            //Background Thread
+            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",currentEvent[@"EventPic"]];
+            // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+            UIImage *img = [[UIImage alloc]initWithData:data];
+            
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                //Run UI Updates
+                cell.profilePic.image = img ;
+            });
         });
-    });
-    
-    return cell;
+        
+        return cell;
 
+    }
+    if (collectionView.tag == 1){
+        GroupNewsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
+        if (self.news.count > 0) {
+            NSDictionary *oneNews = self.news[indexPath.row];
+            cell.newsSubject.text = oneNews[@"Subject"];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                //Background Thread
+                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",oneNews[@"Image"]];
+                // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+                UIImage *img = [[UIImage alloc]initWithData:data];
+                
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    //Run UI Updates
+                    cell.newsImage.image = img ;
+                });
+            });
+            
+        }
+        return cell;
+    }
+    return nil;
 }
 
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -116,9 +139,16 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    self.selectedEvent = self.events[indexPath.item];
-    [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    [self performSegueWithIdentifier:@"showEvent" sender:self];
+    if (collectionView.tag == 0) {
+        self.selectedEvent = self.events[indexPath.item];
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        [self performSegueWithIdentifier:@"showEvent" sender:self];
+    }else if (collectionView.tag==1){
+        self.selectedNews = self.news[indexPath.item];
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        [self performSegueWithIdentifier:@"showNews" sender:self];
+    }
+  
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -128,6 +158,9 @@
     }else if ([segue.identifier isEqualToString:@"showEvent"]){
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
+    }else if ([segue.identifier isEqualToString:@"showNews"]){
+        NewsViewController *newsController = segue.destinationViewController;
+        newsController.news = self.selectedNews;
     }
 }
 
@@ -176,11 +209,16 @@
     NSData *responseData = [request responseData];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
-    self.events = array;
+    if ([key isEqualToString:@"getEvents"]) {
+        self.events = array;
+        [self.collectionView reloadData];
+    }else if ([key isEqualToString:@"getNews"]){
+        self.news = array;
+        NSLog(@"NEWS %@",self.news);
+        [self.newsCollectionView reloadData];
+    }
+    NSLog(@"%@",array);
     
-    NSLog(@"%@",self.events);
-    
-    [self.collectionView reloadData];
     
 }
 

@@ -10,6 +10,8 @@
 
 @interface EventAttendeesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property (nonatomic)NSInteger eventID;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

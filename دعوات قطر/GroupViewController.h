@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+@property (weak, nonatomic) IBOutlet UICollectionView *newsCollectionView;
 @property (strong,nonatomic) NSDictionary *group;
 
 

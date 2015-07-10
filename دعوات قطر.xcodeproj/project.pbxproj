@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */; };
+		1813C2F41B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F31B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m */; };
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
 		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
 		182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629151B4F72FB002E784F /* EditAccountTableViewCell.m */; };
@@ -111,6 +112,8 @@
 		180B11EA1B4B133400133E7C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1813C2EF1B4F98720044CDDB /* ChooseDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseDateViewController.h; sourceTree = "<group>"; };
 		1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDateViewController.m; sourceTree = "<group>"; };
+		1813C2F21B4FC1F00044CDDB /* GroupNewsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupNewsCollectionViewCell.h; path = ../GroupNewsCollectionViewCell.h; sourceTree = "<group>"; };
+		1813C2F31B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupNewsCollectionViewCell.m; path = ../GroupNewsCollectionViewCell.m; sourceTree = "<group>"; };
 		18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyInvitationsViewController.h; sourceTree = "<group>"; };
 		18243B001B43730B0036A345 /* BuyInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInvitationsViewController.m; sourceTree = "<group>"; };
 		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
@@ -384,6 +387,8 @@
 				184B65A01B421C0200B1483C /* GroupViewController.m */,
 				1873C2201B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.h */,
 				1873C2211B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m */,
+				1813C2F21B4FC1F00044CDDB /* GroupNewsCollectionViewCell.h */,
+				1813C2F31B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m */,
 				187C63A51B478CE000B3E3EA /* AllSectionsViewController.h */,
 				187C63A61B478CE000B3E3EA /* AllSectionsViewController.m */,
 				187C63C61B49795100B3E3EA /* SecEventsViewController.h */,
@@ -697,6 +702,7 @@
 				187C63C81B49795100B3E3EA /* SecEventsViewController.m in Sources */,
 				187C63CE1B4A326400B3E3EA /* SecEventTableViewCell.m in Sources */,
 				184B65981B40E12100B1483C /* chooseGroupViewController.m in Sources */,
+				1813C2F41B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m in Sources */,
 				1826291C1B4F7F92002E784F /* ChooseTypeTableViewCell.m in Sources */,
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,

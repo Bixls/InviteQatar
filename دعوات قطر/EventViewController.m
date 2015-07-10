@@ -9,7 +9,7 @@
 #import "EventViewController.h"
 #import "ASIHTTPRequest.h"
 #import "CommentsViewController.h"
-
+#import "EventAttendeesViewController.h"
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
@@ -66,6 +66,7 @@
     NSString *time = [tempTime substringToIndex:5];
     self.eventTime.text = time;
     self.eventDate.text = date ;
+    self.descriptionLabel.text = self.eventDescription;
     if (self.allowComments == 1) {
         [self.btnComments setHidden:NO];
     }else{
@@ -106,6 +107,9 @@
         commentController.postImage = self.eventImage;
         commentController.postDescription = self.eventDescription;
         commentController.postType = self.eventType;
+    }else if ([segue.identifier isEqualToString:@"showAttendees"]){
+        EventAttendeesViewController *eventAttendeesController = segue.destinationViewController;
+        eventAttendeesController.eventID = self.eventID;
     }
 }
 

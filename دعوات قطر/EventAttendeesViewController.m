@@ -42,12 +42,12 @@
         self.populate = 1 ;
         self.start = self.start+10 ;
         //self.limit = 10;
-        [self getEvents];
+        [self getAttendees];
     }];
     self.start = 0 ;
     self.limit = 10 ;
     self.allUsers = [[NSMutableArray alloc]init];
-    [self getEvents];
+    [self getAttendees];
     
 }
 
@@ -124,13 +124,13 @@
 
 #pragma mark - Connection Setup
 
--(void)getEvents {
+-(void)getAttendees {
 
-    NSDictionary *getUsers = @{@"FunctionName":@"ViewEventAttendees" , @"inputs":@[@{@"eventID":@"2",
+    NSDictionary *getUsers = @{@"FunctionName":@"ViewEventAttendees" , @"inputs":@[@{@"eventID":[NSString stringWithFormat:@"%ld",(long)self.eventID],
                                                                                       @"start":[NSString stringWithFormat:@"%@",[NSNumber numberWithInteger:self.start]],
                                                                                       @"limit":[NSString stringWithFormat:@"%@",[NSNumber numberWithInteger:self.limit]]
                                                                              }]};
-    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAttendees",@"key", nil];
     
     [self postRequest:getUsers withTag:getUsersTag];
     
@@ -170,7 +170,7 @@
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
     
-    if ([key isEqualToString:@"getUsers"]&& array && (self.populate == 0)) {
+    if ([key isEqualToString:@"getAttendees"]&& array && (self.populate == 0)) {
         [self.allUsers addObjectsFromArray:array];
         [self.tableView reloadData];
     }else{
