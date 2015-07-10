@@ -14,7 +14,7 @@
 @interface CreateEventViewController ()
 
 @property (nonatomic,strong)NSArray *invitationTypes;
-@property (nonatomic)NSInteger selectedType;
+@property (nonatomic)NSString *selectedType;
 @property (nonatomic) int commentsFlag;
 @property (nonatomic) int vipFlag;
 @property (strong,nonatomic) ASIFormDataRequest *imageRequest;
@@ -34,7 +34,9 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-
+    [self.textView setReturnKeyType:UIReturnKeyDone];
+    self.textView.delegate = self;
+    self.textField.delegate = self;
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
@@ -62,6 +64,7 @@
 #pragma mark - ChooseType ViewController Delegate
 -(void)selectedCategory:(NSDictionary *)category{
     self.selectedCategory = category;
+    self.selectedType = self.selectedCategory[@"catID"];
     [self.btnChooseType setTitle:category[@"catName"] forState:UIControlStateNormal];
 }
 
@@ -74,18 +77,42 @@
 
 #pragma mark - TextField Delegate Methods
 
+
+
+
+//-(void)textFieldDidEndEditing:(UITextField *)textField{
+//    [textField resignFirstResponder];
+//}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
     [self.textField resignFirstResponder];
     return YES;
 }
 
 #pragma mark - TextView Delegate Methods
 
--(void)textViewDidBeginEditing:(UITextView *)textView {
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"تم" style:UIBarButtonItemStyleDone target:self action:@selector(removeKeyboard)];
+//-(void)textViewDidBeginEditing:(UITextView *)textView {
+//    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"تم" style:UIBarButtonItemStyleDone target:self action:@selector(removeKeyboard)];
+//
+//    [self.navigationItem setRightBarButtonItem:doneBtn];
+//}
 
-    [self.navigationItem setRightBarButtonItem:doneBtn];
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    [textView resignFirstResponder];
+    return YES;
 }
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        NSLog(@"Return pressed");
+        [textView resignFirstResponder];
+    } else {
+        NSLog(@"Other pressed");
+    }
+    return YES;
+}
+
 
 -(void)removeKeyboard{
     [self.textView resignFirstResponder];
@@ -112,7 +139,6 @@
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [self dismissViewControllerAnimated:YES completion:nil];
-     [self.btnChoosePic setTitle:@"تحميل الصورة" forState:UIControlStateNormal];
     
 }
 
@@ -192,17 +218,12 @@
     NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     
     if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"postPicture"]) {
-        self.imageURL = responseDict[@"url"];
-        NSLog(@"%@",self.imageURL);
+        self.imageURL = responseDict[@"id"];
         self.uploaded = 1;
-    }else{
-        if ([responseDict[@"success"]integerValue]==1) {
-            NSLog(@"Event Created !");
-            NSLog(@"%@",responseDict);
-        }
-        NSLog(@"%d",[[responseDict objectForKey:@"success"]intValue]);
+    }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
+         NSLog(@"%@",responseDict);
     }
-    NSLog(@"%@",responseDict);
+  
 
     
 }
@@ -245,7 +266,7 @@
             NSDictionary *postDict = @{@"FunctionName":@"CreateEvent" ,
                                        @"inputs":@[@{@"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
                                                      @"CreatorID":[NSString stringWithFormat:@"%ld",(long)self.userID],
-                                                     @"eventType":[NSString stringWithFormat:@"%ld",(long)self.selectedType],
+                                                     @"eventType":self.selectedType,
                                                      @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
                                                      @"description":[NSString stringWithFormat:@"%@",self.textView.text],
                                                      @"picture":self.imageURL,
