@@ -23,6 +23,7 @@
 		183957191B453C6500B47FC2 /* elhawager.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957171B453C6500B47FC2 /* elhawager.png */; };
 		1839571A1B453C6500B47FC2 /* elmra.png in Resources */ = {isa = PBXBuildFile; fileRef = 183957181B453C6500B47FC2 /* elmra.png */; };
 		184AE3031B51148B00BAE3E3 /* SupportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184AE3021B51148B00BAE3E3 /* SupportViewController.m */; };
+		184AE3061B51DDCF00BAE3E3 /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184AE3051B51DDCE00BAE3E3 /* SendMessageViewController.m */; };
 		184B65301B3F60AC00B1483C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B652F1B3F60AC00B1483C /* main.m */; };
 		184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65321B3F60AC00B1483C /* AppDelegate.m */; };
 		184B65391B3F60AC00B1483C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184B65371B3F60AC00B1483C /* Main.storyboard */; };
@@ -141,6 +142,8 @@
 		183957181B453C6500B47FC2 /* elmra.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elmra.png; sourceTree = "<group>"; };
 		184AE3011B51148B00BAE3E3 /* SupportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupportViewController.h; sourceTree = "<group>"; };
 		184AE3021B51148B00BAE3E3 /* SupportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SupportViewController.m; sourceTree = "<group>"; };
+		184AE3041B51DDCE00BAE3E3 /* SendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageViewController.h; sourceTree = "<group>"; };
+		184AE3051B51DDCE00BAE3E3 /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageViewController.m; sourceTree = "<group>"; };
 		184B652A1B3F60AC00B1483C /* دعوات قطر.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "دعوات قطر.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		184B652E1B3F60AC00B1483C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		184B652F1B3F60AC00B1483C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -414,6 +417,8 @@
 				18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */,
 				18EA682D1B4B6C6F00F482FB /* UserViewController.h */,
 				18EA682E1B4B6C6F00F482FB /* UserViewController.m */,
+				184AE3041B51DDCE00BAE3E3 /* SendMessageViewController.h */,
+				184AE3051B51DDCE00BAE3E3 /* SendMessageViewController.m */,
 				1873C2231B4DCB760026C905 /* NewsViewController.h */,
 				1873C2241B4DCB760026C905 /* NewsViewController.m */,
 				1873C2261B4DE7280026C905 /* CommentsViewController.h */,
@@ -728,6 +733,7 @@
 				18EA68391B4BAED500F482FB /* MyEventsTableViewCell.m in Sources */,
 				1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */,
 				1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */,
+				184AE3061B51DDCF00BAE3E3 /* SendMessageViewController.m in Sources */,
 				184B65811B4080BC00B1483C /* ASIDataCompressor.m in Sources */,
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,
 				184B65761B40802500B1483C /* ASIAuthenticationDialog.m in Sources */,

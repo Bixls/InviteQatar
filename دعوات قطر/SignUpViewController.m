@@ -164,17 +164,23 @@
         [self.userDefaults synchronize];
         //self.activateFlag = 1;
         //[self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-        [self.userDefaults setInteger:1 forKey:@"Guest"];
-        [self.userDefaults setInteger:1 forKey:@"signedIn"];
-        [self.userDefaults synchronize];
+        //[self.userDefaults setInteger:1 forKey:@"Guest"];
+       // [self.userDefaults setInteger:1 forKey:@"signedIn"];
+        //[self.userDefaults synchronize];
         
-        [self dismissViewControllerAnimated:YES completion:nil];
+       // [self dismissViewControllerAnimated:YES completion:nil];
         
     }
+    if ([key isEqualToString:@"registerTag"]) {
+         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSInteger success = [responseDict[@"success"]integerValue];
+        if (success == 0) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح،انتظر رساله التفيل في خلال يوم" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            
+        }
+    }
    
-   
-    
-    
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -183,7 +189,9 @@
     NSLog(@"%@",error);
 }
 
-
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 #pragma mark - Textfield delegate method 
 

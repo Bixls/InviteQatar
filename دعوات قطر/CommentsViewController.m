@@ -29,7 +29,7 @@
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.comments = [[NSMutableArray alloc]init];
     self.start = 0;
-    self.limit = 1;
+    self.limit = 5;
     [self getComments];
 }
 
@@ -206,7 +206,7 @@
 }
 
 - (IBAction)btnSeeMorePressed:(id)sender {
-    self.start = self.start+1;
+    self.start = self.comments.count;
     [self getComments];
     NSLog(@"See More! ");
 }

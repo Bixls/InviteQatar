@@ -53,7 +53,12 @@
     
     [self updateUI];
     [self getInvited];
-    [self getEvent];
+    if (self.selectedType == 2 || self.selectedType == 3) {
+        [self readMessage];
+    }else{
+        [self getEvent];
+    }
+    
     [self getJoined];
     
 }
@@ -61,15 +66,34 @@
 -(void)updateUI {
 
     NSLog(@"EVEENT %@",self.event);
-    self.eventSubject.text = self.event[@"subject"];
-    self.creatorName.text = self.event[@"CreatorName"];
-    NSString *dateString = self.event[@"TimeEnded"];
-    NSString *date = [dateString substringToIndex:10];
-    NSString *tempTime = [dateString substringFromIndex:11];
-    NSString *time = [tempTime substringToIndex:5];
-    self.eventTime.text = time;
-    self.eventDate.text = date ;
-    self.descriptionLabel.text = self.eventDescription;
+    if (self.selectedType == 2 || self.selectedType == 3) {
+        
+    }else{
+        self.eventSubject.text = self.event[@"subject"];
+        self.creatorName.text = self.event[@"CreatorName"];
+        NSString *dateString = self.event[@"TimeEnded"];
+        NSString *date = [dateString substringToIndex:10];
+        NSString *tempTime = [dateString substringFromIndex:11];
+        NSString *time = [tempTime substringToIndex:5];
+        self.eventTime.text = time;
+        self.eventDate.text = date ;
+        self.descriptionLabel.text = self.eventDescription;
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            //Background Thread
+            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"EventPic"]];
+            NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"CreatorPic"]];
+            NSData *eventData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+            NSData *creatorData = [NSData dataWithContentsOfURL:[NSURL URLWithString:creatorPic]];
+            self.eventImage = [[UIImage alloc]initWithData:eventData];
+            UIImage *creatorImage = [[UIImage alloc]initWithData:creatorData];
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                //Run UI Updates
+                self.eventPicture.image = self.eventImage;
+                self.creatorPicture.image = creatorImage;
+            });
+        });
+    }
+    
     if (self.allowComments == 1) {
         [self.btnComments setHidden:NO];
         [self.imgComments setHidden:NO];
@@ -98,20 +122,7 @@
         [self.imgGoingList setHidden:YES];
     }
     
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"EventPic"]];
-        NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"CreatorPic"]];
-        NSData *eventData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        NSData *creatorData = [NSData dataWithContentsOfURL:[NSURL URLWithString:creatorPic]];
-        self.eventImage = [[UIImage alloc]initWithData:eventData];
-        UIImage *creatorImage = [[UIImage alloc]initWithData:creatorData];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            //Run UI Updates
-            self.eventPicture.image = self.eventImage;
-            self.creatorPicture.image = creatorImage;
-        });
-    });
+    
 
 
 }
@@ -130,11 +141,23 @@
 }
 
 #pragma mark - Connection Setup
+-(void)getUSer {
+    
+    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
+                                                                                 @"id":[NSString stringWithFormat:@"%ld",(long)self.creatorID]
+                                                                                 }]};
+    
+ 
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    
+    [self postRequest:getUser withTag:getUserTag];
+    
+}
 
 -(void)getEvent {
     
     NSDictionary *getEvent = @{@"FunctionName":@"getEventbyID" , @"inputs":@[@{
-                                                                                 @"Eventid":[NSString stringWithFormat:@"%ld",(long)self.eventID]
+                                                                                 @"Eventid":[NSString stringWithFormat:@"%@",self.event[@"Eventid"]]
                                                                                  }]};
     
     NSLog(@"%@",getEvent);
@@ -203,6 +226,20 @@
     
 }
 
+-(void)readMessage {
+    
+    NSDictionary *readMessage = @{@"FunctionName":@"ReadMessege" , @"inputs":@[@{
+                                                                                   @"messageID":[NSString stringWithFormat:@"%ld",(long)self.selectedMessageID]
+                                                                                   }]};
+    
+    
+    NSMutableDictionary *readMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"readMessage",@"key", nil];
+    [self postRequest:readMessage withTag:readMessageTag];
+    
+    
+}
+
+
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
@@ -244,7 +281,8 @@
         [self updateUI];
     }else if ([key isEqualToString:@"getEvent"]){
         
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSDictionary *dict = arr[0];
         NSLog(@"Full event %@",dict);
         self.allowComments = [dict[@"comments"]integerValue];
         self.eventDescription = dict[@"description"];
@@ -272,7 +310,55 @@
         }
 
         [self updateUI];
+    }else if ( [key isEqualToString:@"readMessage"]){
+        NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSDictionary *dict = arr[0];
+        NSLog(@"Full event %@",dict);
+        self.allowComments = [dict[@"comments"]integerValue];
+        self.descriptionLabel.text = dict[@"description"];
+        self.creatorID = [dict[@"CreatorID"]integerValue];
+        self.creatorName.text = dict[@"name"];
+        NSInteger eventPic = [dict[@"picture"]integerValue];
+        self.eventSubject.text = dict[@"subject"];
+        NSString *dateString = dict[@"timeCreated"];
+        NSString *date = [dateString substringToIndex:10];
+        NSString *tempTime = [dateString substringFromIndex:11];
+        NSString *time = [tempTime substringToIndex:5];
+        self.eventTime.text = time;
+        self.eventDate.text = date ;
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            //Background Thread
+            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",eventPic];
+            NSData *eventData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+            self.eventImage = [[UIImage alloc]initWithData:eventData];
+            NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",dict[@"ProfilePic"]];
+            NSData *creatorData = [NSData dataWithContentsOfURL:[NSURL URLWithString:creatorPic]];
+            UIImage *creatorImage = [[UIImage alloc]initWithData:creatorData];
+            
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                //Run UI Updates
+                self.eventPicture.image = self.eventImage;
+                self.creatorPicture.image = creatorImage;
+
+            });
+        });
+  
+        [self updateUI];
     }
+//        else if ([key isEqualToString:@"getUser"]){
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        NSLog(@"CREATORRR %@",dict);
+//        
+//        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//            //Background Thread
+//
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^(void){
+//
+//                
+//            });
+//        });
+//    }
     
 }
 

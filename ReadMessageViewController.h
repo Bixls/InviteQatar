@@ -11,5 +11,17 @@
 @interface ReadMessageViewController : UIViewController
 
 @property(nonatomic)NSInteger messageID;
+@property(nonatomic)NSInteger profilePicNumber;
+@property(nonatomic)NSInteger messageType;
+@property(nonatomic,strong)NSString *userName;
+@property(nonatomic,strong)NSString *messageSubject;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imgUser;
+@property (weak, nonatomic) IBOutlet UILabel *labelName;
+@property (weak, nonatomic) IBOutlet UILabel *labelDate;
+
+@property (weak, nonatomic) IBOutlet UILabel *labelSubject;
+@property (weak, nonatomic) IBOutlet UITextView *textViewMessage;
+
 
 @end

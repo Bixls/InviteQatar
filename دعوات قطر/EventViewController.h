@@ -10,6 +10,9 @@
 
 @interface EventViewController : UIViewController
 
+
+@property (nonatomic) NSInteger selectedType;
+@property (nonatomic) NSInteger selectedMessageID;
 @property (nonatomic,strong) NSDictionary *event;
 @property (weak, nonatomic) IBOutlet UIImageView *eventPicture;
 @property (weak, nonatomic) IBOutlet UILabel *eventSubject;

@@ -19,6 +19,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"%@",self.message);
+    self.labelName.text = self.userName;
+    self.labelSubject.text = self.messageSubject;
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        //Background Thread
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)self.profilePicNumber];
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+        UIImage *img = [[UIImage alloc]initWithData:data];
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            self.imgUser.image = img;
+            
+        });
+    });
+    
+    if (self.messageType == 1) {
+        [self.imgUser setHidden:YES];
+        [self.labelDate setHidden:YES];
+        [self.labelName setHidden:YES];
+
+    }else if (self.messageType == 0){
+        [self.imgUser setHidden:NO];
+        [self.labelDate setHidden:NO];
+        [self.labelName setHidden:NO];
+
+    }
     
     [self readMessage];
 }
@@ -31,9 +56,17 @@
     NSDictionary *readMessage = @{@"FunctionName":@"ReadMessege" , @"inputs":@[@{
                                                                                    @"messageID":[NSString stringWithFormat:@"%ld",(long)self.messageID]
                                                                                  }]};
-    NSMutableDictionary *readMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"readMessage",@"key", nil];
-    [self postRequest:readMessage withTag:readMessageTag];
-    
+   
+    if (self.messageType == 0 || self.messageType == 1) {
+        NSMutableDictionary *readMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"readMessage",@"key", nil];
+        [self postRequest:readMessage withTag:readMessageTag];
+        
+    }else if (self.messageType == 2 || self.messageType == 3){
+        NSMutableDictionary *readMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"readInvitation",@"key", nil];
+        [self postRequest:readMessage withTag:readMessageTag];
+        
+    }
+
 }
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
@@ -68,11 +101,23 @@
     //NSString *responseString = [request responseString];
     
     NSData *responseData = [request responseData];
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
+    
     if ([key isEqualToString:@"readMessage"]) {
+
+        NSDictionary *dict = arr[0];
         NSLog(@"%@",dict);
         self.message = dict;
+        self.textViewMessage.text = self.message[@"Content"];
+        self.labelDate.text = self.message[@"TimeSent"];
+    }else if ([key isEqualToString:@"readInvitation"]){
+        NSDictionary *dict = arr[0];
+        NSLog(@"%@",dict);
+        self.message = dict;
+        self.textViewMessage.text = self.message[@"Content"];
+        self.labelDate.text = self.message[@"TimeSent"];
+        self.labelSubject.text = self.message[@"subject"];
     }
     
     
@@ -86,4 +131,6 @@
 
 
 
+- (IBAction)btnSendMessagePressed:(id)sender {
+}
 @end

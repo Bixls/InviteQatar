@@ -7,10 +7,10 @@
 //
 
 #import "UserViewController.h"
-
+#import "SendMessageViewController.h"
 @interface UserViewController ()
 
-@property(nonatomic) NSInteger userID;
+@property(nonatomic) NSInteger otherUserID;
 
 @end
 
@@ -21,8 +21,8 @@
     // Do any additional setup after loading the view.
     NSLog(@"%@",self.user);
     self.userName.text = self.user[@"name"];
-    self.userID = [self.user[@"id"]integerValue];
-    
+    self.otherUserID = [self.user[@"id"]integerValue];
+    self.userGroup.text = self.user[@"GroupName"];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
         NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
@@ -36,6 +36,14 @@
 
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"sendMessage"]) {
+        SendMessageViewController *sendMessageController = segue.destinationViewController;
+        sendMessageController.receiverID = self.otherUserID;
+    }
+}
 
-
+- (IBAction)btnSendMessagePressed:(id)sender {
+    [self performSegueWithIdentifier:@"sendMessage" sender:self];
+}
 @end

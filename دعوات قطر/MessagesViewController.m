@@ -10,7 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "MessagesFirstTableViewCell.h"
 #import "ReadMessageViewController.h"
-
+#import "EventViewController.h"
 @interface MessagesViewController ()
 
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
@@ -18,7 +18,11 @@
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
 @property (nonatomic) NSInteger selectedMessageID;
+@property (nonatomic) NSInteger selectedMessageType;
 @property (nonatomic,strong)NSMutableArray *messages;
+@property(nonatomic)NSInteger profilePicNumber;
+@property(nonatomic,strong)NSString *userName;
+@property(nonatomic,strong)NSString *messageSubject;
 
 
 @end
@@ -84,20 +88,47 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *selectedMessage = self.messages[indexPath.row];
     self.selectedMessageID = [selectedMessage[@"messageID"]integerValue];
-    [self performSegueWithIdentifier:@"readMessage" sender:self];
+    self.selectedMessageType = [selectedMessage[@"type"]integerValue];
+    if (self.selectedMessageType == 0) {
+        self.profilePicNumber = [selectedMessage[@"ProfilePic"]integerValue];
+        self.messageSubject = selectedMessage[@"Subject"];
+        self.userName = selectedMessage[@"name"];
+        [self performSegueWithIdentifier:@"readMessage" sender:self];
+    }else if (self.selectedMessageType==1){
+        self.messageSubject = selectedMessage[@"Subject"];
+        [self performSegueWithIdentifier:@"readMessage" sender:self];
+
+    }else if (self.selectedMessageType==2 || self.selectedMessageType == 3){
+//        self.messageSubject = selectedMessage[@"Subject"];
+        [self performSegueWithIdentifier:@"openEvent" sender:self];
+        
+    }
+    
 }
 
 #pragma mark - Segue 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
     if ([segue.identifier isEqualToString:@"readMessage"]) {
         ReadMessageViewController *readMessageController = segue.destinationViewController;
         readMessageController.messageID = self.selectedMessageID;
+        readMessageController.profilePicNumber = self.profilePicNumber;
+        readMessageController.userName = self.userName;
+        readMessageController.messageSubject = self.messageSubject;
+        readMessageController.messageType = self.selectedMessageType;
+    }else if ([segue.identifier isEqualToString:@"openEvent"]) {
+        EventViewController *eventController = segue.destinationViewController;
+        eventController.selectedType = self.selectedMessageType;
+        eventController.selectedMessageID = self.selectedMessageID;
+
     }
 }
 
 
 #pragma mark - Connection Setup
+
+
 
 -(void)getMessages {
     

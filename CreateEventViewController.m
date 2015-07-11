@@ -222,6 +222,11 @@
         self.uploaded = 1;
     }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
          NSLog(@"%@",responseDict);
+        if ([responseDict[@"success"]integerValue] == 0) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@" تم الحفظ إضغط إستمرار للدفع" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            self.saveLabel.text = @"إستمرار";
+        }
     }
   
 

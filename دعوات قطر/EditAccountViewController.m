@@ -26,7 +26,8 @@
 @property (nonatomic,strong)NSArray *blockList;
 @property (nonatomic,strong)NSMutableArray *listArray;
 @property (nonatomic,strong)NSDictionary *user;
-
+@property (nonatomic) NSInteger saved0;
+@property (nonatomic) NSInteger saved1;
 @property (weak, nonatomic) IBOutlet UITextField *editNameField;
 - (IBAction)btnSavePressed:(id)sender;
 - (IBAction)btnChooseImagePressed:(id)sender;
@@ -232,6 +233,7 @@
     if ([key isEqualToString:@"pictureTag"]) {
         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.imageURL = responseDict[@"url"];
+        NSLog(@"%@",responseDict);
         self.uploaded =1;
     }else if ([key isEqualToString:@"blocklist"]){
         NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -251,7 +253,6 @@
        
     }else if ([key isEqualToString:@"getUser"]){
         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        
         self.user = responseDict;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
@@ -262,7 +263,19 @@
                 self.profilePic.image = image;
             });
         });
+    }else if ([key isEqualToString:@"editBlockList"]){
+        self.saved0 = 1;
+    }else if([key isEqualToString:@"editName"]){
+        self.saved1 = 1;
     }
+    
+    if (self.saved0 ==1 && self.saved1 ==1 ) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم تعديل الحساب بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
+        self.saved0 = 0;
+        self.saved1 = 0 ;
+    }
+    
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -282,13 +295,14 @@
     NSMutableDictionary *editBlockListTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editBlockList",@"key", nil];
     
     if (self.editNameField.text.length != 0 ) {
-        editName = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",self.userID],
-                                                                                  @"name":self.editNameField.text,
+        editName = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":[NSString stringWithFormat:
+                                                                           @"%ld",self.userID],
+                                                                            @"name":self.editNameField.text,
                                                                     
                                                                                     }]};
         editBlockList = @{@"FunctionName":@"SetBlockList" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",self.userID],
                                                                     @"listArray":self.listArray,
-                                                                    
+    
                                                                     }]};
         if (self.flag == 1) {
             NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
