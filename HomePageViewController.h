@@ -24,4 +24,6 @@
 
 - (IBAction)btnSeeMorePressed:(id)sender;
 
+- (IBAction)btnSupportPressed:(id)sender;
+
 @end

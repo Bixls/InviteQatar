@@ -313,4 +313,8 @@
 - (IBAction)btnSeeMorePressed:(id)sender {
     [self performSegueWithIdentifier:@"seeMore" sender:self];
 }
+
+- (IBAction)btnSupportPressed:(id)sender {
+    [self performSegueWithIdentifier:@"support" sender:self];
+}
 @end
