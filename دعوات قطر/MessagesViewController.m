@@ -9,6 +9,7 @@
 #import "MessagesViewController.h"
 #import "ASIHTTPRequest.h"
 #import "MessagesFirstTableViewCell.h"
+#import "ReadMessageViewController.h"
 
 @interface MessagesViewController ()
 
@@ -16,6 +17,7 @@
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
+@property (nonatomic) NSInteger selectedMessageID;
 @property (nonatomic,strong)NSMutableArray *messages;
 
 
@@ -56,8 +58,8 @@
         if (cell==nil) {
             cell=[[MessagesFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         }
-        NSLog(@"MEssagesss %@",self.messages);
-        NSLog(@"MEssagesss %ld",(long)indexPath.row);
+//        NSLog(@"MEssagesss %@",self.messages);
+//        NSLog(@"MEssagesss %ld",(long)indexPath.row);
         NSDictionary *message = self.messages[indexPath.row];
         cell.msgSender.text = message[@"name"];
         cell.msgSubject.text = message[@"Subject"];
@@ -80,8 +82,20 @@
 #pragma mark - TableView Delegate 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *selectedMessage = self.messages[indexPath.row];
+    self.selectedMessageID = [selectedMessage[@"messageID"]integerValue];
     [self performSegueWithIdentifier:@"readMessage" sender:self];
 }
+
+#pragma mark - Segue 
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"readMessage"]) {
+        ReadMessageViewController *readMessageController = segue.destinationViewController;
+        readMessageController.messageID = self.selectedMessageID;
+    }
+}
+
 
 #pragma mark - Connection Setup
 

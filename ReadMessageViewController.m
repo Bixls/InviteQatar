@@ -11,7 +11,7 @@
 
 @interface ReadMessageViewController ()
 
-
+@property(nonatomic,strong)NSDictionary *message;
 
 @end
 
@@ -19,8 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.messageID = 2;
+    
     [self readMessage];
 }
 
@@ -73,6 +72,7 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"readMessage"]) {
         NSLog(@"%@",dict);
+        self.message = dict;
     }
     
     

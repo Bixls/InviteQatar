@@ -45,6 +45,7 @@
     
     self.selectedGroup = @{@"id":@"default"} ;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 
 //    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 //    [self.spinner setCenter:CGPointMake([[UIScreen mainScreen] bounds].size.width/2.0, [[UIScreen mainScreen] bounds].size.height/2.0)];
@@ -62,16 +63,27 @@
     
 }
 
+-(void)selectedPicture:(UIImage *)image{
+    self.profilePicture.image = image;
+    [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
+    
+    NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
+    [self postPicturewithTag:pictureTag];
+    self.flag = 1;
+}
+
 #pragma mark - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chooseGroupSegue"]) {
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"offlinePic"]){
+        OfflinePicturesViewController *offlinePicturesController = segue.destinationViewController;
+        offlinePicturesController.delegate = self;
+        
     }
-//        else if ([segue.identifier isEqualToString:@"activationSegue"]) {
-//        ConfirmationViewController *confirmController = segue.destinationViewController;
-//    }
+
 }
 
 #pragma mark - Connection setup
@@ -226,12 +238,10 @@
             imagePicker.allowsEditing = NO;
             [self presentViewController:imagePicker animated:YES completion:nil];
         }
-    }else{
-        //do nothing yet
+    }else if(buttonIndex == 1){
+        [self performSegueWithIdentifier:@"offlinePic" sender:self];
     }
 }
-
-
 
 #pragma mark - Buttons 
 

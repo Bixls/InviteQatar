@@ -21,6 +21,7 @@
 @property (nonatomic) int skeletonSections;
 @property (nonatomic) NSMutableDictionary *sectionContent;
 @property (nonatomic) int flag;
+@property (nonatomic) NSInteger secCount;
 @property (nonatomic) NSInteger selectedSection;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 
@@ -43,7 +44,7 @@
     backbutton.tintColor = [UIColor whiteColor];
     
     self.navigationItem.backBarButtonItem = backbutton;
-
+    self.secCount = 0;
     
     self.flag = 0;
     self.sectionContent = [[NSMutableDictionary alloc]init];
@@ -57,13 +58,15 @@
     
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (self.sectionContent.count) {
-        NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)section+1]];
+    
+    
+    NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",section]];
+    if (content.count > 0) {
         return content.count;
     }
-    else{
-        return 1;
-    }
+
+    return 0;
+    
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -76,29 +79,32 @@
     AllSectionsCellCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     if (self.allSections.count) {
-
-        NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
-        NSLog(@"%@",self.sectionContent);
-        NSLog(@"%@",content);
-        if (content.count) {
-            NSDictionary *event = content[indexPath.row];
-            cell.eventName.text = event[@"subject"];
-            cell.eventCreator.text = event[@"CreatorName"];
-            cell.eventDate.text = event[@"TimeEnded"];
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                //Background Thread
-                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"EventPic"]];
-                //NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
-                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-                UIImage *img = [[UIImage alloc]initWithData:data];
-               
-                dispatch_async(dispatch_get_main_queue(), ^(void){
-                    //Run UI Updates
-                    cell.eventPicture.image = img;
+        NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        if (content) {
+            NSLog(@"%@",self.sectionContent);
+            NSLog(@"%@",content);
+            if (content.count) {
+                NSDictionary *event = content[indexPath.row];
+                cell.eventName.text = event[@"subject"];
+                cell.eventCreator.text = event[@"CreatorName"];
+                cell.eventDate.text = event[@"TimeEnded"];
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                    //Background Thread
+                    NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"EventPic"]];
+                    //NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+                    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+                    UIImage *img = [[UIImage alloc]initWithData:data];
                     
+                    dispatch_async(dispatch_get_main_queue(), ^(void){
+                        //Run UI Updates
+                        cell.eventPicture.image = img;
+                        
+                    });
                 });
-            });
+            }
         }
+
+        // NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
     }
     return cell;
 
@@ -109,10 +115,20 @@
     UICollectionReusableView *reusableview = nil;
     if (kind == UICollectionElementKindSectionHeader) {
         AllSectionHeaderCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header" forIndexPath:indexPath];
-        NSDictionary *Dict = self.allSections[indexPath.section];
-        header.headerLabel.text = [NSString stringWithFormat:@"%@",Dict[@"catName"]];
+        NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        if (content.count>0) {
+            NSDictionary *event = content[0];
+            NSInteger catID = [event[@"catID"]integerValue];
+            for (int i = 0; i < self.allSections.count; i++) {
+                NSDictionary *section = self.allSections[i];
+                if ([section[@"catID"]integerValue]==catID) {
+                    header.headerLabel.text = section[@"catName"];
+                }
+            }
+        }
         reusableview = header;
     }
+    
     if (kind== UICollectionElementKindSectionFooter) {
         AllSectionFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
         footer.btnSeeMore.tag = indexPath.section;
@@ -139,10 +155,13 @@
     }
 }
 
+
+#pragma mark - Connection Setup
+
 -(void)getEvents {
     
-    for (int i =1 ; i <=self.allSections.count ; i++) {
-        NSDictionary *section = self.allSections[i-1];
+    for (int i =0 ; i <self.allSections.count ; i++) {
+        NSDictionary *section = self.allSections[i];
         NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":[NSString stringWithFormat:@"%@",section[@"catID"]],
                                                                                  @"start":@"0",
@@ -155,9 +174,6 @@
 
 }
 
-
-
-#pragma mark - Connection Setup
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
@@ -201,14 +217,15 @@
         
     }
     NSLog(@"%@",array);
- 
-    for (int i = 1 ; i <=self.allSections.count; i++) {
-        NSDictionary *section = self.allSections[i-1];
+    
+    for (int i = 0 ; i <self.allSections.count; i++) {
+        NSDictionary *section = self.allSections[i];
         if ([key isEqualToString:section[@"catID"]]) {
             if (array.count>0) {
                 self.skeletonSections = 1;
                 NSLog(@"arraay %@",array);
-                [self.sectionContent setObject:array forKey:[NSString stringWithFormat:@"%d",i]];
+                [self.sectionContent setObject:array forKey:[NSString stringWithFormat:@"%ld",(long)self.secCount]];
+                self.secCount++;
                 [self.collectionView reloadData];
             }
         }
@@ -218,14 +235,7 @@
     if (self.flag == self.allSections.count) {
         [self.collectionView reloadData];
     }
-//    if ([key isEqualToString:@"getEvents"]) {
-//        
-//        [self.sectionContent addObject:array];
-//        
-//        
-//        
-//    }
-   // NSLog(@"%@",array);
+
     
 }
 

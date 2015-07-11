@@ -8,6 +8,7 @@
 
 #import "chooseGroupViewController.h"
 #import "ASIHTTPRequest.h"
+#import "ChooseGroupTableViewCell.h"
 
 @interface chooseGroupViewController ()
 
@@ -20,12 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *postDict = @{
                                @"FunctionName":@"getGroupList" ,
-                               @"inputs":@[@{@"limit":[NSNumber numberWithInt:10]}]};
+                               @"inputs":@[@{@"limit":[NSNumber numberWithInt:1000]}]};
     [self postRequest:postDict];
-    
     
 }
 
@@ -44,14 +46,15 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    ChooseGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     if (cell==nil) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell=[[ChooseGroupTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     NSArray *tempArray = [self.userDefaults objectForKey:@"groupArray"];
-    cell.textLabel.text = tempArray[indexPath.row][@"name"];
-    NSLog(@"%@",cell.textLabel.text);
+    NSLog(@"%@",tempArray);
+    cell.groupName.text = tempArray[indexPath.row][@"name"];
+    NSLog(@"%@",cell.groupName.text);
     return cell ;
 }
 
@@ -60,6 +63,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *selectedGroup = self.responseArray[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(selectedGroup:)]) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.delegate selectedGroup:selectedGroup];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
@@ -120,4 +124,7 @@
 }
 
 
+- (IBAction)btnDismissPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

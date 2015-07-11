@@ -8,6 +8,7 @@
 
 #import "SearchTableViewController.h"
 #import "ASIHTTPRequest.h"
+#import "UserViewController.h"
 
 @interface SearchTableViewController ()
 
@@ -15,6 +16,7 @@
 @property (nonatomic,strong) NSMutableArray *filteredValues;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic,strong) NSDictionary *postDict;
+@property (nonatomic,strong) NSDictionary *selectedUser;
 
 @end
 
@@ -23,7 +25,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
+    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
+                                        nil] forState:UIControlStateNormal];
+    backbutton.tintColor = [UIColor whiteColor];
+    self.navigationItem.backBarButtonItem = backbutton; 
+   // self.navigationController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"back"]];
+   // self.tableView.backgroundColor = [UIColor clearColor];
     
+    UIImageView *backgroundView =
+    [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"back"]];
+    backgroundView.frame = CGRectMake(0,
+                                      20,
+                                      self.navigationController.view.frame.size.width,
+                                      self.navigationController.view.frame.size.height);
+    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+    UIViewAutoresizingFlexibleHeight;
+    [self.navigationController.view insertSubview:backgroundView atIndex:0];
+
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.postDict = [[NSDictionary alloc]init];
     
     
@@ -50,6 +73,12 @@
     [self.tableView reloadData];
     NSLog(@"%@",[NSString stringWithFormat:@"%@",self.searchController.searchBar.text]);
 }
+
+//-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+//    
+//    UIButton *cancelBtn = [searchBar valueForKey:@"cancelButton"];
+//    [cancelBtn setTitle:@"Done" forState:UIControlStateNormal];
+//}
 
 #pragma mark - Table view data source
 
@@ -87,6 +116,24 @@
 
     
     return cell;
+}
+
+#pragma mark - Table view Delegate 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.selectedUser = self.filteredValues[indexPath.row];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[self.searchController.searchBar setHidden:YES];
+    [self performSegueWithIdentifier:@"user" sender:self];
+}
+
+#pragma mark - Segue 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"user"]) {
+        UserViewController *userController = segue.destinationViewController;
+        userController.user = self.selectedUser;
+        self.searchController.active = NO;
+        
+    }
 }
 
 #pragma mark - Connection Setup

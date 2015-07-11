@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "chooseGroupViewController.h"
+#import "OfflinePicturesViewController.h"
 
-@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,chooseGroupViewControllerDelegate,UIActionSheetDelegate , UIAlertViewDelegate>
+@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,chooseGroupViewControllerDelegate,UIActionSheetDelegate , UIAlertViewDelegate,offlinePicturesViewControllerDelegate>
 
 
 

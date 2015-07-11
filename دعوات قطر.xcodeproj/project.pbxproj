@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */; };
 		1813C2F41B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F31B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m */; };
+		1813C2F71B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F61B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m */; };
+		1813C2FA1B50F1400044CDDB /* OfflinePicturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F91B50F1400044CDDB /* OfflinePicturesViewController.m */; };
+		1813C2FD1B50FBA20044CDDB /* ChooseGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2FC1B50FBA20044CDDB /* ChooseGroupTableViewCell.m */; };
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
 		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
 		182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629151B4F72FB002E784F /* EditAccountTableViewCell.m */; };
@@ -114,6 +117,12 @@
 		1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDateViewController.m; sourceTree = "<group>"; };
 		1813C2F21B4FC1F00044CDDB /* GroupNewsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupNewsCollectionViewCell.h; path = ../GroupNewsCollectionViewCell.h; sourceTree = "<group>"; };
 		1813C2F31B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupNewsCollectionViewCell.m; path = ../GroupNewsCollectionViewCell.m; sourceTree = "<group>"; };
+		1813C2F51B50F1140044CDDB /* OfflinePicturesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OfflinePicturesCollectionViewCell.h; path = "دعوات قطر/OfflinePicturesCollectionViewCell.h"; sourceTree = "<group>"; };
+		1813C2F61B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OfflinePicturesCollectionViewCell.m; path = "دعوات قطر/OfflinePicturesCollectionViewCell.m"; sourceTree = "<group>"; };
+		1813C2F81B50F1400044CDDB /* OfflinePicturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfflinePicturesViewController.h; sourceTree = "<group>"; };
+		1813C2F91B50F1400044CDDB /* OfflinePicturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflinePicturesViewController.m; sourceTree = "<group>"; };
+		1813C2FB1B50FBA20044CDDB /* ChooseGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseGroupTableViewCell.h; sourceTree = "<group>"; };
+		1813C2FC1B50FBA20044CDDB /* ChooseGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseGroupTableViewCell.m; sourceTree = "<group>"; };
 		18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyInvitationsViewController.h; sourceTree = "<group>"; };
 		18243B001B43730B0036A345 /* BuyInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInvitationsViewController.m; sourceTree = "<group>"; };
 		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
@@ -294,6 +303,8 @@
 				184B65571B3F944D00B1483C /* SignUpViewController.m */,
 				184B65961B40E12100B1483C /* chooseGroupViewController.h */,
 				184B65971B40E12100B1483C /* chooseGroupViewController.m */,
+				1813C2FB1B50FBA20044CDDB /* ChooseGroupTableViewCell.h */,
+				1813C2FC1B50FBA20044CDDB /* ChooseGroupTableViewCell.m */,
 				184B655B1B3FBD9900B1483C /* SignInViewController.h */,
 				184B655C1B3FBD9900B1483C /* SignInViewController.m */,
 				184B655E1B3FC52900B1483C /* ConfirmationViewController.h */,
@@ -332,6 +343,10 @@
 				18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */,
 				18D831731B4CE6E9003F5A86 /* HomeEventsTableViewCell.h */,
 				18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */,
+				1813C2F81B50F1400044CDDB /* OfflinePicturesViewController.h */,
+				1813C2F91B50F1400044CDDB /* OfflinePicturesViewController.m */,
+				1813C2F51B50F1140044CDDB /* OfflinePicturesCollectionViewCell.h */,
+				1813C2F61B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m */,
 				18D1CBB11B44C47A00B8B787 /* Images */,
 				184B65951B40DDD700B1483C /* Frameworks */,
 				184B652C1B3F60AC00B1483C /* دعوات قطر */,
@@ -404,6 +419,7 @@
 				1873C2261B4DE7280026C905 /* CommentsViewController.h */,
 				1873C2271B4DE7280026C905 /* CommentsViewController.m */,
 				1873C22C1B4DFDEA0026C905 /* CommentsFirstTableViewCell.h */,
+				1873C23C1B4E67BC0026C905 /* FeedbackViewController.m */,
 				1873C22D1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m */,
 				1873C22F1B4E0EB20026C905 /* CommentsSecondTableViewCell.h */,
 				1873C2301B4E0EB20026C905 /* CommentsSecondTableViewCell.m */,
@@ -414,7 +430,6 @@
 				1873C2381B4E60490026C905 /* ReadMessageViewController.h */,
 				1873C2391B4E60490026C905 /* ReadMessageViewController.m */,
 				1873C23B1B4E67BC0026C905 /* FeedbackViewController.h */,
-				1873C23C1B4E67BC0026C905 /* FeedbackViewController.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
@@ -681,6 +696,7 @@
 				187C63A71B478CE000B3E3EA /* AllSectionsViewController.m in Sources */,
 				184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */,
 				184B65711B407F6B00B1483C /* ASIHTTPRequestDelegate.h in Sources */,
+				1813C2F71B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m in Sources */,
 				1873C22E1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m in Sources */,
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
 				18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */,
@@ -695,6 +711,7 @@
 				1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */,
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
 				18EA68361B4BA8DD00F482FB /* MyEventsViewController.m in Sources */,
+				1813C2FD1B50FBA20044CDDB /* ChooseGroupTableViewCell.m in Sources */,
 				18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */,
 				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
 				1873C21D1B4D89300026C905 /* testCollectionViewCell.m in Sources */,
@@ -716,6 +733,7 @@
 				18D831751B4CE6E9003F5A86 /* HomeEventsTableViewCell.m in Sources */,
 				1873C21A1B4D83200026C905 /* TestNewsCollectionViewCell.m in Sources */,
 				184B65661B407CCE00B1483C /* ASIHTTPRequest.m in Sources */,
+				1813C2FA1B50F1400044CDDB /* OfflinePicturesViewController.m in Sources */,
 				184B655D1B3FBD9900B1483C /* SignInViewController.m in Sources */,
 				184B65601B3FC52900B1483C /* ConfirmationViewController.m in Sources */,
 				1873C23D1B4E67BC0026C905 /* FeedbackViewController.m in Sources */,

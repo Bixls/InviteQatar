@@ -12,8 +12,6 @@
  
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-
-
 - (IBAction)btnSeeMorePressed:(id)sender;
 
 @end

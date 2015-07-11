@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
+#import "OfflinePicturesViewController.h"
+@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate>
 
 @property (nonatomic,strong)NSString *userName;
 @property (nonatomic,strong)UIImage *userPic;

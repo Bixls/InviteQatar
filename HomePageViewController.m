@@ -54,8 +54,7 @@
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
     
-    self.imageArray = @[[UIImage imageNamed:@"3emadi.png"],[UIImage imageNamed:@"3etebi.png"],[UIImage imageNamed:@"elka3bi.png"],[UIImage imageNamed:@"elna3emi.png"],[UIImage imageNamed:@"eltamimi.png"],[UIImage imageNamed:@"ka7tani.png"],[UIImage imageNamed:@"kbesi.png"],[UIImage imageNamed:@"mare5i.png"],[UIImage imageNamed:@"eldosri.png"],[UIImage imageNamed:@"elhawager.png"],[UIImage imageNamed:@"elmra.png"],[UIImage imageNamed:@"elmasnad.png"]];
-    
+        
     NSDictionary *getGroups = @{
                                @"FunctionName":@"getGroupList" ,
                                @"inputs":@[@{@"limit":[NSNumber numberWithInteger:5000]}]};
@@ -219,8 +218,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.eventsTableView deselectRowAtIndexPath:indexPath animated:YES];
-    self.selectedEvent = self.events[indexPath.row];
-    [self performSegueWithIdentifier:@"event" sender:self];
+    if (indexPath.row < self.events.count) {
+        self.selectedEvent = self.events[indexPath.row];
+        [self performSegueWithIdentifier:@"event" sender:self];
+    }
+ 
 }
 
 #pragma mark - Segue 

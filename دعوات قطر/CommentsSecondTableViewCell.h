@@ -11,7 +11,8 @@
 @interface CommentsSecondTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *userName;
-@property (weak, nonatomic) IBOutlet UILabel *userComment;
+@property (weak, nonatomic) IBOutlet UITextView *userComment;
+
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
 
 @end

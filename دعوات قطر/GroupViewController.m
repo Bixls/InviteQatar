@@ -134,14 +134,30 @@
 }
 
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    
-    UICollectionReusableView *reusableview = nil;
-    if (kind== UICollectionElementKindSectionFooter && collectionView.tag == 0) {
-        GroupsFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
-        //footer.btnSeeMore.tag = indexPath.section;
-        reusableview = footer;
+
+        UICollectionReusableView *reusableview = nil;
+
+    if (self.events.count > 0) {
+        if (kind== UICollectionElementKindSectionFooter && collectionView.tag == 0) {
+            GroupsFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+            //footer.btnSeeMore.tag = indexPath.section;
+            [footer.btnSeeMore setHidden:NO];
+            [footer.imgSeeMore setHidden:NO];
+            reusableview = footer;
+        }
+        return reusableview;
+    }else{
+        if (kind== UICollectionElementKindSectionFooter && collectionView.tag == 0) {
+            GroupsFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+            //footer.btnSeeMore.tag = indexPath.section;
+            [footer.btnSeeMore setHidden:YES];
+            [footer.imgSeeMore setHidden:YES];
+            reusableview = footer;
+        }
+        
+        return reusableview;
     }
-    return reusableview;
+
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

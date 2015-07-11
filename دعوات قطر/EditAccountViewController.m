@@ -53,7 +53,6 @@
         [self getUser];
     }
 
-
     [self getCategories];
     [self getBlockList];
     
@@ -312,17 +311,54 @@
     
 }
 
-- (IBAction)btnChooseImagePressed:(id)sender {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
-        
-        UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
-        imagePicker.delegate = self;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-        imagePicker.allowsEditing = NO;
-        [self presentViewController:imagePicker animated:YES completion:nil];
-    }
+-(void)selectedPicture:(UIImage *)image{
+    self.profilePic.image = image;
+    [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
+    
+    NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
+   // [self postPicturewithTag:pictureTag];
+    self.flag = 1;
 
+}
+
+#pragma mark - Segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+   
+    if ([segue.identifier isEqualToString:@"offlinePic"]){
+        OfflinePicturesViewController *offlinePicturesController = segue.destinationViewController;
+        offlinePicturesController.delegate = self;
+    }
+    
+}
+
+#pragma mark - Action Sheet Delegate Methods
+- (void)actionSheet:(UIActionSheet * )actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+            
+            UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
+            imagePicker.delegate = self;
+            imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
+            imagePicker.allowsEditing = NO;
+            [self presentViewController:imagePicker animated:YES completion:nil];
+        }
+        
+    }
+    else if(buttonIndex == 1){
+        [self performSegueWithIdentifier:@"offlinePic" sender:self];
+    }
+}
+
+
+#pragma mark - Button
+
+- (IBAction)btnChooseImagePressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"ضع صورتك الشخصية أو اختار صورة رمزية" delegate:self cancelButtonTitle:@"إلغاء" destructiveButtonTitle:nil otherButtonTitles:@"صورة شخصية",@"صورة رمزية", nil];
+    [actionSheet showInView:self.view];
+    
 }
 
 #pragma mark - Image Picker delegate methods

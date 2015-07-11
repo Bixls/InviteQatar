@@ -10,4 +10,8 @@
 
 @interface GroupsFooterCollectionReusableView : UICollectionReusableView
 
+@property (weak, nonatomic) IBOutlet UIButton *btnSeeMore;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imgSeeMore;
+
 @end

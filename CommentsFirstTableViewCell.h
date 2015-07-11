@@ -11,7 +11,8 @@
 @interface CommentsFirstTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *postImage;
-@property (weak, nonatomic) IBOutlet UILabel *postDescription;
+
+@property (weak, nonatomic) IBOutlet UITextView *postDescription;
 
 
 
