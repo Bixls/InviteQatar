@@ -20,8 +20,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *eventDate;
 @property (weak, nonatomic) IBOutlet UIButton *btnComments;
 @property (weak, nonatomic) IBOutlet UIButton *btnGoing;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton *btnAttendees;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imgGoing;
+@property (weak, nonatomic) IBOutlet UIImageView *imgComments;
+@property (weak, nonatomic) IBOutlet UIImageView *imgGoingList;
 
 
 - (IBAction)btnViewAttendeesPressed:(id)sender;

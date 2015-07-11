@@ -19,6 +19,7 @@
 @property (nonatomic)NSInteger allowComments;
 @property (nonatomic)NSInteger isInvited;
 @property (nonatomic)NSInteger isJoined;
+@property (nonatomic)NSInteger creatorID;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 
@@ -40,7 +41,9 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-    
+    [self.btnAttendees setHidden:YES];
+    [self.imgGoingList setHidden:YES];
+    [self.imgGoing setHidden:YES];
     self.isJoined = -1;
     self.isInvited =-1;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
@@ -69,17 +72,30 @@
     self.descriptionLabel.text = self.eventDescription;
     if (self.allowComments == 1) {
         [self.btnComments setHidden:NO];
+        [self.imgComments setHidden:NO];
     }else{
         [self.btnComments setHidden:YES];
+        [self.imgComments setHidden:YES];
     }
     if (self.isInvited == 0) {
         [self.btnGoing setHidden:YES];
+        [self.imgGoing setHidden:YES];
     }else if (self.isInvited == 1 && self.isJoined == 0){
         [self.btnGoing setHidden:NO];
+        [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"الذهاب؟" forState:UIControlStateNormal];
     }else if(self.isInvited == 1 && self.isJoined == 1){
         [self.btnGoing setHidden:NO];
+        [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
+    }
+    
+    if (self.userID == self.creatorID) {
+        [self.btnAttendees setHidden:NO];
+        [self.imgGoingList setHidden:NO];
+    }else {
+        [self.btnAttendees setHidden:YES];
+        [self.imgGoingList setHidden:YES];
     }
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
@@ -223,7 +239,7 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"isInvited"]) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"invitation %@",dict);
+        //NSLog(@"invitation %@",dict);
         self.isInvited = [dict[@"sucess"]integerValue];
         [self updateUI];
     }else if ([key isEqualToString:@"getEvent"]){
@@ -232,6 +248,7 @@
         NSLog(@"Full event %@",dict);
         self.allowComments = [dict[@"comments"]integerValue];
         self.eventDescription = dict[@"description"];
+        self.creatorID = [dict[@"CreatorID"]integerValue];
         [self updateUI];
     }else if ([key isEqualToString:@"joinEvent"]){
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -253,8 +270,7 @@
         if ([dict[@"sucess"]integerValue] == 1) {
             self.isJoined = 0;
         }
-       // self.isJoined = [dict[@"sucess"]integerValue];
-        //[self updateUI];
+
         [self updateUI];
     }
     

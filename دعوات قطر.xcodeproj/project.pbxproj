@@ -244,8 +244,8 @@
 		18EA68251B4B3BCD00F482FB /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		18EA68271B4B566000F482FB /* EventAttendeesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAttendeesViewController.h; sourceTree = "<group>"; };
 		18EA68281B4B566000F482FB /* EventAttendeesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventAttendeesViewController.m; sourceTree = "<group>"; };
-		18EA682A1B4B57C800F482FB /* AttendeeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AttendeeTableViewCell.h; path = "دعوات قطر/AttendeeTableViewCell.h"; sourceTree = "<group>"; };
-		18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AttendeeTableViewCell.m; path = "دعوات قطر/AttendeeTableViewCell.m"; sourceTree = "<group>"; };
+		18EA682A1B4B57C800F482FB /* AttendeeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttendeeTableViewCell.h; sourceTree = "<group>"; };
+		18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttendeeTableViewCell.m; sourceTree = "<group>"; };
 		18EA682D1B4B6C6F00F482FB /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		18EA682E1B4B6C6F00F482FB /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		18EA68301B4B806000F482FB /* PicFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PicFrame.png; sourceTree = "<group>"; };
@@ -326,8 +326,6 @@
 				187C63C11B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m */,
 				187C63CC1B4A326400B3E3EA /* SecEventTableViewCell.h */,
 				187C63CD1B4A326400B3E3EA /* SecEventTableViewCell.m */,
-				18EA682A1B4B57C800F482FB /* AttendeeTableViewCell.h */,
-				18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */,
 				18EA68371B4BAED500F482FB /* MyEventsTableViewCell.h */,
 				18EA68381B4BAED500F482FB /* MyEventsTableViewCell.m */,
 				18D831701B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.h */,
@@ -397,6 +395,8 @@
 				18EA68251B4B3BCD00F482FB /* EventViewController.m */,
 				18EA68271B4B566000F482FB /* EventAttendeesViewController.h */,
 				18EA68281B4B566000F482FB /* EventAttendeesViewController.m */,
+				18EA682A1B4B57C800F482FB /* AttendeeTableViewCell.h */,
+				18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */,
 				18EA682D1B4B6C6F00F482FB /* UserViewController.h */,
 				18EA682E1B4B6C6F00F482FB /* UserViewController.m */,
 				1873C2231B4DCB760026C905 /* NewsViewController.h */,

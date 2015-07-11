@@ -13,7 +13,6 @@
 @property (nonatomic,strong)NSDictionary *user ;
 
 @property (weak, nonatomic) IBOutlet UIImageView *userPicture;
-
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 
 

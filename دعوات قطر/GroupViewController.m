@@ -50,7 +50,7 @@
     self.navigationItem.backBarButtonItem = backbutton;
 
     self.groupID = [self.group[@"id"]integerValue];
-    //NSLog(@"%ld",(long)self.groupID);
+    NSLog(@"%ld",(long)self.groupID);
     
     NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":@"-1",
@@ -61,8 +61,9 @@
     NSDictionary *getNews = @{
                               @"FunctionName":@"GetNewsList" ,
                               @"inputs":@[@{@"GroupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
-                                            @"start":[NSString stringWithFormat:@"%d",0],
-                                            @"limit":[NSString stringWithFormat:@"%d",3]}]};
+                                            @"start":@"0",
+                                            @"limit":@"3"}]};
+    NSLog(@"%@",getNews);
     NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
 
     
@@ -75,7 +76,12 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.events.count;
+    if (collectionView.tag == 0) {
+        return self.events.count;
+    }else if (collectionView.tag==1){
+        return self.news.count;
+    }
+    return 0;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -130,7 +136,7 @@
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
     UICollectionReusableView *reusableview = nil;
-    if (kind== UICollectionElementKindSectionFooter) {
+    if (kind== UICollectionElementKindSectionFooter && collectionView.tag == 0) {
         GroupsFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
         //footer.btnSeeMore.tag = indexPath.section;
         reusableview = footer;
@@ -203,7 +209,6 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    
     //NSString *responseString = [request responseString];
    
     NSData *responseData = [request responseData];

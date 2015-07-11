@@ -40,7 +40,12 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.comments.count +2 ;
+    if (self.comments.count > 0 ) {
+        return self.comments.count +2 ;
+    }else{
+        return 1;
+    }
+    
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,33 +58,37 @@
         cell0.postImage.image = self.postImage;
         cell0.postDescription.text = self.postDescription;
         return cell0;
-    }else if (indexPath.row == 1){
-         UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
-        if (cell1==nil) {
-            cell1=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
-        }
-        return cell1;
-    }else if (indexPath.row > 1){
+        
+    }else if (indexPath.row > 0 && indexPath.row<(self.comments.count+1) ){
         CommentsSecondTableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
         if (cell2==nil) {
             cell2=[[CommentsSecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell2"];
         }
-        NSDictionary *comment = self.comments[indexPath.row-2];
-        cell2.userName.text = comment[@"name"];
-        cell2.userComment.text = comment[@"comment"];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            //Background Thread
-            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-            UIImage *img = [[UIImage alloc]initWithData:data];
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                //Run UI Updates
-                cell2.userImage.image = img;
-    
+        if (self.comments.count > 0) {
+            NSDictionary *comment = self.comments[indexPath.row-1];
+            cell2.userName.text = comment[@"name"];
+            cell2.userComment.text = comment[@"comment"];
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                //Background Thread
+                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+                UIImage *img = [[UIImage alloc]initWithData:data];
+                dispatch_async(dispatch_get_main_queue(), ^(void){
+                    //Run UI Updates
+                    cell2.userImage.image = img;
+                    
+                });
             });
-        });
-        
+            
+
+        }
         return cell2;
+    }else if (indexPath.row == (self.comments.count+1)){
+        UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
+        if (cell1==nil) {
+            cell1=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
+        }
+        return cell1;
     }
 
     

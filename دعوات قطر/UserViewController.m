@@ -19,11 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"%@",self.user);
     self.userName.text = self.user[@"name"];
     self.userID = [self.user[@"id"]integerValue];
+    
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         UIImage *userImage = [[UIImage alloc]initWithData:imageData];
         dispatch_async(dispatch_get_main_queue(), ^(void){

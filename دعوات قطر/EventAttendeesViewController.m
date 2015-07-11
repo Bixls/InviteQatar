@@ -38,14 +38,14 @@
     self.navigationItem.backBarButtonItem = backbutton;
 
     
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        self.populate = 1 ;
-        self.start = self.start+10 ;
-        //self.limit = 10;
-        [self getAttendees];
-    }];
+//    [self.tableView addInfiniteScrollingWithActionHandler:^{
+//        self.populate = 1 ;
+//        self.start = self.start+10 ;
+//        //self.limit = 10;
+//        [self getAttendees];
+//    }];
     self.start = 0 ;
-    self.limit = 10 ;
+    self.limit = 2 ;
     self.allUsers = [[NSMutableArray alloc]init];
     [self getAttendees];
     
@@ -74,44 +74,88 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.allUsers.count;
+    if (self.allUsers.count >0) {
+        return self.allUsers.count +1;
+    }else{
+        return 0;
+    }
 }
 
 -(AttendeeTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"Cell";
     
-    AttendeeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (cell==nil) {
-        cell=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    
+    if(indexPath.row<(self.allUsers.count)){
+        AttendeeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        }
+        NSLog(@"MEssagesss %@",self.allUsers);
+        NSLog(@"MEssagesss %ld",(long)indexPath.row);
+        NSDictionary *user = self.allUsers[indexPath.row];
+        cell.userName.text = user[@"name"];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            //Background Thread
+             NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]]; //needs to be dynamic
+            //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+            UIImage *img = [[UIImage alloc]initWithData:data];
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                //Run UI Updates
+                cell.userImage.image = img;
+            });
+        });
+
+        return cell;
+        
+    }else if (indexPath.row == self.allUsers.count){
+        
+        AttendeeTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
+        if (cell1==nil) {
+            cell1=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
+        }
+        
+        return cell1;
     }
     
-    NSDictionary *user = self.allUsers[indexPath.row];
-    cell.userName.text = user[@"name"];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg" ; //needs to be dynamic
-        //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        UIImage *img = [[UIImage alloc]initWithData:data];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            //Run UI Updates
-            cell.userImage.image = img;
-        });
-    });
-
     
-    return cell ;
+    return nil ;
+//    static NSString *cellIdentifier = @"Cell";
+//    
+//    AttendeeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+//    if (cell==nil) {
+//        cell=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//    }
+//    
+//    NSDictionary *user = self.allUsers[indexPath.row];
+//    cell.userName.text = user[@"name"];
+//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//        //Background Thread
+//        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg" ; //needs to be dynamic
+//        //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
+//        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+//        UIImage *img = [[UIImage alloc]initWithData:data];
+//        dispatch_async(dispatch_get_main_queue(), ^(void){
+//            //Run UI Updates
+//            cell.userImage.image = img;
+//        });
+//    });
+//
+//    
+//    return cell ;
 }
 
 #pragma mark - Table View Delegate Methods 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedUser = self.allUsers[indexPath.row];
-    [self performSegueWithIdentifier:@"showUser" sender:self];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row < self.allUsers.count) {
+        self.selectedUser = self.allUsers[indexPath.row];
+        [self performSegueWithIdentifier:@"showUser" sender:self];
+    }
+    
 }
 
 #pragma mark - Segue
@@ -177,7 +221,7 @@
         //[self insertRowAtBottomWithArray:self.receivedArray];
         [self.allUsers addObjectsFromArray:array];
         [self.tableView reloadData];
-        [self.tableView.infiniteScrollingView stopAnimating];
+        //[self.tableView.infiniteScrollingView stopAnimating];
     }
     NSLog(@"%@",self.allUsers);
     
@@ -189,8 +233,8 @@
     NSLog(@"%@",error);
 }
 
-
-
-
-
+- (IBAction)btnSeeMorePressed:(id)sender {
+    self.start = self.start+2;
+    [self getAttendees];
+}
 @end
