@@ -181,13 +181,12 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"GroupCell";
     
-    if (indexPath.row < 3) {
+    if (indexPath.row < self.events.count) {
         HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         if (cell==nil) {
             cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        
-        NSDictionary *tempEvent = self.events[indexPath.item];
+        NSDictionary *tempEvent = self.events[indexPath.row];
         cell.eventSubject.text =tempEvent[@"subject"];
         cell.eventCreator.text = tempEvent[@"CreatorName"];
         cell.eventDate.text = tempEvent[@"TimeEnded"];
@@ -204,7 +203,7 @@
         
         
         return cell ;
-    }else if (indexPath.row == 3){
+    }else if (indexPath.row == self.events.count){
         HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
         if (cell==nil) {
             cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];

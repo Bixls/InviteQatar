@@ -1359,7 +1359,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp7-oO-Phg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2746" y="3942"/>
+            <point key="canvasLocation" x="2491" y="3692"/>
         </scene>
         <!--Group View Controller-->
         <scene sceneID="Nga-MN-V1C">
@@ -1815,10 +1815,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="fun-b2-BhN">
-                                <rect key="frame" x="11" y="472" width="85" height="64"/>
+                                <rect key="frame" x="11" y="468" width="85" height="64"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nbO-aH-ZAK">
-                                <rect key="frame" x="16" y="487" width="70" height="30"/>
+                                <rect key="frame" x="16" y="483" width="70" height="30"/>
                                 <state key="normal" title="الذاهبون">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1828,10 +1828,10 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="orw-20-OXL">
-                                <rect key="frame" x="226" y="472" width="79" height="64"/>
+                                <rect key="frame" x="232" y="468" width="79" height="64"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6hh-rS-t7B">
-                                <rect key="frame" x="246" y="487" width="47" height="30"/>
+                                <rect key="frame" x="252" y="483" width="47" height="30"/>
                                 <state key="normal" title="التعليقات">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1860,6 +1860,19 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="J5a-Ke-02a">
+                                <rect key="frame" x="110" y="468" width="100" height="64"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYa-A9-OdJ">
+                                <rect key="frame" x="124" y="485" width="73" height="30"/>
+                                <state key="normal" title="تعديل المناسبة">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnEditEventPressed:" destination="Pnj-oQ-lDE" eventType="touchUpInside" id="H08-fl-Bwl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1867,6 +1880,7 @@
                     <connections>
                         <outlet property="btnAttendees" destination="nbO-aH-ZAK" id="eWc-52-x1G"/>
                         <outlet property="btnComments" destination="6hh-rS-t7B" id="LUa-cs-U6h"/>
+                        <outlet property="btnEditEvent" destination="NYa-A9-OdJ" id="qqE-FE-dAQ"/>
                         <outlet property="btnGoing" destination="mNr-qx-VN6" id="JUc-RS-1at"/>
                         <outlet property="creatorName" destination="SIB-CG-Ee7" id="XN4-2A-l5c"/>
                         <outlet property="creatorPicture" destination="TEG-kW-8Fi" id="kFu-FN-Q98"/>
@@ -1876,15 +1890,40 @@
                         <outlet property="eventSubject" destination="gz0-kO-q3q" id="6Ji-rG-86w"/>
                         <outlet property="eventTime" destination="i6m-dJ-4Gf" id="bSZ-t8-grH"/>
                         <outlet property="imgComments" destination="orw-20-OXL" id="MCj-zb-zF4"/>
+                        <outlet property="imgEditEvent" destination="J5a-Ke-02a" id="PdI-Gv-lN1"/>
                         <outlet property="imgGoing" destination="UgR-ez-duK" id="VBg-gi-wo4"/>
                         <outlet property="imgGoingList" destination="fun-b2-BhN" id="pwv-0V-N6Q"/>
                         <segue destination="QCn-Vd-fKL" kind="push" identifier="showAttendees" id="qWT-Vg-1gn"/>
                         <segue destination="H0K-d7-KrW" kind="push" identifier="showComments" id="IoJ-de-HAV"/>
+                        <segue destination="qjf-CL-7yd" kind="push" identifier="editEvent" id="hWi-sg-g8m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qZJ-5n-s9k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2722" y="2175"/>
+            <point key="canvasLocation" x="2774" y="2283"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="UOF-2a-Us0">
+            <objects>
+                <viewController id="JcO-r8-g3Y" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nj8-jI-DSX"/>
+                        <viewControllerLayoutGuide type="bottom" id="hnn-AF-SqD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="a7T-yQ-oSN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="S5v-TX-5yR">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8A9-wU-xDD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2862" y="2850"/>
         </scene>
         <!--Event Attendees View Controller-->
         <scene sceneID="PA2-fZ-fow">
@@ -3026,6 +3065,7 @@
         <segue reference="De6-P3-Poq"/>
         <segue reference="faW-co-acX"/>
         <segue reference="IoJ-de-HAV"/>
+        <segue reference="hWi-sg-g8m"/>
         <segue reference="hQx-Cj-f0Z"/>
     </inferredMetricsTieBreakers>
 </document>

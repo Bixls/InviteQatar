@@ -37,7 +37,6 @@
     [self.textView setReturnKeyType:UIReturnKeyDone];
     self.textView.delegate = self;
     self.textField.delegate = self;
-    
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
     //NSLog(@"%ld",(long)self.userID);
@@ -47,6 +46,26 @@
     [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
     [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
     self.imageURL = @"default";
+    if (self.event != nil && self.createOrEdit ==1) {
+        self.vipFlag = [self.event[@"VIP"]integerValue];
+        self.selectedType = self.event[@"eventType"];
+        self.textField.text = self.event[@"subject"];
+        self.textView.text = self.event[@"description"];
+        self.selectedDate = self.event[@"timeCreated"];
+        self.commentsFlag = [self.event[@"comments"]integerValue];
+        self.imageURL = self.event[@"picture"];
+        if (self.commentsFlag == 0) {
+             [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
+        }else{
+            [self.btnMarkComments setTitle:@"السماح بالتعليقات \u2713" forState:UIControlStateNormal];
+        }
+        if (self.vipFlag == 0) {
+            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+        }else{
+             [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+        }
+        
+    }
     
 }
 
@@ -239,7 +258,44 @@
     NSLog(@"%@",error);
 }
 
+-(void)createEventFN{
+    NSDictionary *postDict = @{@"FunctionName":@"CreateEvent" ,
+                               @"inputs":@[@{@"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
+                                             @"CreatorID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                             @"eventType":self.selectedType,
+                                             @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
+                                             @"description":[NSString stringWithFormat:@"%@",self.textView.text],
+                                             @"picture":self.imageURL,
+                                             @"TimeEnded":self.selectedDate,
+                                             @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
+                                             }]};
+    
+    NSLog(@"%@",postDict);
+    NSMutableDictionary *createEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"createEvent",@"key", nil];
+    
+    [self postRequest:postDict withTag:createEventTag];
 
+}
+
+-(void)editEventFN{
+    NSDictionary *postDict = @{@"FunctionName":@"editEvent" ,
+                               @"inputs":@[@{ @"id":[NSString stringWithFormat:@"%ld",(long)self.eventID],
+                                               @"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
+                                             @"CreatorID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                             @"eventType":self.selectedType,
+                                             @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
+                                             @"description":[NSString stringWithFormat:@"%@",self.textView.text],
+                                             @"picture":self.imageURL,
+                                             @"TimeEnded":self.selectedDate,
+                                             @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
+                                             }]};
+    
+    NSLog(@"%@",postDict);
+    NSMutableDictionary *editEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editEvent",@"key", nil];
+    
+    [self postRequest:postDict withTag:editEventTag];
+    
+}
 
 
 #pragma mark - Buttons
@@ -265,24 +321,10 @@
 
 - (IBAction)btnSubmitPressed:(id)sender {
     
-    if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0)) {
+    if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0) && self.createOrEdit == 0) {
         if (self.flag == 1 && self.uploaded == 1 ) {
-            
-            NSDictionary *postDict = @{@"FunctionName":@"CreateEvent" ,
-                                       @"inputs":@[@{@"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
-                                                     @"CreatorID":[NSString stringWithFormat:@"%ld",(long)self.userID],
-                                                     @"eventType":self.selectedType,
-                                                     @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
-                                                     @"description":[NSString stringWithFormat:@"%@",self.textView.text],
-                                                     @"picture":self.imageURL,
-                                                     @"TimeEnded":self.selectedDate,
-                                                     @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
-                                                     }]};
-
-            NSLog(@"%@",postDict);
-            NSMutableDictionary *createEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"createEvent",@"key", nil];
-            
-            [self postRequest:postDict withTag:createEventTag];
+          
+                [self createEventFN];
             
             
         }else if (self.flag == 1){
@@ -295,7 +337,22 @@
             
         }
         
-    } else{
+    } else if (self.createOrEdit == 1) {
+        
+        if (self.flag == 1 && self.uploaded == 1 ) {
+            
+            [self editEventFN];
+            
+            
+        }else if (self.flag == 1){
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }else {
+            [self editEventFN];
+        }
+
+        
+    }else{
         
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
@@ -315,7 +372,6 @@
         [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
     }
 
-    
 }
 
 - (IBAction)btnMarkVipPressed:(id)sender {

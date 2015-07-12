@@ -30,11 +30,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgGoing;
 @property (weak, nonatomic) IBOutlet UIImageView *imgComments;
 @property (weak, nonatomic) IBOutlet UIImageView *imgGoingList;
+@property (weak, nonatomic) IBOutlet UIButton *btnEditEvent;
+@property (weak, nonatomic) IBOutlet UIImageView *imgEditEvent;
 
 
 - (IBAction)btnViewAttendeesPressed:(id)sender;
 - (IBAction)btnShowCommentsPressed:(id)sender;
 - (IBAction)btnGoingPressed:(id)sender;
+- (IBAction)btnEditEventPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTime;
 

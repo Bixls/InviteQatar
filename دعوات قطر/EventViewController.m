@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "CommentsViewController.h"
 #import "EventAttendeesViewController.h"
+#import "CreateEventViewController.h"
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
@@ -22,6 +23,7 @@
 @property (nonatomic)NSInteger creatorID;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (nonatomic,strong) NSDictionary *fullEvent;
 
 @end
 
@@ -44,6 +46,9 @@
     [self.btnAttendees setHidden:YES];
     [self.imgGoingList setHidden:YES];
     [self.imgGoing setHidden:YES];
+    [self.btnEditEvent setHidden:YES];
+    [self.imgEditEvent setHidden:YES];
+    
     self.isJoined = -1;
     self.isInvited =-1;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
@@ -97,9 +102,10 @@
     if (self.allowComments == 1) {
         [self.btnComments setHidden:NO];
         [self.imgComments setHidden:NO];
-    }else{
+            }else{
         [self.btnComments setHidden:YES];
         [self.imgComments setHidden:YES];
+
     }
     if (self.isInvited == 0) {
         [self.btnGoing setHidden:YES];
@@ -117,9 +123,14 @@
     if (self.userID == self.creatorID) {
         [self.btnAttendees setHidden:NO];
         [self.imgGoingList setHidden:NO];
+        [self.btnEditEvent setHidden:NO];
+        [self.imgEditEvent setHidden:NO];
+
     }else {
         [self.btnAttendees setHidden:YES];
         [self.imgGoingList setHidden:YES];
+        [self.btnEditEvent setHidden:YES];
+        [self.imgEditEvent setHidden:YES];
     }
     
     
@@ -137,6 +148,11 @@
     }else if ([segue.identifier isEqualToString:@"showAttendees"]){
         EventAttendeesViewController *eventAttendeesController = segue.destinationViewController;
         eventAttendeesController.eventID = self.eventID;
+    }else if ([segue.identifier isEqualToString:@"editEvent"]){
+        CreateEventViewController *createEventController = segue.destinationViewController;
+        createEventController.createOrEdit = 1;
+        createEventController.eventID = self.eventID;
+        createEventController.event  = self.fullEvent;
     }
 }
 
@@ -284,9 +300,10 @@
         NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSDictionary *dict = arr[0];
         NSLog(@"Full event %@",dict);
+        self.fullEvent = dict;
         self.allowComments = [dict[@"comments"]integerValue];
         self.eventDescription = dict[@"description"];
-        self.creatorID = [dict[@"CreatorID"]integerValue];
+        self.creatorID = [dict[@"id"]integerValue];
         [self updateUI];
     }else if ([key isEqualToString:@"joinEvent"]){
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -383,5 +400,9 @@
     }else if(self.isInvited ==1 && self.isJoined == 0){
         [self joinEvent];
     }
+}
+
+- (IBAction)btnEditEventPressed:(id)sender {
+    [self performSegueWithIdentifier:@"editEvent" sender:self];
 }
 @end

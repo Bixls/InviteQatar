@@ -12,6 +12,10 @@
 
 @interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate>
 
+@property (nonatomic) NSInteger createOrEdit;
+@property (nonatomic) NSInteger eventID;
+@property (nonatomic,strong) NSDictionary *event;
+
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *imagePicker;
 
