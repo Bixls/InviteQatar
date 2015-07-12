@@ -23,6 +23,7 @@
 @property(nonatomic)NSInteger profilePicNumber;
 @property(nonatomic,strong)NSString *userName;
 @property(nonatomic,strong)NSString *messageSubject;
+@property (nonatomic)NSInteger toDeleteMsgID;
 
 
 @end
@@ -36,7 +37,7 @@
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.messages = [[NSMutableArray alloc]init];
     self.start = 0;
-    self.limit = 1;
+    self.limit = 10;
     [self getMessages];
 }
 
@@ -84,27 +85,62 @@
 }
 
 #pragma mark - TableView Delegate 
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == (self.messages.count)){
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if ( indexPath.row < (self.messages.count) ) {
+            
+            NSDictionary *message = self.messages[indexPath.row];
+            self.toDeleteMsgID = [message[@"messageID"]integerValue];
+            
+            [self.messages removeObjectAtIndex:(indexPath.row)];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self deleteMessage];
+        }
+        
+    } else {
+        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *selectedMessage = self.messages[indexPath.row];
-    self.selectedMessageID = [selectedMessage[@"messageID"]integerValue];
-    self.selectedMessageType = [selectedMessage[@"type"]integerValue];
-    if (self.selectedMessageType == 0) {
-        self.profilePicNumber = [selectedMessage[@"ProfilePic"]integerValue];
-        self.messageSubject = selectedMessage[@"Subject"];
-        self.userName = selectedMessage[@"name"];
-        [self performSegueWithIdentifier:@"readMessage" sender:self];
-    }else if (self.selectedMessageType==1){
-        self.messageSubject = selectedMessage[@"Subject"];
-        [self performSegueWithIdentifier:@"readMessage" sender:self];
+    if (indexPath.row == self.messages.count) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }else{
+        NSDictionary *selectedMessage = self.messages[indexPath.row];
+        self.selectedMessageID = [selectedMessage[@"messageID"]integerValue];
+        self.selectedMessageType = [selectedMessage[@"type"]integerValue];
+        if (self.selectedMessageType == 0) {
+            self.profilePicNumber = [selectedMessage[@"ProfilePic"]integerValue];
+            self.messageSubject = selectedMessage[@"Subject"];
+            self.userName = selectedMessage[@"name"];
+            [self performSegueWithIdentifier:@"readMessage" sender:self];
+        }else if (self.selectedMessageType==1){
+            self.messageSubject = selectedMessage[@"Subject"];
+            [self performSegueWithIdentifier:@"readMessage" sender:self];
+        }else if (self.selectedMessageType==2 || self.selectedMessageType == 3){
+            //        self.messageSubject = selectedMessage[@"Subject"];
+            [self performSegueWithIdentifier:@"openEvent" sender:self];
+            
+        }
 
-    }else if (self.selectedMessageType==2 || self.selectedMessageType == 3){
-//        self.messageSubject = selectedMessage[@"Subject"];
-        [self performSegueWithIdentifier:@"openEvent" sender:self];
-        
     }
     
 }
+
+
+
 
 #pragma mark - Segue 
 
@@ -128,7 +164,19 @@
 
 #pragma mark - Connection Setup
 
-
+-(void)deleteMessage {
+    
+    NSDictionary *deleteMessage = @{@"FunctionName":@"deleteMessege" , @"inputs":@[@{
+                                                                                       @"messageID":[NSString stringWithFormat:@"%ld",(long)self.toDeleteMsgID],
+                                                                                       
+                                                                                       }]};
+    
+    NSLog(@"%@",deleteMessage);
+    NSMutableDictionary *deleteMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"deleteMessage",@"key", nil];
+    
+    [self postRequest:deleteMessage withTag:deleteMessageTag];
+    
+}
 
 -(void)getMessages {
     
@@ -179,6 +227,8 @@
         [self.messages addObjectsFromArray:array];
         NSLog(@"%@",self.messages);
         [self.tableView reloadData];
+    }else if ([key isEqualToString:@"deleteMessage"]){
+        NSLog(@"%@",array);
     }
 
     
@@ -192,7 +242,7 @@
 
 
 - (IBAction)btnSeeMorePressed:(id)sender {
-    self.start = self.start+1;
+    self.start = self.messages.count;
     [self getMessages];
  
 }

@@ -45,7 +45,7 @@
 //        [self getAttendees];
 //    }];
     self.start = 0 ;
-    self.limit = 2 ;
+    self.limit = 10 ;
     self.allUsers = [[NSMutableArray alloc]init];
     [self getAttendees];
     
@@ -234,7 +234,7 @@
 }
 
 - (IBAction)btnSeeMorePressed:(id)sender {
-    self.start = self.start+2;
+    self.start = self.allUsers.count;
     [self getAttendees];
 }
 @end

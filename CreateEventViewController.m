@@ -222,7 +222,7 @@
     self.imageRequest.useCookiePersistence = NO;
     self.imageRequest.shouldCompressRequestBody = NO;
     self.imageRequest.userInfo = dict;
-    [self.imageRequest setPostValue:@"6" forKey:@"id"];
+//    [self.imageRequest setPostValue:@"6" forKey:@"id"];
     [self.imageRequest setPostValue:@"user" forKey:@"type"];
     [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.imagePicker.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];

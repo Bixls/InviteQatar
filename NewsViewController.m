@@ -23,7 +23,8 @@
     [super viewDidLoad];
     self.newsID = [self.news[@"NewsID"]integerValue];
     self.newsType = 1;
-    
+    [self.btnComments setHidden:YES];
+    [self.imgComments setHidden:YES];
     self.newsSubject.text = self.news[@"Subject"];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
@@ -42,6 +43,14 @@
 -(void)updateUI {
     
     NSLog(@"EVEENT %@",self.news);
+    if ([self.news[@"AllowComments"]boolValue]) {
+
+        [self.btnComments setHidden:NO];
+        [self.imgComments setHidden:NO];
+    }else{
+        [self.imgComments setHidden:YES];
+        [self.btnComments setHidden:YES];
+    }
     
     NSString *dateString = self.news[@"timeCreated"];
     NSString *date = [dateString substringToIndex:10];

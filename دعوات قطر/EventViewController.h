@@ -38,6 +38,7 @@
 - (IBAction)btnShowCommentsPressed:(id)sender;
 - (IBAction)btnGoingPressed:(id)sender;
 - (IBAction)btnEditEventPressed:(id)sender;
+- (IBAction)btnShowUserPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTime;
 

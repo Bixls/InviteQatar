@@ -11,6 +11,8 @@
 #import "CommentsViewController.h"
 #import "EventAttendeesViewController.h"
 #import "CreateEventViewController.h"
+#import "UserViewController.h"
+
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
@@ -24,6 +26,7 @@
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *fullEvent;
+@property (nonatomic,strong) NSDictionary *user;
 
 @end
 
@@ -153,6 +156,10 @@
         createEventController.createOrEdit = 1;
         createEventController.eventID = self.eventID;
         createEventController.event  = self.fullEvent;
+    }else if ([segue.identifier isEqualToString:@"showUser"]){
+        UserViewController *userController = segue.destinationViewController;
+        userController.user = self.user;
+        
     }
 }
 
@@ -176,7 +183,7 @@
                                                                                  @"Eventid":[NSString stringWithFormat:@"%@",self.event[@"Eventid"]]
                                                                                  }]};
     
-    NSLog(@"%@",getEvent);
+    //NSLog(@"%@",getEvent);
     NSMutableDictionary *getEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvent",@"key", nil];
     
     [self postRequest:getEvent withTag:getEventTag];
@@ -191,7 +198,7 @@
                                                                             }]};
     //[NSString stringWithFormat:@"%ld",(long)self.userID]
     //[NSString stringWithFormat:@"%ld",(long)eventID]
-    NSLog(@"%@",getEvents);
+    //NSLog(@"%@",getEvents);
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"isInvited",@"key", nil];
     
     [self postRequest:getEvents withTag:getEventsTag];
@@ -206,7 +213,7 @@
                                                                                }]};
     //[NSString stringWithFormat:@"%ld",(long)self.userID]
     //[NSString stringWithFormat:@"%ld",(long)eventID]
-    NSLog(@"%@",getEvents);
+    //NSLog(@"%@",getEvents);
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"isJoind",@"key", nil];
     
     [self postRequest:getEvents withTag:getEventsTag];
@@ -221,7 +228,7 @@
                                                                                }]};
     //[NSString stringWithFormat:@"%ld",(long)self.userID]
     //[NSString stringWithFormat:@"%ld",(long)eventID]
-    NSLog(@"%@",leaveEvent);
+    //NSLog(@"%@",leaveEvent);
     NSMutableDictionary *leaveEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"joinEvent",@"key", nil];
     
     [self postRequest:leaveEvent withTag:leaveEventTag];
@@ -236,7 +243,7 @@
                                                                                }]};
     //[NSString stringWithFormat:@"%ld",(long)self.userID]
     //[NSString stringWithFormat:@"%ld",(long)eventID]
-    NSLog(@"%@",leaveEvent);
+    //NSLog(@"%@",leaveEvent);
     NSMutableDictionary *leaveEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"leaveEvent",@"key", nil];
     [self postRequest:leaveEvent withTag:leaveEventTag];
     
@@ -298,30 +305,35 @@
     }else if ([key isEqualToString:@"getEvent"]){
         
         NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSDictionary *dict = arr[0];
-        NSLog(@"Full event %@",dict);
-        self.fullEvent = dict;
-        self.allowComments = [dict[@"comments"]integerValue];
-        self.eventDescription = dict[@"description"];
-        self.creatorID = [dict[@"id"]integerValue];
-        [self updateUI];
+        if (arr.count > 0) {
+            NSDictionary *dict = arr[0];
+            NSLog(@"Full event %@",dict);
+            self.fullEvent = dict;
+            self.allowComments = [dict[@"comments"]integerValue];
+            self.eventDescription = dict[@"description"];
+            self.creatorID = [dict[@"CreatorID"]integerValue];
+            [self getUSer];
+            [self updateUI];
+            
+        }
+        
     }else if ([key isEqualToString:@"joinEvent"]){
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"Joined!! %@",dict);
+        //NSLog(@"Joined!! %@",dict);
         if ([dict[@"sucess"]integerValue] == 1) {
             self.isJoined = 1;
             //[self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
-            NSLog(@"bardo 3adam zahab");
+            //NSLog(@"bardo 3adam zahab");
             [self updateUI];
         }
     }else if ([key isEqualToString:@"isJoind"]){
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"Sorry Joined!! %@",dict);
+        //NSLog(@"Sorry Joined!! %@",dict);
         self.isJoined = [dict[@"sucess"]integerValue];
         [self updateUI];
     }else if ([key isEqualToString:@"leaveEvent"]){
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"Left  %@",dict);
+        //NSLog(@"Left  %@",dict);
         if ([dict[@"sucess"]integerValue] == 1) {
             self.isJoined = 0;
         }
@@ -330,7 +342,7 @@
     }else if ( [key isEqualToString:@"readMessage"]){
         NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSDictionary *dict = arr[0];
-        NSLog(@"Full event %@",dict);
+        //NSLog(@"Full event %@",dict);
         self.allowComments = [dict[@"comments"]integerValue];
         self.descriptionLabel.text = dict[@"description"];
         self.creatorID = [dict[@"CreatorID"]integerValue];
@@ -362,20 +374,12 @@
   
         [self updateUI];
     }
-//        else if ([key isEqualToString:@"getUser"]){
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        NSLog(@"CREATORRR %@",dict);
-//        
-//        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//            //Background Thread
-//
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^(void){
-//
-//                
-//            });
-//        });
-//    }
+    else if ([key isEqualToString:@"getUser"]){
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"CREATORRR %@",dict);
+        self.user = dict;
+        
+    }
     
 }
 
@@ -404,5 +408,9 @@
 
 - (IBAction)btnEditEventPressed:(id)sender {
     [self performSegueWithIdentifier:@"editEvent" sender:self];
+}
+
+- (IBAction)btnShowUserPressed:(id)sender {
+    [self performSegueWithIdentifier:@"showUser" sender:self];
 }
 @end

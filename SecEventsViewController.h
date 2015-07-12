@@ -12,6 +12,8 @@
 
 @property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger selectedSection;
+@property (nonatomic,strong) NSString *sectionName;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *sectionNameLabel;
 
 @end

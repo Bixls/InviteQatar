@@ -24,6 +24,7 @@
 @property (nonatomic) NSInteger secCount;
 @property (nonatomic) NSInteger selectedSection;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
+@property (nonatomic,strong) NSString *selectedSectionName;
 
 @end
 
@@ -42,31 +43,29 @@
                                         [UIFont systemFontOfSize:18],NSFontAttributeName,
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
-    
     self.navigationItem.backBarButtonItem = backbutton;
-    self.secCount = 0;
     
+    self.secCount = 0;
     self.flag = 0;
     self.sectionContent = [[NSMutableDictionary alloc]init];
-    NSDictionary *getAllSections = @{@"FunctionName":@"getEventCategories" , @"inputs":@[@{
-                                                                                             }]};
-    NSMutableDictionary *getAllSectionsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getSections",@"key", nil];
     
+    //Get All sections first
+    NSDictionary *getAllSections = @{@"FunctionName":@"getEventCategories" , @"inputs":@[@{
+                                                                                            }]};
+    NSMutableDictionary *getAllSectionsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getSections",@"key", nil];
     [self postRequest:getAllSections withTag:getAllSectionsTag];
     
-    
+
     
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    
     NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",section]];
     if (content.count > 0) {
         return content.count;
+    }else{
+        return 0;
     }
-
-    return 0;
-    
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -83,7 +82,7 @@
         if (content) {
             NSLog(@"%@",self.sectionContent);
             NSLog(@"%@",content);
-            if (content.count) {
+            if (content.count>0) {
                 NSDictionary *event = content[indexPath.row];
                 cell.eventName.text = event[@"subject"];
                 cell.eventCreator.text = event[@"CreatorName"];
@@ -139,7 +138,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedSection = indexPath.section ;
-    NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
+    NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]] ;
     self.selectedEvent = content[indexPath.row];
     [self performSegueWithIdentifier:@"enterEvent" sender:self];
 }
@@ -149,6 +148,7 @@
         SecEventsViewController *secEventsController = segue.destinationViewController;
         secEventsController.selectedSection = self.selectedSection;
         secEventsController.groupID = self.groupID;
+        secEventsController.sectionName = self.selectedSectionName;
     }else if ([segue.identifier isEqualToString:@"enterEvent"]){
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
@@ -216,7 +216,6 @@
         [self getEvents];
         
     }
-    NSLog(@"%@",array);
     
     for (int i = 0 ; i <self.allSections.count; i++) {
         NSDictionary *section = self.allSections[i];
@@ -230,6 +229,7 @@
             }
         }
     }
+    
     NSLog(@"%@",self.sectionContent);
     self.flag++;
     if (self.flag == self.allSections.count) {
@@ -249,7 +249,17 @@
 
 - (IBAction)btnSeeMorePressed:(id)sender {
     UIButton *pressedBtn = (UIButton *)sender;
-    self.selectedSection = pressedBtn.tag + 1;
+    NSInteger *tempSection = pressedBtn.tag;
+    NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)tempSection]];
+    NSDictionary *event = content[0];
+    NSInteger catID = [event[@"catID"]integerValue];
+    for (int i = 0; i < self.allSections.count; i++) {
+        NSDictionary *section = self.allSections[i];
+        if ([section[@"catID"]integerValue]==catID) {
+            self.selectedSection =catID;
+            self.selectedSectionName = section[@"catName"];
+        }
+    }
     NSLog(@"Section : %ld",(long)self.selectedSection);
     
 }

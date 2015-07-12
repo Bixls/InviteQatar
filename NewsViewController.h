@@ -19,5 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *newsDescription;
 
+@property (weak, nonatomic) IBOutlet UIButton *btnComments;
+@property (weak, nonatomic) IBOutlet UIImageView *imgComments;
 
 @end

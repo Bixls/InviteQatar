@@ -10,14 +10,18 @@
 #import "ASIHTTPRequest.h"
 #import "CommentsFirstTableViewCell.h"
 #import "CommentsSecondTableViewCell.h"
+#import "UserViewController.h"
 @interface CommentsViewController ()
 
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
 @property (nonatomic) NSInteger userID;
+@property (nonatomic) NSInteger commentID;
 @property (nonatomic,strong) NSMutableArray *comments;
 @property (nonatomic,strong) NSString *myComment;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (nonatomic) NSInteger selectedUserID;
+@property (nonatomic,strong) NSDictionary *selectedUser;
 
 @end
 
@@ -98,8 +102,48 @@
 
 #pragma mark - TableView Delegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }else if (indexPath.row == (self.comments.count+1)){
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }else{
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        NSDictionary *comment =self.comments[indexPath.row-1];
+        self.selectedUserID = [comment[@"id"]integerValue];
+        [self getUSer];
+        
+    }
+    
 }
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        return NO;
+    }else if (indexPath.row == (self.comments.count+1)){
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if (indexPath.row >0 &&indexPath.row < (self.comments.count+1)) {
+            NSDictionary *comment = self.comments[indexPath.row-1];
+            self.commentID = [comment[@"CommentID"]integerValue];
+
+            [self.comments removeObjectAtIndex:(indexPath.row-1)];
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self deleteComment];
+        }
+       
+    } else {
+        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
+    }
+}
+
+
 
 #pragma mark - TextField 
 
@@ -108,7 +152,44 @@
     return YES;
 }
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showUser"]) {
+        UserViewController *userController = segue.destinationViewController;
+        userController.user = self.selectedUser;
+    }
+}
+
+
 #pragma mark - Connection Setup
+-(void)getUSer {
+    
+    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
+                                                                               @"id":[NSString stringWithFormat:@"%ld",(long)self.selectedUserID]
+                                                                               }]};
+    
+    
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    
+    [self postRequest:getUser withTag:getUserTag];
+    
+}
+
+-(void)deleteComment {
+    
+    NSDictionary *deleteComment = @{@"FunctionName":@"RemoveComment" , @"inputs":@[@{
+                                                                                 @"POSTType":[NSString stringWithFormat:@"%ld",(long)self.postType],
+                                                                                 @"CommentID":[NSString stringWithFormat:@"%ld",(long)self.commentID],
+                                                                    
+                                                                                 }]};
+    
+    NSLog(@"%@",deleteComment);
+    NSMutableDictionary *deleteCommentTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"deleteComment",@"key", nil];
+    
+    [self postRequest:deleteComment withTag:deleteCommentTag];
+    
+}
+
+
 -(void)addComment {
     
     NSDictionary *addComment = @{@"FunctionName":@"addComment" , @"inputs":@[@{
@@ -181,6 +262,12 @@
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"addComment"]){
         NSLog(@"Add Comment Success %@",array);
+    }else if ([key isEqualToString:@"deleteComment"]){
+        NSLog(@"%@",array);
+    }else if ([key isEqualToString:@"getUser"]){
+         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        self.selectedUser = dict;
+        [self performSegueWithIdentifier:@"showUser" sender:self];
     }
     
 }
