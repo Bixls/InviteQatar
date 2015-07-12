@@ -15,6 +15,7 @@
 #import "GroupViewController.h"
 #import "NewsViewController.h"
 #import "AllSectionsViewController.h"
+#import <SVPullToRefresh.h>
 
 @interface HomePageViewController ()
 
@@ -29,6 +30,7 @@
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSDictionary *selectedGroup;
 @property (nonatomic,strong) NSDictionary *selectedNews;
+@property (nonatomic)NSInteger pullToRefreshFlag;
 
 
 @end
@@ -38,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
-    
+    self.pullToRefreshFlag = 0;
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
@@ -70,10 +72,17 @@
                                                                                  @"catID":@"-1",
                                                                                  @"start":@"0",@"limit":@"3"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
-    
+
     [self postRequest:getGroups withTag:getGroupsTag];
     [self postRequest:getNews withTag:getNewsTag];
     [self postRequest:getEvents withTag:getEventsTag];
+    
+    self.scrollView.showsPullToRefresh;
+    [self.scrollView addPullToRefreshWithActionHandler:^{
+        [self postRequest:getGroups withTag:getGroupsTag];
+        [self postRequest:getNews withTag:getNewsTag];
+        [self postRequest:getEvents withTag:getEventsTag];
+    }];
     
 }
 
@@ -94,6 +103,8 @@
         [self.btnSearch setEnabled:YES];
         [self.btnSupport setEnabled:YES];
     }
+    
+   
 }
 
 #pragma mark - Collection View methods
@@ -282,14 +293,16 @@
     if ([key isEqualToString:@"getGroups"]) {
         self.groups = responseArray;
         NSLog(@"Groupssss %@",self.groups);
-        
+        self.pullToRefreshFlag ++;
         [self.groupsCollectionView reloadData];
     }else if([key isEqualToString:@"getNews"]){
         self.news = responseArray;
         [self.newsCollectionView reloadData];
+        self.pullToRefreshFlag ++;
     }else if ([key isEqualToString:@"getEvents"]){
         self.events = responseArray;
         [self.eventsTableView reloadData];
+        self.pullToRefreshFlag ++;
         //reload
     }
 //    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
@@ -299,6 +312,11 @@
 //        [self.userDefaults synchronize];
 //        //[self.tableView reloadData];
 //    }
+    if (self.pullToRefreshFlag == 3) {
+        [self.scrollView.pullToRefreshView stopAnimating];
+    
+        self.pullToRefreshFlag = 0;
+    }
 
 }
 

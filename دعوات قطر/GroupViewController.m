@@ -15,6 +15,7 @@
 #import "EventViewController.h"
 #import "GroupNewsCollectionViewCell.h"
 #import "NewsViewController.h"
+#import <SVPullToRefresh.h>
 @interface GroupViewController ()
 
 @property (nonatomic,strong) NSArray *events;
@@ -67,7 +68,7 @@
     NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
 
     
-    [self postRequest:getNews withTag:getNewsTag];
+
 }
 
 

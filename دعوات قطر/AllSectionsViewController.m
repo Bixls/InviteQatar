@@ -13,7 +13,7 @@
 #import "AllSectionFooterCollectionReusableView.h"
 #import "SecEventsViewController.h"
 #import "EventViewController.h"
-
+#import <SVPullToRefresh/SVPullToRefresh.h>
 @interface AllSectionsViewController ()
 
 @property (nonatomic,strong) NSArray *allSections;
@@ -54,8 +54,8 @@
                                                                                             }]};
     NSMutableDictionary *getAllSectionsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getSections",@"key", nil];
     [self postRequest:getAllSections withTag:getAllSectionsTag];
-    
 
+    
     
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
