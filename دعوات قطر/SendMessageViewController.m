@@ -22,6 +22,45 @@
     self.userID = [self.userDefaults integerForKey:@"userID"];
 }
 
+#pragma mark - TextField Delegate Methods
+
+
+
+
+//-(void)textFieldDidEndEditing:(UITextField *)textField{
+//    [textField resignFirstResponder];
+//}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - TextView Delegate Methods
+
+//-(void)textViewDidBeginEditing:(UITextView *)textView {
+//    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc]initWithTitle:@"تم" style:UIBarButtonItemStyleDone target:self action:@selector(removeKeyboard)];
+//
+//    [self.navigationItem setRightBarButtonItem:doneBtn];
+//}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    [textView resignFirstResponder];
+    return YES;
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        NSLog(@"Return pressed");
+        [textView resignFirstResponder];
+    } else {
+        NSLog(@"Other pressed");
+    }
+    return YES;
+}
+
+
 #pragma mark - Connection Setup
 
 -(void)sendMessage {
@@ -95,6 +134,12 @@
 
 
 - (IBAction)btnSendPressed:(id)sender {
-    [self sendMessage];
+    if (self.messageContent.text.length >0 && self.messageSubject.text.length > 0) {
+        [self sendMessage];
+    }else{
+        UIAlertView * alerView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من إدخال عنوان و محتوي للرسالة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alerView show];
+    }
+    
 }
 @end

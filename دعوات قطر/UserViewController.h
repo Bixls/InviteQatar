@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *userPicture;
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *userGroup;
+@property (weak, nonatomic) IBOutlet UIButton *btnSendMessage;
+@property (weak, nonatomic) IBOutlet UIImageView *imgSendMessage;
 
 - (IBAction)btnSendMessagePressed:(id)sender;
 

@@ -10,7 +10,9 @@
 #import "SendMessageViewController.h"
 @interface UserViewController ()
 
+@property (nonatomic,strong)NSUserDefaults *userDefaults;
 @property(nonatomic) NSInteger otherUserID;
+@property (nonatomic) NSInteger userID;
 
 @end
 
@@ -19,9 +21,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID  = [self.userDefaults integerForKey:@"userID"];
+    self.otherUserID = [self.user[@"id"]integerValue];
+    if (self.otherUserID == self.userID) {
+        [self.btnSendMessage setHidden:YES];
+        [self.imgSendMessage setHidden:YES];
+    }else{
+        [self.btnSendMessage setHidden:NO];
+        [self.imgSendMessage setHidden:NO];
+    }
     NSLog(@"%@",self.user);
     self.userName.text = self.user[@"name"];
-    self.otherUserID = [self.user[@"id"]integerValue];
     self.userGroup.text = self.user[@"GroupName"];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
