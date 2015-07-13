@@ -239,6 +239,7 @@
     NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     
     if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"postPicture"]) {
+        NSLog(@"%@",responseDict);
         self.imageURL = responseDict[@"id"];
         self.uploaded = 1;
     }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
