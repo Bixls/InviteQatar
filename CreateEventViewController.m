@@ -23,8 +23,10 @@
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) int flag;
 @property (nonatomic) int uploaded;
+@property (nonatomic) NSInteger btnPressed;
 @property(nonatomic,strong)NSDictionary *selectedCategory;
 @property (nonatomic,strong) NSString *selectedDate;
+
 
 @end
 
@@ -255,6 +257,14 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
+    if (error) {
+        if (self.btnPressed == 1) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم عمل مناسبه جديده" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            self.btnPressed = 0;
+            
+        }
+    }
     NSLog(@"%@",error);
 }
 
@@ -272,7 +282,7 @@
     
     NSLog(@"%@",postDict);
     NSMutableDictionary *createEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"createEvent",@"key", nil];
-    
+    self.btnPressed = 1;
     [self postRequest:postDict withTag:createEventTag];
 
 }
@@ -291,6 +301,7 @@
                                              }]};
     
     NSLog(@"%@",postDict);
+    self.btnPressed = 1;
     NSMutableDictionary *editEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editEvent",@"key", nil];
     
     [self postRequest:postDict withTag:editEventTag];

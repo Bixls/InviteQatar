@@ -22,6 +22,7 @@
 @property (nonatomic) int uploaded;
 @property (nonatomic) int flag;
 @property (nonatomic)NSInteger userID;
+@property (nonatomic)NSInteger btnPressed;
 @property (nonatomic,strong)NSArray *categories;
 @property (nonatomic,strong)NSArray *blockList;
 @property (nonatomic,strong)NSMutableArray *listArray;
@@ -269,6 +270,7 @@
         self.saved1 = 1;
     }
     
+    
     if (self.saved0 ==1 && self.saved1 ==1 ) {
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم تعديل الحساب بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
@@ -281,6 +283,14 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
+    if (error) {
+        if (self.btnPressed == 1) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم تعديل الحساب" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            self.btnPressed = 0;
+
+        }
+    }
     NSLog(@"%@",error);
 }
 
@@ -306,14 +316,18 @@
                                                                     }]};
         if (self.flag == 1) {
             NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
+            self.btnPressed = 1;
             [self postPicturewithTag:pictureTag];
 
             [self postRequest:editName withTag:editNameTag];
             [self postRequest:editBlockList withTag:editBlockListTag];
+            
            
         }else {
+            self.btnPressed = 1;
             [self postRequest:editName withTag:editNameTag];
             [self postRequest:editBlockList withTag:editBlockListTag];
+            
         }
         
     }else{
