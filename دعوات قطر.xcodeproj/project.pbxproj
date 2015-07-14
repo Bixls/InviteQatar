@@ -25,6 +25,7 @@
 		184AE3031B51148B00BAE3E3 /* SupportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184AE3021B51148B00BAE3E3 /* SupportViewController.m */; };
 		184AE3061B51DDCF00BAE3E3 /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184AE3051B51DDCE00BAE3E3 /* SendMessageViewController.m */; };
 		184AE3091B53573600BAE3E3 /* testViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184AE3081B53573600BAE3E3 /* testViewController.m */; };
+		184AE30D1B54C9F300BAE3E3 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 184AE30C1B54C9F300BAE3E3 /* Logo.png */; };
 		184B65301B3F60AC00B1483C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B652F1B3F60AC00B1483C /* main.m */; };
 		184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65321B3F60AC00B1483C /* AppDelegate.m */; };
 		184B65391B3F60AC00B1483C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 184B65371B3F60AC00B1483C /* Main.storyboard */; };
@@ -147,6 +148,7 @@
 		184AE3051B51DDCE00BAE3E3 /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageViewController.m; sourceTree = "<group>"; };
 		184AE3071B53573600BAE3E3 /* testViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testViewController.h; sourceTree = "<group>"; };
 		184AE3081B53573600BAE3E3 /* testViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testViewController.m; sourceTree = "<group>"; };
+		184AE30C1B54C9F300BAE3E3 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		184B652A1B3F60AC00B1483C /* دعوات قطر.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "دعوات قطر.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		184B652E1B3F60AC00B1483C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		184B652F1B3F60AC00B1483C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				18EA68301B4B806000F482FB /* PicFrame.png */,
 				187C63951B4626D500B3E3EA /* navbarFace.png */,
 				187C63961B4626D500B3E3EA /* tabBarFace.png */,
+				184AE30C1B54C9F300BAE3E3 /* Logo.png */,
 				187C63901B461CF900B3E3EA /* da3wa.png */,
 				183957131B453C1E00B47FC2 /* eldosri.png */,
 				183957171B453C6500B47FC2 /* elhawager.png */,
@@ -628,6 +631,7 @@
 				1873C21F1B4DA6080026C905 /* GroupFrame.png in Resources */,
 				18EA68331B4B82E100F482FB /* PicFrame2.png in Resources */,
 				183957191B453C6500B47FC2 /* elhawager.png in Resources */,
+				184AE30D1B54C9F300BAE3E3 /* Logo.png in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				1839571A1B453C6500B47FC2 /* elmra.png in Resources */,
 				18EA68311B4B806000F482FB /* PicFrame.png in Resources */,

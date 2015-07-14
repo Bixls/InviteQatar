@@ -31,6 +31,11 @@
 @property (nonatomic,strong) NSDictionary *selectedGroup;
 @property (nonatomic,strong) NSDictionary *selectedNews;
 @property (nonatomic)NSInteger pullToRefreshFlag;
+@property (nonatomic)NSInteger userID;
+@property (nonatomic)NSInteger unReadMsgs;
+@property (nonatomic,strong) NSString *userMobile;
+@property (nonatomic,strong) NSString *userPassword;
+@property (nonatomic) NSInteger segueFlag;
 
 
 @end
@@ -40,8 +45,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.userID = [self.userDefaults integerForKey:@"userID"];
+    self.userPassword = [self.userDefaults objectForKey:@"password"];
+    self.userMobile = [self.userDefaults objectForKey:@"mobile"];
+    [self.userDefaults synchronize];
     self.pullToRefreshFlag = 0;
-    
+    [self.btnUnReadMsgs setHidden:YES];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -72,10 +81,30 @@
                                                                                  @"catID":@"-1",
                                                                                  @"start":@"0",@"limit":@"3"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
+    
+    NSDictionary *getUnReadInbox = @{@"FunctionName":@"unReadInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",self.userID],
+//                                                                             @"catID":@"-1",
+//                                                                             @"start":@"0",@"limit":@"3"
+                                                                                    }]};
+    NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
+    if (self.userMobile && self.userPassword) {
+        NSDictionary *getInvNum = @{
+                                    @"FunctionName":@"signIn" ,
+                                    @"inputs":@[@{@"Mobile":self.userMobile,
+                                                  @"password":self.userPassword}]};
+        NSLog(@"%@",getInvNum);
+        
+        
+        NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+        [self postRequest:getInvNum withTag:getInvNumTag];
 
+    }
+    
     [self postRequest:getGroups withTag:getGroupsTag];
     [self postRequest:getNews withTag:getNewsTag];
     [self postRequest:getEvents withTag:getEventsTag];
+    [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+   
     
     self.scrollView.showsPullToRefresh;
     [self.scrollView addPullToRefreshWithActionHandler:^{
@@ -87,12 +116,24 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0) {
+    if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
         [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
+        self.segueFlag = 0;
+        [self.myProfileLabel setText:@"حسابي"];
     }
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
         [self.btnBuyInvitations setEnabled:NO];
+        self.segueFlag = 0;
+        [self.myProfileLabel setText:@"حسابي"];
         //        [self.btnMyAccount setEnabled:NO];
+        [self.btnMyMessages setEnabled:NO];
+        [self.btnSearch setEnabled:NO];
+        [self.btnSupport setEnabled:NO];
+    }else if ([self.userDefaults integerForKey:@"Visitor"] == 1){
+        [self.btnBuyInvitations setEnabled:NO];
+        //        [self.btnMyAccount setEnabled:NO];
+        self.segueFlag = 1;
+        [self.myProfileLabel setText:@"خروج"];
         [self.btnMyMessages setEnabled:NO];
         [self.btnSearch setEnabled:NO];
         [self.btnSupport setEnabled:NO];
@@ -102,6 +143,7 @@
         [self.btnMyMessages setEnabled:YES];
         [self.btnSearch setEnabled:YES];
         [self.btnSupport setEnabled:YES];
+         [self.myProfileLabel setText:@"حسابي"];
     }
     
    
@@ -304,6 +346,19 @@
         [self.eventsTableView reloadData];
         self.pullToRefreshFlag ++;
         //reload
+    }else if ([key isEqualToString:@"unReadInbox"]){
+        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        self.unReadMsgs = [dict[@"unReaded"]integerValue];
+        [self.btnUnReadMsgs setHidden:NO];
+        [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
+        
+    }else if ([key isEqualToString:@"invNum"]){
+        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@",dict);
+        NSString *normal = dict[@"inNOR"];
+        NSString *VIP  = dict[@"inVIP"];
+        [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
+        [self.btnVIPNum setTitle:VIP forState:UIControlStateNormal];
     }
 //    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
 //        //do nothing
@@ -333,5 +388,18 @@
 
 - (IBAction)btnSupportPressed:(id)sender {
     [self performSegueWithIdentifier:@"support" sender:self];
+}
+
+- (IBAction)myProfileBtnPressed:(id)sender {
+    if (self.segueFlag == 0) {
+        [self performSegueWithIdentifier:@"profile" sender:self];
+    }else if (self.segueFlag == 1){
+        [self.userDefaults setInteger:0 forKey:@"Guest"];
+        [self.userDefaults setInteger:0 forKey:@"signedIn"];
+        [self.userDefaults setInteger:0 forKey:@"userID"];
+        [self.userDefaults setInteger:0 forKey:@"Visitor"];
+        [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
+        
+    }
 }
 @end

@@ -41,7 +41,8 @@
 }
 
 - (IBAction)btnGuestPressed:(id)sender {
-    [self.userDefaults setInteger:1 forKey:@"Guest"];
+    [self.userDefaults setInteger:1 forKey:@"Visitor"];
+    [self.userDefaults synchronize];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end

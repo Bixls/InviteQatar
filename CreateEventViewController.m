@@ -249,6 +249,11 @@
             [alertView show];
             self.saveLabel.text = @"إستمرار";
         }
+    }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"editEvent"]){
+        if (responseDict) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم تعديل المناسبه بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }
     }
   
 

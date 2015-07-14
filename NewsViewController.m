@@ -21,6 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.backBarButtonItem = nil;
+    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
+                                        nil] forState:UIControlStateNormal];
+    backbutton.tintColor = [UIColor whiteColor];
+    self.navigationItem.backBarButtonItem = backbutton;
     self.newsID = [self.news[@"NewsID"]integerValue];
     self.newsType = 1;
     [self.btnComments setHidden:YES];

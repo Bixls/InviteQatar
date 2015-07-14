@@ -142,6 +142,7 @@
     [self.userDefaults setInteger:0 forKey:@"Guest"];
     [self.userDefaults setInteger:0 forKey:@"signedIn"];
     [self.userDefaults setInteger:0 forKey:@"userID"];
+    [self.userDefaults setInteger:0 forKey:@"Visitor"];
     [self.navigationController popToRootViewControllerAnimated:NO];
     //[self performSegueWithIdentifier:@"welcome" sender:self];
 }

@@ -67,12 +67,16 @@
     NSString *temp = [NSString stringWithFormat:@"%@",self.user[@"Mobile"]];
     NSInteger userID = [self.user[@"id"]integerValue];
     NSInteger guest = ![self.user[@"Verified"]integerValue];
+    NSString * mobile = self.mobileField.text;
+    NSString * password = self.passwordField.text;
     NSLog(@"%ld",(long)guest);
     if ([temp isEqualToString:self.mobileField.text]) {
         [self.userDefaults setInteger:1 forKey:@"signedIn"];
         [self.userDefaults setInteger:guest forKey:@"Guest"];
         [self.userDefaults setObject:self.user forKey:@"user"];
         [self.userDefaults setInteger:userID forKey:@"userID"];
+        [self.userDefaults setObject:mobile forKey:@"mobile"];
+        [self.userDefaults setObject:password forKey:@"password"];
         [self.userDefaults synchronize];
         [self dismissViewControllerAnimated:YES completion:nil];
     }

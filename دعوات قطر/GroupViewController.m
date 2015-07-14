@@ -66,9 +66,9 @@
                                             @"limit":@"3"}]};
     NSLog(@"%@",getNews);
     NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
-
+    [self postRequest:getNews withTag:getNewsTag];
     
-
+    
 }
 
 

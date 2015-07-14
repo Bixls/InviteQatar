@@ -21,9 +21,16 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnBuyInvitations;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *newsCollectionView;
+@property (weak, nonatomic) IBOutlet UIButton *btnUnReadMsgs;
+@property (weak, nonatomic) IBOutlet UIButton *btnInvitationNum;
+@property (weak, nonatomic) IBOutlet UIButton *btnVIPNum;
+@property (weak, nonatomic) IBOutlet UILabel *myProfileLabel;
 
 - (IBAction)btnSeeMorePressed:(id)sender;
 
 - (IBAction)btnSupportPressed:(id)sender;
+
+- (IBAction)myProfileBtnPressed:(id)sender;
+
 
 @end
