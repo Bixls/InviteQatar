@@ -10,7 +10,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-
+#import "EventViewController.h"
 @interface CreateEventViewController ()
 
 @property (nonatomic,strong)NSArray *invitationTypes;
@@ -24,7 +24,9 @@
 @property (nonatomic) int flag;
 @property (nonatomic) int uploaded;
 @property (nonatomic) NSInteger btnPressed;
+@property (nonatomic) NSInteger continueFlag;
 @property(nonatomic,strong)NSDictionary *selectedCategory;
+@property(nonatomic,strong)NSDictionary *createdEvent;
 @property (nonatomic,strong) NSString *selectedDate;
 
 
@@ -245,9 +247,10 @@
     }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
          NSLog(@"%@",responseDict);
         if ([responseDict[@"success"]integerValue] == 0) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@" تم الحفظ إضغط إستمرار للدفع" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@" تم حفظ المناسبة من فضلك انتظر الموافقة عليها في خلال اربعة و عشرين ساعة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
-            self.saveLabel.text = @"إستمرار";
+            [self.navigationController popToRootViewControllerAnimated:YES];
+
         }
     }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"editEvent"]){
         if (responseDict) {
@@ -275,7 +278,7 @@
 }
 
 -(void)createEventFN{
-    NSDictionary *postDict = @{@"FunctionName":@"CreateEvent" ,
+    NSDictionary *postDict   = @{@"FunctionName":@"CreateEvent" ,
                                @"inputs":@[@{@"VIP":[NSString stringWithFormat:@"%d",self.vipFlag],
                                              @"CreatorID":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                              @"eventType":self.selectedType,
@@ -286,7 +289,6 @@
                                              @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
                                              }]};
     
-    NSLog(@"%@",postDict);
     NSMutableDictionary *createEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"createEvent",@"key", nil];
     self.btnPressed = 1;
     [self postRequest:postDict withTag:createEventTag];
@@ -337,46 +339,44 @@
 }
 
 - (IBAction)btnSubmitPressed:(id)sender {
-    
-    if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0) && self.createOrEdit == 0) {
-        if (self.flag == 1 && self.uploaded == 1 ) {
-          
+
+        if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0) && self.createOrEdit == 0) {
+            if (self.flag == 1 && self.uploaded == 1 ) {
+                
                 [self createEventFN];
+                
+                
+            }else if (self.flag == 1){
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+                [alertView show];
+            }else {
+                
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+                [alertView show];
+                
+            }
+            
+        } else if (self.createOrEdit == 1) {
+            
+            if (self.flag == 1 && self.uploaded == 1 ) {
+                
+                [self editEventFN];
+                
+                
+            }else if (self.flag == 1){
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+                [alertView show];
+            }else {
+                [self editEventFN];
+            }
             
             
-        }else if (self.flag == 1){
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        }else{
+            
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
-        }else {
-            
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
-            
-        }
-        
-    } else if (self.createOrEdit == 1) {
-        
-        if (self.flag == 1 && self.uploaded == 1 ) {
-            
-            [self editEventFN];
-            
-            
-        }else if (self.flag == 1){
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
-        }else {
-            [self editEventFN];
         }
 
-        
-    }else{
-        
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-
-    
-    
     
     
 }
@@ -405,6 +405,9 @@
     [self performSegueWithIdentifier:@"chooseDate" sender:self];
 }
 
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 @end
 

@@ -32,6 +32,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgGoingList;
 @property (weak, nonatomic) IBOutlet UIButton *btnEditEvent;
 @property (weak, nonatomic) IBOutlet UIImageView *imgEditEvent;
+@property (weak, nonatomic) IBOutlet UIButton *btnInviteOthers;
+@property (weak, nonatomic) IBOutlet UIImageView *imgInviteOthers;
+
 
 
 - (IBAction)btnViewAttendeesPressed:(id)sender;
@@ -39,6 +42,7 @@
 - (IBAction)btnGoingPressed:(id)sender;
 - (IBAction)btnEditEventPressed:(id)sender;
 - (IBAction)btnShowUserPressed:(id)sender;
+- (IBAction)btnInviteOthersPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTime;
 

@@ -13,7 +13,8 @@
 
 @property (nonatomic,strong) NSArray *users;
 @property (nonatomic) int flag;
-
+@property (nonatomic,strong) NSMutableArray *selectedUsers;
+@property (nonatomic,strong) NSMutableArray *UsersToInvite;
 @end
 
 @implementation InviteViewController
@@ -21,13 +22,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.selectedUsers = [[NSMutableArray alloc]init];
+    self.UsersToInvite = [[NSMutableArray alloc]init];
+    [self getUSer];
     
-    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
-                                   @"inputs":@[@{@"groupID":@"2",
-                                                 @"start":@"0",
-                                                 @"limit":@"50000"}]};
-    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
-    [self postRequest:getUSersDict withTag:getUsersTag];
+    
 }
 
 
@@ -56,13 +55,31 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.textLabel.text isEqualToString:@"\u2713"]) {
         cell.textLabel.text = @"\u2001";
+        if (self.selectedUsers.count >0) {
+            [self.selectedUsers removeObject:self.users[indexPath.row]];
+        }
     }else{
         cell.textLabel.text = @"\u2713";
+        [self.selectedUsers addObject:self.users[indexPath.row]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Connection setup
+
+-(void)getUSer {
+    
+    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
+                                                                               @"id":[NSString stringWithFormat:@"%ld",(long)self.creatorID]
+                                                                               }]};
+    
+    
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    
+    [self postRequest:getUser withTag:getUserTag];
+    
+}
+
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
@@ -104,6 +121,26 @@
         self.users = array;
         NSLog(@"%@",self.users);
         [self.tableView reloadData];
+    }else if ([key isEqualToString:@"getUser"]){
+        NSLog(@"%@",array);
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSInteger groupID =[dict[@"Gid"]integerValue];
+        
+        NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
+                                       @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",groupID],
+                                                     @"start":@"0",
+                                                     @"limit":@"50000"}]};
+        NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+        [self postRequest:getUSersDict withTag:getUsersTag];
+    }else if ([key isEqualToString:@"inviteUsers"]){
+        NSLog(@"%@",array);
+        NSDictionary *dict = array[0];
+        NSInteger success = [dict[@"success"]integerValue];
+        NSLog(@"%ld",success);
+        if (success == 0) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم إرسال الدعوة بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }
     }
     
     
@@ -125,11 +162,15 @@
         if ([cell.textLabel.text isEqualToString:@"\u2713"]) {
             if(self.flag == 1){
                 cell.textLabel.text = @"\u2001";
+                if (self.selectedUsers.count >0) {
+                    [self.selectedUsers removeObject:self.users[indexPath.row]];
+                }
             }
         }else if (self.flag==1){
             //do nothing
         }else{
             cell.textLabel.text = @"\u2713";
+            [self.selectedUsers addObject:self.users[indexPath.row]];
         }
     }
     self.flag = !(self.flag);
@@ -143,5 +184,28 @@
     [self.tableView reloadData];
 }
 
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+- (IBAction)btnInvitePressed:(id)sender {
+    if (self.selectedUsers.count >0) {
+        for (int i =0; i < self.selectedUsers.count; i++) {
+            
+            NSDictionary *dict = self.selectedUsers[i];
+            NSInteger userID = [dict[@"id"]integerValue];
+            NSDictionary *temp = [[NSDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)userID],@"id", nil];
+            [self.UsersToInvite addObject:temp];
+            
+        }
+        
+        NSDictionary *inviteUsers = @{@"FunctionName":@"invite" ,
+                                      @"inputs":@[@{@"EventID":[NSString stringWithFormat:@"%ld",self.eventID],
+                                                    @"listArray":self.UsersToInvite,
+                                                    }]};
+        NSMutableDictionary *inviteUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"inviteUsers",@"key", nil];
+        [self postRequest:inviteUsers withTag:inviteUsersTag];
+        
+    }
 
+}
 @end

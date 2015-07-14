@@ -424,6 +424,9 @@
     self.name = self.editNameField.text;
     return YES;
 }
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 //- (IBAction)btnChecklistPressed:(id)sender {
 //

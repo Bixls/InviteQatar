@@ -197,6 +197,15 @@
         
         [self.tableView reloadData];
         [self.vipTableView reloadData];
+    }else if ([key isEqualToString:@"buyNow"]){
+        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@",self.responseArray);
+        NSInteger success = [dict[@"success"]integerValue];
+        if (success == 1) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم شراء الدعوة" delegate:self cancelButtonTitle:@"إغلاق"otherButtonTitles:nil, nil];
+            [alertView show];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
     }
     
 
@@ -209,6 +218,9 @@
     NSLog(@"%@",error);
 }
 
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 
 - (IBAction)btnBuyNowPressed:(id)sender {

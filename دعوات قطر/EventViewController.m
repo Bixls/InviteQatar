@@ -12,7 +12,7 @@
 #import "EventAttendeesViewController.h"
 #import "CreateEventViewController.h"
 #import "UserViewController.h"
-
+#import "InviteViewController.h"
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
@@ -23,6 +23,7 @@
 @property (nonatomic)NSInteger isInvited;
 @property (nonatomic)NSInteger isJoined;
 @property (nonatomic)NSInteger creatorID;
+@property (nonatomic)NSInteger approved;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *fullEvent;
@@ -45,12 +46,18 @@
                                         [UIFont systemFontOfSize:18],NSFontAttributeName,
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
+
+    
+ 
+    
     self.navigationItem.backBarButtonItem = backbutton;
     [self.btnAttendees setHidden:YES];
     [self.imgGoingList setHidden:YES];
     [self.imgGoing setHidden:YES];
     [self.btnEditEvent setHidden:YES];
     [self.imgEditEvent setHidden:YES];
+    [self.btnInviteOthers setHidden:YES];
+    [self.imgInviteOthers setHidden:YES];
     
     self.isJoined = -1;
     self.isInvited =-1;
@@ -135,7 +142,14 @@
         [self.btnEditEvent setHidden:YES];
         [self.imgEditEvent setHidden:YES];
     }
-    
+    if (self.approved == 1 && self.userID == self.creatorID) {
+        [self.btnInviteOthers setHidden:NO];
+        [self.imgInviteOthers setHidden:NO];
+    }else {
+        [self.btnInviteOthers setHidden:YES];
+        [self.imgInviteOthers setHidden:YES];
+    }
+
     
 
 
@@ -160,6 +174,10 @@
         UserViewController *userController = segue.destinationViewController;
         userController.user = self.user;
         
+    }else if ([segue.identifier isEqualToString:@"invite"]){
+        InviteViewController *inviteController = segue.destinationViewController;
+        inviteController.creatorID = self.creatorID;
+        inviteController.eventID = self.eventID;
     }
 }
 
@@ -312,6 +330,7 @@
             self.allowComments = [dict[@"comments"]integerValue];
             self.eventDescription = dict[@"description"];
             self.creatorID = [dict[@"CreatorID"]integerValue];
+            self.approved = [dict[@"approved"]integerValue];
             [self getUSer];
             [self updateUI];
             
@@ -382,6 +401,9 @@
     }
     
 }
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
@@ -412,5 +434,9 @@
 
 - (IBAction)btnShowUserPressed:(id)sender {
     [self performSegueWithIdentifier:@"showUser" sender:self];
+}
+
+- (IBAction)btnInviteOthersPressed:(id)sender {
+    [self performSegueWithIdentifier:@"invite" sender:self];
 }
 @end

@@ -15,5 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *msgSubject;
 
+@property (weak, nonatomic) IBOutlet UIImageView *msgImage;
+@property (weak, nonatomic) IBOutlet UIImageView *secondMsgImage;
 
 @end

@@ -60,6 +60,9 @@
         sendMessageController.receiverID = self.otherUserID;
     }
 }
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)btnSendMessagePressed:(id)sender {
     [self performSegueWithIdentifier:@"sendMessage" sender:self];

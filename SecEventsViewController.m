@@ -210,6 +210,9 @@
 }
 
 
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 
 

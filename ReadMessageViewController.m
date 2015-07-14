@@ -122,6 +122,9 @@
     
     
 }
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
@@ -131,6 +134,6 @@
 
 
 
-- (IBAction)btnSendMessagePressed:(id)sender {
-}
+//- (IBAction)btnSendMessagePressed:(id)sender {
+//}
 @end

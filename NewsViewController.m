@@ -149,6 +149,9 @@
     NSLog(@"%@",error);
 }
 
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 
 

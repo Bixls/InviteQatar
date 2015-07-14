@@ -147,6 +147,9 @@
     //[self performSegueWithIdentifier:@"welcome" sender:self];
 }
 
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 
 @end

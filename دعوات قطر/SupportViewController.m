@@ -123,6 +123,9 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"نوع الرساله" delegate:self cancelButtonTitle:@"إلغاء" destructiveButtonTitle:nil otherButtonTitles:@"شكوي",@"إقتراح", nil];
     [actionSheet showInView:self.view];
 }
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)btnSendPressed:(id)sender {
     if (self.nameField.text.length > 0 && self.msgField.text.length > 0 && (self.feedbackType == 0 || self.feedbackType==1) ) {

@@ -75,6 +75,21 @@
         NSDictionary *message = self.messages[indexPath.row];
         cell.msgSender.text = message[@"name"];
         cell.msgSubject.text = message[@"Subject"];
+        NSInteger type = [message[@"type"]integerValue];
+        NSInteger status = [message[@"Status"]integerValue];
+        if (status == 1 && type == 3) {
+            cell.msgImage.image = [UIImage imageNamed:@"read.png"];
+            cell.secondMsgImage.image = [UIImage imageNamed:@"vip2.png"];
+        }else if (status == 0 && type == 3){
+            cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
+            cell.secondMsgImage.image = [UIImage imageNamed:@"vip2.png"];
+        }else if (status == 1){
+            cell.msgImage.image = [UIImage imageNamed:@"read.png"];
+        }else if (status==0){
+            cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
+        }
+        
+        
         return cell;
         
     }else if (indexPath.row == self.messages.count){
@@ -247,6 +262,9 @@
     NSLog(@"%@",error);
 }
 
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)btnSeeMorePressed:(id)sender {
     self.start = self.messages.count;

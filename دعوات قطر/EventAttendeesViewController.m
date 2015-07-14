@@ -232,6 +232,9 @@
     NSError *error = [request error];
     NSLog(@"%@",error);
 }
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)btnSeeMorePressed:(id)sender {
     self.start = self.allUsers.count;
