@@ -111,6 +111,20 @@
         [self postRequest:getGroups withTag:getGroupsTag];
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
+        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+        if (self.userMobile && self.userPassword) {
+            NSDictionary *getInvNum = @{
+                                        @"FunctionName":@"signIn" ,
+                                        @"inputs":@[@{@"Mobile":self.userMobile,
+                                                      @"password":self.userPassword}]};
+            NSLog(@"%@",getInvNum);
+            
+            
+            NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+            [self postRequest:getInvNum withTag:getInvNumTag];
+            
+        }
+
     }];
     
 }
@@ -120,15 +134,21 @@
         [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
         self.segueFlag = 0;
         [self.myProfileLabel setText:@"حسابي"];
+        
     }
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
         [self.btnBuyInvitations setEnabled:NO];
         self.segueFlag = 0;
         [self.myProfileLabel setText:@"حسابي"];
-        //        [self.btnMyAccount setEnabled:NO];
+        //[self.btnMyAccount setEnabled:NO];
         [self.btnMyMessages setEnabled:NO];
         [self.btnSearch setEnabled:NO];
         [self.btnSupport setEnabled:NO];
+        
+        self.eventsTableView.allowsSelection = NO;
+        self.newsCollectionView.allowsSelection = NO;
+        self.groupsCollectionView.allowsSelection = NO;
+        
     }else if ([self.userDefaults integerForKey:@"Visitor"] == 1){
         [self.btnBuyInvitations setEnabled:NO];
         //        [self.btnMyAccount setEnabled:NO];
@@ -137,13 +157,23 @@
         [self.btnMyMessages setEnabled:NO];
         [self.btnSearch setEnabled:NO];
         [self.btnSupport setEnabled:NO];
+        
+        self.eventsTableView.allowsSelection = NO;
+        self.newsCollectionView.allowsSelection = NO;
+        self.groupsCollectionView.allowsSelection = NO;
+        
     }else{
         [self.btnBuyInvitations setEnabled:YES];
         //        [self.btnMyAccount setEnabled:NO];
         [self.btnMyMessages setEnabled:YES];
         [self.btnSearch setEnabled:YES];
         [self.btnSupport setEnabled:YES];
-         [self.myProfileLabel setText:@"حسابي"];
+        self.segueFlag = 0;
+        [self.myProfileLabel setText:@"حسابي"];
+        
+        self.eventsTableView.allowsSelection = YES;
+        self.newsCollectionView.allowsSelection = YES;
+        self.groupsCollectionView.allowsSelection = YES;
     }
     
    
@@ -351,7 +381,7 @@
         self.unReadMsgs = [dict[@"unReaded"]integerValue];
         [self.btnUnReadMsgs setHidden:NO];
         [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
-        
+        self.pullToRefreshFlag ++;
     }else if ([key isEqualToString:@"invNum"]){
         NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSLog(@"%@",dict);
@@ -359,6 +389,7 @@
         NSString *VIP  = dict[@"inVIP"];
         [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
         [self.btnVIPNum setTitle:VIP forState:UIControlStateNormal];
+        self.pullToRefreshFlag ++;
     }
 //    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
 //        //do nothing
@@ -367,9 +398,8 @@
 //        [self.userDefaults synchronize];
 //        //[self.tableView reloadData];
 //    }
-    if (self.pullToRefreshFlag == 3) {
+    if (self.pullToRefreshFlag == 5) {
         [self.scrollView.pullToRefreshView stopAnimating];
-    
         self.pullToRefreshFlag = 0;
     }
 
