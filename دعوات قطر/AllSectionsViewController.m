@@ -58,6 +58,18 @@
     
     
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",section]];

@@ -47,7 +47,16 @@
     self.limit = 10;
     [self getMessages];
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
 #pragma mark - TableView DataSource
 
 

@@ -30,7 +30,16 @@
     
     
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
 -(void)postRequest:(NSDictionary *)postDict{
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
@@ -79,6 +88,9 @@
         [self.userDefaults setObject:password forKey:@"password"];
         [self.userDefaults synchronize];
         [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من إدخال بياناتك الصحيحة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
     }
 }
 

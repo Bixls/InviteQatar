@@ -55,6 +55,17 @@
     }
     
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"editProfile"]) {

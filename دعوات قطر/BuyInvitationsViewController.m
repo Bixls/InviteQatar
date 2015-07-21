@@ -49,6 +49,17 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
+
 #pragma mark - Table view Methods 
 
 

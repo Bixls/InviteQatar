@@ -30,7 +30,16 @@
     [self postRequest:postDict];
     
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
 #pragma mark - Table view Data Source Methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

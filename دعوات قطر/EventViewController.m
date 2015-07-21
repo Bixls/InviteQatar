@@ -78,6 +78,17 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
+
 -(void)updateUI {
 
     NSLog(@"EVEENT %@",self.event);

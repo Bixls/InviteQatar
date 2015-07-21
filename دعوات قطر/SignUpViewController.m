@@ -55,7 +55,16 @@
     self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
     
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
 -(void)selectedGroup:(NSDictionary *)group {
     self.selectedGroup = group;
     [self.btnChooseGroup setTitle:self.selectedGroup[@"name"] forState:UIControlStateNormal];

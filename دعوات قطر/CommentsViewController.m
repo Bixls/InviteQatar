@@ -36,7 +36,16 @@
     self.limit = 5;
     [self getComments];
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
