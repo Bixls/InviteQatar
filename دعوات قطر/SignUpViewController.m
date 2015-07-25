@@ -46,7 +46,7 @@
     self.selectedGroup = @{@"id":@"default"} ;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
-
+    self.view.backgroundColor = [UIColor blackColor];
 //    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 //    [self.spinner setCenter:CGPointMake([[UIScreen mainScreen] bounds].size.width/2.0, [[UIScreen mainScreen] bounds].size.height/2.0)];
 //    [self.view addSubview:self.spinner];

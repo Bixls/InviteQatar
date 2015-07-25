@@ -43,25 +43,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     self.blockList = [[NSMutableArray alloc]init];
     self.listArray = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.maskInbox = [self.userDefaults objectForKey:@"maskInbox"];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.editNameField.text = self.userName;
-    if (self.userPic) {
-        self.profilePic.image = self.userPic;
-    }else{
-        [self getUser];
-    }
-
-    [self getCategories];
-    [self getBlockList];
+    
     
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     self.editNameField.text = self.userName;
+    if (self.userPic) {
+        self.profilePic.image = self.userPic;
+    }else{
+        [self getUser];
+    }
+    [self getCategories];
+    [self getBlockList];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

@@ -40,6 +40,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
+    self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.messages = [[NSMutableArray alloc]init];
@@ -47,6 +48,10 @@
     self.limit = 10;
     [self getMessages];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [self getMessages];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {

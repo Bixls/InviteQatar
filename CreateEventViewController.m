@@ -38,13 +38,13 @@
     [super viewDidLoad];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     [self.textView setReturnKeyType:UIReturnKeyDone];
     self.textView.delegate = self;
     self.textField.delegate = self;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
     //NSLog(@"%ld",(long)self.userID);
-    //self.invitationTypes = @[@"الأعراس",@"العزاء",@"تخرج",@"تهنيئه",@"مناسبات"];
     self.commentsFlag = 0;
     self.vipFlag = 0;
     [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
@@ -72,6 +72,7 @@
     }
     
 }
+
 
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)

@@ -90,6 +90,7 @@
 		18EA682F1B4B6C6F00F482FB /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA682E1B4B6C6F00F482FB /* UserViewController.m */; };
 		18EA68361B4BA8DD00F482FB /* MyEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68351B4BA8DD00F482FB /* MyEventsViewController.m */; };
 		18EA68391B4BAED500F482FB /* MyEventsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68381B4BAED500F482FB /* MyEventsTableViewCell.m */; };
+		18F0A6F61B63399700221F3E /* back2.png in Resources */ = {isa = PBXBuildFile; fileRef = 18F0A6F51B63399700221F3E /* back2.png */; };
 		841C5DFEE3B6EF173475CBA7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E71B13EE20BEF99BEFA3ED8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -249,6 +250,7 @@
 		18EA68351B4BA8DD00F482FB /* MyEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyEventsViewController.m; sourceTree = "<group>"; };
 		18EA68371B4BAED500F482FB /* MyEventsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyEventsTableViewCell.h; path = "دعوات قطر/MyEventsTableViewCell.h"; sourceTree = "<group>"; };
 		18EA68381B4BAED500F482FB /* MyEventsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyEventsTableViewCell.m; path = "دعوات قطر/MyEventsTableViewCell.m"; sourceTree = "<group>"; };
+		18F0A6F51B63399700221F3E /* back2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back2.png; sourceTree = "<group>"; };
 		468BD36381F55A3ECC251532 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		4E71B13EE20BEF99BEFA3ED8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		53FE3654E95DB801B3C933F1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				18F0A6F51B63399700221F3E /* back2.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				184B65391B3F60AC00B1483C /* Main.storyboard in Resources */,
 				184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
+				18F0A6F61B63399700221F3E /* back2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

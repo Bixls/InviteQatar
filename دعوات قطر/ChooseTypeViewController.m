@@ -21,8 +21,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
     [self getCategories];
     
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [self getCategories];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

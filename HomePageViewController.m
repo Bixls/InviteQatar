@@ -64,7 +64,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-    
+    self.view.backgroundColor = [UIColor blackColor];
         
     NSDictionary *getGroups = @{
                                @"FunctionName":@"getGroupList" ,
@@ -280,10 +280,21 @@
         if (cell==nil) {
             cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSDictionary *tempEvent = self.events[indexPath.row];
         cell.eventSubject.text =tempEvent[@"subject"];
         cell.eventCreator.text = tempEvent[@"CreatorName"];
-        cell.eventDate.text = tempEvent[@"TimeEnded"];
+        //cell.eventDate.text = tempEvent[@"TimeEnded"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+        [formatter setLocale:qatarLocale];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",tempEvent[@"TimeEnded"]]];
+        NSString *date = [formatter stringFromDate:dateString];
+        NSString *dateWithoutSeconds = [date substringToIndex:16];
+        cell.eventDate.text = dateWithoutSeconds;
+        NSLog(@"%@",date);
+        //cell.eventDate.text = tempEvent[@"TimeEnded"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempEvent[@"EventPic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
@@ -302,6 +313,7 @@
         if (cell==nil) {
             cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     return nil;

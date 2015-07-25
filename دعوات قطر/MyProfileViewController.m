@@ -28,7 +28,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-
+    self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     
@@ -42,19 +42,19 @@
         [self.btnNewEvent setEnabled:NO];
     }
     //NSLog(@"%ld",self.userID);
-    if (self.userID) {
-        [self getUser];
-    }
+//    if (self.userID) {
+//        [self getUser];
+//    }
     
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated{
     if (self.userID) {
         [self getUser];
     }
-    
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {

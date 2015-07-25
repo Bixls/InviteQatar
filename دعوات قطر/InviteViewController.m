@@ -22,11 +22,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor blackColor];
     self.selectedUsers = [[NSMutableArray alloc]init];
     self.UsersToInvite = [[NSMutableArray alloc]init];
-    [self getUSer];
+   
     
     
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+     [self getUSer];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

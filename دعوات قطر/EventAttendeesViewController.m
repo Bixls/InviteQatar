@@ -36,7 +36,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-
+    self.view.backgroundColor = [UIColor blackColor];
     
 //    [self.tableView addInfiniteScrollingWithActionHandler:^{
 //        self.populate = 1 ;
@@ -47,8 +47,12 @@
     self.start = 0 ;
     self.limit = 10 ;
     self.allUsers = [[NSMutableArray alloc]init];
-    [self getAttendees];
     
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+   [self getAttendees]; 
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

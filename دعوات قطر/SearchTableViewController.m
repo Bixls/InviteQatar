@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.view.backgroundColor = [UIColor whiteColor];
@@ -35,18 +36,19 @@
     self.navigationItem.backBarButtonItem = backbutton; 
    // self.navigationController.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"back"]];
    // self.tableView.backgroundColor = [UIColor clearColor];
-    
+
+    self.tableView.backgroundColor = [UIColor clearColor];
     UIImageView *backgroundView =
-    [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"back"]];
+    [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"back2"]];
     backgroundView.frame = CGRectMake(0,
-                                      20,
+                                      0,
                                       self.navigationController.view.frame.size.width,
                                       self.navigationController.view.frame.size.height);
     backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
     UIViewAutoresizingFlexibleHeight;
     [self.navigationController.view insertSubview:backgroundView atIndex:0];
 
-    self.tableView.backgroundColor = [UIColor clearColor];
+    
     self.postDict = [[NSDictionary alloc]init];
     
     
@@ -58,6 +60,7 @@
     [self.tableView reloadData];
     
 }
+
 
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)

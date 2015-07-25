@@ -41,7 +41,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-    
+    self.view.backgroundColor = [UIColor blackColor];
     self.populate = 0;
     //__weak SecEventsViewController *weakSelf = self;
     // Do any additional setup after loading the view.
@@ -56,8 +56,12 @@
     self.limit = 10;
     self.allEvents = [[NSMutableArray alloc]init];
     self.sectionNameLabel.text = self.sectionName;
-    [self getEvents];
     
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self getEvents];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

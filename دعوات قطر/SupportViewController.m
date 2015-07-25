@@ -22,6 +22,7 @@
     [super viewDidLoad];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
+    self.view.backgroundColor = [UIColor blackColor];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)

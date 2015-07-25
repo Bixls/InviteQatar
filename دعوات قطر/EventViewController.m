@@ -46,7 +46,7 @@
                                         [UIFont systemFontOfSize:18],NSFontAttributeName,
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
-
+    self.view.backgroundColor = [UIColor blackColor];
     
  
     
@@ -67,6 +67,10 @@
     self.eventType = 0;
     
     [self updateUI];
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     [self getInvited];
     if (self.selectedType == 2 || self.selectedType == 3) {
         [self readMessage];
@@ -75,7 +79,7 @@
     }
     
     [self getJoined];
-    
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

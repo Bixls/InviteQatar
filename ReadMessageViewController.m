@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"%@",self.message);
+    self.view.backgroundColor = [UIColor blackColor];
     self.labelName.text = self.userName;
     self.labelSubject.text = self.messageSubject;
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
@@ -45,8 +46,13 @@
 
     }
     
-    [self readMessage];
+
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+        [self readMessage];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {

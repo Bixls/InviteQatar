@@ -33,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     
@@ -40,13 +41,17 @@
     self.VIPPackages = [[NSMutableArray alloc]init];
     
     self.cellPressed =0 ;
+   
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     self.postDict = @{
                       @"FunctionName":@"getInvitationList" ,
                       @"inputs":@[@{@"limit":@"1000"}]};
     NSMutableDictionary *invitationsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invitations",@"key", nil];
     
     [self postRequest:self.postDict withTag:invitationsTag];
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

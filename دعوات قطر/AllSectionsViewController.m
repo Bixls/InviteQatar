@@ -44,19 +44,19 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-    
+    self.view.backgroundColor = [UIColor blackColor];
     self.secCount = 0;
     self.flag = 0;
     self.sectionContent = [[NSMutableDictionary alloc]init];
     
     //Get All sections first
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     NSDictionary *getAllSections = @{@"FunctionName":@"getEventCategories" , @"inputs":@[@{
-                                                                                            }]};
+                                                                                             }]};
     NSMutableDictionary *getAllSectionsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getSections",@"key", nil];
     [self postRequest:getAllSections withTag:getAllSectionsTag];
-
-    
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

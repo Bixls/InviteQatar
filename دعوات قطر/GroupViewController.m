@@ -7,7 +7,7 @@
 //
 
 #import "GroupViewController.h"
-#import "ASIHTTPRequest.h"
+
 #import <UIKit/UIKit.h>
 #import "groupCollectionViewCell.h"
 #import "GroupsFooterCollectionReusableView.h"
@@ -49,10 +49,14 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-
-    self.groupID = [self.group[@"id"]integerValue];
-    NSLog(@"%ld",(long)self.groupID);
+    self.view.backgroundColor = [UIColor blackColor];
     
+    self.groupID = [self.group[@"id"]integerValue];
+//    NSLog(@"%ld",(long)self.groupID);
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":@"-1",
                                                                                  @"start":@"0",@"limit":@"3"}]};
@@ -67,8 +71,6 @@
     NSLog(@"%@",getNews);
     NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
     [self postRequest:getNews withTag:getNewsTag];
-    
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -227,11 +229,36 @@
     request.allowCompressedResponse = NO;
     request.useCookiePersistence = NO;
     request.shouldCompressRequestBody = NO;
+
     request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
+    
+//    [request setCompletionBlock:^{
+//        // Use when fetching text data
+////        NSString *responseString = [request responseString];
+//        
+//        // Use when fetching binary data
+//        NSData *responseData = [request responseData];
+//        NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        NSString *key = [request.userInfo objectForKey:@"key"];
+//        if ([key isEqualToString:@"getEvents"]) {
+//            self.events = array;
+//            [self.collectionView reloadData];
+//        }else if ([key isEqualToString:@"getNews"]){
+//            self.news = array;
+//            NSLog(@"NEWS %@",self.news);
+//            [self.newsCollectionView reloadData];
+//        }
+//        NSLog(@"%@",array);
+//    }];
+//    [request setFailedBlock:^{
+//        NSError *error = [request error];
+//         NSLog(@"%@",error);
+//    }];
+    
     [request startAsynchronous];
     
-    
+
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request

@@ -33,23 +33,27 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
-    
+    self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     NSLog(@"%ld",self.userID);
+
+    self.start = 0 ;
+    self.limit = 10 ;
+    self.allEvents = [[NSMutableArray alloc]init];
     
+    
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         self.populate = 1 ;
         self.start = self.start+10 ;
         //self.limit = 10;
         [self getMyEvents];
     }];
-    self.start = 0 ;
-    self.limit = 10 ;
-    self.allEvents = [[NSMutableArray alloc]init];
     [self getMyEvents];
-    
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

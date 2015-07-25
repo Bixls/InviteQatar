@@ -19,12 +19,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    self.view.backgroundColor = [UIColor blackColor];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *formatedDate = [formatter stringFromDate:self.datePicker.date];
     self.selectedDate = formatedDate;
 }
-
-
 
 
 - (IBAction)datePickerPressed:(id)sender {

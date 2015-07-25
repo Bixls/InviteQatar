@@ -28,6 +28,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
+    self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
     self.otherUserID = [self.user[@"id"]integerValue];
@@ -53,7 +54,6 @@
     });
 
 }
-
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

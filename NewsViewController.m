@@ -22,11 +22,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.backBarButtonItem = nil;
+    self.view.backgroundColor = [UIColor blackColor];
     UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
     [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                         [UIFont systemFontOfSize:18],NSFontAttributeName,
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     self.navigationItem.backBarButtonItem = backbutton;
     self.newsID = [self.news[@"NewsID"]integerValue];
     self.newsType = 1;
@@ -44,8 +46,13 @@
         });
     });
     
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     [self getNews];
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {

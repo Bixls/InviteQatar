@@ -29,13 +29,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.comments = [[NSMutableArray alloc]init];
     self.start = 0;
     self.limit = 5;
+
+}
+-(void)viewDidAppear:(BOOL)animated{
     [self getComments];
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
