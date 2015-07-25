@@ -49,7 +49,7 @@
 -(void)viewDidAppear:(BOOL)animated{
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         self.populate = 1 ;
-        self.start = self.start+10 ;
+        self.start = self.allEvents.count ;
         //self.limit = 10;
         [self getMyEvents];
     }];
@@ -72,11 +72,11 @@
     
 }
 
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
     return self.allEvents.count;
 }
+
 -(MyEventsTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
@@ -100,7 +100,8 @@
             cell.eventPicture.image = img;
         });
     });
-
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
 

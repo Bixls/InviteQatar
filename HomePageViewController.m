@@ -284,7 +284,7 @@
         NSDictionary *tempEvent = self.events[indexPath.row];
         cell.eventSubject.text =tempEvent[@"subject"];
         cell.eventCreator.text = tempEvent[@"CreatorName"];
-        //cell.eventDate.text = tempEvent[@"TimeEnded"];
+        
         NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
         NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
         [formatter setLocale:qatarLocale];

@@ -47,7 +47,7 @@
     //NSLog(@"%ld",(long)self.userID);
     self.commentsFlag = 0;
     self.vipFlag = 0;
-    [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
+    [self.btnMarkComments setTitle:@"\u274F السماح بالتعليقات" forState:UIControlStateNormal];
     [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
     self.imageURL = @"default";
     if (self.event != nil && self.createOrEdit ==1) {
@@ -59,9 +59,9 @@
         self.commentsFlag = [self.event[@"comments"]integerValue];
         self.imageURL = self.event[@"picture"];
         if (self.commentsFlag == 0) {
-             [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
+             [self.btnMarkComments setTitle:@"\u274F السماح بالتعليقات" forState:UIControlStateNormal];
         }else{
-            [self.btnMarkComments setTitle:@"السماح بالتعليقات \u2713" forState:UIControlStateNormal];
+            [self.btnMarkComments setTitle:@"\u2713 السماح بالتعليقات" forState:UIControlStateNormal];
         }
         if (self.vipFlag == 0) {
             [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
@@ -106,7 +106,16 @@
 #pragma mark - ChooseDate ViewController Delegate 
 -(void)selectedDate:(NSString *)date{
     self.selectedDate = date;
-    [self.btnChooseDate setTitle:self.selectedDate forState:UIControlStateNormal];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+    [formatter setLocale:qatarLocale];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *dateString = [formatter dateFromString:self.selectedDate];
+    NSString *arabicDate = [formatter stringFromDate:dateString];
+    NSString *dateWithoutSeconds = [arabicDate substringToIndex:16];
+    
+    [self.btnChooseDate setTitle:dateWithoutSeconds forState:UIControlStateNormal];
 }
 
 
@@ -396,9 +405,9 @@
 - (IBAction)btnMarkCommentsPressed:(id)sender {
     self.commentsFlag = !(self.commentsFlag);
     if (self.commentsFlag == 1) {
-        [self.btnMarkComments setTitle:@"السماح بالتعليقات \u2713" forState:UIControlStateNormal];
+        [self.btnMarkComments setTitle:@"\u2713 السماح بالتعليقات" forState:UIControlStateNormal];
     }else{
-        [self.btnMarkComments setTitle:@"السماح بالتعليقات \u274F" forState:UIControlStateNormal];
+        [self.btnMarkComments setTitle:@"\u274F السماح بالتعليقات" forState:UIControlStateNormal];
     }
 
 }

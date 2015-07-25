@@ -101,9 +101,18 @@
     }else{
         self.eventSubject.text = self.event[@"subject"];
         self.creatorName.text = self.event[@"CreatorName"];
-        NSString *dateString = self.event[@"TimeEnded"];
-        NSString *date = [dateString substringToIndex:10];
-        NSString *tempTime = [dateString substringFromIndex:11];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+        [formatter setLocale:qatarLocale];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",self.event[@"TimeEnded"]]];
+        NSString *arabicDate = [formatter stringFromDate:dateString];
+       // NSString *dateWithoutSeconds = [arabicDate substringToIndex:16];
+
+       // NSString *dateString = self.event[@"TimeEnded"];
+        NSString *date = [arabicDate substringToIndex:10];
+        NSString *tempTime = [arabicDate substringFromIndex:11];
         NSString *time = [tempTime substringToIndex:5];
         self.eventTime.text = time;
         self.eventDate.text = date ;

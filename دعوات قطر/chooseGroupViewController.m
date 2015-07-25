@@ -26,12 +26,18 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     NSDictionary *postDict = @{
                                @"FunctionName":@"getGroupList" ,
                                @"inputs":@[@{@"limit":[NSNumber numberWithInt:1000]}]};
     [self postRequest:postDict];
-    
+
 }
+
+
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
