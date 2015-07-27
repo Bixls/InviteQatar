@@ -58,7 +58,7 @@
     [self.searchController.searchBar sizeToFit];
     self.tableView.tableHeaderView = self.searchController.searchBar;
     [self.tableView reloadData];
-    
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 
@@ -201,5 +201,7 @@
     NSLog(@"%@",error);
 }
 
-
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

@@ -21,6 +21,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -153,5 +154,9 @@
         [alerView show];
     }
     
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

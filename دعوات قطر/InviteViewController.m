@@ -26,7 +26,7 @@
     self.selectedUsers = [[NSMutableArray alloc]init];
     self.UsersToInvite = [[NSMutableArray alloc]init];
    
-    
+    [self.navigationItem setHidesBackButton:YES];
     
 }
 
@@ -222,5 +222,9 @@
         
     }
 
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

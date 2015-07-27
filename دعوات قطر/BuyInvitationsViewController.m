@@ -42,7 +42,7 @@
     
     self.cellPressed =0 ;
    
-    
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -256,5 +256,9 @@
         [self postRequest:self.postDict withTag:buyNowTag];
     }
     
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

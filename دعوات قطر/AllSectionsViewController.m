@@ -50,6 +50,7 @@
     self.sectionContent = [[NSMutableDictionary alloc]init];
     
     //Get All sections first
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -277,5 +278,9 @@
     }
     NSLog(@"Section : %ld",(long)self.selectedSection);
     
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

@@ -35,7 +35,7 @@
     self.comments = [[NSMutableArray alloc]init];
     self.start = 0;
     self.limit = 5;
-
+    [self.navigationItem setHidesBackButton:YES];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self getComments];
@@ -313,5 +313,9 @@
     self.start = self.comments.count;
     [self getComments];
     NSLog(@"See More! ");
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

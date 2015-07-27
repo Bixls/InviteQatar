@@ -51,7 +51,7 @@
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.editNameField.text = self.userName;
     
-    
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -442,6 +442,9 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 //- (IBAction)btnChecklistPressed:(id)sender {
 //
 //    NSMutableString *maskInbox = [[NSMutableString alloc]init];

@@ -45,7 +45,7 @@
         [self.labelName setHidden:NO];
 
     }
-    
+    [self.navigationItem setHidesBackButton:YES];
 
 }
 
@@ -137,15 +137,21 @@
     
     
 }
-- (IBAction)btnHome:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
     NSLog(@"%@",error);
 }
+
+- (IBAction)btnHome:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 
 

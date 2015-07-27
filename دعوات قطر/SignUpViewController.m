@@ -50,7 +50,7 @@
 //    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 //    [self.spinner setCenter:CGPointMake([[UIScreen mainScreen] bounds].size.width/2.0, [[UIScreen mainScreen] bounds].size.height/2.0)];
 //    [self.view addSubview:self.spinner];
-    
+    [self.navigationItem setHidesBackButton:YES];
 
     self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
     
@@ -318,6 +318,10 @@
     if ([self.passwordField isFirstResponder]) {
         [self.passwordField resignFirstResponder];
     }
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end
 

@@ -19,6 +19,7 @@
 
 @interface HomePageViewController ()
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 //@property (nonatomic , strong) NSArray *responseArray;
@@ -126,7 +127,7 @@
         }
 
     }];
-    
+
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -218,8 +219,9 @@
                 
             });
         });
+        self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
        return cell;
-    }else{
+    }else if (collectionView.tag == 1){
         HomeNewsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
         NSDictionary *tempNews = self.news[indexPath.item];
         cell.newsSubject.text =tempNews[@"Subject"];
@@ -389,7 +391,10 @@
         self.groups = responseArray;
         NSLog(@"Groupssss %@",self.groups);
         self.pullToRefreshFlag ++;
+        
         [self.groupsCollectionView reloadData];
+       // self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
+        
     }else if([key isEqualToString:@"getNews"]){
         self.news = responseArray;
         [self.newsCollectionView reloadData];

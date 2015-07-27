@@ -45,7 +45,7 @@
 //    if (self.userID) {
 //        [self getUser];
 //    }
-    
+    [self.navigationItem setHidesBackButton:YES];
     
 }
 
@@ -162,5 +162,8 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

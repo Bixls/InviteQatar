@@ -66,6 +66,7 @@
     self.eventID = [self.event[@"Eventid"]integerValue];
     self.eventType = 0;
     
+    [self.navigationItem setHidesBackButton:YES];
     [self updateUI];
     
 }
@@ -462,5 +463,9 @@
 
 - (IBAction)btnInviteOthersPressed:(id)sender {
     [self performSegueWithIdentifier:@"invite" sender:self];
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

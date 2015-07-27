@@ -47,7 +47,7 @@
     //NSLog(@"%ld",(long)self.userID);
     self.commentsFlag = 0;
     self.vipFlag = 0;
-    [self.btnMarkComments setTitle:@"\u274F السماح بالتعليقات" forState:UIControlStateNormal];
+    [self.btnMarkComments setTitle:@"\u274F  السماح بالتعليقات" forState:UIControlStateNormal];
     [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
     self.imageURL = @"default";
     if (self.event != nil && self.createOrEdit ==1) {
@@ -59,7 +59,7 @@
         self.commentsFlag = [self.event[@"comments"]integerValue];
         self.imageURL = self.event[@"picture"];
         if (self.commentsFlag == 0) {
-             [self.btnMarkComments setTitle:@"\u274F السماح بالتعليقات" forState:UIControlStateNormal];
+             [self.btnMarkComments setTitle:@"\u274F  السماح بالتعليقات" forState:UIControlStateNormal];
         }else{
             [self.btnMarkComments setTitle:@"\u2713 السماح بالتعليقات" forState:UIControlStateNormal];
         }
@@ -70,6 +70,8 @@
         }
         
     }
+    
+    [self.navigationItem setHidesBackButton:YES];
     
 }
 
@@ -407,7 +409,7 @@
     if (self.commentsFlag == 1) {
         [self.btnMarkComments setTitle:@"\u2713 السماح بالتعليقات" forState:UIControlStateNormal];
     }else{
-        [self.btnMarkComments setTitle:@"\u274F السماح بالتعليقات" forState:UIControlStateNormal];
+        [self.btnMarkComments setTitle:@"\u274F  السماح بالتعليقات" forState:UIControlStateNormal];
     }
 
 }
@@ -428,6 +430,10 @@
 
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

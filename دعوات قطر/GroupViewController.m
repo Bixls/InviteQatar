@@ -53,7 +53,7 @@
     
     self.groupID = [self.group[@"id"]integerValue];
 //    NSLog(@"%ld",(long)self.groupID);
-    
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -291,5 +291,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

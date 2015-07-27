@@ -53,6 +53,7 @@
         });
     });
 
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 
@@ -68,5 +69,9 @@
 
 - (IBAction)btnSendMessagePressed:(id)sender {
     [self performSegueWithIdentifier:@"sendMessage" sender:self];
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

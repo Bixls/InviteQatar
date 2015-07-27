@@ -30,7 +30,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
-    
+    [self.navigationItem setHidesBackButton:YES];
     NSLog(@"Self.user id = %d",self.userID);
 
 }
@@ -121,6 +121,10 @@
 
 - (IBAction)btnDismiss:(id)sender {
     [self.confirmField resignFirstResponder];
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

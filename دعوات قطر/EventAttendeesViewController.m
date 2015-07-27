@@ -48,7 +48,7 @@
     self.limit = 10 ;
     self.allUsers = [[NSMutableArray alloc]init];
     
-    
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -254,5 +254,9 @@
 - (IBAction)btnSeeMorePressed:(id)sender {
     self.start = self.allUsers.count;
     [self getAttendees];
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

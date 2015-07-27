@@ -46,6 +46,7 @@
     self.messages = [[NSMutableArray alloc]init];
     self.start = 0;
     self.limit = 10;
+    [self.navigationItem setHidesBackButton:YES];
     [self getMessages];
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -284,5 +285,9 @@
     self.start = self.messages.count;
     [self getMessages];
  
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

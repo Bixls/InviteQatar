@@ -28,7 +28,7 @@
 //        [self.userDefaults setInteger:self.userID forKey:@"userID"];
 //    }
     self.savedID = [self.userDefaults integerForKey:@"userID"];
-    
+    [self.navigationItem setHidesBackButton:YES];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -120,6 +120,8 @@
     [self postRequest:postDict];
 }
 
-
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

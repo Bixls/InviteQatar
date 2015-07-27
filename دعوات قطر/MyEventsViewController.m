@@ -42,7 +42,7 @@
     self.limit = 10 ;
     self.allEvents = [[NSMutableArray alloc]init];
     
-    
+    [self.navigationItem setHidesBackButton:YES];
     
 }
 
@@ -184,6 +184,10 @@
 
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

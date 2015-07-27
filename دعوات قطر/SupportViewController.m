@@ -23,6 +23,7 @@
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.view.backgroundColor = [UIColor blackColor];
+    [self.navigationItem setHidesBackButton:YES];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
@@ -155,4 +156,9 @@
     
 
 }
+
+- (IBAction)btnBackPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end
