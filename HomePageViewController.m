@@ -37,14 +37,15 @@
 @property (nonatomic,strong) NSString *userMobile;
 @property (nonatomic,strong) NSString *userPassword;
 @property (nonatomic) NSInteger segueFlag;
-
-
+@property (nonatomic,strong) NSMutableArray *groupImages;
+@property (nonatomic) NSInteger offlineGroupsFlag;
 @end
 
 @implementation HomePageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.groupImages = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
@@ -88,18 +89,6 @@
 //                                                                             @"start":@"0",@"limit":@"3"
                                                                                     }]};
     NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
-    if (self.userMobile && self.userPassword) {
-        NSDictionary *getInvNum = @{
-                                    @"FunctionName":@"signIn" ,
-                                    @"inputs":@[@{@"Mobile":self.userMobile,
-                                                  @"password":self.userPassword}]};
-        NSLog(@"%@",getInvNum);
-        
-        
-        NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
-        [self postRequest:getInvNum withTag:getInvNumTag];
-
-    }
     
     [self postRequest:getGroups withTag:getGroupsTag];
     [self postRequest:getNews withTag:getNewsTag];
@@ -113,24 +102,13 @@
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
         [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-        if (self.userMobile && self.userPassword) {
-            NSDictionary *getInvNum = @{
-                                        @"FunctionName":@"signIn" ,
-                                        @"inputs":@[@{@"Mobile":self.userMobile,
-                                                      @"password":self.userPassword}]};
-            NSLog(@"%@",getInvNum);
-            
-            
-            NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
-            [self postRequest:getInvNum withTag:getInvNumTag];
-            
-        }
-
+        
     }];
 
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    
     if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
         [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
         self.segueFlag = 0;
@@ -177,6 +155,12 @@
         self.groupsCollectionView.allowsSelection = YES;
     }
     
+    NSArray *groups = [self.userDefaults objectForKey:@"groups"];
+    if (groups != nil) {
+        self.offlineGroupsFlag = 1 ;
+        self.groups = groups;
+        [self.groupsCollectionView reloadData];
+    }
    
 }
 
@@ -206,19 +190,43 @@
     
     if (collectionView.tag == 0) {
         cellGroupsCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-        NSLog(@"%ld",indexPath.item);
+//        NSLog(@"%ld",indexPath.item);
+        
         NSDictionary *tempGroup = self.groups[indexPath.item];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
-            NSLog(@"%@",imgURLString);
-            NSURL *imgURL = [NSURL URLWithString:imgURLString];
-            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-            UIImage *image = [[UIImage alloc]initWithData:imgData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.groupPP.image = image;
-                
+        if (self.offlineGroupsFlag ==0) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
+                NSLog(@"%@",imgURLString);
+                NSURL *imgURL = [NSURL URLWithString:imgURLString];
+                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+                UIImage *image = [[UIImage alloc]initWithData:imgData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.groupPP.image = image;
+                    NSData *imageData = UIImagePNGRepresentation(image);
+                    NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
+                    [self.userDefaults setObject:encodedDate forKey:tempGroup[@"ProfilePic"]];
+                    [self.userDefaults synchronize];
+                    
+//                    [self.groupImages addObject:@"plus"];
+//                    [self.userDefaults setObject:self.groupImages forKey:@"groupImages"];
+//                    [self.userDefaults synchronize];
+                });
             });
-        });
+
+        }else if (self.offlineGroupsFlag == 1){
+            self.groupImages = [self.userDefaults objectForKey:@"groupImages"];
+//            if (self.groupImages.count >0) {
+                NSDictionary *tempGroup = self.groups[indexPath.item];
+                NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
+                if (encodedObject) {
+                    NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                    UIImage *img =  [UIImage imageWithData:imgData];
+                    cell.groupPP.image = img;
+//                }
+              
+            }
+        }
+        
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
        return cell;
     }else if (collectionView.tag == 1){
@@ -247,6 +255,7 @@
     if (collectionView.tag == 0) {
         self.selectedGroup = self.groups[indexPath.item];
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        
         NSLog(@"%@",self.selectedGroup);
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
@@ -388,11 +397,18 @@
     NSLog(@"%@",responseArray);
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getGroups"]) {
-        self.groups = responseArray;
-        NSLog(@"Groupssss %@",self.groups);
+//        NSLog(@"Groupssss %@",self.groups);
         self.pullToRefreshFlag ++;
+        if ([responseArray isEqualToArray:[self.userDefaults objectForKey:@"groups"]]) {
+            //do nothing
+        }else{
+            self.offlineGroupsFlag = 0;
+            self.groups = responseArray;
+            [self.groupsCollectionView reloadData];
+            [self.userDefaults setObject:self.groups forKey:@"groups"];
+            [self.userDefaults synchronize];
+        }
         
-        [self.groupsCollectionView reloadData];
        // self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
         
     }else if([key isEqualToString:@"getNews"]){
@@ -410,16 +426,7 @@
         [self.btnUnReadMsgs setHidden:NO];
         [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
         self.pullToRefreshFlag ++;
-    }else if ([key isEqualToString:@"invNum"]){
-        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",dict);
-        NSString *normal = dict[@"inNOR"];
-        NSString *VIP  = dict[@"inVIP"];
-        [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
-        [self.btnVIPNum setTitle:VIP forState:UIControlStateNormal];
-        self.pullToRefreshFlag ++;
-    }
-//    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
+    }//    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
 //        //do nothing
 //    }else{
 //        [self.userDefaults setObject:self.responseArray forKey:@"groupArray"];
@@ -437,6 +444,9 @@
 {
     NSError *error = [request error];
     NSLog(@"%@",error);
+    [self.scrollView.pullToRefreshView stopAnimating];
+    self.pullToRefreshFlag = 0;
+
 }
 
 

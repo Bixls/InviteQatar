@@ -29,11 +29,14 @@
 @property (nonatomic,strong)NSDictionary *user;
 @property (nonatomic) NSInteger saved0;
 @property (nonatomic) NSInteger saved1;
+@property (nonatomic,strong)NSDictionary *selectedGroup;
+
 @property (weak, nonatomic) IBOutlet UITextField *editNameField;
 - (IBAction)btnSavePressed:(id)sender;
 - (IBAction)btnChooseImagePressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePic;
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseImage;
+@property (weak, nonatomic) IBOutlet UIButton *btnSelectedGroup;
 
 
 @end
@@ -50,7 +53,8 @@
     self.maskInbox = [self.userDefaults objectForKey:@"maskInbox"];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.editNameField.text = self.userName;
-    
+    [self.btnSelectedGroup setTitle:self.groupName forState:UIControlStateNormal];
+    NSLog(@"%@",self.groupName);
     [self.navigationItem setHidesBackButton:YES];
 }
 
@@ -76,6 +80,11 @@
     }
 }
 
+-(void)selectedGroup:(NSDictionary *)group{
+    self.selectedGroup = group;
+    [self.btnSelectedGroup setTitle:self.selectedGroup[@"name"] forState:UIControlStateNormal];
+    NSLog(@"%@",group);
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -318,10 +327,11 @@
     NSMutableDictionary *editNameTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editName",@"key", nil];
     NSMutableDictionary *editBlockListTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editBlockList",@"key", nil];
     
-    if (self.editNameField.text.length != 0 ) {
+    if (self.editNameField.text.length != 0) {
         editName = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":[NSString stringWithFormat:
                                                                            @"%ld",self.userID],
-                                                                            @"name":self.editNameField.text,
+                                                                    @"name":self.editNameField.text,
+                                                                    @"groupID":(NSString *)self.selectedGroup[@"id"],
                                                                     
                                                                                     }]};
         editBlockList = @{@"FunctionName":@"SetBlockList" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",self.userID],
@@ -370,6 +380,9 @@
     if ([segue.identifier isEqualToString:@"offlinePic"]){
         OfflinePicturesViewController *offlinePicturesController = segue.destinationViewController;
         offlinePicturesController.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"chooseGroup"]){
+        chooseGroupViewController *chooseGroupController = segue.destinationViewController;
+        chooseGroupController.delegate = self;
     }
     
 }
@@ -587,4 +600,7 @@
 //        [self.btn5 setTitle:@"مناسبات" forState:UIControlStateNormal];
 //    }
 
+- (IBAction)btnSelectedGroupPressed:(id)sender {
+    [self performSegueWithIdentifier:@"chooseGroup" sender:self];
+}
 @end

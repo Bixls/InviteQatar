@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyLatestEventsTableViewCell.h"
 
-@interface MyProfileViewController : UIViewController
+@interface MyProfileViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *myProfilePicture;
 @property (weak, nonatomic) IBOutlet UILabel *myName;
 @property (weak, nonatomic) IBOutlet UILabel *myGroup;
@@ -20,5 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnNewEvent;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnAllEvents;
+@property (weak, nonatomic) IBOutlet UIButton *btnInvitationNum;
+@property (weak, nonatomic) IBOutlet UIButton *btnVIPNum;
 
 @end

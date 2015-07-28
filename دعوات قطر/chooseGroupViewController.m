@@ -72,6 +72,7 @@
     NSLog(@"%@",tempArray);
     cell.groupName.text = tempArray[indexPath.row][@"name"];
     NSLog(@"%@",cell.groupName.text);
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
 

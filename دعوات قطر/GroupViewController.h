@@ -9,14 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
 
-@interface GroupViewController : UIViewController  <UICollectionViewDataSource,UICollectionViewDelegate,ASIHTTPRequestDelegate>
+@interface GroupViewController : UIViewController  <UICollectionViewDataSource,UICollectionViewDelegate,ASIHTTPRequestDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *newsCollectionView;
+@property (weak, nonatomic) IBOutlet UITableView *usersTableView;
+
 @property (strong,nonatomic) NSDictionary *group;
 
 
+@property (weak, nonatomic) IBOutlet UIImageView *groupPic;
+@property (weak, nonatomic) IBOutlet UITextView *groupDescription;
 
 
 

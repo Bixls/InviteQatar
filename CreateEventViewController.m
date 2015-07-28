@@ -52,6 +52,7 @@
     self.imageURL = @"default";
     if (self.event != nil && self.createOrEdit ==1) {
         self.vipFlag = [self.event[@"VIP"]integerValue];
+        NSLog(@"%d",self.vipFlag);
         self.selectedType = self.event[@"eventType"];
         self.textField.text = self.event[@"subject"];
         self.textView.text = self.event[@"description"];
@@ -415,12 +416,22 @@
 }
 
 - (IBAction)btnMarkVipPressed:(id)sender {
-    self.vipFlag = !(self.vipFlag);
-    if (self.vipFlag == 1) {
-        [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
-    }else{
-        [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+    if (self.createOrEdit == 0) {
+        self.vipFlag = !(self.vipFlag);
+        if (self.vipFlag == 1) {
+            [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+        }else{
+            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+        }
+    }else if (self.createOrEdit == 1){
+        if (self.vipFlag == 1) {
+            //do nothing
+        }else{
+            self.vipFlag = !(self.vipFlag);
+            [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+        }
     }
+   
 
 }
 

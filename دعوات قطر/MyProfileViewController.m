@@ -9,13 +9,17 @@
 #import "MyProfileViewController.h"
 #import "ASIHTTPRequest.h"
 #import "EditAccountViewController.h"
+#import "EventViewController.h"
 
 @interface MyProfileViewController ()
 
 @property (nonatomic) NSInteger userID;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *user;
-
+@property (nonatomic,strong) NSString *userMobile;
+@property (nonatomic,strong) NSString *userPassword;
+@property (nonatomic,strong) NSArray *events;
+@property (nonatomic,strong) NSDictionary *selectedEvent;
 @end
 
 @implementation MyProfileViewController
@@ -31,6 +35,8 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
+    self.userPassword = [self.userDefaults objectForKey:@"password"];
+    self.userMobile = [self.userDefaults objectForKey:@"mobile"];
     
     if ([self.userDefaults integerForKey:@"Guest"] != 1) {
         [self.btnActivateAccount setHidden:YES];
@@ -53,6 +59,26 @@
     if (self.userID) {
         [self getUser];
     }
+    if (self.userMobile && self.userPassword) {
+        NSDictionary *getInvNum = @{
+                                    @"FunctionName":@"signIn" ,
+                                    @"inputs":@[@{@"Mobile":self.userMobile,
+                                                  @"password":self.userPassword}]};
+        NSLog(@"%@",getInvNum);
+        
+        
+        NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+        [self postRequest:getInvNum withTag:getInvNumTag];
+        
+    }
+    
+    NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"-1",
+                                                                             @"catID":@"-1",
+                                                                             @"start":@"0",@"limit":@"3"}]};
+    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
+    
+    [self postRequest:getEvents withTag:getEventsTag];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -66,12 +92,92 @@
     }
 }
 
+#pragma mark - Table View
+
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+    
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.events.count > 0) {
+        return self.events.count + 1;
+    }else{
+        return 0;
+    }
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"Cell";
+    
+    if (indexPath.row < self.events.count) {
+        
+        MyLatestEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[MyLatestEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        NSDictionary *tempEvent = self.events[indexPath.row];
+        cell.eventName.text =tempEvent[@"subject"];
+        cell.eventCreator.text = tempEvent[@"CreatorName"];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+        [formatter setLocale:qatarLocale];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",tempEvent[@"TimeEnded"]]];
+        NSString *date = [formatter stringFromDate:dateString];
+        NSString *dateWithoutSeconds = [date substringToIndex:16];
+        cell.eventDate.text = dateWithoutSeconds;
+        NSLog(@"%@",date);
+        //cell.eventDate.text = tempEvent[@"TimeEnded"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempEvent[@"EventPic"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+            UIImage *image = [[UIImage alloc]initWithData:imgData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cell.eventPic.image = image;
+            });
+            
+        });
+        
+        
+        return cell ;
+    }else if (indexPath.row == self.events.count){
+        MyLatestEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"seeMore" forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[MyLatestEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+    return nil;}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row < self.events.count) {
+        self.selectedEvent = self.events[indexPath.row];
+        [self performSegueWithIdentifier:@"event" sender:self];
+    }
+}
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"editProfile"]) {
         EditAccountViewController *editAccount = segue.destinationViewController;
         editAccount.userName = self.user[@"name"];
         editAccount.userPic = self.myProfilePicture.image;
+        editAccount.groupID = [self.user[@"Gid"]integerValue];
+        editAccount.groupName = self.user[@"GName"];
+        NSLog(@"%@",self.user[@"GName"]);
+        
+    }else if ([segue.identifier isEqualToString:@"event"]) {
+        
+        EventViewController *eventController = segue.destinationViewController;
+        eventController.event = self.selectedEvent;
+        
     }
 }
 
@@ -125,7 +231,21 @@
     if ([key isEqualToString:@"getUser"]) {
         self.user = receivedDict;
         [self updateUI];
+    }else if ([key isEqualToString:@"invNum"]){
+        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@",dict);
+        NSString *normal = dict[@"inNOR"];
+        NSString *VIP  = dict[@"inVIP"];
+        [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
+        [self.btnVIPNum setTitle:VIP forState:UIControlStateNormal];
+
+    }else if ([key isEqualToString:@"getEvents"]){
+        NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        self.events = responseArray;
+        [self.tableView reloadData];
+
     }
+
     
 }
 
@@ -165,5 +285,10 @@
 - (IBAction)btnBackPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (IBAction)btnSeeMorePressed:(id)sender {
+    [self performSegueWithIdentifier:@"seeMore" sender:self];
+}
+
 
 @end

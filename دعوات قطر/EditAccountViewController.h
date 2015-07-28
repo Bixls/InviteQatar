@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "OfflinePicturesViewController.h"
-@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate>
+#import "chooseGroupViewController.h"
+@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate,chooseGroupViewControllerDelegate>
 
 @property (nonatomic,strong)NSString *userName;
+@property (nonatomic,strong)NSString *groupName;
+@property (nonatomic)NSInteger groupID;
 @property (nonatomic,strong)UIImage *userPic;
 
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+- (IBAction)btnSelectedGroupPressed:(id)sender;
 
 
 @end

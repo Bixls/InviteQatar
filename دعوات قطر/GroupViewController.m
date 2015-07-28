@@ -16,10 +16,15 @@
 #import "GroupNewsCollectionViewCell.h"
 #import "NewsViewController.h"
 #import <SVPullToRefresh.h>
+#import "GroupUsersTableViewCell.h"
+#import "UserViewController.h"
 @interface GroupViewController ()
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
+@property (weak,nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 
 @property (nonatomic,strong) NSArray *events;
 @property (nonatomic,strong) NSArray *news;
+@property (nonatomic,strong) NSMutableArray *users;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSDictionary *selectedNews;
 @property (nonatomic,strong) NSString *eventImageURL;
@@ -27,8 +32,10 @@
 @property (nonatomic,strong) NSString *eventPlace;
 @property (nonatomic,strong) NSString *eventOwner;
 @property (nonatomic,strong) NSString *eventTime;
-
+@property (nonatomic,strong) NSDictionary *selectedUser;
 @property (nonatomic) NSInteger groupID;
+@property (nonatomic) NSInteger start;
+@property (nonatomic) NSInteger limit;
 
 @end
 
@@ -50,13 +57,33 @@
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
     self.view.backgroundColor = [UIColor blackColor];
-    
+    self.users = [[NSMutableArray alloc]init];
+    self.start = 0;
+    self.limit = 10;
     self.groupID = [self.group[@"id"]integerValue];
 //    NSLog(@"%ld",(long)self.groupID);
     [self.navigationItem setHidesBackButton:YES];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.group[@"ProfilePic"]];
+        NSLog(@"%@",imgURLString);
+        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+        UIImage *image = [[UIImage alloc]initWithData:imgData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.groupPic.image = image;
+        });
+    });
+    
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    
+    NSDictionary *getGroupInfo = @{@"FunctionName":@"getGroupbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.groupID],}]};
+    NSMutableDictionary *getGroupInfoTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getGroupInfo",@"key", nil];
+    [self postRequest:getGroupInfo withTag:getGroupInfoTag];
+    
     NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":@"-1",
                                                                                  @"start":@"0",@"limit":@"3"}]};
@@ -71,6 +98,13 @@
     NSLog(@"%@",getNews);
     NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
     [self postRequest:getNews withTag:getNewsTag];
+    
+    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
+                                   @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
+                                                 @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
+                                                 @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]}; // needs to be changed
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+    [self postRequest:getUSersDict withTag:getUsersTag];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -118,7 +152,7 @@
                 cell.profilePic.image = img ;
             });
         });
-        
+        self.verticalLayoutConstraint.constant = self.collectionView.contentSize.height;
         return cell;
 
     }
@@ -186,6 +220,74 @@
   
 }
 
+#pragma mark - Table View 
+
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+    
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.users.count > 0 ) {
+        return self.users.count  ;
+    }else{
+        return 0;
+    }
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"userCell";
+    
+    if (indexPath.row < self.users.count) {
+        GroupUsersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        if (cell==nil) {
+            cell=[[GroupUsersTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        NSDictionary *tempUser = self.users[indexPath.row];
+        if (tempUser != nil) {
+            cell.userName.text = tempUser[@"name"];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempUser[@"ProfilePic"]];
+                NSURL *imgURL = [NSURL URLWithString:imgURLString];
+                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+                UIImage *image = [[UIImage alloc]initWithData:imgData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.userPic.image = image;
+                });
+                
+            });
+            
+            self.tableVerticalLayoutConstraint.constant = self.usersTableView.contentSize.height;
+            return cell ;
+
+        }
+        
+    }
+        //else if (indexPath.row == self.users.count){
+//        GroupUsersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"seeMore" forIndexPath:indexPath];
+//        if (cell==nil) {
+//            cell=[[GroupUsersTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//        }
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        //self.tableVerticalLayoutConstraint.constant = self.collectionView.contentSize.height;
+//        return cell;
+//    }
+    return nil;
+
+
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.selectedUser = self.users[indexPath.row];
+    [self performSegueWithIdentifier:@"user" sender:self];
+}
+
+#pragma mark - Segue
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showSections"]) {
         AllSectionsViewController *allSectionsController = segue.destinationViewController;
@@ -196,9 +298,15 @@
     }else if ([segue.identifier isEqualToString:@"showNews"]){
         NewsViewController *newsController = segue.destinationViewController;
         newsController.news = self.selectedNews;
+    }else if ([segue.identifier isEqualToString:@"user"]) {
+        UserViewController *userController = segue.destinationViewController;
+        userController.user = self.selectedUser;
+        
     }
+    
 }
 
+#pragma mark - resize image
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
@@ -209,6 +317,15 @@
 
 
 #pragma mark - Connection setup
+
+-(void)getUsers{
+    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
+                                   @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
+                                                 @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
+                                                 @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]}; // needs to be changed
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+    [self postRequest:getUSersDict withTag:getUsersTag];
+}
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
@@ -233,28 +350,7 @@
     request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
     
-//    [request setCompletionBlock:^{
-//        // Use when fetching text data
-////        NSString *responseString = [request responseString];
-//        
-//        // Use when fetching binary data
-//        NSData *responseData = [request responseData];
-//        NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        NSString *key = [request.userInfo objectForKey:@"key"];
-//        if ([key isEqualToString:@"getEvents"]) {
-//            self.events = array;
-//            [self.collectionView reloadData];
-//        }else if ([key isEqualToString:@"getNews"]){
-//            self.news = array;
-//            NSLog(@"NEWS %@",self.news);
-//            [self.newsCollectionView reloadData];
-//        }
-//        NSLog(@"%@",array);
-//    }];
-//    [request setFailedBlock:^{
-//        NSError *error = [request error];
-//         NSLog(@"%@",error);
-//    }];
+
     
     [request startAsynchronous];
     
@@ -275,7 +371,23 @@
         self.news = array;
         NSLog(@"NEWS %@",self.news);
         [self.newsCollectionView reloadData];
+    }else if ([key isEqualToString:@"getGroupInfo"]){
+        NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if (array.count>0) {
+            NSDictionary *dict = array[0];
+            NSLog(@"%@",dict);
+            self.groupDescription.text = dict[@"Description"];
+            NSLog(@"%@",dict[@"Description"]);
+        }
+     
+    }else if ([key isEqualToString:@"getUsers"]) {
+        [self.users addObjectsFromArray:array];
+        NSLog(@"%@",self.users);
+        self.start = self.users.count;
+        [self.usersTableView reloadData];
+        
     }
+    
     NSLog(@"%@",array);
     
     
@@ -294,4 +406,11 @@
 - (IBAction)btnBackPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+- (IBAction)seeMoreBtnPresed:(id)sender {
+    self.start = self.users.count;
+    [self getUsers];
+}
+
+
 @end
