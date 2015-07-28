@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UICollectionViewRightAlignedLayout.h>
 
-@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout>
 
 
 @property (weak, nonatomic) IBOutlet UICollectionView *groupsCollectionView;

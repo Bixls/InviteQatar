@@ -67,43 +67,9 @@
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
     self.view.backgroundColor = [UIColor blackColor];
-        
-    NSDictionary *getGroups = @{
-                               @"FunctionName":@"getGroupList" ,
-                               @"inputs":@[@{@"limit":[NSNumber numberWithInteger:5000]}]};
-     NSMutableDictionary *getGroupsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getGroups",@"key", nil];
-    NSDictionary *getNews = @{
-                                @"FunctionName":@"GetNewsList" ,
-                                @"inputs":@[@{@"GroupID":[NSString stringWithFormat:@"%d",-1],
-                                              @"start":[NSString stringWithFormat:@"%d",0],
-                                              @"limit":[NSString stringWithFormat:@"%d",3]}]};
-    NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
-    
-    NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"-1",
-                                                                                 @"catID":@"-1",
-                                                                                 @"start":@"0",@"limit":@"3"}]};
-    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
-    
-    NSDictionary *getUnReadInbox = @{@"FunctionName":@"unReadInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",self.userID],
-//                                                                             @"catID":@"-1",
-//                                                                             @"start":@"0",@"limit":@"3"
-                                                                                    }]};
-    NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
-    
-    [self postRequest:getGroups withTag:getGroupsTag];
-    [self postRequest:getNews withTag:getNewsTag];
-    [self postRequest:getEvents withTag:getEventsTag];
-    [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-   
-    
-    self.scrollView.showsPullToRefresh;
-    [self.scrollView addPullToRefreshWithActionHandler:^{
-        [self postRequest:getGroups withTag:getGroupsTag];
-        [self postRequest:getNews withTag:getNewsTag];
-        [self postRequest:getEvents withTag:getEventsTag];
-        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-        
-    }];
+
+   //self.groupsCollectionView.collectionViewLayout = [[UICollectionViewRightAlignedLayout alloc] init];
+    [self.groupsCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
 
 }
 
@@ -162,6 +128,44 @@
         [self.groupsCollectionView reloadData];
     }
    
+    
+    NSDictionary *getGroups = @{
+                                @"FunctionName":@"getGroupList" ,
+                                @"inputs":@[@{@"limit":[NSNumber numberWithInteger:5000]}]};
+    NSMutableDictionary *getGroupsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getGroups",@"key", nil];
+    NSDictionary *getNews = @{
+                              @"FunctionName":@"GetNewsList" ,
+                              @"inputs":@[@{@"GroupID":[NSString stringWithFormat:@"%d",-1],
+                                            @"start":[NSString stringWithFormat:@"%d",0],
+                                            @"limit":[NSString stringWithFormat:@"%d",3]}]};
+    NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
+    
+    NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"-1",
+                                                                             @"catID":@"-1",
+                                                                             @"start":@"0",@"limit":@"3"}]};
+    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
+    
+    NSDictionary *getUnReadInbox = @{@"FunctionName":@"unReadInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",self.userID],
+                                                                                    //                                                                             @"catID":@"-1",
+                                                                                    //                                                                             @"start":@"0",@"limit":@"3"
+                                                                                    }]};
+    NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
+    
+    [self postRequest:getGroups withTag:getGroupsTag];
+    [self postRequest:getNews withTag:getNewsTag];
+    [self postRequest:getEvents withTag:getEventsTag];
+    [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+    
+    
+    self.scrollView.showsPullToRefresh;
+    [self.scrollView addPullToRefreshWithActionHandler:^{
+        [self postRequest:getGroups withTag:getGroupsTag];
+        [self postRequest:getNews withTag:getNewsTag];
+        [self postRequest:getEvents withTag:getEventsTag];
+        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+        
+    }];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -245,7 +249,7 @@
               
             }
         }
-        
+        [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
        return cell;
     }else if (collectionView.tag == 1){
@@ -291,7 +295,6 @@
 //        return CGSizeMake(collectionView.frame.size.width/3,84);
 //    }
 //    return CGSizeMake(298, 142);
-    
     
     if (collectionView.tag ==0 && indexPath.item ==1) {
         return CGSizeMake(145, 121);

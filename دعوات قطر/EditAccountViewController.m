@@ -29,7 +29,9 @@
 @property (nonatomic,strong)NSDictionary *user;
 @property (nonatomic) NSInteger saved0;
 @property (nonatomic) NSInteger saved1;
+@property (nonatomic) NSInteger empty;
 @property (nonatomic,strong)NSDictionary *selectedGroup;
+@property (nonatomic) NSInteger selectedGroupID;
 
 @property (weak, nonatomic) IBOutlet UITextField *editNameField;
 - (IBAction)btnSavePressed:(id)sender;
@@ -56,6 +58,7 @@
     [self.btnSelectedGroup setTitle:self.groupName forState:UIControlStateNormal];
     NSLog(@"%@",self.groupName);
     [self.navigationItem setHidesBackButton:YES];
+    self.selectedGroupID = self.groupID;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -83,6 +86,7 @@
 -(void)selectedGroup:(NSDictionary *)group{
     self.selectedGroup = group;
     [self.btnSelectedGroup setTitle:self.selectedGroup[@"name"] forState:UIControlStateNormal];
+    self.selectedGroupID =[self.selectedGroup[@"id"]integerValue];
     NSLog(@"%@",group);
 }
 
@@ -114,6 +118,7 @@
             }
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
 
@@ -121,7 +126,7 @@
     EditAccountTableViewCell *cell =(EditAccountTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *category = self.categories[indexPath.row];
-    if (self.blockList.count > 0) {
+    if (self.blockList.count > 0 ) {
         for (NSDictionary *blocked in self.blockList) {
             NSInteger blockedID = [blocked[@"InvitationID"]integerValue];
             NSInteger categoryID = [category[@"catID"]integerValue];
@@ -152,6 +157,37 @@
                 return;
             }
         }
+    }else if (self.empty == 1){
+        NSInteger categoryID = [category[@"catID"]integerValue];
+
+        if ([cell.leftLabel.text isEqualToString:@"\u2713"]) {
+            cell.leftLabel.text = @"";
+            NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+            [self.listArray removeObject:selected];
+            NSLog(@"%@",self.listArray);
+            return;
+        }
+//            else if (blockedID == categoryID){
+//            cell.leftLabel.text = @"\u2713";
+//            NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+//            [self.listArray addObject:selected];
+//            NSLog(@"%@",self.listArray);
+//            return;
+        else if ([cell.leftLabel.text isEqualToString:@""]){
+            cell.leftLabel.text = @"\u2713";
+            NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+            [self.listArray addObject:selected];
+            NSLog(@"%@",self.listArray);
+            return;
+        }
+//        else if (blockedID !=categoryID && [cell.leftLabel.text isEqualToString:@"\u2713"]){
+//            cell.leftLabel.text = @"";
+//            NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
+//            [self.listArray removeObject:selected];
+//            NSLog(@"%@",self.listArray);
+//            return;
+//        }
+//
     }
     
     
@@ -262,6 +298,9 @@
     }else if ([key isEqualToString:@"blocklist"]){
         NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.blockList = response;
+        if (self.blockList.count == 0){
+            self.empty = 1;
+        }
         for (NSDictionary *invit in self.blockList) {
             NSInteger invitID = [invit[@"InvitationID"]integerValue];
             NSDictionary *dict = @{@"id":[NSString stringWithFormat:@"%ld",(long)invitID]};
@@ -331,7 +370,7 @@
         editName = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":[NSString stringWithFormat:
                                                                            @"%ld",self.userID],
                                                                     @"name":self.editNameField.text,
-                                                                    @"groupID":(NSString *)self.selectedGroup[@"id"],
+                                                                    @"groupID":[NSString stringWithFormat:@"%ld",(long)self.selectedGroupID],
                                                                     
                                                                                     }]};
         editBlockList = @{@"FunctionName":@"SetBlockList" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",self.userID],

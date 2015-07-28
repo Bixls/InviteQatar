@@ -1,1 +1,2 @@
 pod 'SVPullToRefresh'
+pod 'UICollectionViewRightAlignedLayout'

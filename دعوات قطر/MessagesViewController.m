@@ -104,7 +104,7 @@
             cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
         }
         
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
     }else if (indexPath.row == self.messages.count){
@@ -113,7 +113,7 @@
         if (cell1==nil) {
             cell1=[[MessagesFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
         }
-        
+        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell1;
     }
    
@@ -263,6 +263,7 @@
         
         [self.messages addObjectsFromArray:array];
         NSLog(@"%@",self.messages);
+        self.start = self.messages.count;
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"deleteMessage"]){
         NSLog(@"%@",array);

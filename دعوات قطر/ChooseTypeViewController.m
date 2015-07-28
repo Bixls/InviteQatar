@@ -70,6 +70,7 @@
     
     NSDictionary *category = self.categories[indexPath.row];
     cell.rightLabel.text = category[@"catName"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
 

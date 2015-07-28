@@ -12,8 +12,10 @@
 #import "EventViewController.h"
 
 @interface MyProfileViewController ()
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 
 @property (nonatomic) NSInteger userID;
+@property (nonatomic) NSInteger groupID;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *user;
 @property (nonatomic,strong) NSString *userMobile;
@@ -52,6 +54,15 @@
 //        [self getUser];
 //    }
     [self.navigationItem setHidesBackButton:YES];
+    [self.activateLabel setHidden:YES];
+    
+    if ([self.userDefaults integerForKey:@"Guest"]==1) {
+        [self.tableView setHidden:YES];
+        [self.btnSeeMore setHidden:YES];
+        [self.imgSeeMore setHidden:YES];
+        self.smallerView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 400)];
+        [self.activateLabel setHidden:NO];
+    }
     
 }
 
@@ -71,14 +82,12 @@
         [self postRequest:getInvNum withTag:getInvNumTag];
         
     }
-    
-    NSDictionary *getEvents = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":@"-1",
-                                                                             @"catID":@"-1",
-                                                                             @"start":@"0",@"limit":@"3"}]};
+    NSDictionary *getEvents = @{@"FunctionName":@"getUserEventsList" , @"inputs":@[@{@"userID":[NSString stringWithFormat:@"%ld",(long)self.userID],@"start":[NSString stringWithFormat:@"%d",0],@"limit":[NSString stringWithFormat:@"%d",3]
+                                                                                     }]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
-    
     [self postRequest:getEvents withTag:getEventsTag];
     
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -102,7 +111,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.events.count > 0) {
-        return self.events.count + 1;
+        return self.events.count ;
     }else{
         return 0;
     }
@@ -143,17 +152,19 @@
             
         });
         
-        
+        self.tableVerticalLayoutConstraint.constant = self.tableView.contentSize.height;
         return cell ;
-    }else if (indexPath.row == self.events.count){
-        MyLatestEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"seeMore" forIndexPath:indexPath];
-        if (cell==nil) {
-            cell=[[MyLatestEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
     }
-    return nil;}
+//    else if (indexPath.row == self.events.count){
+//        MyLatestEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"seeMore" forIndexPath:indexPath];
+//        if (cell==nil) {
+//            cell=[[MyLatestEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//        }
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        return cell;
+//    }
+    return nil;
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -231,6 +242,7 @@
     if ([key isEqualToString:@"getUser"]) {
         self.user = receivedDict;
         [self updateUI];
+   
     }else if ([key isEqualToString:@"invNum"]){
         NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSLog(@"%@",dict);
@@ -258,6 +270,7 @@
 -(void)updateUI {
     self.myName.text = self.user[@"name"];
     self.myGroup.text = self.user[@"GName"];
+   // self.groupID = [self.user[@"Gid"]integerValue];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
         NSURL *imgURL = [NSURL URLWithString:imgURLString];

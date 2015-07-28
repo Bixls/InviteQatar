@@ -11,6 +11,7 @@
 
 @interface MyProfileViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property (strong, nonatomic) IBOutlet UIView *smallerView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *myProfilePicture;
 @property (weak, nonatomic) IBOutlet UILabel *myName;
@@ -24,5 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnAllEvents;
 @property (weak, nonatomic) IBOutlet UIButton *btnInvitationNum;
 @property (weak, nonatomic) IBOutlet UIButton *btnVIPNum;
+@property (weak, nonatomic) IBOutlet UIButton *btnSeeMore;
+@property (weak, nonatomic) IBOutlet UIImageView *imgSeeMore;
+@property (weak, nonatomic) IBOutlet UILabel *activateLabel;
 
 @end
