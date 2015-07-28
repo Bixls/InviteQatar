@@ -187,12 +187,23 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     //static NSString *cellIdentifier = @"Cell";
+     cellGroupsCollectionView *cell = [[cellGroupsCollectionView alloc]init];
     
     if (collectionView.tag == 0) {
-        cellGroupsCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-//        NSLog(@"%ld",indexPath.item);
-        
         NSDictionary *tempGroup = self.groups[indexPath.item];
+        
+        if (indexPath.item == 1  ) {
+            for (int i = 0 ; i < self.groups.count; i++) {
+                tempGroup = self.groups[i];
+                if ([tempGroup[@"Royal"]integerValue] == 1) {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"royal" forIndexPath:indexPath];
+                    break;
+                }
+            }
+        }else{
+             cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+        }
+        
         if (self.offlineGroupsFlag ==0) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
@@ -201,7 +212,11 @@
                 NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
                 UIImage *image = [[UIImage alloc]initWithData:imgData];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.groupPP.image = image;
+                    if ([tempGroup[@"Royal"]integerValue] == 1) {
+                        cell.royalPP.image = image;
+                    }else{
+                         cell.groupPP.image = image;
+                    }
                     NSData *imageData = UIImagePNGRepresentation(image);
                     NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
                     [self.userDefaults setObject:encodedDate forKey:tempGroup[@"ProfilePic"]];
@@ -214,14 +229,18 @@
             });
 
         }else if (self.offlineGroupsFlag == 1){
-            self.groupImages = [self.userDefaults objectForKey:@"groupImages"];
+            //self.groupImages = [self.userDefaults objectForKey:@"groupImages"];
 //            if (self.groupImages.count >0) {
-                NSDictionary *tempGroup = self.groups[indexPath.item];
+                //NSDictionary *tempGroup = self.groups[indexPath.item];
                 NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
                 if (encodedObject) {
                     NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
                     UIImage *img =  [UIImage imageWithData:imgData];
-                    cell.groupPP.image = img;
+                    if ([tempGroup[@"Royal"]integerValue] == 1) {
+                        cell.royalPP.image = img;
+                    }else{
+                        cell.groupPP.image = img;
+                    }
 //                }
               
             }
@@ -264,6 +283,23 @@
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"news" sender:self];
     }
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+//    if (collectionView.tag == 0) {
+//        return CGSizeMake(collectionView.frame.size.width/3,84);
+//    }
+//    return CGSizeMake(298, 142);
+    
+    
+    if (collectionView.tag ==0 && indexPath.item ==1) {
+        return CGSizeMake(145, 121);
+    }else if(collectionView.tag == 0){
+        return CGSizeMake(69, 84);
+    }
+    
+    return CGSizeMake(298, 142);
 }
 
 #pragma mark - TableView DataSource 

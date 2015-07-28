@@ -11,6 +11,7 @@
 @interface cellGroupsCollectionView : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *groupPP;
+@property (weak, nonatomic) IBOutlet UIImageView *royalPP;
 
 
 @end

@@ -87,6 +87,7 @@
 		189E45C61B6718CD000A7066 /* groupFrame2.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E45C51B6718CD000A7066 /* groupFrame2.png */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
 		18B589C51B674242009F8B90 /* UserGroup.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B589C41B674242009F8B90 /* UserGroup.png */; };
+		18B589C71B6749E3009F8B90 /* royal.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B589C61B6749E3009F8B90 /* royal.png */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
 		18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */; };
 		18D831751B4CE6E9003F5A86 /* HomeEventsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */; };
@@ -246,6 +247,7 @@
 		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewController.h; sourceTree = "<group>"; };
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewController.m; sourceTree = "<group>"; };
 		18B589C41B674242009F8B90 /* UserGroup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserGroup.png; sourceTree = "<group>"; };
+		18B589C61B6749E3009F8B90 /* royal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = royal.png; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
 		18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateEventViewController.m; path = ../CreateEventViewController.m; sourceTree = "<group>"; };
 		18D831701B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeNewsCollectionViewCell.h; path = "دعوات قطر/HomeNewsCollectionViewCell.h"; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 				189E45C31B671852000A7066 /* GroupFrame.png */,
 				189E45BB1B660DF2000A7066 /* calendars12.png */,
 				18F0A6F51B63399700221F3E /* back2.png */,
+				18B589C61B6749E3009F8B90 /* royal.png */,
 				18B589C41B674242009F8B90 /* UserGroup.png */,
 			);
 			name = Images;
@@ -618,6 +621,7 @@
 				184B65391B3F60AC00B1483C /* Main.storyboard in Resources */,
 				189E45BC1B660DF2000A7066 /* calendars12.png in Resources */,
 				184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */,
+				18B589C71B6749E3009F8B90 /* royal.png in Resources */,
 				189E45C61B6718CD000A7066 /* groupFrame2.png in Resources */,
 				18B589C51B674242009F8B90 /* UserGroup.png in Resources */,
 				189E45C41B671852000A7066 /* GroupFrame.png in Resources */,

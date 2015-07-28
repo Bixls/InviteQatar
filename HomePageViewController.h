@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout>
 
 
 @property (weak, nonatomic) IBOutlet UICollectionView *groupsCollectionView;
