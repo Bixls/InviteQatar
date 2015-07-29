@@ -87,6 +87,7 @@
         [self.userDefaults setInteger:0 forKey:@"Guest"];
         [self.userDefaults synchronize];
         //[self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
     NSLog(@"%@",self.responseDictionary);
  

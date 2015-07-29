@@ -270,7 +270,7 @@
         self.uploaded = 1;
     }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
          NSLog(@"%@",responseDict);
-        if ([responseDict[@"success"]integerValue] == 0) {
+        if ([responseDict[@"sucess"]integerValue] == 1) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@" تم حفظ المناسبة من فضلك انتظر الموافقة عليها في خلال اربعة و عشرين ساعة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
             [self.navigationController popToRootViewControllerAnimated:YES];
@@ -310,6 +310,7 @@
                                              @"description":[NSString stringWithFormat:@"%@",self.textView.text],
                                              @"picture":self.imageURL,
                                              @"TimeEnded":self.selectedDate,
+                                                 //
                                              @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
                                              }]};
     

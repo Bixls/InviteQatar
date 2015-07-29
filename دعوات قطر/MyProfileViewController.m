@@ -49,12 +49,14 @@
         [self.btnEditAccount setEnabled:NO];
         [self.btnNewEvent setEnabled:NO];
     }
+  
     //NSLog(@"%ld",self.userID);
 //    if (self.userID) {
 //        [self getUser];
 //    }
     [self.navigationItem setHidesBackButton:YES];
     [self.activateLabel setHidden:YES];
+    [self.activateLabel2 setHidden:YES];
     
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
         [self.tableView setHidden:YES];
@@ -111,8 +113,17 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.events.count > 0) {
+        [self.btnSeeMore setHidden:NO];
+        [self.imgSeeMore setHidden:NO];
+        [self.activateLabel setHidden:YES];
+        [self.activateLabel2 setHidden:YES];
         return self.events.count ;
     }else{
+        
+        [self.btnSeeMore setHidden:YES];
+        [self.imgSeeMore setHidden:YES];
+        [self.activateLabel setHidden:NO];
+        [self.activateLabel2 setHidden:NO];
         return 0;
     }
 }

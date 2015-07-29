@@ -70,6 +70,7 @@
 		1873C2341B4E4C360026C905 /* MessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2331B4E4C360026C905 /* MessagesViewController.m */; };
 		1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */; };
 		1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2391B4E60490026C905 /* ReadMessageViewController.m */; };
+		187400911B679BEC00D84CD1 /* UnActivatedProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187400901B679BEC00D84CD1 /* UnActivatedProfileViewController.m */; };
 		187C0B011B44F55700A1800B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */; };
 		187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63931B46259900B3E3EA /* MyProfileViewController.m */; };
 		187C639B1B473FE200B3E3EA /* InviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C639A1B473FE200B3E3EA /* InviteViewController.m */; };
@@ -217,6 +218,8 @@
 		1873C2361B4E540B0026C905 /* MessagesFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagesFirstTableViewCell.m; sourceTree = "<group>"; };
 		1873C2381B4E60490026C905 /* ReadMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadMessageViewController.h; path = ../ReadMessageViewController.h; sourceTree = "<group>"; };
 		1873C2391B4E60490026C905 /* ReadMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadMessageViewController.m; path = ../ReadMessageViewController.m; sourceTree = "<group>"; };
+		1874008F1B679BEC00D84CD1 /* UnActivatedProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnActivatedProfileViewController.h; path = ../UnActivatedProfileViewController.h; sourceTree = "<group>"; };
+		187400901B679BEC00D84CD1 /* UnActivatedProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnActivatedProfileViewController.m; path = ../UnActivatedProfileViewController.m; sourceTree = "<group>"; };
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		187C63921B46259900B3E3EA /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
@@ -380,6 +383,8 @@
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
 				187C63921B46259900B3E3EA /* MyProfileViewController.h */,
 				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
+				1874008F1B679BEC00D84CD1 /* UnActivatedProfileViewController.h */,
+				187400901B679BEC00D84CD1 /* UnActivatedProfileViewController.m */,
 				189E45BD1B669FA8000A7066 /* MyLatestEventsTableViewCell.h */,
 				189E45BE1B669FA8000A7066 /* MyLatestEventsTableViewCell.m */,
 				184B659C1B41E9F400B1483C /* EditAccountViewController.h */,
@@ -718,6 +723,7 @@
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
 				18EA68361B4BA8DD00F482FB /* MyEventsViewController.m in Sources */,
 				1813C2FD1B50FBA20044CDDB /* ChooseGroupTableViewCell.m in Sources */,
+				187400911B679BEC00D84CD1 /* UnActivatedProfileViewController.m in Sources */,
 				18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */,
 				184B65A11B421C0200B1483C /* GroupViewController.m in Sources */,
 				1873C21D1B4D89300026C905 /* testCollectionViewCell.m in Sources */,

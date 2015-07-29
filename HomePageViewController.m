@@ -83,7 +83,7 @@
     }
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
         [self.btnBuyInvitations setEnabled:NO];
-        self.segueFlag = 0;
+        self.segueFlag = 2;
         [self.myProfileLabel setText:@"حسابي"];
         //[self.btnMyAccount setEnabled:NO];
         [self.btnMyMessages setEnabled:NO];
@@ -507,6 +507,8 @@
         [self.userDefaults setInteger:0 forKey:@"Visitor"];
         [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
         
+    }else if (self.segueFlag == 2){
+        [self performSegueWithIdentifier:@"activate" sender:self];
     }
 }
 @end

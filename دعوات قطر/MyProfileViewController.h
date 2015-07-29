@@ -28,5 +28,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnSeeMore;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSeeMore;
 @property (weak, nonatomic) IBOutlet UILabel *activateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *activateLabel2;
 
 @end
