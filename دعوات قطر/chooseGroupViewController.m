@@ -9,11 +9,13 @@
 #import "chooseGroupViewController.h"
 #import "ASIHTTPRequest.h"
 #import "ChooseGroupTableViewCell.h"
+#import "InviteViewController.h"
 
 @interface chooseGroupViewController ()
 
 @property (nonatomic , strong) NSArray *responseArray;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (nonatomic,strong) NSDictionary *selectedGroup;
 
 @end
 
@@ -48,6 +50,17 @@
         }
     }
 }
+
+#pragma mark - Segue 
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"invite"]) {
+        InviteViewController *inviteController = segue.destinationViewController;
+        inviteController.normORVIP = 1;
+        inviteController.group = self.selectedGroup;
+    }
+}
+
 #pragma mark - Table view Data Source Methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -80,10 +93,16 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *selectedGroup = self.responseArray[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(selectedGroup:)]) {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.delegate selectedGroup:selectedGroup];
-        [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.flag != 1) {
+        if ([self.delegate respondsToSelector:@selector(selectedGroup:)]) {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [self.delegate selectedGroup:selectedGroup];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }else if (self.flag ==1){
+        NSArray *tempArray = [self.userDefaults objectForKey:@"groupArray"];
+        self.selectedGroup = tempArray[indexPath.row];
+        [self performSegueWithIdentifier:@"invite" sender:self];
     }
 }
 

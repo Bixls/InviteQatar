@@ -21,6 +21,7 @@
 @property (nonatomic,strong) NSString *imageURL;
 @property (nonatomic) int uploaded;
 @property (nonatomic) int flag;
+@property (nonatomic) NSInteger launched;
 @property (nonatomic)NSInteger userID;
 @property (nonatomic)NSInteger btnPressed;
 @property (nonatomic,strong)NSArray *categories;
@@ -32,7 +33,7 @@
 @property (nonatomic) NSInteger empty;
 @property (nonatomic,strong)NSDictionary *selectedGroup;
 @property (nonatomic) NSInteger selectedGroupID;
-
+@property (nonatomic,strong) NSMutableArray *selectedRows;
 @property (weak, nonatomic) IBOutlet UITextField *editNameField;
 - (IBAction)btnSavePressed:(id)sender;
 - (IBAction)btnChooseImagePressed:(id)sender;
@@ -49,8 +50,11 @@
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
+    
     self.blockList = [[NSMutableArray alloc]init];
     self.listArray = [[NSMutableArray alloc]init];
+    self.selectedRows = [[NSMutableArray alloc]init];
+    
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.maskInbox = [self.userDefaults objectForKey:@"maskInbox"];
     self.userID = [self.userDefaults integerForKey:@"userID"];
@@ -109,16 +113,33 @@
     NSDictionary *category = self.categories[indexPath.row];
     cell.detailLabel.text =category[@"catName"];
     NSLog(@"%lu",(unsigned long)self.blockList.count);
+    
     if (self.blockList.count > 0) {
         for (NSDictionary *blocked in self.listArray) {
             NSInteger blockedID = [blocked[@"id"]integerValue];
             NSInteger categoryID = [category[@"catID"]integerValue];
             if (blockedID == categoryID) {
                 cell.leftLabel.text = @"\u2713";
+                [self.selectedRows addObject:indexPath];
             }
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+
+        cell.leftLabel.text = @"";
+        
+        //    NSArray *selectedRows = [tableView indexPathsForSelectedRows];
+        for(NSIndexPath *i in self.selectedRows)
+        {
+            if([i isEqual:indexPath])
+            {
+                cell.leftLabel.text = @"\u2713";
+            }
+        }
+
+
+
     return cell ;
 }
 
@@ -126,34 +147,43 @@
     EditAccountTableViewCell *cell =(EditAccountTableViewCell *) [tableView cellForRowAtIndexPath:indexPath];
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *category = self.categories[indexPath.row];
+    
     if (self.blockList.count > 0 ) {
         for (NSDictionary *blocked in self.blockList) {
             NSInteger blockedID = [blocked[@"InvitationID"]integerValue];
             NSInteger categoryID = [category[@"catID"]integerValue];
             
             if (blockedID == categoryID && [cell.leftLabel.text isEqualToString:@"\u2713"]) {
-                cell.leftLabel.text = @"";
+//                cell.leftLabel.text = @"";
                 NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
                 [self.listArray removeObject:selected];
-                NSLog(@"%@",self.listArray);
+                [self.selectedRows removeObject:indexPath];
+//                NSLog(@"%@",self.listArray);
+                  [tableView reloadData];
                 return;
             }else if (blockedID == categoryID){
-                cell.leftLabel.text = @"\u2713";
+//                cell.leftLabel.text = @"\u2713";
                 NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
                 [self.listArray addObject:selected];
-                NSLog(@"%@",self.listArray);
+                [self.selectedRows addObject:indexPath];
+//                NSLog(@"%@",self.listArray);
+                  [tableView reloadData];
                 return;
             }else if (blockedID !=categoryID && [cell.leftLabel.text isEqualToString:@""]){
-                cell.leftLabel.text = @"\u2713";
+//                cell.leftLabel.text = @"\u2713";
                 NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
                 [self.listArray addObject:selected];
-                NSLog(@"%@",self.listArray);
+                [self.selectedRows addObject:indexPath];
+//                NSLog(@"%@",self.listArray);
+                  [tableView reloadData];
                 return;
             }else if (blockedID !=categoryID && [cell.leftLabel.text isEqualToString:@"\u2713"]){
-                cell.leftLabel.text = @"";
+//                cell.leftLabel.text = @"";
                 NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
                 [self.listArray removeObject:selected];
-                NSLog(@"%@",self.listArray);
+                [self.selectedRows removeObject:indexPath];
+               // NSLog(@"%@",self.listArray);
+                  [tableView reloadData];
                 return;
             }
         }
@@ -161,10 +191,12 @@
         NSInteger categoryID = [category[@"catID"]integerValue];
 
         if ([cell.leftLabel.text isEqualToString:@"\u2713"]) {
-            cell.leftLabel.text = @"";
+            //cell.leftLabel.text = @"";
             NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
             [self.listArray removeObject:selected];
-            NSLog(@"%@",self.listArray);
+            [self.selectedRows removeObject:indexPath];
+            //NSLog(@"%@",self.listArray);
+              [tableView reloadData];
             return;
         }
 //            else if (blockedID == categoryID){
@@ -174,10 +206,12 @@
 //            NSLog(@"%@",self.listArray);
 //            return;
         else if ([cell.leftLabel.text isEqualToString:@""]){
-            cell.leftLabel.text = @"\u2713";
+            //cell.leftLabel.text = @"\u2713";
             NSDictionary *selected = @{@"id":[NSString stringWithFormat:@"%ld",(long)categoryID]};
             [self.listArray addObject:selected];
-            NSLog(@"%@",self.listArray);
+            [self.selectedRows addObject:indexPath];
+           // NSLog(@"%@",self.listArray);
+              [tableView reloadData];
             return;
         }
 //        else if (blockedID !=categoryID && [cell.leftLabel.text isEqualToString:@"\u2713"]){
@@ -189,7 +223,7 @@
 //        }
 //
     }
-    
+  
     
 }
 
@@ -298,6 +332,7 @@
     }else if ([key isEqualToString:@"blocklist"]){
         NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.blockList = response;
+//        [self.selectedRows addObjectsFromArray:self.blockList];
         if (self.blockList.count == 0){
             self.empty = 1;
         }
@@ -307,6 +342,7 @@
             [self.listArray addObject:dict];
         }
         [self.tableView reloadData];
+
         NSLog(@"%@",response);
     }else if ([key isEqualToString:@"categories"]){
          NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];

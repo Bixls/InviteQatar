@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18033DBB1B68762A00129546 /* InviteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18033DBA1B68762A00129546 /* InviteTableViewCell.m */; };
 		1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */; };
 		1813C2F41B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F31B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m */; };
 		1813C2F71B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F61B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m */; };
@@ -113,6 +114,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18033DB91B68762A00129546 /* InviteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteTableViewCell.h; sourceTree = "<group>"; };
+		18033DBA1B68762A00129546 /* InviteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteTableViewCell.m; sourceTree = "<group>"; };
 		180B11EA1B4B133400133E7C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1813C2EF1B4F98720044CDDB /* ChooseDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseDateViewController.h; sourceTree = "<group>"; };
 		1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDateViewController.m; sourceTree = "<group>"; };
@@ -323,6 +326,8 @@
 		184B65211B3F60AC00B1483C = {
 			isa = PBXGroup;
 			children = (
+				18033DB91B68762A00129546 /* InviteTableViewCell.h */,
+				18033DBA1B68762A00129546 /* InviteTableViewCell.m */,
 				1873C21B1B4D89300026C905 /* testCollectionViewCell.h */,
 				1873C21C1B4D89300026C905 /* testCollectionViewCell.m */,
 				1873C2181B4D83200026C905 /* TestNewsCollectionViewCell.h */,
@@ -682,6 +687,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18033DBB1B68762A00129546 /* InviteTableViewCell.m in Sources */,
 				184B65821B4080D600B1483C /* ASIDataDecompressor.h in Sources */,
 				184AE3031B51148B00BAE3E3 /* SupportViewController.m in Sources */,
 				184B65861B40817700B1483C /* ASIFormDataRequest.m in Sources */,

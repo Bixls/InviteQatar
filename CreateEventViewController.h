@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseDate;
 @property (weak, nonatomic) IBOutlet UIButton *btnSave;
 @property (weak, nonatomic) IBOutlet UILabel *saveLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lblAdmin;
 
 //@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 

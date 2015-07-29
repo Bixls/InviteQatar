@@ -12,6 +12,9 @@
 
 @property(nonatomic) NSInteger creatorID;
 @property(nonatomic) NSInteger eventID;
+@property(nonatomic) NSInteger normORVIP;
+@property(nonatomic,strong) NSDictionary *group;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnMarkAll;
 - (IBAction)btnInvitePressed:(id)sender;

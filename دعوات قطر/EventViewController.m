@@ -13,6 +13,8 @@
 #import "CreateEventViewController.h"
 #import "UserViewController.h"
 #import "InviteViewController.h"
+#import "chooseGroupViewController.h"
+
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
@@ -28,6 +30,7 @@
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *fullEvent;
 @property (nonatomic,strong) NSDictionary *user;
+@property (nonatomic)NSInteger isVIP;
 
 @end
 
@@ -47,7 +50,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
-    
+    self.isVIP = [self.event[@"VIP"]integerValue];
  
     
     self.navigationItem.backBarButtonItem = backbutton;
@@ -145,6 +148,9 @@
     if (self.isInvited == 0) {
         [self.btnGoing setHidden:YES];
         [self.imgGoing setHidden:YES];
+    }else if (self.isInvited == 1 && self.userID == self.creatorID){
+        [self.btnGoing setHidden:YES];
+        [self.imgGoing setHidden:YES];
     }else if (self.isInvited == 1 && self.isJoined == 0){
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
@@ -203,6 +209,10 @@
         InviteViewController *inviteController = segue.destinationViewController;
         inviteController.creatorID = self.creatorID;
         inviteController.eventID = self.eventID;
+        inviteController.normORVIP = 0;
+    }else if ([segue.identifier isEqualToString:@"inviteAll"]){
+        chooseGroupViewController *chooseGroupController = segue.destinationViewController;
+        chooseGroupController.flag = 1;
     }
 }
 
@@ -462,7 +472,12 @@
 }
 
 - (IBAction)btnInviteOthersPressed:(id)sender {
-    [self performSegueWithIdentifier:@"invite" sender:self];
+    if (self.isVIP == 0) {
+        [self performSegueWithIdentifier:@"invite" sender:self];
+    }else if (self.isVIP == 1){
+        [self performSegueWithIdentifier:@"inviteAll" sender:self];
+    }
+    
 }
 
 - (IBAction)btnBackPressed:(id)sender {

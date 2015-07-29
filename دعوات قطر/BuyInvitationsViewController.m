@@ -20,8 +20,8 @@
 @property(nonatomic,strong) NSString *selectedItemType;
 @property (nonatomic,strong)NSIndexPath *selectedIndexPath;
 @property (nonatomic,strong)UITableView *selectedTableView;
-@property (nonatomic,strong) NSMutableArray *normalPackages;
-@property (nonatomic,strong) NSMutableArray *VIPPackages;
+//@property (nonatomic,strong) NSMutableArray *normalPackages;
+@property (nonatomic,strong) NSArray *VIPPackages;
 @property (nonatomic) NSInteger cellPressed;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic) int userID;
@@ -37,7 +37,7 @@
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     
-    self.normalPackages = [[NSMutableArray alloc]init];
+//    self.normalPackages = [[NSMutableArray alloc]init];
     self.VIPPackages = [[NSMutableArray alloc]init];
     
     self.cellPressed =0 ;
@@ -69,34 +69,35 @@
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (tableView.tag ==0) {
-        return self.normalPackages.count;
-    }else{
+//    if (tableView.tag ==0) {
+//        return self.normalPackages.count;
+//    }else{
         return self.VIPPackages.count;
-    }
+//    }
     
     
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
-    
-    
-    
-    
-    if (tableView.tag == 0) {
-        CellInvitationTableView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        if (cell==nil) {
-            cell=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        }
-        NSDictionary *tempDict = self.normalPackages[indexPath.row];
-        cell.label0.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
-        cell.label1.text = tempDict[@"packageName"];
-        cell.label2.text = tempDict[@"number"];
-        cell.backgroundColor = [UIColor clearColor];
-       
-        return cell;
-    }if (tableView.tag == 1){
+//    
+//    
+//    
+//    
+//    if (tableView.tag == 0) {
+//        CellInvitationTableView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+//        if (cell==nil) {
+//            cell=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//        }
+//        NSDictionary *tempDict = self.normalPackages[indexPath.row];
+//        cell.label0.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
+//        cell.label1.text = tempDict[@"packageName"];
+//        cell.label2.text = tempDict[@"number"];
+//        cell.backgroundColor = [UIColor clearColor];
+//       
+//        return cell;
+//    }
+//    if (tableView.tag == 1){
         CellInvitationTableView *cell2 = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
         if (cell2==nil) {
             cell2=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -108,55 +109,37 @@
         cell2.label22.text = tempDict[@"number"];
         cell2.backgroundColor = [UIColor clearColor];
         return cell2;
-    }
+//    }
     return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *nowPressed = [[NSDictionary alloc]init];
-    
-    if (tableView.tag==0) {
-        nowPressed =self.normalPackages[indexPath.row];
-    }else {
-        nowPressed = self.VIPPackages[indexPath.row];
+
+    nowPressed = self.VIPPackages[indexPath.row];
+    if ([self.selectedItem isEqual:nowPressed]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        self.selectedItemType = nil;
+        self.selectedItem = nil;
+        self.selectedIndexPath = nil;
+        self.selectedTableView = nil;
+    }else if (self.selectedItem == nil){
+        self.selectedItem = self.VIPPackages[indexPath.row];
+        self.selectedItemType = @"vip";
+        self.selectedIndexPath = indexPath;
+        self.selectedTableView = tableView;
     }
-    
-    
-    
-    if (tableView.tag == 0 && [self.selectedItemType isEqualToString:@"normal"] && [self.selectedItem isEqual:nowPressed]) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        self.selectedItemType = nil;
-        self.selectedItem = nil;
-        self.selectedIndexPath = nil;
-        self.selectedTableView = nil;
-    }else if (tableView.tag == 1 && [self.selectedItemType isEqualToString:@"vip"] && [self.selectedItem isEqual:nowPressed]) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        self.selectedItemType = nil;
-        self.selectedItem = nil;
-        self.selectedIndexPath = nil;
-        self.selectedTableView = nil;
-    }else if (self.selectedItemType ==nil) {
-        if (tableView.tag == 0) {
-            self.selectedItem = self.normalPackages[indexPath.row];
-            self.selectedItemType = @"normal";
-            self.selectedIndexPath = indexPath;
-            self.selectedTableView = tableView;
-        }else{
-            self.selectedItem = self.VIPPackages[indexPath.row];
-            self.selectedItemType = @"vip";
-            self.selectedIndexPath = indexPath;
-            self.selectedTableView = tableView;
-        }
-    }else{
-       
+    else{
+        
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفوا" message:@"تم إختيار باقه بالفعل" delegate:self cancelButtonTitle:@"اغلاق" otherButtonTitles:nil, nil];
         [alertView show];
-        [self.selectedTableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+        [tableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
         
     }
+
     
-       
+    
     
 }
 
@@ -203,12 +186,9 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"invitations"]) {
         for (NSDictionary *dict in self.responseArray) {
-            if ([dict[@"VIP"]intValue]==0) {
-                [self.normalPackages addObject:dict];
-                
-            }else{
-                [self.VIPPackages addObject:dict];
-            }
+//                [self.normalPackages addObject:dict];
+            self.VIPPackages = self.responseArray;
+
         }
         
         [self.tableView reloadData];

@@ -8,30 +8,48 @@
 
 #import "InviteViewController.h"
 #import "ASIHTTPRequest.h"
-
+#import "InviteTableViewCell.h"
 @interface InviteViewController ()
 
 @property (nonatomic,strong) NSArray *users;
 @property (nonatomic) int flag;
 @property (nonatomic,strong) NSMutableArray *selectedUsers;
 @property (nonatomic,strong) NSMutableArray *UsersToInvite;
+@property (nonatomic,strong) NSMutableArray *selectedRows;
+@property (nonatomic) NSInteger groupID;
 @end
 
 @implementation InviteViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view
     self.view.backgroundColor = [UIColor blackColor];
     self.selectedUsers = [[NSMutableArray alloc]init];
     self.UsersToInvite = [[NSMutableArray alloc]init];
-   
+    self.selectedRows = [[NSMutableArray alloc]init];
+    
+    if (self.normORVIP == 1) {
+        self.groupID = [self.group[@"id"]integerValue];
+    }
+    
     [self.navigationItem setHidesBackButton:YES];
+    
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-     [self getUSer];
+    if (self.normORVIP == 0) {
+        [self getUSer];
+    }else{
+        NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
+                                       @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
+                                                     @"start":@"0",
+                                                     @"limit":@"50000"}]};
+        NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+        [self postRequest:getUSersDict withTag:getUsersTag];
+    }
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -54,12 +72,36 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    InviteTableViewCell *cell = (InviteTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    
     if (cell==nil) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell=[[InviteTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        
     }
+   
     NSDictionary *tempDict = self.users[indexPath.row];
-    cell.detailTextLabel.text = tempDict[@"name"];
+    cell.userName.text = tempDict[@"name"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempDict[@"ProfilePic"]];
+        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+        UIImage *image = [[UIImage alloc]initWithData:imgData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cell.userPic.image = image;
+        });
+        
+    });
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.checkmark.text = @"\u2001";
+    
+//    NSArray *selectedRows = [tableView indexPathsForSelectedRows];
+    for(NSIndexPath *i in self.selectedRows)
+    {
+        if([i isEqual:indexPath])
+        {
+            cell.checkmark.text = @"\u2713";
+        }
+    }
     
     return cell ;
 }
@@ -67,17 +109,29 @@
 #pragma mark - Table view Delegate methods
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.textLabel.text isEqualToString:@"\u2713"]) {
-        cell.textLabel.text = @"\u2001";
+//    InviteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    NSLog(@"%ld",indexPath.row);
+    InviteTableViewCell *cell = (InviteTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
+        //cell.checkmark.text = @"\u2001";
         if (self.selectedUsers.count >0) {
             [self.selectedUsers removeObject:self.users[indexPath.row]];
+            [self.selectedRows removeObject:indexPath];
+            
         }
+         [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
+        self.flag = 0;
     }else{
-        cell.textLabel.text = @"\u2713";
+        //cell.checkmark.text = @"\u2713";
         [self.selectedUsers addObject:self.users[indexPath.row]];
+        [self.selectedRows addObject:indexPath];
     }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.tableView reloadData];
+    
 }
 
 #pragma mark - Connection setup
@@ -173,26 +227,29 @@
     for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
         NSUInteger ints[2] = {0,i};
         NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
-        UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if ([cell.textLabel.text isEqualToString:@"\u2713"]) {
+        InviteTableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
+            
             if(self.flag == 1){
-                cell.textLabel.text = @"\u2001";
+//                cell.checkmark.text = @"\u2001";
                 if (self.selectedUsers.count >0) {
                     [self.selectedUsers removeObject:self.users[indexPath.row]];
+                    [self.selectedRows removeObject:indexPath];
                 }
             }
         }else if (self.flag==1){
             //do nothing
         }else{
-            cell.textLabel.text = @"\u2713";
+//            cell.checkmark.text = @"\u2713";
             [self.selectedUsers addObject:self.users[indexPath.row]];
+            [self.selectedRows addObject:indexPath];
         }
     }
     self.flag = !(self.flag);
     if (self.flag == 1) {
         [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2713" forState:UIControlStateNormal];
     }else{
-        [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2001" forState:UIControlStateNormal];
+        [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
     }
     
     NSLog(@"%ld",(long)self.flag);
@@ -225,6 +282,11 @@
 }
 
 - (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.normORVIP == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if (self.normORVIP == 1){
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
 }
 @end

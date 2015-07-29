@@ -20,5 +20,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,weak) id <chooseGroupViewControllerDelegate> delegate;
 - (IBAction)btnDismissPressed:(id)sender;
+@property (nonatomic) NSInteger flag;
 
 @end

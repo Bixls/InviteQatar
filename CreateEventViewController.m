@@ -76,6 +76,9 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [self getAdminMsg];
+}
 
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
@@ -86,6 +89,14 @@
             [request setDelegate:nil];
         }
     }
+}
+
+-(void)getAdminMsg {
+    NSDictionary *getAdminMsg = @{@"FunctionName":@"getString" , @"inputs":@[@{@"name":@"createEvent",
+                                                                             }]};
+    NSMutableDictionary *getAdminMsgTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAdminMsg",@"key", nil];
+    
+    [self postRequest:getAdminMsg  withTag:getAdminMsgTag];
 }
 
 #pragma mark - Segue
@@ -281,6 +292,9 @@
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم تعديل المناسبه بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
         }
+    }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"getAdminMsg"]){
+        NSLog(@"%@",responseDict);
+        self.lblAdmin.text = responseDict[@"value"];
     }
   
 
