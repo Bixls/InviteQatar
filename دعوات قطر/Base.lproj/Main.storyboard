@@ -165,6 +165,7 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -382,10 +383,10 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMa-ft-gKs">
-                                                <rect key="frame" x="20" y="32" width="47" height="28"/>
+                                                <rect key="frame" x="20" y="28" width="53" height="49"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="28" id="9cE-Bf-5Tx"/>
-                                                    <constraint firstAttribute="width" constant="47" id="qma-fl-GJL"/>
+                                                    <constraint firstAttribute="height" constant="49" id="9cE-Bf-5Tx"/>
+                                                    <constraint firstAttribute="width" constant="53" id="qma-fl-GJL"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -402,7 +403,7 @@
                                             <constraint firstItem="Tzy-iN-9zt" firstAttribute="top" secondItem="oGd-Bf-pJS" secondAttribute="top" constant="176" id="55r-KJ-W9Q"/>
                                             <constraint firstItem="C69-zh-1I1" firstAttribute="leading" secondItem="67L-PB-B1a" secondAttribute="trailing" constant="7" id="5LP-Gw-BhX"/>
                                             <constraint firstItem="kQH-mk-CDm" firstAttribute="top" secondItem="67L-PB-B1a" secondAttribute="bottom" constant="100" id="A7J-Ms-ku0"/>
-                                            <constraint firstItem="JMa-ft-gKs" firstAttribute="top" secondItem="oGd-Bf-pJS" secondAttribute="top" constant="32" id="B4c-C1-UHE"/>
+                                            <constraint firstItem="JMa-ft-gKs" firstAttribute="top" secondItem="oGd-Bf-pJS" secondAttribute="top" constant="28" id="B4c-C1-UHE"/>
                                             <constraint firstAttribute="height" constant="548" id="DN4-SH-0gc"/>
                                             <constraint firstAttribute="centerX" secondItem="OPh-kD-AQD" secondAttribute="centerX" id="J5Y-P1-VHR"/>
                                             <constraint firstAttribute="width" constant="320" id="Ltc-ST-aIb"/>
@@ -785,10 +786,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lRW-gx-su9">
-                                                <rect key="frame" x="19" y="27" width="47" height="32"/>
+                                                <rect key="frame" x="19" y="27" width="47" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="47" id="WhT-7L-CvX"/>
-                                                    <constraint firstAttribute="height" constant="32" id="l8z-dg-0u8"/>
+                                                    <constraint firstAttribute="height" constant="45" id="l8z-dg-0u8"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -903,7 +904,7 @@
                                     <constraint firstAttribute="height" constant="408" id="dhv-2k-cYY"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ihu-7H-15R">
-                                    <size key="itemSize" width="120" height="100"/>
+                                    <size key="itemSize" width="120" height="129"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -913,7 +914,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="129"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GOd-Jn-Le1">
@@ -937,7 +938,7 @@
                                             <constraint firstItem="GOd-Jn-Le1" firstAttribute="top" secondItem="syK-u1-vCj" secondAttribute="top" id="bqE-iP-Mks"/>
                                             <constraint firstAttribute="trailing" secondItem="GOd-Jn-Le1" secondAttribute="trailing" id="j4z-P6-HB3"/>
                                         </constraints>
-                                        <size key="customSize" width="120" height="120"/>
+                                        <size key="customSize" width="120" height="129"/>
                                         <connections>
                                             <outlet property="picture" destination="GOd-Jn-Le1" id="q3J-ma-a9A"/>
                                         </connections>
@@ -1178,10 +1179,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EjG-gp-MHc">
-                                <rect key="frame" x="20" y="54" width="47" height="28"/>
+                                <rect key="frame" x="18" y="45" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="K6R-M0-OWV"/>
-                                    <constraint firstAttribute="width" constant="47" id="e3R-iu-o6G"/>
+                                    <constraint firstAttribute="height" constant="50" id="K6R-M0-OWV"/>
+                                    <constraint firstAttribute="width" constant="50" id="e3R-iu-o6G"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                                 <state key="normal" title="عودة &gt;">
@@ -1202,10 +1203,10 @@
                             <constraint firstAttribute="centerX" secondItem="q2M-7f-tQJ" secondAttribute="centerX" id="N4V-SU-n6l"/>
                             <constraint firstItem="kjT-Ve-MoS" firstAttribute="top" secondItem="etz-tn-Cc4" secondAttribute="bottom" constant="72" id="ViE-iN-uZp"/>
                             <constraint firstItem="dLX-pM-z6E" firstAttribute="top" secondItem="q2M-7f-tQJ" secondAttribute="bottom" constant="20" id="WNN-gh-fQ7"/>
-                            <constraint firstItem="EjG-gp-MHc" firstAttribute="top" secondItem="XPa-xk-lYG" secondAttribute="topMargin" constant="54" id="a7w-IS-xjW"/>
+                            <constraint firstItem="EjG-gp-MHc" firstAttribute="top" secondItem="XPa-xk-lYG" secondAttribute="topMargin" constant="45" id="a7w-IS-xjW"/>
                             <constraint firstAttribute="centerX" secondItem="wMB-Vm-lgw" secondAttribute="centerX" id="a8V-ml-9Vg"/>
                             <constraint firstItem="n3d-7X-6ZG" firstAttribute="top" secondItem="XPa-xk-lYG" secondAttribute="topMargin" id="bRa-eb-cSr"/>
-                            <constraint firstItem="EjG-gp-MHc" firstAttribute="leading" secondItem="XPa-xk-lYG" secondAttribute="leadingMargin" constant="4" id="dRJ-1C-t0m"/>
+                            <constraint firstItem="EjG-gp-MHc" firstAttribute="leading" secondItem="XPa-xk-lYG" secondAttribute="leadingMargin" constant="2" id="dRJ-1C-t0m"/>
                             <constraint firstAttribute="centerX" secondItem="etz-tn-Cc4" secondAttribute="centerX" id="eHD-GS-n4q"/>
                             <constraint firstItem="wMB-Vm-lgw" firstAttribute="top" secondItem="DXp-Sn-df5" secondAttribute="bottom" constant="190" id="g2w-9u-q3p"/>
                             <constraint firstItem="dLX-pM-z6E" firstAttribute="top" secondItem="n3d-7X-6ZG" secondAttribute="bottom" id="prc-EI-GWT"/>
@@ -1245,7 +1246,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="540"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UA6-uW-Bpc">
-                                        <rect key="frame" x="0.0" y="-62" width="320" height="1056"/>
+                                        <rect key="frame" x="0.0" y="-196" width="320" height="1056"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZSX-aA-yxu">
                                                 <rect key="frame" x="8" y="114" width="98" height="56"/>
@@ -1815,6 +1816,7 @@
                         <outlet property="myProfileLabel" destination="kji-7q-Hd4" id="KZ5-Rz-ZeM"/>
                         <outlet property="newsCollectionView" destination="HOV-Hr-Q8s" id="aeQ-vi-MeX"/>
                         <outlet property="scrollView" destination="wDn-cb-PpP" id="YLh-vb-ClR"/>
+                        <outlet property="tableVerticalLayoutConstraint" destination="eTX-1x-Uef" id="y9p-0d-BRb"/>
                         <outlet property="verticalLayoutConstraint" destination="4aj-z1-3G8" id="26e-R9-tKD"/>
                         <segue destination="Oyu-FG-B7Z" kind="modal" identifier="welcomeSegue" id="1pT-BA-v8b"/>
                         <segue destination="Pnj-oQ-lDE" kind="push" identifier="event" id="7J1-Rt-qJs"/>
@@ -1913,10 +1915,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WIL-b4-EHV">
-                                <rect key="frame" x="20" y="52" width="47" height="28"/>
+                                <rect key="frame" x="18" y="46" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="47" id="17D-k7-ipU"/>
-                                    <constraint firstAttribute="height" constant="28" id="xia-Sp-eeB"/>
+                                    <constraint firstAttribute="width" constant="50" id="17D-k7-ipU"/>
+                                    <constraint firstAttribute="height" constant="50" id="xia-Sp-eeB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                                 <state key="normal" title="عودة &gt;">
@@ -1945,10 +1947,10 @@
                         <constraints>
                             <constraint firstItem="h3d-mb-udN" firstAttribute="top" secondItem="fDp-qG-ZO3" secondAttribute="bottom" constant="37" id="1Bc-Xs-ukm"/>
                             <constraint firstItem="4DA-dm-inU" firstAttribute="top" secondItem="Yc6-ze-ySI" secondAttribute="bottom" constant="47" id="4cW-I6-D1t"/>
-                            <constraint firstItem="WIL-b4-EHV" firstAttribute="top" secondItem="bln-Ws-dvM" secondAttribute="topMargin" constant="52" id="6fK-WI-6x1"/>
+                            <constraint firstItem="WIL-b4-EHV" firstAttribute="top" secondItem="bln-Ws-dvM" secondAttribute="topMargin" constant="46" id="6fK-WI-6x1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Y4C-2Y-YqF" secondAttribute="trailing" constant="24" id="AOY-gl-Qms"/>
                             <constraint firstItem="fDp-qG-ZO3" firstAttribute="top" secondItem="ipT-sS-GvT" secondAttribute="bottom" constant="8" id="CcG-m6-1v0"/>
-                            <constraint firstItem="WIL-b4-EHV" firstAttribute="leading" secondItem="bln-Ws-dvM" secondAttribute="leadingMargin" constant="4" id="Fz4-YP-nNP"/>
+                            <constraint firstItem="WIL-b4-EHV" firstAttribute="leading" secondItem="bln-Ws-dvM" secondAttribute="leadingMargin" constant="2" id="Fz4-YP-nNP"/>
                             <constraint firstItem="h3d-mb-udN" firstAttribute="top" secondItem="W4p-9X-iPs" secondAttribute="bottom" constant="20" id="GeW-hC-K0B"/>
                             <constraint firstAttribute="centerX" secondItem="Yc6-ze-ySI" secondAttribute="centerX" id="HLG-Y0-EY3"/>
                             <constraint firstItem="Y4C-2Y-YqF" firstAttribute="top" secondItem="4DA-dm-inU" secondAttribute="bottom" constant="39" id="LCp-Xh-Ggt"/>
@@ -2136,10 +2138,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JSO-7F-AN3">
-                                                <rect key="frame" x="20" y="27" width="47" height="28"/>
+                                                <rect key="frame" x="20" y="19" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="47" id="Jgv-fl-tKp"/>
-                                                    <constraint firstAttribute="height" constant="28" id="Vrv-fD-MN3"/>
+                                                    <constraint firstAttribute="width" constant="50" id="Jgv-fl-tKp"/>
+                                                    <constraint firstAttribute="height" constant="50" id="Vrv-fD-MN3"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -2155,7 +2157,7 @@
                                         <constraints>
                                             <constraint firstItem="n7m-r0-vpH" firstAttribute="top" secondItem="RXy-82-ScT" secondAttribute="bottom" constant="17" id="1LG-hS-WGz"/>
                                             <constraint firstAttribute="centerX" secondItem="n7m-r0-vpH" secondAttribute="centerX" id="70q-DI-Pbl"/>
-                                            <constraint firstItem="JSO-7F-AN3" firstAttribute="top" secondItem="srk-wp-dSN" secondAttribute="top" constant="27" id="AXi-hU-LMo"/>
+                                            <constraint firstItem="JSO-7F-AN3" firstAttribute="top" secondItem="srk-wp-dSN" secondAttribute="top" constant="19" id="AXi-hU-LMo"/>
                                             <constraint firstItem="82S-ay-6dr" firstAttribute="top" secondItem="srk-wp-dSN" secondAttribute="top" constant="181" id="FPw-gw-riF"/>
                                             <constraint firstItem="RXy-82-ScT" firstAttribute="top" secondItem="srk-wp-dSN" secondAttribute="top" constant="167" id="KMH-xp-Lg1"/>
                                             <constraint firstAttribute="width" constant="320" id="LLs-Kr-Hag"/>
@@ -2313,10 +2315,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ez-Xc-ffm">
-                                <rect key="frame" x="19" y="52" width="46" height="30"/>
+                                <rect key="frame" x="16" y="46" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="REQ-hK-pwX"/>
-                                    <constraint firstAttribute="height" constant="30" id="h04-rf-9jZ"/>
+                                    <constraint firstAttribute="width" constant="50" id="REQ-hK-pwX"/>
+                                    <constraint firstAttribute="height" constant="50" id="h04-rf-9jZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -2335,11 +2337,11 @@
                             <constraint firstItem="Vgi-la-eBL" firstAttribute="top" secondItem="CXz-4f-gAl" secondAttribute="bottom" constant="33" id="3Wg-or-W9b"/>
                             <constraint firstItem="KpW-RZ-LzB" firstAttribute="leading" secondItem="fCe-Xa-jF0" secondAttribute="leading" id="4u1-rx-MJg"/>
                             <constraint firstItem="CXz-4f-gAl" firstAttribute="top" secondItem="SFG-gc-deI" secondAttribute="bottom" constant="32" id="6sf-kV-QH1"/>
-                            <constraint firstItem="5ez-Xc-ffm" firstAttribute="leading" secondItem="fCe-Xa-jF0" secondAttribute="leadingMargin" constant="3" id="7nm-Vy-Fcn"/>
+                            <constraint firstItem="5ez-Xc-ffm" firstAttribute="leading" secondItem="fCe-Xa-jF0" secondAttribute="leadingMargin" id="7nm-Vy-Fcn"/>
                             <constraint firstItem="8QS-6U-5Va" firstAttribute="top" secondItem="SFG-gc-deI" secondAttribute="bottom" constant="33" id="D0V-Vm-8h3"/>
                             <constraint firstItem="yXI-FK-aRd" firstAttribute="top" secondItem="U3Q-9n-Mwt" secondAttribute="bottom" constant="138" id="Dpj-m8-nRP"/>
                             <constraint firstItem="yXI-FK-aRd" firstAttribute="leading" secondItem="67E-iW-2lf" secondAttribute="trailing" constant="8" id="HXv-Du-vNa"/>
-                            <constraint firstItem="5ez-Xc-ffm" firstAttribute="top" secondItem="fCe-Xa-jF0" secondAttribute="topMargin" constant="52" id="K3w-Sw-Qle"/>
+                            <constraint firstItem="5ez-Xc-ffm" firstAttribute="top" secondItem="fCe-Xa-jF0" secondAttribute="topMargin" constant="46" id="K3w-Sw-Qle"/>
                             <constraint firstItem="ADn-OV-7IB" firstAttribute="top" secondItem="Vgi-la-eBL" secondAttribute="bottom" constant="19" id="PDq-tG-YAj"/>
                             <constraint firstItem="KpW-RZ-LzB" firstAttribute="top" secondItem="fCe-Xa-jF0" secondAttribute="top" constant="20" id="PeN-vM-Q94"/>
                             <constraint firstAttribute="trailingMargin" secondItem="yXI-FK-aRd" secondAttribute="trailing" constant="8" id="SH3-z5-yiY"/>
@@ -2540,10 +2542,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cX0-db-BKC">
-                                                <rect key="frame" x="21" y="31" width="44" height="30"/>
+                                                <rect key="frame" x="21" y="26" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="gU9-Wd-o1Y"/>
-                                                    <constraint firstAttribute="width" constant="44" id="orO-dU-iqI"/>
+                                                    <constraint firstAttribute="height" constant="50" id="gU9-Wd-o1Y"/>
+                                                    <constraint firstAttribute="width" constant="50" id="orO-dU-iqI"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -2562,7 +2564,7 @@
                                             <constraint firstItem="x8O-Eo-2EE" firstAttribute="top" secondItem="KkJ-ab-A6U" secondAttribute="bottom" constant="6" id="23l-eu-68F"/>
                                             <constraint firstItem="RJV-a5-jiR" firstAttribute="top" secondItem="7rD-vi-Cr7" secondAttribute="bottom" constant="8" id="AJN-Gx-ZWC"/>
                                             <constraint firstItem="f9s-Gh-WLZ" firstAttribute="top" secondItem="7rD-vi-Cr7" secondAttribute="bottom" constant="8" id="GL9-Vi-75G"/>
-                                            <constraint firstItem="cX0-db-BKC" firstAttribute="top" secondItem="SBu-LF-1g3" secondAttribute="top" constant="31" id="Hre-nf-3uh"/>
+                                            <constraint firstItem="cX0-db-BKC" firstAttribute="top" secondItem="SBu-LF-1g3" secondAttribute="top" constant="26" id="Hre-nf-3uh"/>
                                             <constraint firstItem="cI1-h9-N5N" firstAttribute="top" secondItem="RJV-a5-jiR" secondAttribute="bottom" constant="8" symbolic="YES" id="IbB-la-DPf"/>
                                             <constraint firstItem="cI1-h9-N5N" firstAttribute="leading" secondItem="MNE-Ym-8wJ" secondAttribute="leading" id="Sb6-Gu-0CM"/>
                                             <constraint firstAttribute="bottom" secondItem="YMC-MH-TNi" secondAttribute="bottom" constant="24" id="ZzV-rn-Ura"/>
@@ -2882,12 +2884,12 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wM-KE-nxa">
-                                                <rect key="frame" x="21" y="30" width="46" height="30"/>
+                                                <rect key="frame" x="21" y="26" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="46" id="1in-LG-nWB"/>
-                                                    <constraint firstAttribute="height" constant="30" id="E1h-92-qym"/>
+                                                    <constraint firstAttribute="width" constant="50" id="1in-LG-nWB"/>
+                                                    <constraint firstAttribute="height" constant="50" id="E1h-92-qym"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -2906,7 +2908,7 @@
                                             <constraint firstItem="IRg-0L-zpG" firstAttribute="top" secondItem="EDu-5J-hLY" secondAttribute="bottom" constant="31" id="IYw-8I-yT3"/>
                                             <constraint firstAttribute="centerX" secondItem="yYy-gp-ijd" secondAttribute="centerX" id="LUp-eY-6dU"/>
                                             <constraint firstAttribute="bottom" secondItem="IRg-0L-zpG" secondAttribute="bottom" constant="16" id="M4Z-go-4yu"/>
-                                            <constraint firstItem="0wM-KE-nxa" firstAttribute="top" secondItem="dV3-sh-aKt" secondAttribute="top" constant="30" id="N2j-4U-ydy"/>
+                                            <constraint firstItem="0wM-KE-nxa" firstAttribute="top" secondItem="dV3-sh-aKt" secondAttribute="top" constant="26" id="N2j-4U-ydy"/>
                                             <constraint firstAttribute="trailing" secondItem="Ygg-Ik-Sxb" secondAttribute="trailing" constant="16" id="QLM-Ud-N7u"/>
                                             <constraint firstItem="yYy-gp-ijd" firstAttribute="top" secondItem="dV3-sh-aKt" secondAttribute="top" constant="13" id="XWO-mw-Yca"/>
                                             <constraint firstItem="EDu-5J-hLY" firstAttribute="top" secondItem="yYy-gp-ijd" secondAttribute="bottom" constant="7" id="cgF-V6-98U"/>
@@ -2985,10 +2987,10 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zT-LX-Pm0">
-                                                <rect key="frame" x="22" y="25" width="47" height="28"/>
+                                                <rect key="frame" x="22" y="18" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="28" id="MQw-H2-caT"/>
-                                                    <constraint firstAttribute="width" constant="47" id="qdc-Wa-XLi"/>
+                                                    <constraint firstAttribute="height" constant="50" id="MQw-H2-caT"/>
+                                                    <constraint firstAttribute="width" constant="50" id="qdc-Wa-XLi"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -3386,7 +3388,7 @@
                                             <constraint firstAttribute="trailing" secondItem="VXg-qq-51b" secondAttribute="trailing" constant="12" id="T0M-mA-av4"/>
                                             <constraint firstItem="brd-kR-UKX" firstAttribute="top" secondItem="VXg-qq-51b" secondAttribute="bottom" constant="3" id="V6d-gH-lLd"/>
                                             <constraint firstItem="L9r-iB-Ywm" firstAttribute="leading" secondItem="maH-k4-ooi" secondAttribute="leading" constant="21" id="WQU-0h-X5h"/>
-                                            <constraint firstItem="9zT-LX-Pm0" firstAttribute="top" secondItem="maH-k4-ooi" secondAttribute="top" constant="25" id="Ww8-AH-4it"/>
+                                            <constraint firstItem="9zT-LX-Pm0" firstAttribute="top" secondItem="maH-k4-ooi" secondAttribute="top" constant="18" id="Ww8-AH-4it"/>
                                             <constraint firstAttribute="trailing" secondItem="WW6-t8-SHv" secondAttribute="trailing" constant="16" id="Y0G-c6-47a"/>
                                             <constraint firstItem="VXg-qq-51b" firstAttribute="top" secondItem="3V5-88-M5d" secondAttribute="bottom" constant="8" id="YUY-If-gyh"/>
                                             <constraint firstAttribute="trailing" secondItem="Umw-Iq-Wuv" secondAttribute="trailing" constant="12" id="YUh-2Z-0sE"/>
@@ -3650,10 +3652,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2iX-bg-I5Q">
-                                <rect key="frame" x="21" y="51" width="46" height="30"/>
+                                <rect key="frame" x="21" y="45" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="Fhe-Iy-IJ3"/>
-                                    <constraint firstAttribute="height" constant="30" id="TFD-9M-CHc"/>
+                                    <constraint firstAttribute="width" constant="50" id="Fhe-Iy-IJ3"/>
+                                    <constraint firstAttribute="height" constant="50" id="TFD-9M-CHc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -3667,7 +3669,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2iX-bg-I5Q" firstAttribute="top" secondItem="VLD-II-p3p" secondAttribute="topMargin" constant="51" id="EJ4-w5-ghc"/>
+                            <constraint firstItem="2iX-bg-I5Q" firstAttribute="top" secondItem="VLD-II-p3p" secondAttribute="topMargin" constant="45" id="EJ4-w5-ghc"/>
                             <constraint firstItem="IdH-hy-GVL" firstAttribute="top" secondItem="5Zo-4A-YUh" secondAttribute="bottom" constant="40" id="LZo-ak-2sN"/>
                             <constraint firstItem="2iX-bg-I5Q" firstAttribute="leading" secondItem="VLD-II-p3p" secondAttribute="leadingMargin" constant="5" id="N3L-kx-trz"/>
                             <constraint firstItem="RQg-kf-TQ2" firstAttribute="leading" secondItem="VLD-II-p3p" secondAttribute="leading" id="OZy-aM-lEg"/>
@@ -3838,10 +3840,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xi1-DV-h1h">
-                                <rect key="frame" x="21" y="50" width="46" height="30"/>
+                                <rect key="frame" x="21" y="46" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="Jeu-d2-RWu"/>
-                                    <constraint firstAttribute="height" constant="30" id="Kdc-Za-oQV"/>
+                                    <constraint firstAttribute="width" constant="50" id="Jeu-d2-RWu"/>
+                                    <constraint firstAttribute="height" constant="50" id="Kdc-Za-oQV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -3864,7 +3866,7 @@
                             <constraint firstItem="ega-oi-ia6" firstAttribute="top" secondItem="xj6-0V-Dch" secondAttribute="topMargin" constant="38" id="ViH-Jz-bJs"/>
                             <constraint firstItem="bda-i7-8Zf" firstAttribute="top" secondItem="fG4-to-O0b" secondAttribute="bottom" id="WAd-P8-QpX"/>
                             <constraint firstItem="fG4-to-O0b" firstAttribute="top" secondItem="xj6-0V-Dch" secondAttribute="top" constant="20" id="Was-Rv-bYQ"/>
-                            <constraint firstItem="Xi1-DV-h1h" firstAttribute="top" secondItem="xj6-0V-Dch" secondAttribute="topMargin" constant="50" id="eEB-Sk-UWA"/>
+                            <constraint firstItem="Xi1-DV-h1h" firstAttribute="top" secondItem="xj6-0V-Dch" secondAttribute="topMargin" constant="46" id="eEB-Sk-UWA"/>
                             <constraint firstAttribute="centerX" secondItem="ega-oi-ia6" secondAttribute="centerX" id="hki-Kc-Nxt"/>
                             <constraint firstItem="ykW-qE-t51" firstAttribute="top" secondItem="qX7-zk-TcP" secondAttribute="bottom" constant="65" id="jIq-jG-fst"/>
                             <constraint firstItem="Xi1-DV-h1h" firstAttribute="leading" secondItem="xj6-0V-Dch" secondAttribute="leadingMargin" constant="5" id="jea-Rh-N2g"/>
@@ -4094,10 +4096,10 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6w-tk-TyO">
-                                                <rect key="frame" x="21" y="29" width="46" height="30"/>
+                                                <rect key="frame" x="21" y="25" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="7Ez-EW-P5A"/>
-                                                    <constraint firstAttribute="width" constant="46" id="dFK-2O-7pj"/>
+                                                    <constraint firstAttribute="height" constant="50" id="7Ez-EW-P5A"/>
+                                                    <constraint firstAttribute="width" constant="50" id="dFK-2O-7pj"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -4182,7 +4184,7 @@
                                             <constraint firstAttribute="trailing" secondItem="TEG-kW-8Fi" secondAttribute="trailing" constant="14" id="la5-k6-pa7"/>
                                             <constraint firstItem="i6m-dJ-4Gf" firstAttribute="top" secondItem="PHx-r5-rLT" secondAttribute="bottom" constant="30" id="mE9-qm-uHg"/>
                                             <constraint firstItem="ifv-xo-SpG" firstAttribute="top" secondItem="PHx-r5-rLT" secondAttribute="bottom" constant="8" id="nUX-Pe-Y4I"/>
-                                            <constraint firstItem="O6w-tk-TyO" firstAttribute="top" secondItem="9EC-oA-HGn" secondAttribute="top" constant="29" id="ri9-Hw-h4y"/>
+                                            <constraint firstItem="O6w-tk-TyO" firstAttribute="top" secondItem="9EC-oA-HGn" secondAttribute="top" constant="25" id="ri9-Hw-h4y"/>
                                             <constraint firstItem="TEG-kW-8Fi" firstAttribute="top" secondItem="gz0-kO-q3q" secondAttribute="bottom" constant="231" id="sMB-96-biy"/>
                                             <constraint firstItem="fun-b2-BhN" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" id="t2s-Bm-7nS"/>
                                             <constraint firstItem="orw-20-OXL" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" id="tsR-IB-RR0"/>
@@ -4415,10 +4417,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4rU-2Q-cJd">
-                                <rect key="frame" x="21" y="51" width="46" height="30"/>
+                                <rect key="frame" x="21" y="44" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="697-Vx-hbU"/>
-                                    <constraint firstAttribute="height" constant="30" id="NB5-U1-iCH"/>
+                                    <constraint firstAttribute="width" constant="50" id="697-Vx-hbU"/>
+                                    <constraint firstAttribute="height" constant="50" id="NB5-U1-iCH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -4436,7 +4438,7 @@
                             <constraint firstAttribute="centerX" secondItem="EI7-K9-hN0" secondAttribute="centerX" id="7d6-Yb-O5l"/>
                             <constraint firstItem="EI7-K9-hN0" firstAttribute="leading" secondItem="hNG-pC-LxM" secondAttribute="leadingMargin" id="Cfk-ZO-Sw0"/>
                             <constraint firstItem="lma-YC-6z8" firstAttribute="top" secondItem="6MJ-MO-oQS" secondAttribute="bottom" constant="8" id="ENZ-Fn-su6"/>
-                            <constraint firstItem="4rU-2Q-cJd" firstAttribute="top" secondItem="hNG-pC-LxM" secondAttribute="topMargin" constant="51" id="NSS-ZN-JIh"/>
+                            <constraint firstItem="4rU-2Q-cJd" firstAttribute="top" secondItem="hNG-pC-LxM" secondAttribute="topMargin" constant="44" id="NSS-ZN-JIh"/>
                             <constraint firstAttribute="centerX" secondItem="YUQ-yE-YGX" secondAttribute="centerX" id="OCc-J2-zke"/>
                             <constraint firstItem="Fhp-Qu-6P5" firstAttribute="top" secondItem="hNG-pC-LxM" secondAttribute="top" constant="20" id="VYh-W5-8IJ"/>
                             <constraint firstItem="4rU-2Q-cJd" firstAttribute="leading" secondItem="hNG-pC-LxM" secondAttribute="leadingMargin" constant="5" id="WML-6L-2mu"/>
@@ -4604,10 +4606,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjg-6Y-9Dq">
-                                <rect key="frame" x="21" y="52" width="46" height="30"/>
+                                <rect key="frame" x="21" y="46" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="2tp-Ps-dMK"/>
-                                    <constraint firstAttribute="width" constant="46" id="Bgj-5d-RnN"/>
+                                    <constraint firstAttribute="height" constant="50" id="2tp-Ps-dMK"/>
+                                    <constraint firstAttribute="width" constant="50" id="Bgj-5d-RnN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -4623,7 +4625,7 @@
                         <constraints>
                             <constraint firstItem="0js-2y-Wxx" firstAttribute="top" secondItem="BUC-YS-cDS" secondAttribute="bottom" constant="20" id="7n9-jh-YwZ"/>
                             <constraint firstItem="sIf-Ti-squ" firstAttribute="top" secondItem="it0-ML-B72" secondAttribute="top" constant="20" id="8Wh-Tl-SI0"/>
-                            <constraint firstItem="bjg-6Y-9Dq" firstAttribute="top" secondItem="it0-ML-B72" secondAttribute="topMargin" constant="52" id="Cz6-ys-gwd"/>
+                            <constraint firstItem="bjg-6Y-9Dq" firstAttribute="top" secondItem="it0-ML-B72" secondAttribute="topMargin" constant="46" id="Cz6-ys-gwd"/>
                             <constraint firstItem="bjg-6Y-9Dq" firstAttribute="leading" secondItem="it0-ML-B72" secondAttribute="leadingMargin" constant="5" id="Q4L-px-ucq"/>
                             <constraint firstItem="0js-2y-Wxx" firstAttribute="top" secondItem="sIf-Ti-squ" secondAttribute="bottom" id="U92-AX-fie"/>
                             <constraint firstItem="sIf-Ti-squ" firstAttribute="leading" secondItem="it0-ML-B72" secondAttribute="leading" id="XgV-sX-XTB"/>
@@ -4734,10 +4736,10 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zho-lo-RZs">
-                                <rect key="frame" x="21" y="52" width="46" height="30"/>
+                                <rect key="frame" x="21" y="46" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="T0b-rA-znY"/>
-                                    <constraint firstAttribute="width" constant="46" id="kPg-ue-ZUU"/>
+                                    <constraint firstAttribute="height" constant="50" id="T0b-rA-znY"/>
+                                    <constraint firstAttribute="width" constant="50" id="kPg-ue-ZUU"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -4763,7 +4765,7 @@
                             <constraint firstItem="Lq2-jo-cC4" firstAttribute="top" secondItem="fRG-1b-6Bs" secondAttribute="bottom" constant="19" id="Lk2-tX-Ezw"/>
                             <constraint firstAttribute="centerX" secondItem="55n-eW-P0p" secondAttribute="centerX" id="Zd0-RK-pIB"/>
                             <constraint firstAttribute="centerX" secondItem="WlK-pD-Tyk" secondAttribute="centerX" id="jN5-QT-pzx"/>
-                            <constraint firstItem="zho-lo-RZs" firstAttribute="top" secondItem="TnE-md-Mck" secondAttribute="topMargin" constant="52" id="mcd-Vf-YDl"/>
+                            <constraint firstItem="zho-lo-RZs" firstAttribute="top" secondItem="TnE-md-Mck" secondAttribute="topMargin" constant="46" id="mcd-Vf-YDl"/>
                             <constraint firstItem="Lq2-jo-cC4" firstAttribute="top" secondItem="wxw-jW-hsS" secondAttribute="bottom" constant="27" id="oma-p2-wUm"/>
                             <constraint firstItem="q0e-ti-nRV" firstAttribute="top" secondItem="TnE-md-Mck" secondAttribute="topMargin" constant="20" id="pAd-yd-T5k"/>
                             <constraint firstItem="q0e-ti-nRV" firstAttribute="leading" secondItem="TnE-md-Mck" secondAttribute="leadingMargin" constant="-16" id="uew-Ix-jqg"/>
@@ -4878,8 +4880,12 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZJ9-Hg-mAu">
-                                                <rect key="frame" x="8" y="28" width="58" height="50"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZJ9-Hg-mAu">
+                                                <rect key="frame" x="11" y="28" width="58" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="PlG-v4-NKh"/>
+                                                    <constraint firstAttribute="width" constant="58" id="VKV-SH-xY6"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4915,10 +4921,12 @@
                                             <constraint firstItem="oUN-aQ-ZJo" firstAttribute="top" secondItem="s29-Ro-uh4" secondAttribute="bottom" constant="69" id="GMm-go-Rf1"/>
                                             <constraint firstItem="V6l-6g-JDv" firstAttribute="leading" secondItem="wkZ-w5-FNd" secondAttribute="leading" constant="13" id="JDc-ck-tRj"/>
                                             <constraint firstAttribute="height" constant="548" id="Rbf-YH-svY"/>
+                                            <constraint firstItem="ZJ9-Hg-mAu" firstAttribute="top" secondItem="wkZ-w5-FNd" secondAttribute="top" constant="28" id="SXi-G5-wpZ"/>
                                             <constraint firstAttribute="width" constant="320" id="WQt-p4-Gf6"/>
                                             <constraint firstAttribute="trailing" secondItem="oUN-aQ-ZJo" secondAttribute="trailing" constant="14" id="XGt-NJ-hI1"/>
                                             <constraint firstItem="mau-Vk-fXs" firstAttribute="leading" secondItem="TDP-St-Yhx" secondAttribute="trailing" constant="51" id="Xab-Tg-baW"/>
                                             <constraint firstAttribute="centerX" secondItem="wnT-Oo-7zQ" secondAttribute="centerX" id="XkY-cL-YXl"/>
+                                            <constraint firstItem="ZJ9-Hg-mAu" firstAttribute="leading" secondItem="wkZ-w5-FNd" secondAttribute="leading" constant="11" id="Z7z-jH-ItW"/>
                                             <constraint firstItem="wnT-Oo-7zQ" firstAttribute="top" secondItem="TDP-St-Yhx" secondAttribute="bottom" constant="37" id="cTk-tJ-ppY"/>
                                             <constraint firstItem="V6l-6g-JDv" firstAttribute="top" secondItem="s29-Ro-uh4" secondAttribute="bottom" constant="62" id="eOn-PD-Pax"/>
                                             <constraint firstAttribute="centerX" secondItem="s29-Ro-uh4" secondAttribute="centerX" id="fVj-58-z4B"/>
@@ -5095,10 +5103,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZ1-PD-37U">
-                                <rect key="frame" x="21" y="52" width="46" height="30"/>
+                                <rect key="frame" x="21" y="48" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="qhX-cc-qbL"/>
-                                    <constraint firstAttribute="height" constant="30" id="wSf-gW-gtw"/>
+                                    <constraint firstAttribute="width" constant="50" id="qhX-cc-qbL"/>
+                                    <constraint firstAttribute="height" constant="50" id="wSf-gW-gtw"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -5114,7 +5122,7 @@
                         <constraints>
                             <constraint firstItem="rZ1-PD-37U" firstAttribute="leading" secondItem="Z0i-b6-S7t" secondAttribute="leadingMargin" constant="5" id="8VU-8R-lwe"/>
                             <constraint firstItem="f4f-np-K6m" firstAttribute="leading" secondItem="Z0i-b6-S7t" secondAttribute="leading" id="AWy-v8-tdL"/>
-                            <constraint firstItem="rZ1-PD-37U" firstAttribute="top" secondItem="Z0i-b6-S7t" secondAttribute="topMargin" constant="52" id="FJU-JO-HTL"/>
+                            <constraint firstItem="rZ1-PD-37U" firstAttribute="top" secondItem="Z0i-b6-S7t" secondAttribute="topMargin" constant="48" id="FJU-JO-HTL"/>
                             <constraint firstAttribute="trailing" secondItem="f4f-np-K6m" secondAttribute="trailing" id="Pqu-d1-dGf"/>
                             <constraint firstAttribute="centerY" secondItem="Wh2-9F-xhA" secondAttribute="centerY" constant="-51.5" id="Qhl-QC-R5q"/>
                             <constraint firstItem="VzC-Kt-jep" firstAttribute="top" secondItem="Bee-Nq-VT9" secondAttribute="bottom" constant="16" id="Tyh-JO-Q5M"/>
@@ -5301,7 +5309,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KC4-1B-lFx">
-                                                <rect key="frame" x="115" y="514" width="102" height="30"/>
+                                                <rect key="frame" x="115" y="515" width="102" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="102" id="4xT-96-Xt2"/>
                                                     <constraint firstAttribute="height" constant="30" id="Dno-z1-ctr"/>
@@ -5360,10 +5368,10 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vzg-gJ-hUR">
-                                                <rect key="frame" x="21" y="32" width="46" height="30"/>
+                                                <rect key="frame" x="21" y="27" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="46" id="XZh-GB-c89"/>
-                                                    <constraint firstAttribute="height" constant="30" id="inq-1g-XdA"/>
+                                                    <constraint firstAttribute="width" constant="50" id="XZh-GB-c89"/>
+                                                    <constraint firstAttribute="height" constant="50" id="inq-1g-XdA"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -5402,7 +5410,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="NOU-km-VfK" firstAttribute="top" secondItem="KC4-1B-lFx" secondAttribute="bottom" constant="37" id="14S-6h-dez"/>
+                                            <constraint firstItem="NOU-km-VfK" firstAttribute="top" secondItem="KC4-1B-lFx" secondAttribute="bottom" constant="36" id="14S-6h-dez"/>
                                             <constraint firstItem="z5X-n8-1Az" firstAttribute="top" secondItem="DAX-0R-O5Q" secondAttribute="bottom" constant="12" id="40I-Ns-oHg"/>
                                             <constraint firstItem="xkk-Cf-xmy" firstAttribute="top" secondItem="VEf-rN-q9Z" secondAttribute="bottom" constant="37" id="56y-gJ-B6g"/>
                                             <constraint firstItem="VEf-rN-q9Z" firstAttribute="top" secondItem="MOX-aI-gOP" secondAttribute="top" constant="27" id="5KV-Dh-JTt"/>
@@ -5417,16 +5425,16 @@
                                             <constraint firstAttribute="trailing" secondItem="79W-Df-hSq" secondAttribute="trailing" constant="16" id="N87-fm-C93"/>
                                             <constraint firstAttribute="height" constant="639" id="OSa-zR-KHD"/>
                                             <constraint firstItem="lTU-11-hUq" firstAttribute="leading" secondItem="KC4-1B-lFx" secondAttribute="trailing" constant="3" id="SSG-tc-gyT"/>
-                                            <constraint firstItem="Vzg-gJ-hUR" firstAttribute="top" secondItem="MOX-aI-gOP" secondAttribute="top" constant="32" id="TI1-3s-JCd"/>
+                                            <constraint firstItem="Vzg-gJ-hUR" firstAttribute="top" secondItem="MOX-aI-gOP" secondAttribute="top" constant="27" id="TI1-3s-JCd"/>
                                             <constraint firstAttribute="centerX" secondItem="Qqd-Px-8V1" secondAttribute="centerX" constant="1" id="UcY-aA-ClE"/>
-                                            <constraint firstItem="guY-JT-h3H" firstAttribute="top" secondItem="KC4-1B-lFx" secondAttribute="bottom" constant="53" id="WUM-LJ-S4i"/>
+                                            <constraint firstItem="guY-JT-h3H" firstAttribute="top" secondItem="KC4-1B-lFx" secondAttribute="bottom" constant="52" id="WUM-LJ-S4i"/>
                                             <constraint firstItem="Ihy-St-vW6" firstAttribute="leading" secondItem="MOX-aI-gOP" secondAttribute="leading" constant="98" id="Y0w-Fp-A4t"/>
                                             <constraint firstItem="KC4-1B-lFx" firstAttribute="leading" secondItem="sPx-Np-gGD" secondAttribute="leading" constant="88" id="Y97-im-KFJ"/>
                                             <constraint firstItem="sPx-Np-gGD" firstAttribute="top" secondItem="DAX-0R-O5Q" secondAttribute="bottom" constant="13" id="avZ-w7-NMC"/>
                                             <constraint firstItem="Vzg-gJ-hUR" firstAttribute="leading" secondItem="MOX-aI-gOP" secondAttribute="leading" constant="21" id="cpz-SF-dDg"/>
                                             <constraint firstItem="DAX-0R-O5Q" firstAttribute="leading" secondItem="MOX-aI-gOP" secondAttribute="leading" constant="27" id="e7w-cI-tmh"/>
                                             <constraint firstItem="fSQ-7Q-As4" firstAttribute="top" secondItem="Yw3-cm-RMf" secondAttribute="bottom" constant="26" id="ed5-Lz-W7Z"/>
-                                            <constraint firstItem="KC4-1B-lFx" firstAttribute="top" secondItem="sPx-Np-gGD" secondAttribute="bottom" constant="7" id="efH-uY-vnn"/>
+                                            <constraint firstItem="KC4-1B-lFx" firstAttribute="top" secondItem="sPx-Np-gGD" secondAttribute="bottom" constant="8" id="efH-uY-vnn"/>
                                             <constraint firstAttribute="centerX" secondItem="guY-JT-h3H" secondAttribute="centerX" id="exD-Pg-75Q"/>
                                             <constraint firstItem="Ihy-St-vW6" firstAttribute="top" secondItem="Yw3-cm-RMf" secondAttribute="bottom" constant="19" id="gCJ-Lu-Mhu"/>
                                             <constraint firstItem="79W-Df-hSq" firstAttribute="top" secondItem="UI2-Fi-adZ" secondAttribute="bottom" constant="49" id="hbf-AM-fk6"/>
@@ -5747,10 +5755,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AjV-1i-10h">
-                                <rect key="frame" x="21" y="51" width="46" height="30"/>
+                                <rect key="frame" x="21" y="45" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="ciS-wQ-MPc"/>
-                                    <constraint firstAttribute="height" constant="30" id="grL-2j-KQp"/>
+                                    <constraint firstAttribute="width" constant="50" id="ciS-wQ-MPc"/>
+                                    <constraint firstAttribute="height" constant="50" id="grL-2j-KQp"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                 <state key="normal" title="عودة &gt;">
@@ -5767,7 +5775,7 @@
                             <constraint firstAttribute="centerX" secondItem="mka-31-qtN" secondAttribute="centerX" id="EK8-gm-rP8"/>
                             <constraint firstItem="PDl-5h-7Gs" firstAttribute="top" secondItem="V1a-en-Hed" secondAttribute="bottom" id="ESg-B1-WoT"/>
                             <constraint firstAttribute="trailing" secondItem="V1a-en-Hed" secondAttribute="trailing" id="HxR-bE-7TV"/>
-                            <constraint firstItem="AjV-1i-10h" firstAttribute="top" secondItem="Y6E-Hf-D8t" secondAttribute="topMargin" constant="51" id="UZ5-3Q-k9W"/>
+                            <constraint firstItem="AjV-1i-10h" firstAttribute="top" secondItem="Y6E-Hf-D8t" secondAttribute="topMargin" constant="45" id="UZ5-3Q-k9W"/>
                             <constraint firstItem="Zv9-tN-1mt" firstAttribute="top" secondItem="Y6E-Hf-D8t" secondAttribute="topMargin" constant="47" id="bwa-4l-1FX"/>
                             <constraint firstAttribute="trailing" secondItem="mka-31-qtN" secondAttribute="trailing" id="dCy-Wg-3pU"/>
                             <constraint firstItem="V1a-en-Hed" firstAttribute="top" secondItem="Y6E-Hf-D8t" secondAttribute="top" constant="20" id="dPU-DL-y7y"/>
@@ -5813,8 +5821,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ADE-Ie-X9N" customClass="TPKeyboardAvoidingScrollView">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LOP-sR-jIR">
-                                        <rect key="frame" x="0.0" y="-70" width="320" height="700"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LOP-sR-jIR">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="700"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="حسابي" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="de9-iJ-7Yv">
                                                 <rect key="frame" x="131" y="154" width="57" height="19"/>
@@ -5991,10 +5999,10 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NGV-f0-isg">
-                                                <rect key="frame" x="21" y="32" width="46" height="30"/>
+                                                <rect key="frame" x="21" y="27" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="tLT-Va-HlX"/>
-                                                    <constraint firstAttribute="width" constant="46" id="uOs-F9-g7N"/>
+                                                    <constraint firstAttribute="height" constant="50" id="tLT-Va-HlX"/>
+                                                    <constraint firstAttribute="width" constant="50" id="uOs-F9-g7N"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -6063,7 +6071,7 @@
                                             <constraint firstItem="Lbb-g0-8Ce" firstAttribute="top" secondItem="yVI-s6-bB3" secondAttribute="bottom" constant="17" id="clQ-SO-kh9"/>
                                             <constraint firstAttribute="centerX" secondItem="6L3-Y8-eRL" secondAttribute="centerX" id="dW9-Dt-CMw"/>
                                             <constraint firstItem="o1k-f5-84k" firstAttribute="top" secondItem="Mcx-Fc-Rh4" secondAttribute="bottom" constant="42" id="gJT-gV-yrK"/>
-                                            <constraint firstItem="NGV-f0-isg" firstAttribute="top" secondItem="LOP-sR-jIR" secondAttribute="top" constant="32" id="hPu-hM-AaN"/>
+                                            <constraint firstItem="NGV-f0-isg" firstAttribute="top" secondItem="LOP-sR-jIR" secondAttribute="top" constant="27" id="hPu-hM-AaN"/>
                                             <constraint firstItem="Xwb-Wm-Q1J" firstAttribute="top" secondItem="Lbb-g0-8Ce" secondAttribute="bottom" constant="16" id="ikH-pI-3TV"/>
                                             <constraint firstAttribute="centerX" secondItem="SHZ-Bf-Q5q" secondAttribute="centerX" id="jBt-1K-N6E"/>
                                             <constraint firstItem="RPT-Pq-8Ks" firstAttribute="top" secondItem="Mqx-Tk-xhE" secondAttribute="bottom" constant="30" id="jQZ-JR-79u"/>
@@ -6184,10 +6192,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2jn-34-U3p">
-                                                <rect key="frame" x="21" y="10" width="46" height="30"/>
+                                                <rect key="frame" x="21" y="7" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="csz-si-UVb"/>
-                                                    <constraint firstAttribute="width" constant="46" id="oF2-yh-EVr"/>
+                                                    <constraint firstAttribute="height" constant="50" id="csz-si-UVb"/>
+                                                    <constraint firstAttribute="width" constant="50" id="oF2-yh-EVr"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -6535,7 +6543,7 @@
                                             <constraint firstItem="IX8-ln-IQh" firstAttribute="leading" secondItem="8pd-bA-dXJ" secondAttribute="leading" constant="21" id="2k0-Yd-B0Y"/>
                                             <constraint firstItem="Yks-IN-1eG" firstAttribute="top" secondItem="8pd-bA-dXJ" secondAttribute="top" constant="3" id="2zt-ah-KF3"/>
                                             <constraint firstAttribute="trailing" secondItem="nMX-gA-VOz" secondAttribute="trailing" constant="25" id="5Fg-VB-Qhj"/>
-                                            <constraint firstItem="2jn-34-U3p" firstAttribute="top" secondItem="8pd-bA-dXJ" secondAttribute="top" constant="10" id="5mP-eD-GAY"/>
+                                            <constraint firstItem="2jn-34-U3p" firstAttribute="top" secondItem="8pd-bA-dXJ" secondAttribute="top" constant="7" id="5mP-eD-GAY"/>
                                             <constraint firstAttribute="centerX" secondItem="LKc-v3-SYj" secondAttribute="centerX" id="6F1-OC-INd"/>
                                             <constraint firstItem="gPd-1S-a42" firstAttribute="top" secondItem="s5j-Ol-Dcj" secondAttribute="bottom" constant="13" id="89q-wD-1zM"/>
                                             <constraint firstAttribute="trailing" secondItem="IX8-ln-IQh" secondAttribute="trailing" constant="16" id="ACF-TW-6R9"/>
@@ -6805,10 +6813,10 @@
                                                 </connections>
                                             </textView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dlF-GV-GLS">
-                                                <rect key="frame" x="21" y="22" width="46" height="30"/>
+                                                <rect key="frame" x="21" y="18" width="50" height="50"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="46" id="J2S-OL-pSe"/>
-                                                    <constraint firstAttribute="height" constant="30" id="OGk-jq-9c4"/>
+                                                    <constraint firstAttribute="width" constant="50" id="J2S-OL-pSe"/>
+                                                    <constraint firstAttribute="height" constant="50" id="OGk-jq-9c4"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="عودة &gt;">
@@ -6835,7 +6843,7 @@
                                             <constraint firstItem="Gq5-Wk-Irp" firstAttribute="top" secondItem="iGf-be-L03" secondAttribute="bottom" constant="92" id="1MV-SH-tzd"/>
                                             <constraint firstAttribute="centerX" secondItem="z4P-NZ-MK0" secondAttribute="centerX" id="4eb-a9-S0Q"/>
                                             <constraint firstItem="VI3-1x-VGC" firstAttribute="leading" secondItem="cA0-Vt-K7U" secondAttribute="leading" constant="16" id="7eC-Qv-Dft"/>
-                                            <constraint firstItem="dlF-GV-GLS" firstAttribute="top" secondItem="cA0-Vt-K7U" secondAttribute="top" constant="22" id="8y9-Id-7Ta"/>
+                                            <constraint firstItem="dlF-GV-GLS" firstAttribute="top" secondItem="cA0-Vt-K7U" secondAttribute="top" constant="18" id="8y9-Id-7Ta"/>
                                             <constraint firstAttribute="width" constant="320" id="E4m-MG-w6H"/>
                                             <constraint firstItem="Kd2-da-Lxg" firstAttribute="leading" secondItem="iGf-be-L03" secondAttribute="trailing" constant="55" id="Egv-bI-9kh"/>
                                             <constraint firstAttribute="height" constant="639" id="Eqz-WQ-50Q"/>
@@ -6946,15 +6954,15 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="eUh-Aj-ld9"/>
+        <segue reference="4yJ-AY-O7T"/>
         <segue reference="Pva-az-nrh"/>
         <segue reference="2dl-tD-VcJ"/>
+        <segue reference="Bok-QY-wEt"/>
         <segue reference="De6-P3-Poq"/>
         <segue reference="7YD-cm-usr"/>
-        <segue reference="4yJ-AY-O7T"/>
-        <segue reference="iaT-Lo-dwV"/>
-        <segue reference="blW-Gs-6i2"/>
-        <segue reference="hWi-sg-g8m"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="Ms0-5r-99t"/>
+        <segue reference="IoJ-de-HAV"/>
+        <segue reference="hQx-Cj-f0Z"/>
     </inferredMetricsTieBreakers>
 </document>

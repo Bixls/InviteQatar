@@ -20,6 +20,7 @@
 @interface HomePageViewController ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 //@property (nonatomic , strong) NSArray *responseArray;
@@ -356,7 +357,7 @@
             
         });
         
-        
+        self.tableVerticalLayoutConstraint.constant = self.eventsTableView.contentSize.height;
         return cell ;
     }else if (indexPath.row == self.events.count){
         HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
