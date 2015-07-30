@@ -124,7 +124,7 @@
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             //Background Thread
             NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"EventPic"]];
-            NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"CreatorPic"]];
+            NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",self.event[@"CreatorPic"]];
             NSData *eventData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
             NSData *creatorData = [NSData dataWithContentsOfURL:[NSURL URLWithString:creatorPic]];
             self.eventImage = [[UIImage alloc]initWithData:eventData];

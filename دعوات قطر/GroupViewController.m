@@ -142,7 +142,7 @@
         
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             //Background Thread
-            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",currentEvent[@"EventPic"]];
+            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",currentEvent[@"EventPic"]];
             // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
             NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
             UIImage *img = [[UIImage alloc]initWithData:data];
@@ -252,7 +252,7 @@
             cell.userName.text = tempUser[@"name"];
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempUser[@"ProfilePic"]];
+                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempUser[@"ProfilePic"]];
                 NSURL *imgURL = [NSURL URLWithString:imgURLString];
                 NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
                 UIImage *image = [[UIImage alloc]initWithData:imgData];

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		18033DBB1B68762A00129546 /* InviteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18033DBA1B68762A00129546 /* InviteTableViewCell.m */; };
+		18033DF11B68B95D00129546 /* JF FLAT REGULAR.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 18033DF01B68B95D00129546 /* JF FLAT REGULAR.TTF */; };
+		18033DF51B68DA8700129546 /* msg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18033DF21B68DA8700129546 /* msg.png */; };
+		18033DF61B68DA8700129546 /* myAccount.png in Resources */ = {isa = PBXBuildFile; fileRef = 18033DF31B68DA8700129546 /* myAccount.png */; };
+		18033DF71B68DA8700129546 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 18033DF41B68DA8700129546 /* search.png */; };
 		1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */; };
 		1813C2F41B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F31B4FC1F00044CDDB /* GroupNewsCollectionViewCell.m */; };
 		1813C2F71B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1813C2F61B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m */; };
@@ -116,6 +120,10 @@
 /* Begin PBXFileReference section */
 		18033DB91B68762A00129546 /* InviteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteTableViewCell.h; sourceTree = "<group>"; };
 		18033DBA1B68762A00129546 /* InviteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteTableViewCell.m; sourceTree = "<group>"; };
+		18033DF01B68B95D00129546 /* JF FLAT REGULAR.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JF FLAT REGULAR.TTF"; sourceTree = "<group>"; };
+		18033DF21B68DA8700129546 /* msg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = msg.png; sourceTree = "<group>"; };
+		18033DF31B68DA8700129546 /* myAccount.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myAccount.png; sourceTree = "<group>"; };
+		18033DF41B68DA8700129546 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		180B11EA1B4B133400133E7C /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1813C2EF1B4F98720044CDDB /* ChooseDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseDateViewController.h; sourceTree = "<group>"; };
 		1813C2F01B4F98720044CDDB /* ChooseDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseDateViewController.m; sourceTree = "<group>"; };
@@ -380,6 +388,7 @@
 		184B652C1B3F60AC00B1483C /* دعوات قطر */ = {
 			isa = PBXGroup;
 			children = (
+				18033DF01B68B95D00129546 /* JF FLAT REGULAR.TTF */,
 				184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */,
 				184B65311B3F60AC00B1483C /* AppDelegate.h */,
 				184B65321B3F60AC00B1483C /* AppDelegate.m */,
@@ -525,6 +534,9 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				18033DF21B68DA8700129546 /* msg.png */,
+				18033DF31B68DA8700129546 /* myAccount.png */,
+				18033DF41B68DA8700129546 /* search.png */,
 				189E45C51B6718CD000A7066 /* groupFrame2.png */,
 				189E45C31B671852000A7066 /* GroupFrame.png */,
 				189E45BB1B660DF2000A7066 /* calendars12.png */,
@@ -631,12 +643,16 @@
 				184B65391B3F60AC00B1483C /* Main.storyboard in Resources */,
 				189E45BC1B660DF2000A7066 /* calendars12.png in Resources */,
 				184B653E1B3F60AC00B1483C /* LaunchScreen.xib in Resources */,
+				18033DF61B68DA8700129546 /* myAccount.png in Resources */,
 				18B589C71B6749E3009F8B90 /* royal.png in Resources */,
 				189E45C61B6718CD000A7066 /* groupFrame2.png in Resources */,
 				18B589C51B674242009F8B90 /* UserGroup.png in Resources */,
+				18033DF11B68B95D00129546 /* JF FLAT REGULAR.TTF in Resources */,
+				18033DF71B68DA8700129546 /* search.png in Resources */,
 				189E45C41B671852000A7066 /* GroupFrame.png in Resources */,
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				18F0A6F61B63399700221F3E /* back2.png in Resources */,
+				18033DF51B68DA8700129546 /* msg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

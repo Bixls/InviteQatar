@@ -127,7 +127,8 @@
     }else {
         cell.textLabel.text = self.allValues[indexPath.row];
     }
-
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }

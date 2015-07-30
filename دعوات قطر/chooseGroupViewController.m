@@ -92,11 +92,13 @@
 #pragma mark - Table view Delegate Methods
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *selectedGroup = self.responseArray[indexPath.row];
+    NSArray *tempArray = [self.userDefaults objectForKey:@"groupArray"];
+    NSDictionary *selectedGroup = tempArray[indexPath.row];
     if (self.flag != 1) {
         if ([self.delegate respondsToSelector:@selector(selectedGroup:)]) {
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.delegate selectedGroup:selectedGroup];
+            NSLog(@"%@",selectedGroup);
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }else if (self.flag ==1){

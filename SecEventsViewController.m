@@ -19,6 +19,7 @@
 @property (nonatomic,strong) NSMutableArray *allEvents;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
+@property (nonatomic) NSInteger flag;
 @property (nonatomic,strong) NSArray *receivedArray;
 @property (nonatomic) NSInteger populate;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
@@ -47,7 +48,7 @@
     // Do any additional setup after loading the view.
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         self.populate = 1;
-        self.start = self.start+10;
+        self.start = self.allEvents.count;
        // self.limit = 10;
         [self getEvents];
        
@@ -57,6 +58,7 @@
     self.allEvents = [[NSMutableArray alloc]init];
     self.sectionNameLabel.text = self.sectionName;
     [self.navigationItem setHidesBackButton:YES];
+    self.flag = 1 ;
     
 }
 
@@ -120,7 +122,7 @@
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"EventPic"]];
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
        // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         UIImage *img = [[UIImage alloc]initWithData:data];
@@ -131,7 +133,7 @@
         });
     });
 
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
 
@@ -202,8 +204,26 @@
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"sectionEvents"]&& array && (self.populate == 0)) {
-        [self.allEvents addObjectsFromArray:array];
-        [self.tableView reloadData];
+        
+        if (self.allEvents.count && array.count > 0) {
+            for (int i = 0 ; i < self.allEvents.count; i++) {
+                for (int j = 0; j < array.count; j++) {
+                    NSDictionary *event = self.allEvents[i];
+                    NSDictionary *dict = array[j];
+                    if ([event isEqualToDictionary:dict]) {
+                        //do nothing
+                    }else{
+                        //[self.allEvents addObjectsFromArray:array];
+                        [self.allEvents addObject:array[j]];
+                        [self.tableView reloadData];
+                    }
+                }
+            }
+        }else if (array.count > 0){
+            [self.allEvents addObjectsFromArray:array];
+            [self.tableView reloadData];
+        }
+
     }else{
          //[self insertRowAtBottomWithArray:self.receivedArray];
         [self.allEvents addObjectsFromArray:array];

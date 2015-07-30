@@ -45,7 +45,7 @@
     
     self.selectedGroup = @{@"id":@"default"} ;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
 //    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 //    [self.spinner setCenter:CGPointMake([[UIScreen mainScreen] bounds].size.width/2.0, [[UIScreen mainScreen] bounds].size.height/2.0)];
@@ -54,6 +54,10 @@
 
     self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
     
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+        self.view.backgroundColor = [UIColor blackColor];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
@@ -65,6 +69,11 @@
         }
     }
 }
+
+-(void)didReceiveMemoryWarning{
+    //
+}
+
 -(void)selectedGroup:(NSDictionary *)group {
     self.selectedGroup = group;
     [self.btnChooseGroup setTitle:self.selectedGroup[@"name"] forState:UIControlStateNormal];
@@ -86,6 +95,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chooseGroupSegue"]) {
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
+        chooseGroupController.flag = 0;
         chooseGroupController.delegate = self;
     }else if ([segue.identifier isEqualToString:@"offlinePic"]){
         OfflinePicturesViewController *offlinePicturesController = segue.destinationViewController;
@@ -146,7 +156,7 @@
     self.imageRequest.userInfo = dict;
 //    [self.imageRequest setPostValue:@"6" forKey:@"id"];
 //    [self.imageRequest setPostValue:@"user" forKey:@"type"];
-    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image,0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];
 }
 
@@ -219,7 +229,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
+        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(50 , 50)];
+        //
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
         
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];

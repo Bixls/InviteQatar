@@ -25,7 +25,7 @@
     self.labelSubject.text = self.messageSubject;
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)self.profilePicNumber];
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld&t=150x150",(long)self.profilePicNumber];
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         UIImage *img = [[UIImage alloc]initWithData:data];
         dispatch_async(dispatch_get_main_queue(), ^(void){

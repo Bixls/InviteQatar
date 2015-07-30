@@ -22,6 +22,7 @@
 @property (nonatomic) NSMutableDictionary *sectionContent;
 @property (nonatomic) int flag;
 @property (nonatomic) NSInteger secCount;
+@property (nonatomic) NSInteger backFLag;
 @property (nonatomic) NSInteger selectedSection;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSString *selectedSectionName;
@@ -48,16 +49,19 @@
     self.secCount = 0;
     self.flag = 0;
     self.sectionContent = [[NSMutableDictionary alloc]init];
-    
+    self.backFLag = 0 ;
     //Get All sections first
     [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    NSDictionary *getAllSections = @{@"FunctionName":@"getEventCategories" , @"inputs":@[@{
-                                                                                             }]};
-    NSMutableDictionary *getAllSectionsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getSections",@"key", nil];
-    [self postRequest:getAllSections withTag:getAllSectionsTag];
+    if (self.backFLag != 1) {
+        NSDictionary *getAllSections = @{@"FunctionName":@"getEventCategories" , @"inputs":@[@{
+                                                                                                 }]};
+        NSMutableDictionary *getAllSectionsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getSections",@"key", nil];
+        [self postRequest:getAllSections withTag:getAllSectionsTag];
+        self.backFLag = 1 ;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -102,7 +106,7 @@
                 cell.eventDate.text = event[@"TimeEnded"];
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
                     //Background Thread
-                    NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"EventPic"]];
+                    NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
                     //NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
                     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
                     UIImage *img = [[UIImage alloc]initWithData:data];

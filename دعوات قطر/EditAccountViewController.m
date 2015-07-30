@@ -22,6 +22,7 @@
 @property (nonatomic) int uploaded;
 @property (nonatomic) int flag;
 @property (nonatomic) NSInteger launched;
+@property (nonatomic) NSInteger chooseFlag;
 @property (nonatomic)NSInteger userID;
 @property (nonatomic)NSInteger btnPressed;
 @property (nonatomic,strong)NSArray *categories;
@@ -63,17 +64,23 @@
     NSLog(@"%@",self.groupName);
     [self.navigationItem setHidesBackButton:YES];
     self.selectedGroupID = self.groupID;
+    self.chooseFlag = 0;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    self.editNameField.text = self.userName;
-    if (self.userPic) {
-        self.profilePic.image = self.userPic;
-    }else{
-        [self getUser];
+    if (self.chooseFlag != 1 ) {
+        self.editNameField.text = self.userName;
+        if (self.userPic) {
+            self.profilePic.image = self.userPic;
+        }else{
+            [self getUser];
+        }
+        [self getCategories];
+        [self getBlockList];
+    }else if (self.chooseFlag ==1 ){
+        self.chooseFlag = 0;
     }
-    [self getCategories];
-    [self getBlockList];
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -458,6 +465,7 @@
     }else if ([segue.identifier isEqualToString:@"chooseGroup"]){
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.delegate = self;
+        self.chooseFlag = 1;
     }
     
 }
@@ -478,7 +486,9 @@
         
     }
     else if(buttonIndex == 1){
+        self.chooseFlag = 1 ;
         [self performSegueWithIdentifier:@"offlinePic" sender:self];
+        
     }
 }
 
