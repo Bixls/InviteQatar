@@ -11,7 +11,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "ConfirmationViewController.h"
-
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface SignUpViewController ()
 
@@ -30,8 +30,10 @@
 @property (nonatomic) int uploaded;
 @property (nonatomic,strong) NSString *imageURL;
 @property (nonatomic) int userID;
+@property (nonatomic) NSInteger offlinePic;
 @property (nonatomic) int activateFlag;
 @property (nonatomic,strong) NSDictionary *responseDictionary;
+@property (nonatomic,strong) UIImage *selectedImage;
 
 @end
 
@@ -58,6 +60,11 @@
 
 -(void)viewDidAppear:(BOOL)animated{
         self.view.backgroundColor = [UIColor blackColor];
+    if (self.offlinePic == 1) {
+        NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
+        [self postPicturewithTag:pictureTag];
+        self.offlinePic = 0;
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
@@ -82,11 +89,15 @@
 }
 
 -(void)selectedPicture:(UIImage *)image{
-    self.profilePicture.image = image;
+    self.selectedImage = image;
+    self.profilePicture.image = self.selectedImage;
+    NSLog(@"%@",image);
     [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
     
-    NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
-    [self postPicturewithTag:pictureTag];
+    
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    self.offlinePic = 1 ;
     self.flag = 1;
 }
 
@@ -138,7 +149,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
- 
+    
 
     
     self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
@@ -148,14 +159,20 @@
     self.imageRequest.password = @"admin";
     [self.imageRequest setRequestMethod:@"POST"];
     [self.imageRequest addRequestHeader:@"Authorization" value:authValue];
-    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
-    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
+//    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
+//    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
     self.imageRequest.allowCompressedResponse = NO;
     self.imageRequest.useCookiePersistence = NO;
     self.imageRequest.shouldCompressRequestBody = NO;
     self.imageRequest.userInfo = dict;
 //    [self.imageRequest setPostValue:@"6" forKey:@"id"];
 //    [self.imageRequest setPostValue:@"user" forKey:@"type"];
+    NSLog(@"%@",self.profilePicture.image);
+    
+    NSData *testData = [NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 1.0)];
+    
+    //NSLog(@"%@ ",testData);
+    
     [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image,0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];
 }
@@ -253,6 +270,7 @@
     UIGraphicsEndImageContext();
     return newImage;
 }
+
 #pragma mark - Action Sheet Delegate Methods
 
 - (void)actionSheet:(UIActionSheet * )actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

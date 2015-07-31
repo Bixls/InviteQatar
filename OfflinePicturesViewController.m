@@ -27,6 +27,14 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    
+    NSArray *avatars = [self.userDefaults objectForKey:@"avatars"];
+    if (avatars != nil) {
+        self.offlineGroupsFlag = 1 ;
+        self.imageArray = avatars;
+        [self.collectionView reloadData];
+    }
+    
     NSDictionary *getAvatars = @{@"FunctionName":@"getAvatarList" , @"inputs":@[@{
                                                                                    }]};
     NSMutableDictionary *getAvatarsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAvatars",@"key", nil];
@@ -146,10 +154,15 @@
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getAvatars"]) {
-        
-        NSLog(@"%@",array);
-        self.imageArray = array;
-        [self.collectionView reloadData];
+        if ([array isEqualToArray:[self.userDefaults objectForKey:@"avatars"]]) {
+            //do nothing
+        }else{
+            self.offlineGroupsFlag = 0;
+            self.imageArray = array;
+            [self.collectionView reloadData];
+            [self.userDefaults setObject:self.imageArray forKey:@"avatars"];
+            [self.userDefaults synchronize];
+        }
     }
     
     //
