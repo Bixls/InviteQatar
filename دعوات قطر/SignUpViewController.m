@@ -173,7 +173,7 @@
     
     //NSLog(@"%@ ",testData);
     
-    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image,0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image,1.0)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];
 }
 
@@ -246,7 +246,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(50 , 50)];
+        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(150 , 150)];
         //
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
         

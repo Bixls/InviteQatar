@@ -56,7 +56,7 @@
         self.selectedType = self.event[@"eventType"];
         self.textField.text = self.event[@"subject"];
         self.textView.text = self.event[@"description"];
-        self.selectedDate = self.event[@"timeCreated"];
+        self.selectedDate = self.event[@"TimeEnded"];
         self.commentsFlag = [self.event[@"comments"]integerValue];
         self.imageURL = self.event[@"picture"];
         if (self.commentsFlag == 0) {

@@ -13,6 +13,7 @@
 #import "EventViewController.h"
 @interface MessagesViewController ()
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger start;
@@ -104,6 +105,7 @@
             cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
         }
         
+        self.tableVerticalLayoutConstraint.constant = self.tableView.contentSize.height;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
