@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Mrb-Nc-L8K">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="JF FLAT REGULAR.TTF">
-            <string>JFFlat-Regular</string>
-            <string>JFFlat-Regular</string>
-            <string>JFFlat-Regular</string>
-            <string>JFFlat-Regular</string>
-            <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
@@ -1617,7 +1613,7 @@
                                                                         <constraint firstAttribute="width" constant="196" id="1zS-F6-2a4"/>
                                                                         <constraint firstAttribute="height" constant="21" id="JHv-dg-fd3"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="10"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -2469,7 +2465,7 @@
                                                     <constraint firstAttribute="width" constant="123" id="C5P-lv-OsT"/>
                                                     <constraint firstAttribute="height" constant="21" id="qDh-cc-I3a"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -2537,7 +2533,7 @@
                                                     <constraint firstAttribute="height" constant="21" id="01J-LP-ZwO"/>
                                                     <constraint firstAttribute="width" constant="127" id="g8e-c2-oP3"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -3939,7 +3935,7 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i6m-dJ-4Gf">
                                                 <rect key="frame" x="29" y="401" width="80" height="21"/>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="11"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -4056,7 +4052,7 @@
                                                     <constraint firstAttribute="width" constant="93" id="4cT-2P-eMV"/>
                                                     <constraint firstAttribute="height" constant="19" id="dB8-Wx-NQL"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="11"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -6954,15 +6950,15 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="eUh-Aj-ld9"/>
-        <segue reference="4yJ-AY-O7T"/>
-        <segue reference="Pva-az-nrh"/>
-        <segue reference="2dl-tD-VcJ"/>
-        <segue reference="Bok-QY-wEt"/>
-        <segue reference="De6-P3-Poq"/>
-        <segue reference="7YD-cm-usr"/>
+        <segue reference="fSe-Jm-Ttd"/>
+        <segue reference="FzJ-6b-ZNA"/>
+        <segue reference="ehv-QV-wmo"/>
+        <segue reference="7J1-Rt-qJs"/>
+        <segue reference="iaT-Lo-dwV"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="IoJ-de-HAV"/>
-        <segue reference="hQx-Cj-f0Z"/>
+        <segue reference="Bok-QY-wEt"/>
+        <segue reference="2dl-tD-VcJ"/>
+        <segue reference="7YD-cm-usr"/>
+        <segue reference="De6-P3-Poq"/>
     </inferredMetricsTieBreakers>
 </document>

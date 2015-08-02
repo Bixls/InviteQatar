@@ -82,6 +82,7 @@
     NSDate *dateD = [formatter dateFromString:[NSString stringWithFormat:@"%@",self.news[@"timeCreated"]]];
     NSString *dateString = [formatter stringFromDate:dateD];
   //  NSString *dateWithoutSeconds = [date substringToIndex:16];
+    NSLog(@"%@",dateString);
 
     
  //   NSString *dateString = self.news[@"timeCreated"];
@@ -89,17 +90,17 @@
     NSString *tempTime = [dateString substringFromIndex:11];
     NSString *time = [tempTime substringToIndex:5];
     self.newsTime.text = time;
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-//    [formatter setDateFormat:@"yyyy-MM-dd"];
-//    NSDate *myDate = [formatter dateFromString:date];
-//    NSLog(@"%@",myDate);
-//   // NSString *newDate = [formatter stringFromDate:myDate];
-//    NSString *localizedDateTime = [NSDateFormatter localizedStringFromDate:myDate dateStyle:NSDateFormatterMediumStyle timeStyle:nil];
-//    self.newsDate.text = localizedDateTime ;
+
     self.newsDate.text = date;
     self.newsDescription.text = self.news[@"Description"];
 
-    
+    //    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    //    [formatter setDateFormat:@"yyyy-MM-dd"];
+    //    NSDate *myDate = [formatter dateFromString:date];
+    //    NSLog(@"%@",myDate);
+    //   // NSString *newDate = [formatter stringFromDate:myDate];
+    //    NSString *localizedDateTime = [NSDateFormatter localizedStringFromDate:myDate dateStyle:NSDateFormatterMediumStyle timeStyle:nil];
+    //    self.newsDate.text = localizedDateTime ;
 }
 
 
