@@ -367,6 +367,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
+    
     return nil;
 }
 

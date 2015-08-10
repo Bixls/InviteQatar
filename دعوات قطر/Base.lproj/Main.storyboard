@@ -2753,7 +2753,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="MEx-9S-G4B">
-                                                                    <rect key="frame" x="0.0" y="21" width="215" height="43"/>
+                                                                    <rect key="frame" x="0.0" y="20" width="215" height="43"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="215" id="ZTG-LI-5fp"/>
@@ -2772,15 +2772,15 @@
                                                                 <constraint firstItem="YM6-f3-TBx" firstAttribute="leading" secondItem="MEx-9S-G4B" secondAttribute="trailing" constant="10" id="AVa-eb-TJX"/>
                                                                 <constraint firstItem="YM6-f3-TBx" firstAttribute="leading" secondItem="TSW-RW-NFY" secondAttribute="trailing" constant="10" id="Dc0-zR-d5F"/>
                                                                 <constraint firstItem="YM6-f3-TBx" firstAttribute="leading" secondItem="MEx-9S-G4B" secondAttribute="trailing" constant="10" id="Hih-0E-0WU"/>
-                                                                <constraint firstItem="MEx-9S-G4B" firstAttribute="top" secondItem="UTb-Du-xNv" secondAttribute="topMargin" constant="13" id="Ilu-le-9gd"/>
+                                                                <constraint firstItem="MEx-9S-G4B" firstAttribute="top" secondItem="UTb-Du-xNv" secondAttribute="topMargin" constant="12" id="Ilu-le-9gd"/>
                                                                 <constraint firstItem="MEx-9S-G4B" firstAttribute="leading" secondItem="UTb-Du-xNv" secondAttribute="leadingMargin" constant="-8" id="RaY-KU-KUI"/>
                                                                 <constraint firstItem="TSW-RW-NFY" firstAttribute="leading" secondItem="UTb-Du-xNv" secondAttribute="leadingMargin" constant="-5" id="cEx-DP-YVO"/>
                                                                 <constraint firstItem="YM6-f3-TBx" firstAttribute="trailing" secondItem="UTb-Du-xNv" secondAttribute="trailingMargin" id="eHL-qT-NHF"/>
-                                                                <constraint firstAttribute="bottomMargin" secondItem="MEx-9S-G4B" secondAttribute="bottom" constant="-8" id="hek-gO-IVW"/>
+                                                                <constraint firstAttribute="bottomMargin" secondItem="MEx-9S-G4B" secondAttribute="bottom" constant="-7" id="hek-gO-IVW"/>
                                                                 <constraint firstItem="YM6-f3-TBx" firstAttribute="top" secondItem="UTb-Du-xNv" secondAttribute="topMargin" id="k5R-0z-CQT"/>
                                                                 <constraint firstItem="YM6-f3-TBx" firstAttribute="leading" secondItem="TSW-RW-NFY" secondAttribute="trailing" constant="10" id="paa-Tp-581"/>
                                                                 <constraint firstItem="TSW-RW-NFY" firstAttribute="top" secondItem="UTb-Du-xNv" secondAttribute="topMargin" constant="-7" id="t2X-uK-WOj"/>
-                                                                <constraint firstItem="MEx-9S-G4B" firstAttribute="top" secondItem="UTb-Du-xNv" secondAttribute="topMargin" constant="13" id="w0B-Gz-1t4"/>
+                                                                <constraint firstItem="MEx-9S-G4B" firstAttribute="top" secondItem="UTb-Du-xNv" secondAttribute="topMargin" constant="12" id="w0B-Gz-1t4"/>
                                                                 <constraint firstItem="YM6-f3-TBx" firstAttribute="top" secondItem="UTb-Du-xNv" secondAttribute="topMargin" id="ypd-pd-Aky"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
@@ -6959,15 +6959,15 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="FzJ-6b-ZNA"/>
         <segue reference="ehv-QV-wmo"/>
-        <segue reference="fSe-Jm-Ttd"/>
+        <segue reference="FzJ-6b-ZNA"/>
+        <segue reference="iaT-Lo-dwV"/>
+        <segue reference="HNE-qj-M2F"/>
         <segue reference="faW-co-acX"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="iaT-Lo-dwV"/>
         <segue reference="Bok-QY-wEt"/>
         <segue reference="2dl-tD-VcJ"/>
-        <segue reference="7YD-cm-usr"/>
         <segue reference="De6-P3-Poq"/>
+        <segue reference="7YD-cm-usr"/>
     </inferredMetricsTieBreakers>
 </document>

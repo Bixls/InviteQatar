@@ -30,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
+    
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.comments = [[NSMutableArray alloc]init];
@@ -50,6 +51,7 @@
             [request setDelegate:nil];
         }
     }
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -75,6 +77,7 @@
         }
         cell0.postImage.image = self.postImage;
         cell0.postDescription.text = self.postDescription;
+        cell0.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell0;
         
     }else if (indexPath.row > 0 && indexPath.row<(self.comments.count+1) ){
@@ -86,6 +89,8 @@
             NSDictionary *comment = self.comments[indexPath.row-1];
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
+//            [cell2.userComment addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
+            
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
                 //Background Thread
                 NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
@@ -100,12 +105,14 @@
             
 
         }
+        cell2.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell2;
     }else if (indexPath.row == (self.comments.count+1)){
         UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
         if (cell1==nil) {
             cell1=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
         }
+        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell1;
     }
 
@@ -113,6 +120,15 @@
     
     return nil ;
 }
+
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+//    UITextView *textView = object;
+//    CGFloat topCorrect = ([textView bounds].size.height - [textView contentSize].height * [textView zoomScale])/2.0;
+//    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+//    textView.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+//}
+
+
 
 #pragma mark - TableView Delegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
