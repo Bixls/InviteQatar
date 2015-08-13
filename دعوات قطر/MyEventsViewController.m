@@ -90,6 +90,14 @@
 
     cell.eventSubject.text = event[@"subject"];
     cell.eventDate.text = event[@"TimeEnded"];
+    if ([[event objectForKey:@"VIP"]integerValue] == 0) {
+        [cell.vipImage setHidden:YES];
+        [cell.vipLabel setHidden:YES];
+    }else{
+        [cell.vipImage setHidden:NO];
+        [cell.vipLabel setHidden:NO];
+    }
+
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
         NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]] ;

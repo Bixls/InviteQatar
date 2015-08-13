@@ -13,6 +13,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *eventPicture;
 @property (weak, nonatomic) IBOutlet UILabel *eventSubject;
 @property (weak, nonatomic) IBOutlet UILabel *eventDate;
+@property (weak, nonatomic) IBOutlet UIImageView *vipImage;
+@property (weak, nonatomic) IBOutlet UILabel *vipLabel;
 
 
 @end

@@ -139,6 +139,10 @@
         cell.subject.text = [currentEvent objectForKey:@"subject"];;
         cell.creator.text = [currentEvent objectForKey:@"CreatorName"];;
         cell.time.text = [currentEvent objectForKey:@"TimeEnded"];;
+        if ([[currentEvent objectForKey:@"VIP"]integerValue] == 0) {
+            [cell.vipImage setHidden:YES];
+            [cell.vipLabel setHidden:YES];
+        }
         
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             //Background Thread

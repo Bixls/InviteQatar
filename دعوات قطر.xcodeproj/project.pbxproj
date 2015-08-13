@@ -97,6 +97,7 @@
 		18B589C51B674242009F8B90 /* UserGroup.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B589C41B674242009F8B90 /* UserGroup.png */; };
 		18B589C71B6749E3009F8B90 /* royal.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B589C61B6749E3009F8B90 /* royal.png */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
+		18D5AA981B7D0AA3000D8711 /* vip3.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D5AA971B7D0AA3000D8711 /* vip3.png */; };
 		18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */; };
 		18D831751B4CE6E9003F5A86 /* HomeEventsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */; };
 		18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68251B4B3BCD00F482FB /* EventViewController.m */; };
@@ -268,6 +269,7 @@
 		18B589C61B6749E3009F8B90 /* royal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = royal.png; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
 		18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateEventViewController.m; path = ../CreateEventViewController.m; sourceTree = "<group>"; };
+		18D5AA971B7D0AA3000D8711 /* vip3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vip3.png; sourceTree = "<group>"; };
 		18D831701B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeNewsCollectionViewCell.h; path = "دعوات قطر/HomeNewsCollectionViewCell.h"; sourceTree = "<group>"; };
 		18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeNewsCollectionViewCell.m; path = "دعوات قطر/HomeNewsCollectionViewCell.m"; sourceTree = "<group>"; };
 		18D831731B4CE6E9003F5A86 /* HomeEventsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeEventsTableViewCell.h; path = "دعوات قطر/HomeEventsTableViewCell.h"; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				18D5AA971B7D0AA3000D8711 /* vip3.png */,
 				189E0E161B7CD136009DF99B /* backwithoutframe.png */,
 				189E0E1C1B7CD762009DF99B /* newFrame.png */,
 				18033DF21B68DA8700129546 /* msg.png */,
@@ -659,6 +662,7 @@
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				189E0E181B7CD136009DF99B /* backwithoutframe.png in Resources */,
 				189E0E1D1B7CD762009DF99B /* newFrame.png in Resources */,
+				18D5AA981B7D0AA3000D8711 /* vip3.png in Resources */,
 				18F0A6F61B63399700221F3E /* back2.png in Resources */,
 				18033DF51B68DA8700129546 /* msg.png in Resources */,
 			);

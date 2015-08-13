@@ -15,5 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *subject;
 @property (weak, nonatomic) IBOutlet UILabel *creator;
 @property (weak, nonatomic) IBOutlet UILabel *time;
+@property (weak, nonatomic) IBOutlet UIImageView *vipImage;
+@property (weak, nonatomic) IBOutlet UILabel *vipLabel;
 
 @end

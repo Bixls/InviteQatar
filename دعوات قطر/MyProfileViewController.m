@@ -152,6 +152,15 @@
         cell.eventDate.text = dateWithoutSeconds;
         NSLog(@"%@",date);
         //cell.eventDate.text = tempEvent[@"TimeEnded"];
+        
+        if ([[tempEvent objectForKey:@"VIP"]integerValue] == 0) {
+            [cell.vipImage setHidden:YES];
+            [cell.vipLabel setHidden:YES];
+        }else{
+            [cell.vipImage setHidden:NO];
+            [cell.vipLabel setHidden:NO];
+        }
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
