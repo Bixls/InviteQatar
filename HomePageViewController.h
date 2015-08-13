@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <UICollectionViewRightAlignedLayout.h>
+#import "ASINetworkQueue.h"
 
 @interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout>
 

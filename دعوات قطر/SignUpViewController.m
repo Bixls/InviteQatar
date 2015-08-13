@@ -59,7 +59,8 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-        self.view.backgroundColor = [UIColor blackColor];
+//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor blackColor];
     if (self.offlinePic == 1) {
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
         [self postPicturewithTag:pictureTag];

@@ -17,6 +17,7 @@
 #import "AllSectionsViewController.h"
 #import <SVPullToRefresh.h>
 
+
 @interface HomePageViewController ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
@@ -40,6 +41,8 @@
 @property (nonatomic) NSInteger segueFlag;
 @property (nonatomic,strong) NSMutableArray *groupImages;
 @property (nonatomic) NSInteger offlineGroupsFlag;
+@property (nonatomic,strong) ASINetworkQueue *queue;
+
 @end
 
 @implementation HomePageViewController
@@ -82,6 +85,7 @@
         [self.myProfileLabel setText:@"حسابي"];
         
     }
+    
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
         [self.btnBuyInvitations setEnabled:NO];
         self.segueFlag = 2;
@@ -164,7 +168,6 @@
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
         [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-        
     }];
     
 }
@@ -403,6 +406,12 @@
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
+    if (![self queue]) {
+        [self setQueue:[[ASINetworkQueue alloc]init]];
+        self.queue.delegate = self;
+        [self.queue setQueueDidFinishSelector:@selector(queueDidFinishSelector)];
+    }
+    
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
@@ -422,13 +431,19 @@
     request.shouldCompressRequestBody = NO;
     request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
-    [request startAsynchronous];
+    //[request startAsynchronous];
+    [self.queue addOperation:request];
+    [self.queue go];
+    //[request startAsynchronous];
     
-    
+
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
+-(void)queueDidFinishSelector {
+   [self.scrollView.pullToRefreshView stopAnimating];
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request {
     
     
     NSString *responseString = [request responseString];
@@ -474,10 +489,10 @@
 //        [self.userDefaults synchronize];
 //        //[self.tableView reloadData];
 //    }
-    if (self.pullToRefreshFlag == 5) {
-        [self.scrollView.pullToRefreshView stopAnimating];
-        self.pullToRefreshFlag = 0;
-    }
+//    if (self.pullToRefreshFlag == 5) {
+//        [self.scrollView.pullToRefreshView stopAnimating];
+//        self.pullToRefreshFlag = 0;
+//    }
 
 }
 
@@ -485,8 +500,11 @@
 {
     NSError *error = [request error];
     NSLog(@"%@",error);
-    [self.scrollView.pullToRefreshView stopAnimating];
-    self.pullToRefreshFlag = 0;
+//    self.pullToRefreshFlag ++;
+//    if (self.pullToRefreshFlag == 5) {
+//        [self.scrollView.pullToRefreshView stopAnimating];
+//        self.pullToRefreshFlag = 0;
+//    }
 
 }
 
