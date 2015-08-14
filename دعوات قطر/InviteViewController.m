@@ -16,7 +16,10 @@
 @property (nonatomic,strong) NSMutableArray *selectedUsers;
 @property (nonatomic,strong) NSMutableArray *UsersToInvite;
 @property (nonatomic,strong) NSMutableArray *selectedRows;
+@property (nonatomic,strong) NSMutableArray *deletedRows;
 @property (nonatomic) NSInteger groupID;
+@property (nonatomic) NSInteger returnedGroupID;
+@property (nonatomic) NSInteger deletionFlag;
 @end
 
 @implementation InviteViewController
@@ -28,10 +31,12 @@
     self.selectedUsers = [[NSMutableArray alloc]init];
     self.UsersToInvite = [[NSMutableArray alloc]init];
     self.selectedRows = [[NSMutableArray alloc]init];
+    self.deletedRows = [[NSMutableArray alloc]init];
     NSLog(@"EVENT ID : %ld",(long)self.eventID);
-    if (self.normORVIP == 1) {
+    if (self.normORVIP == 1 || self.createMsgFlag == 1) {
         self.groupID = [self.group[@"id"]integerValue];
     }
+    NSLog(@"%ld",(long)self.createMsgFlag);
     
     [self.navigationItem setHidesBackButton:YES];
     
@@ -137,15 +142,18 @@
 #pragma mark - Connection setup
 
 -(void)getUSer {
-    
-    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
-                                                                               @"id":[NSString stringWithFormat:@"%ld",(long)self.creatorID]
-                                                                               }]};
-    
-    
-    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
-    
-    [self postRequest:getUser withTag:getUserTag];
+    if (self.createMsgFlag != 1) {
+        NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
+                                                                                   @"id":[NSString stringWithFormat:@"%ld",(long)self.creatorID]
+                                                                                   }]};
+        
+        
+        NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+        
+        [self postRequest:getUser withTag:getUserTag];
+    }else if (self.createMsgFlag == 1){
+        [self getAllUsers];
+    }
     
 }
 
@@ -193,14 +201,8 @@
     }else if ([key isEqualToString:@"getUser"]){
         NSLog(@"%@",array);
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSInteger groupID =[dict[@"Gid"]integerValue];
-        
-        NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
-                                       @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",groupID],
-                                                     @"start":@"0",
-                                                     @"limit":@"50000"}]};
-        NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
-        [self postRequest:getUSersDict withTag:getUsersTag];
+        self.returnedGroupID =[dict[@"Gid"]integerValue];
+        [self getAllUsers];
     }else if ([key isEqualToString:@"inviteUsers"]){
         NSLog(@"%@",array);
         NSDictionary *dict = array[0];
@@ -221,22 +223,40 @@
     NSLog(@"%@",error);
 }
 
+-(void)getAllUsers{
+    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
+                                   @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
+                                                 @"start":@"0",
+                                                 @"limit":@"50000"}]};
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+    [self postRequest:getUSersDict withTag:getUsersTag];
+}
 
 - (IBAction)btnMarkAllPressed:(id)sender {
     
     for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
         NSUInteger ints[2] = {0,i};
         NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
+        NSLog(@"%ld",(long)indexPath.row);
         InviteTableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
-            
+        //[cell.checkmark.text isEqualToString:@"\u2713"]
+        if (self.selectedUsers.count == self.users.count || self.deletionFlag == 1) {
+            self.deletionFlag = 1;
             if(self.flag == 1){
 //                cell.checkmark.text = @"\u2001";
                 if (self.selectedUsers.count >0) {
+                    
                     [self.selectedUsers removeObject:self.users[indexPath.row]];
                     [self.selectedRows removeObject:indexPath];
+                    [self.deletedRows addObject:indexPath];
+                    if (self.deletedRows.count == self.users.count) {
+                        self.deletionFlag =0;
+                        [self.deletedRows removeAllObjects];
+                    }
                 }
             }
+            
+            
         }else if (self.flag==1){
             //do nothing
         }else{

@@ -56,10 +56,17 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"invite"]) {
-        InviteViewController *inviteController = segue.destinationViewController;
-        inviteController.normORVIP = 1;
-        inviteController.group = self.selectedGroup;
-        inviteController.eventID = self.eventID;
+        if (self.createMsgFlag != 1) {
+            InviteViewController *inviteController = segue.destinationViewController;
+            inviteController.normORVIP = 1;
+            inviteController.group = self.selectedGroup;
+            inviteController.eventID = self.eventID;
+        }else if (self.createMsgFlag == 1 ){
+            InviteViewController *inviteController = segue.destinationViewController;
+            inviteController.createMsgFlag = self.createMsgFlag;
+            inviteController.group = self.selectedGroup;
+        }
+      
     }
 }
 
@@ -96,7 +103,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSArray *tempArray = [self.userDefaults objectForKey:@"groupArray"];
     NSDictionary *selectedGroup = tempArray[indexPath.row];
-    if (self.flag != 1) {
+    if (self.flag != 1 && self.createMsgFlag != 1) {
         if ([self.delegate respondsToSelector:@selector(selectedGroup:)]) {
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.delegate selectedGroup:selectedGroup];
@@ -107,6 +114,10 @@
         NSArray *tempArray = [self.userDefaults objectForKey:@"groupArray"];
         self.selectedGroup = tempArray[indexPath.row];
         [self performSegueWithIdentifier:@"invite" sender:self];
+    }else if (self.createMsgFlag == 1){
+        self.selectedGroup = tempArray[indexPath.row];
+        [self performSegueWithIdentifier:@"invite" sender:self];
+        
     }
 }
 

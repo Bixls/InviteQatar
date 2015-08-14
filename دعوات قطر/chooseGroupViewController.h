@@ -17,6 +17,7 @@
 
 @interface chooseGroupViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property(nonatomic)NSInteger createMsgFlag;
 @property(nonatomic)NSInteger eventID;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,weak) id <chooseGroupViewControllerDelegate> delegate;

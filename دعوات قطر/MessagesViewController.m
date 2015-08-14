@@ -11,7 +11,7 @@
 #import "MessagesFirstTableViewCell.h"
 #import "ReadMessageViewController.h"
 #import "EventViewController.h"
-
+#import "chooseGroupViewController.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
 
 @interface MessagesViewController ()
@@ -217,6 +217,9 @@
         eventController.selectedType = self.selectedMessageType;
         eventController.selectedMessageID = self.selectedMessageID;
 
+    }else if ([segue.identifier isEqualToString:@"selectGroup"]){
+        chooseGroupViewController *chooseGroupController = segue.destinationViewController;
+        chooseGroupController.createMsgFlag = 1;
     }
 }
 
@@ -310,5 +313,8 @@
 
 - (IBAction)btnBackPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)newMsgBtnPressed:(id)sender {
+    [self performSegueWithIdentifier:@"selectGroup" sender:self];
 }
 @end
