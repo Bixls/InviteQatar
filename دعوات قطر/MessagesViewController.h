@@ -11,6 +11,7 @@
 @interface MessagesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
  
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-- (IBAction)btnSeeMorePressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 
 @end

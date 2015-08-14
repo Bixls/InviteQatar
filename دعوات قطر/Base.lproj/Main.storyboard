@@ -161,7 +161,6 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
-            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -2034,9 +2033,9 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="srk-wp-dSN">
-                                        <rect key="frame" x="-1" y="13" width="320" height="580"/>
+                                        <rect key="frame" x="-1" y="13" width="320" height="571"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="48" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="n7m-r0-vpH">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="48" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="n7m-r0-vpH">
                                                 <rect key="frame" x="16" y="198" width="288" height="348"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -2116,44 +2115,6 @@
                                                             <outlet property="secondMsgImage" destination="c8Y-m3-dRO" id="UbQ-Xq-4Qi"/>
                                                         </connections>
                                                     </tableViewCell>
-                                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell1" rowHeight="48" id="1pK-la-mSg" customClass="MessagesFirstTableViewCell">
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1pK-la-mSg" id="OQI-Io-YuE">
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="75K-oF-iJI">
-                                                                    <rect key="frame" x="80" y="-6" width="127" height="60"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="127" id="Rr9-Gd-O2N"/>
-                                                                        <constraint firstAttribute="height" constant="60" id="xZI-lh-hoi"/>
-                                                                    </constraints>
-                                                                </imageView>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9RC-94-BUn">
-                                                                    <rect key="frame" x="92" y="8" width="103" height="30"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="103" id="MMV-1q-clk"/>
-                                                                        <constraint firstAttribute="height" constant="30" id="zQT-E3-3dV"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
-                                                                    <state key="normal" title="المزيد">
-                                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </state>
-                                                                    <connections>
-                                                                        <action selector="btnSeeMorePressed:" destination="P6g-3X-e3y" eventType="touchUpInside" id="Ddt-5n-OAm"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </subviews>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                            <constraints>
-                                                                <constraint firstItem="75K-oF-iJI" firstAttribute="top" secondItem="OQI-Io-YuE" secondAttribute="topMargin" constant="-14" id="N3U-nm-F7l"/>
-                                                                <constraint firstItem="9RC-94-BUn" firstAttribute="top" secondItem="OQI-Io-YuE" secondAttribute="topMargin" id="TtW-TI-d9o"/>
-                                                                <constraint firstAttribute="centerX" secondItem="75K-oF-iJI" secondAttribute="centerX" id="jbg-nK-Zxq"/>
-                                                                <constraint firstAttribute="centerX" secondItem="9RC-94-BUn" secondAttribute="centerX" id="x2v-gf-u3c"/>
-                                                            </constraints>
-                                                        </tableViewCellContentView>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </tableViewCell>
                                                 </prototypes>
                                                 <connections>
                                                     <outlet property="dataSource" destination="P6g-3X-e3y" id="A19-jz-zJS"/>
@@ -2209,7 +2170,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="n7m-r0-vpH" firstAttribute="top" secondItem="RXy-82-ScT" secondAttribute="bottom" constant="14" id="1LG-hS-WGz"/>
-                                            <constraint firstAttribute="bottom" secondItem="n7m-r0-vpH" secondAttribute="bottom" constant="34" id="3rp-Va-D2O"/>
+                                            <constraint firstAttribute="bottom" secondItem="n7m-r0-vpH" secondAttribute="bottom" constant="25" id="3rp-Va-D2O"/>
                                             <constraint firstAttribute="centerX" secondItem="rs7-Gv-MOa" secondAttribute="centerX" id="8MN-hJ-Icy"/>
                                             <constraint firstItem="JSO-7F-AN3" firstAttribute="top" secondItem="srk-wp-dSN" secondAttribute="top" constant="23" id="AXi-hU-LMo"/>
                                             <constraint firstAttribute="trailing" secondItem="n7m-r0-vpH" secondAttribute="trailing" constant="16" id="FCS-PM-By1"/>
@@ -2219,7 +2180,6 @@
                                             <constraint firstAttribute="centerX" secondItem="82S-ay-6dr" secondAttribute="centerX" id="Tge-Cy-6xj"/>
                                             <constraint firstItem="rs7-Gv-MOa" firstAttribute="top" secondItem="srk-wp-dSN" secondAttribute="top" constant="10" id="Twy-Ew-hlI"/>
                                             <constraint firstAttribute="centerX" secondItem="RXy-82-ScT" secondAttribute="centerX" id="ab8-Xz-rRL"/>
-                                            <constraint firstAttribute="height" constant="580" id="lsc-bw-DHJ"/>
                                             <constraint firstItem="JSO-7F-AN3" firstAttribute="leading" secondItem="srk-wp-dSN" secondAttribute="leading" constant="16" id="lyy-bS-14F"/>
                                             <constraint firstItem="n7m-r0-vpH" firstAttribute="leading" secondItem="srk-wp-dSN" secondAttribute="leading" constant="16" id="lzl-3u-JAe"/>
                                         </constraints>
@@ -2256,6 +2216,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="vGW-Am-sUE"/>
                     <connections>
+                        <outlet property="scrollView" destination="ynQ-QA-3k8" id="Hkw-Bw-syU"/>
                         <outlet property="tableVerticalLayoutConstraint" destination="X4j-n6-m0r" id="KcN-kl-VSS"/>
                         <outlet property="tableView" destination="n7m-r0-vpH" id="S6b-C3-x5Y"/>
                         <segue destination="BCZ-AW-Jjc" kind="push" identifier="readMessage" id="KQu-yX-XH7"/>
@@ -7126,12 +7087,12 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ehv-QV-wmo"/>
         <segue reference="FzJ-6b-ZNA"/>
+        <segue reference="ehv-QV-wmo"/>
         <segue reference="2dl-tD-VcJ"/>
         <segue reference="Bok-QY-wEt"/>
         <segue reference="De6-P3-Poq"/>
-        <segue reference="h7R-wi-9TB"/>
+        <segue reference="faW-co-acX"/>
         <segue reference="IoJ-de-HAV"/>
         <segue reference="hTI-TE-OlE"/>
         <segue reference="kMD-e6-iDp"/>

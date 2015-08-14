@@ -11,6 +11,9 @@
 #import "MessagesFirstTableViewCell.h"
 #import "ReadMessageViewController.h"
 #import "EventViewController.h"
+
+#import <UIScrollView+SVInfiniteScrolling.h>
+
 @interface MessagesViewController ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
@@ -52,6 +55,10 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self getMessages];
+    [self.scrollView addInfiniteScrollingWithActionHandler:^{
+        self.start = self.messages.count;
+        [self getMessages];
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -74,7 +81,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return self.messages.count+1;
+    return self.messages.count ;
    
 }
 
@@ -109,15 +116,16 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
-    }else if (indexPath.row == self.messages.count){
-        
-        MessagesFirstTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
-        if (cell1==nil) {
-            cell1=[[MessagesFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
-        }
-        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell1;
     }
+//    else if (indexPath.row == self.messages.count){
+//        
+//        MessagesFirstTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
+//        if (cell1==nil) {
+//            cell1=[[MessagesFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
+//        }
+//        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
+//        return cell1;
+//    }
    
     
     return nil ;
@@ -266,7 +274,9 @@
         [self.messages addObjectsFromArray:array];
         NSLog(@"%@",self.messages);
         self.start = self.messages.count;
+        [self.scrollView.infiniteScrollingView stopAnimating];
         [self.tableView reloadData];
+        
     }else if ([key isEqualToString:@"deleteMessage"]){
         NSLog(@"%@",array);
     }
@@ -284,11 +294,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (IBAction)btnSeeMorePressed:(id)sender {
-    self.start = self.messages.count;
-    [self getMessages];
- 
-}
+
 
 - (IBAction)btnBackPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
