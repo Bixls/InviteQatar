@@ -27,7 +27,7 @@
 //@property (nonatomic , strong) NSArray *responseArray;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSArray *imageArray;
-@property (nonatomic,strong) NSArray *groups;
+@property (nonatomic,strong) NSArray *groups;  
 @property (nonatomic,strong) NSArray *news;
 @property (nonatomic,strong) NSArray *events;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
@@ -41,6 +41,7 @@
 @property (nonatomic) NSInteger segueFlag;
 @property (nonatomic,strong) NSMutableArray *groupImages;
 @property (nonatomic) NSInteger offlineGroupsFlag;
+@property (nonatomic) NSInteger offlineNewsFlag;
 @property (nonatomic,strong) ASINetworkQueue *queue;
 
 @end
@@ -132,7 +133,13 @@
         self.groups = groups;
         [self.groupsCollectionView reloadData];
     }
-   
+    
+    NSArray *news = [self.userDefaults objectForKey:@"news"];
+    if (news != nil) {
+        self.offlineNewsFlag = 1 ;
+        self.news = news;
+        [self.newsCollectionView reloadData];
+    }
     
     NSDictionary *getGroups = @{
                                 @"FunctionName":@"getGroupList" ,
@@ -229,28 +236,22 @@
                     NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
                     [self.userDefaults setObject:encodedDate forKey:tempGroup[@"ProfilePic"]];
                     [self.userDefaults synchronize];
-                    
-//                    [self.groupImages addObject:@"plus"];
-//                    [self.userDefaults setObject:self.groupImages forKey:@"groupImages"];
-//                    [self.userDefaults synchronize];
+                  
                 });
             });
 
         }else if (self.offlineGroupsFlag == 1){
-            //self.groupImages = [self.userDefaults objectForKey:@"groupImages"];
-//            if (self.groupImages.count >0) {
-                //NSDictionary *tempGroup = self.groups[indexPath.item];
-                NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
-                if (encodedObject) {
-                    NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-                    UIImage *img =  [UIImage imageWithData:imgData];
-                    if ([tempGroup[@"Royal"]integerValue] == 1) {
-                        cell.royalPP.image = img;
-                    }else{
-                        cell.groupPP.image = img;
-                    }
-//                }
-              
+
+            NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
+            if (encodedObject) {
+                NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                UIImage *img =  [UIImage imageWithData:imgData];
+                if ([tempGroup[@"Royal"]integerValue] == 1) {
+                    cell.royalPP.image = img;
+                }else{
+                    cell.groupPP.image = img;
+                }
+                
             }
         }
         [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
@@ -260,18 +261,45 @@
         HomeNewsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
         NSDictionary *tempNews = self.news[indexPath.item];
         cell.newsSubject.text =tempNews[@"Subject"];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempNews[@"Image"]];
-            NSURL *imgURL = [NSURL URLWithString:imgURLString];
-            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-            UIImage *image = [[UIImage alloc]initWithData:imgData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.newsImage.image = image;
+        if (self.offlineNewsFlag ==0) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempNews[@"Image"]];
+//                NSLog(@"%@",imgURLString);
+                NSURL *imgURL = [NSURL URLWithString:imgURLString];
+                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+                UIImage *image = [[UIImage alloc]initWithData:imgData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.newsImage.image = image;
+                    NSData *imageData = UIImagePNGRepresentation(image);
+                    NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
+                    [self.userDefaults setObject:encodedDate forKey:tempNews[@"Image"]];
+                    [self.userDefaults synchronize];
+                    
+                });
             });
+            
+        }else if (self.offlineNewsFlag == 1){
+            
+            NSData *encodedObject =[self.userDefaults objectForKey:tempNews[@"Image"]];
+            if (encodedObject) {
+                NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                UIImage *img =  [UIImage imageWithData:imgData];
+                cell.newsImage.image = img;
+                
+            }
+        }
+        
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempNews[@"Image"]];
+//            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+//            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+//            UIImage *image = [[UIImage alloc]initWithData:imgData];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                cell.newsImage.image = image;
+//            });
+//
+//        });
 
-        });
-        //cell.newsImage.image = nil;
         
         return cell;
     }
@@ -454,7 +482,6 @@
     NSLog(@"%@",responseArray);
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getGroups"]) {
-//        NSLog(@"Groupssss %@",self.groups);
         self.pullToRefreshFlag ++;
         if ([responseArray isEqualToArray:[self.userDefaults objectForKey:@"groups"]]) {
             //do nothing
@@ -466,12 +493,19 @@
             [self.userDefaults synchronize];
         }
         
-       // self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
-        
     }else if([key isEqualToString:@"getNews"]){
-        self.news = responseArray;
-        [self.newsCollectionView reloadData];
         self.pullToRefreshFlag ++;
+        if ([responseArray isEqualToArray:[self.userDefaults objectForKey:@"news"]]) {
+            //do nothing
+        }else{
+            self.offlineNewsFlag = 0;
+            self.news = responseArray;
+            [self.newsCollectionView reloadData];
+            [self.userDefaults setObject:self.news forKey:@"news"];
+            [self.userDefaults synchronize];
+            
+        }
+
     }else if ([key isEqualToString:@"getEvents"]){
         self.events = responseArray;
         [self.eventsTableView reloadData];
