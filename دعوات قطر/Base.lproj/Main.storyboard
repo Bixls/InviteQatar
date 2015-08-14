@@ -5642,7 +5642,6 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="288" id="KBq-Cn-kzD"/>
-                                    <constraint firstAttribute="height" constant="386" id="sdF-PP-LR5"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="44" id="x8J-6f-7Vq" customClass="ChooseTypeTableViewCell">
@@ -5714,6 +5713,7 @@
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="wm1-cV-eeR" secondAttribute="centerX" id="2QM-Yp-BOC"/>
                             <constraint firstItem="gHV-E0-be2" firstAttribute="top" secondItem="e9k-9Q-VOz" secondAttribute="bottom" constant="19" id="7Vo-WE-bWu"/>
+                            <constraint firstItem="e9k-9Q-VOz" firstAttribute="top" secondItem="2pD-iN-hfm" secondAttribute="bottom" constant="10" id="BaM-sc-p0v"/>
                             <constraint firstItem="Nhw-vH-ate" firstAttribute="top" secondItem="59h-u8-Cod" secondAttribute="bottom" id="IKm-RU-H64"/>
                             <constraint firstItem="Nhw-vH-ate" firstAttribute="leading" secondItem="2o0-Tt-wZX" secondAttribute="leading" id="IoR-tv-OfY"/>
                             <constraint firstItem="gHV-E0-be2" firstAttribute="top" secondItem="Nhw-vH-ate" secondAttribute="bottom" id="Nnu-Ja-f8B"/>
