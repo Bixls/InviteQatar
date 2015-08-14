@@ -253,8 +253,8 @@
     self.imageRequest.password = @"admin";
     [self.imageRequest setRequestMethod:@"POST"];
     [self.imageRequest addRequestHeader:@"Authorization" value:authValue];
-    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
-    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
+//    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
+//    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
     self.imageRequest.allowCompressedResponse = NO;
     
     
