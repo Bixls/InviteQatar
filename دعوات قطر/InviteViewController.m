@@ -102,6 +102,8 @@
 //    NSArray *selectedRows = [tableView indexPathsForSelectedRows];
     for(NSIndexPath *i in self.selectedRows)
     {
+        NSLog(@"%@",i);
+        NSLog(@"%@",indexPath);
         if([i isEqual:indexPath])
         {
             cell.checkmark.text = @"\u2713";
@@ -117,7 +119,7 @@
 //    InviteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    NSLog(@"%ld",indexPath.row);
+    //NSLog(@"%ld",indexPath.row);
     InviteTableViewCell *cell = (InviteTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -239,37 +241,49 @@
         NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
         NSLog(@"%ld",(long)indexPath.row);
         InviteTableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        //[cell.checkmark.text isEqualToString:@"\u2713"]
-        if (self.selectedUsers.count == self.users.count || self.deletionFlag == 1) {
-            self.deletionFlag = 1;
-            if(self.flag == 1){
-//                cell.checkmark.text = @"\u2001";
-                if (self.selectedUsers.count >0) {
-                    
-                    [self.selectedUsers removeObject:self.users[indexPath.row]];
-                    [self.selectedRows removeObject:indexPath];
-                    [self.deletedRows addObject:indexPath];
-                    if (self.deletedRows.count == self.users.count) {
-                        self.deletionFlag =0;
-                        [self.deletedRows removeAllObjects];
-                    }
-                }
-            }
-            
-            
-        }else if (self.flag==1){
-            //do nothing
-        }else{
-//            cell.checkmark.text = @"\u2713";
-            [self.selectedUsers addObject:self.users[indexPath.row]];
-            [self.selectedRows addObject:indexPath];
-        }
+//        if (self.deletionFlag == 1) {
+//            self.deletionFlag = 1;
+//            if(self.flag == 1){
+////                cell.checkmark.text = @"\u2001";
+//                if (self.selectedUsers.count >0) {
+//                    
+//                    [self.selectedUsers removeObject:self.users[indexPath.row]];
+//                    [self.selectedRows removeObject:indexPath];
+//                    [self.deletedRows addObject:indexPath];
+//                    if (self.deletedRows.count == self.users.count) {
+//                        self.deletionFlag =0;
+//                        [self.deletedRows removeAllObjects];
+//                    }
+//                }
+//            }
+//            
+//            
+//        }else if (self.flag==1){
+//            //do nothing
+//        }else{
+////            cell.checkmark.text = @"\u2713";
+//            [self.selectedUsers addObject:self.users[indexPath.row]];
+//            [self.selectedRows addObject:indexPath];
+//            self.deletionFlag =0;
+//            if (self.selectedUsers.count == self.users.count) {
+//                self.deletionFlag = 1;
+//            }
+//        }
     }
     self.flag = !(self.flag);
     if (self.flag == 1) {
         [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2713" forState:UIControlStateNormal];
+        [self.selectedUsers removeAllObjects];
+        [self.selectedUsers addObjectsFromArray:self.users];
+        for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
+            NSUInteger ints[2] = {0,i};
+            NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
+            [self.selectedRows addObject:indexPath];
+        }
     }else{
         [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
+        [self.selectedUsers removeAllObjects];
+        [self.selectedRows removeAllObjects];
     }
     
     NSLog(@"%ld",(long)self.flag);
@@ -302,9 +316,11 @@
 }
 
 - (IBAction)btnBackPressed:(id)sender {
-    if (self.normORVIP == 0) {
+    if (self.normORVIP == 0 && self.createMsgFlag != 1 ) {
         [self.navigationController popViewControllerAnimated:YES];
     }else if (self.normORVIP == 1){
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else if (self.createMsgFlag == 1){
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     
