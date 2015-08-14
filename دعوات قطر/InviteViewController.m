@@ -28,7 +28,7 @@
     self.selectedUsers = [[NSMutableArray alloc]init];
     self.UsersToInvite = [[NSMutableArray alloc]init];
     self.selectedRows = [[NSMutableArray alloc]init];
-    
+    NSLog(@"EVENT ID : %ld",(long)self.eventID);
     if (self.normORVIP == 1) {
         self.groupID = [self.group[@"id"]integerValue];
     }

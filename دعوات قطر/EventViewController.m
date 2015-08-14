@@ -213,6 +213,7 @@
     }else if ([segue.identifier isEqualToString:@"inviteAll"]){
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.flag = 1;
+        chooseGroupController.eventID = self.eventID;
     }
 }
 

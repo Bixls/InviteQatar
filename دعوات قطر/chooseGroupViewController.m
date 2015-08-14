@@ -24,10 +24,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-
+    
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     
+    NSLog(@"EVENT ID %ld" , (long)self.eventID );
     
 }
 
@@ -58,6 +59,7 @@
         InviteViewController *inviteController = segue.destinationViewController;
         inviteController.normORVIP = 1;
         inviteController.group = self.selectedGroup;
+        inviteController.eventID = self.eventID;
     }
 }
 
