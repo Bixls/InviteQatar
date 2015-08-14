@@ -260,6 +260,7 @@
         HomeNewsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
         NSDictionary *tempNews = self.news[indexPath.item];
         cell.newsSubject.text =tempNews[@"Subject"];
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempNews[@"Image"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
@@ -270,7 +271,7 @@
             });
 
         });
-        cell.newsImage.image = nil;
+        //cell.newsImage.image = nil;
         
         return cell;
     }
