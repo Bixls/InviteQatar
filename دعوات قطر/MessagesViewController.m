@@ -161,6 +161,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    MessagesFirstTableViewCell *cell = (MessagesFirstTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+   // NSDictionary *message = self.messages[indexPath.row];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == self.messages.count) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -184,12 +187,21 @@
 
     }
     
+    NSDictionary *message = self.messages[indexPath.row];
+    NSDictionary *mutableMessage = [NSMutableDictionary dictionaryWithDictionary:message];
+    [mutableMessage setValue:[NSNumber numberWithInteger:1] forKey:@"Status"];
+    self.messages[indexPath.row] = mutableMessage;
+    
+    
+    [self.tableView reloadData];
+
+    
 }
 
 
 
 
-#pragma mark - Segue 
+#pragma mark - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
