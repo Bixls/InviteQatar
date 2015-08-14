@@ -22,7 +22,7 @@
 
 
 - (IBAction)btnSendCommentPressed:(id)sender;
-- (IBAction)btnSeeMorePressed:(id)sender;
+
 
 
 

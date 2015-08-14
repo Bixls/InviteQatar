@@ -11,6 +11,8 @@
 #import "CommentsFirstTableViewCell.h"
 #import "CommentsSecondTableViewCell.h"
 #import "UserViewController.h"
+#import <UIScrollView+SVInfiniteScrolling.h>
+
 @interface CommentsViewController ()
 
 @property (nonatomic) NSInteger start;
@@ -40,6 +42,10 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self getComments];
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        self.start = self.comments.count;
+        [self getComments];
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -61,7 +67,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.comments.count > 0 ) {
-        return self.comments.count +2 ;
+        return self.comments.count +1 ;
     }else{
         return 1;
     }
@@ -107,14 +113,16 @@
         }
         cell2.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell2;
-    }else if (indexPath.row == (self.comments.count+1)){
-        UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
-        if (cell1==nil) {
-            cell1=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
-        }
-        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell1;
     }
+    
+//    else if (indexPath.row == (self.comments.count+1)){
+//        UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
+//        if (cell1==nil) {
+//            cell1=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
+//        }
+//        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
+//        return cell1;
+//    }
 
     
     
@@ -288,7 +296,8 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getComments"]) {
         [self.comments addObjectsFromArray:array];
-        NSLog(@"%@",self.comments);
+        //NSLog(@"%@",self.comments);
+        [self.tableView.infiniteScrollingView stopAnimating];
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"addComment"]){
         NSLog(@"Add Comment Success %@",array);
@@ -325,11 +334,6 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (IBAction)btnSeeMorePressed:(id)sender {
-    self.start = self.comments.count;
-    [self getComments];
-    NSLog(@"See More! ");
-}
 
 - (IBAction)btnBackPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
