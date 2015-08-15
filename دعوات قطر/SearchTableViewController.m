@@ -17,7 +17,14 @@
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic,strong) NSDictionary *postDict;
 @property (nonatomic,strong) NSDictionary *selectedUser;
-
+@property (nonatomic) CGFloat tableX;
+@property (nonatomic) CGFloat tableY;
+@property (nonatomic) CGFloat tableWidth;
+@property (nonatomic) CGFloat tableHeight;
+@property (nonatomic) CGFloat navX;
+@property (nonatomic) CGFloat navY;
+@property (nonatomic) CGFloat navWidth;
+@property (nonatomic) CGFloat navHeight;
 @end
 
 @implementation SearchTableViewController
@@ -59,7 +66,56 @@
     self.tableView.tableHeaderView = self.searchController.searchBar;
     [self.tableView reloadData];
     [self.navigationItem setHidesBackButton:YES];
+    
+    self.tableX = self.view.frame.origin.x + 20 ;
+    self.tableY = self.view.frame.origin.y +30;
+    self.tableWidth = self.view.frame.size.width -40;
+    self.tableHeight = self.view.frame.size.height ;
+    
+//    CGFloat x = self.view.frame.origin.x - 20 ;
+//    CGFloat y  = self.view.frame.origin.y  - 30 ;
+//    CGFloat w = self.view.frame.size.width + 40;
+//    CGFloat h  = self.view.frame.size.height + 10;
+    
+    
+    self.navX = self.view.frame.origin.x  ;
+    self.navY= self.view.frame.origin.y + 55;
+    self.navWidth = self.view.frame.size.width ;
+    self.navHeight = 20 ;
+    
+//    CGFloat a = self.view.frame.origin.x - 2 ;
+//    CGFloat b = self.view.frame.origin.y- 50 ;
+//    CGFloat c = self.view.frame.size.width + 100;
+//    CGFloat d = 40 ;
+//    
+//    [self.view removeConstraints:self.view.constraints];
+//    [self.tableView removeConstraints:self.tableView.constraints];
+//    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+//    [self.tableView setFrame:CGRectMake(0, 0, 300, 568)];
+//    UIEdgeInsets inset = UIEdgeInsetsMake(0, 0, 50 , 50);
+//    self.tableView.contentInset = inset;
+//    [self.view setFrame:CGRectMake(0, 0, 300, 568)];
+//    [self.tableView setFrame:CGRectMake(0, 0, 300, 568)];
+//    [self.view setFrame:CGRectMake(10, 0, 300, 568)];
+//     [self.tableView setFrame:CGRectMake(10, 0, 300, 568)];
+    [self.navigationController.navigationBar setFrame:CGRectMake(self.navX , self.navY, self.navWidth , self.navHeight)];
 }
+
+
+-(void)viewDidLayoutSubviews {
+    NSLog(@"%f,%f,%f,%f",self.navX,self.navY , self.navWidth,self.navHeight);
+    NSLog(@"%f,%f,%f,%f",self.tableX,self.tableY , self.tableWidth,self.tableHeight);
+//    [self.tableView setFrame:CGRectMake(self.view.bounds.origin.x + 20 , self.view.bounds.origin.y +20 , self.view.bounds.size.width-40, self.view.bounds.size.height -10)];
+    
+    [self.tableView setFrame:CGRectMake(self.tableX , self.tableY, self.tableWidth , self.tableHeight)];
+    [self.navigationController.navigationBar setFrame:CGRectMake(self.navX , self.navY, self.navWidth , self.navHeight)];
+}
+
+
+
 
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -72,6 +128,8 @@
         }
     }
 }
+
+
 
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     self.postDict = @{
@@ -86,6 +144,16 @@
     self.filteredValues = [NSMutableArray arrayWithArray:arr];
     [self.tableView reloadData];
     NSLog(@"%@",[NSString stringWithFormat:@"%@",self.searchController.searchBar.text]);
+//    [self.tableView setFrame:CGRectMake(0, 0, 300, 568)];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    [self viewDidAppear:YES];
+}
+
+-(BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
+//    [self.tableView setFrame:CGRectMake(0, 0, 300, 568)];
+    return YES;
 }
 
 //-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
