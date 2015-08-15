@@ -12,6 +12,8 @@
 
 @property (nonatomic)NSInteger receiverID;
 
+@property(nonatomic)NSInteger createMsgFlag;
+@property (nonatomic,strong) NSArray *usersIDs;
 @property (weak, nonatomic) IBOutlet UITextField *messageSubject;
 @property (weak, nonatomic) IBOutlet UITextView *messageContent;
 @property (weak, nonatomic) IBOutlet UIButton *btnSend;

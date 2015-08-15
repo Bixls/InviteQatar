@@ -4505,6 +4505,7 @@
                     <connections>
                         <outlet property="btnMarkAll" destination="lma-YC-6z8" id="F4h-J0-eHt"/>
                         <outlet property="tableView" destination="EI7-K9-hN0" id="sq4-ZY-aMZ"/>
+                        <segue destination="tle-Ek-g5l" kind="modal" identifier="createMsg" id="Hwh-Bc-W0c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tHP-Hv-ehp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5011,7 +5012,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vbU-BC-8cQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3461" y="4824"/>
+            <point key="canvasLocation" x="3669" y="2504"/>
         </scene>
         <!--Buy Invitations View Controller-->
         <scene sceneID="isX-R7-iCl">
@@ -7066,15 +7067,16 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ehv-QV-wmo"/>
         <segue reference="FzJ-6b-ZNA"/>
-        <segue reference="8UZ-rJ-Viu"/>
+        <segue reference="ehv-QV-wmo"/>
         <segue reference="faW-co-acX"/>
-        <segue reference="DrQ-RY-iQz"/>
+        <segue reference="8UZ-rJ-Viu"/>
         <segue reference="IoJ-de-HAV"/>
         <segue reference="hQx-Cj-f0Z"/>
-        <segue reference="Bok-QY-wEt"/>
+        <segue reference="DrQ-RY-iQz"/>
+        <segue reference="Hwh-Bc-W0c"/>
         <segue reference="2dl-tD-VcJ"/>
+        <segue reference="Bok-QY-wEt"/>
         <segue reference="De6-P3-Poq"/>
     </inferredMetricsTieBreakers>
 </document>

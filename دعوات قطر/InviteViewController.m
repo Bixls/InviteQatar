@@ -9,11 +9,13 @@
 #import "InviteViewController.h"
 #import "ASIHTTPRequest.h"
 #import "InviteTableViewCell.h"
+#import "SendMessageViewController.h"
 @interface InviteViewController ()
 
 @property (nonatomic,strong) NSArray *users;
 @property (nonatomic) int flag;
 @property (nonatomic,strong) NSMutableArray *selectedUsers;
+@property (nonatomic,strong) NSMutableArray *usersIDs;
 @property (nonatomic,strong) NSMutableArray *UsersToInvite;
 @property (nonatomic,strong) NSMutableArray *selectedRows;
 @property (nonatomic,strong) NSMutableArray *deletedRows;
@@ -32,6 +34,7 @@
     self.UsersToInvite = [[NSMutableArray alloc]init];
     self.selectedRows = [[NSMutableArray alloc]init];
     self.deletedRows = [[NSMutableArray alloc]init];
+    self.usersIDs = [[NSMutableArray alloc]init];
     NSLog(@"EVENT ID : %ld",(long)self.eventID);
     if (self.normORVIP == 1 || self.createMsgFlag == 1) {
         self.groupID = [self.group[@"id"]integerValue];
@@ -65,6 +68,22 @@
             [request cancel];
             [request setDelegate:nil];
         }
+    }
+}
+
+#pragma mark - Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"createMsg"]) {
+        for (NSDictionary *user in self.selectedUsers) {
+            NSLog(@"%@",self.selectedUsers);
+            NSInteger userID = [user[@"id"]integerValue];
+            NSDictionary *dict = @{@"id":[NSNumber numberWithInteger:userID]};
+            [self.usersIDs addObject:dict];
+            NSLog(@"%@",self.usersIDs);
+        }
+        SendMessageViewController *sendMessageController = segue.destinationViewController;
+        sendMessageController.usersIDs = self.usersIDs;
+        sendMessageController.createMsgFlag = 1;
     }
 }
 
@@ -294,7 +313,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (IBAction)btnInvitePressed:(id)sender {
-    if (self.selectedUsers.count >0) {
+    if (self.selectedUsers.count >0 && self.createMsgFlag != 1) {
         for (int i =0; i < self.selectedUsers.count; i++) {
             
             NSDictionary *dict = self.selectedUsers[i];
@@ -311,6 +330,8 @@
         NSMutableDictionary *inviteUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"inviteUsers",@"key", nil];
         [self postRequest:inviteUsers withTag:inviteUsersTag];
         
+    }else if (self.createMsgFlag == 1){
+        [self performSegueWithIdentifier:@"createMsg" sender:self];
     }
 
 }

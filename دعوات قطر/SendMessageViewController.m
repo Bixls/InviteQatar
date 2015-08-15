@@ -21,6 +21,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
+    //NSLog(@"%@",self.usersIDs);
     [self.navigationItem setHidesBackButton:YES];
 }
 
@@ -74,20 +75,39 @@
 #pragma mark - Connection Setup
 
 -(void)sendMessage {
-    
-    NSDictionary *sendMessage = @{@"FunctionName":@"sendMessege" , @"inputs":@[@{
-                                                                                 @"SenderID":[NSString stringWithFormat:@"%ld",(long)self.userID],
-                                                                                 @"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.receiverID],
-                                                                                 @"Subject":self.messageSubject.text,
-                                                                                 @"Content":self.messageContent.text
-                                                                                 }]};
-    
-    NSLog(@"%@",sendMessage);
-    NSMutableDictionary *sendMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendMessage",@"key", nil];
-    
-    [self postRequest:sendMessage withTag:sendMessageTag];
+    if (self.createMsgFlag == 1) {
+        NSDictionary *sendMessage = @{@"FunctionName":@"sendMessege" , @"inputs":@[@{
+                                                                                       @"SenderID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                                       @"ReciverID":self.usersIDs,
+                                                                                       @"Subject":self.messageSubject.text,
+                                                                                       @"Content":self.messageContent.text
+                                                                                       }]};
+        
+        NSLog(@"%@",sendMessage);
+        NSMutableDictionary *sendMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendMessage",@"key", nil];
+        
+        [self postRequest:sendMessage withTag:sendMessageTag];
+
+    }else if (self.createMsgFlag != 1){
+        NSDictionary *sendMessage = @{@"FunctionName":@"sendMessege" , @"inputs":@[@{
+                                                                                       @"SenderID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                                       @"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.receiverID],
+                                                                                       @"Subject":self.messageSubject.text,
+                                                                                       @"Content":self.messageContent.text
+                                                                                       }]};
+        
+        NSLog(@"%@",sendMessage);
+        NSMutableDictionary *sendMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendMessage",@"key", nil];
+        
+        [self postRequest:sendMessage withTag:sendMessageTag];
+    }
     
 }
+
+/* 
+  @"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.receiverID],
+ 
+ */
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
@@ -157,6 +177,11 @@
 }
 
 - (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.createMsgFlag != 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if (self.createMsgFlag == 1){
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
 }
 @end

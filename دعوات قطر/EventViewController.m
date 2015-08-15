@@ -203,7 +203,7 @@
         createEventController.event  = self.fullEvent;
     }else if ([segue.identifier isEqualToString:@"showUser"]){
         UserViewController *userController = segue.destinationViewController;
-        userController.user = self.user;
+        userController.user = @{@"id": [NSNumber numberWithInteger:self.creatorID]};
         
     }else if ([segue.identifier isEqualToString:@"invite"]){
         InviteViewController *inviteController = segue.destinationViewController;
