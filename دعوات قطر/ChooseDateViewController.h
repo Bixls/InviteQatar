@@ -10,7 +10,7 @@
 
 @protocol chooseDateViewControllerDelegate <NSObject>
 
--(void)selectedDate:(NSString *)date;
+-(void)selectedDate:(NSString *)date ;
 
 @end
 

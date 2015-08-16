@@ -162,6 +162,7 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -1103,7 +1104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kFU-nz-clO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2357" y="2587"/>
+            <point key="canvasLocation" x="1677" y="1755"/>
         </scene>
         <!--Confirmation View Controller-->
         <scene sceneID="Ecl-i2-uIt">
@@ -4178,6 +4179,28 @@
                                                     <action selector="btnViewAttendeesPressed:" destination="Pnj-oQ-lDE" eventType="touchUpInside" id="x3L-fq-hsz"/>
                                                 </connections>
                                             </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="5bT-ae-SxU">
+                                                <rect key="frame" x="8" y="566" width="85" height="52"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="85" id="pNu-zb-e4r"/>
+                                                    <constraint firstAttribute="height" constant="52" id="tPR-AA-EPs"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uy5-EU-uQp">
+                                                <rect key="frame" x="27" y="576" width="46" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="46" id="DzL-Wa-PTX"/>
+                                                    <constraint firstAttribute="height" constant="30" id="mjF-BO-iyO"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
+                                                <state key="normal" title="ذكرني">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="btnRemindMePressed:" destination="Pnj-oQ-lDE" eventType="touchUpInside" id="9uF-Of-YEz"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -4187,6 +4210,7 @@
                                             <constraint firstItem="SdN-rK-1Pr" firstAttribute="top" secondItem="SIB-CG-Ee7" secondAttribute="bottom" constant="25" id="35W-eF-hcb"/>
                                             <constraint firstItem="9ic-Kt-WfW" firstAttribute="top" secondItem="PHx-r5-rLT" secondAttribute="bottom" constant="12" id="3jC-g2-Q6g"/>
                                             <constraint firstItem="O6w-tk-TyO" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="21" id="77K-gC-kec"/>
+                                            <constraint firstItem="5bT-ae-SxU" firstAttribute="top" secondItem="nbO-aH-ZAK" secondAttribute="bottom" id="89g-yh-Cpg"/>
                                             <constraint firstAttribute="centerX" secondItem="mNr-qx-VN6" secondAttribute="centerX" id="AlA-W3-5OS"/>
                                             <constraint firstItem="ifv-xo-SpG" firstAttribute="leading" secondItem="9ic-Kt-WfW" secondAttribute="trailing" constant="38" id="BWp-oJ-0n7"/>
                                             <constraint firstItem="SdN-rK-1Pr" firstAttribute="top" secondItem="ifv-xo-SpG" secondAttribute="bottom" constant="12" id="Bhb-fE-QTe"/>
@@ -4215,6 +4239,7 @@
                                             <constraint firstItem="xMT-v9-sSs" firstAttribute="top" secondItem="6hh-rS-t7B" secondAttribute="bottom" constant="9" id="eJX-EZ-PGu"/>
                                             <constraint firstItem="SdN-rK-1Pr" firstAttribute="top" secondItem="9ic-Kt-WfW" secondAttribute="bottom" constant="39" id="fab-Kb-XgV"/>
                                             <constraint firstAttribute="centerX" secondItem="J5a-Ke-02a" secondAttribute="centerX" constant="1" id="foS-M1-hWi"/>
+                                            <constraint firstItem="5bT-ae-SxU" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="8" id="gDL-Vc-DYP"/>
                                             <constraint firstItem="UgR-ez-duK" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" constant="47" id="gJX-Ep-a0u"/>
                                             <constraint firstItem="i6m-dJ-4Gf" firstAttribute="bottom" secondItem="TEG-kW-8Fi" secondAttribute="bottom" constant="-1" id="jQx-be-18e"/>
                                             <constraint firstItem="SIB-CG-Ee7" firstAttribute="leading" secondItem="9ic-Kt-WfW" secondAttribute="trailing" constant="39" id="l9N-RL-sNf"/>
@@ -4222,6 +4247,7 @@
                                             <constraint firstAttribute="trailing" secondItem="TEG-kW-8Fi" secondAttribute="trailing" constant="14" id="la5-k6-pa7"/>
                                             <constraint firstItem="i6m-dJ-4Gf" firstAttribute="top" secondItem="PHx-r5-rLT" secondAttribute="bottom" constant="30" id="mE9-qm-uHg"/>
                                             <constraint firstItem="ifv-xo-SpG" firstAttribute="top" secondItem="PHx-r5-rLT" secondAttribute="bottom" constant="8" id="nUX-Pe-Y4I"/>
+                                            <constraint firstItem="Uy5-EU-uQp" firstAttribute="top" secondItem="nbO-aH-ZAK" secondAttribute="bottom" constant="10" id="qUG-2T-7xq"/>
                                             <constraint firstItem="O6w-tk-TyO" firstAttribute="top" secondItem="9EC-oA-HGn" secondAttribute="top" constant="25" id="ri9-Hw-h4y"/>
                                             <constraint firstItem="TEG-kW-8Fi" firstAttribute="top" secondItem="gz0-kO-q3q" secondAttribute="bottom" constant="231" id="sMB-96-biy"/>
                                             <constraint firstItem="fun-b2-BhN" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" id="t2s-Bm-7nS"/>
@@ -4233,6 +4259,7 @@
                                             <constraint firstAttribute="trailing" secondItem="ifv-xo-SpG" secondAttribute="trailing" constant="45" id="yi9-5S-xEK"/>
                                             <constraint firstItem="J5a-Ke-02a" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" id="zCc-VK-uGW"/>
                                             <constraint firstItem="SIB-CG-Ee7" firstAttribute="top" secondItem="PHx-r5-rLT" secondAttribute="bottom" constant="19" id="zNJ-yu-Mct"/>
+                                            <constraint firstItem="Uy5-EU-uQp" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="27" id="zbX-VL-ppS"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -4273,6 +4300,7 @@
                         <outlet property="btnEditEvent" destination="NYa-A9-OdJ" id="qqE-FE-dAQ"/>
                         <outlet property="btnGoing" destination="mNr-qx-VN6" id="JUc-RS-1at"/>
                         <outlet property="btnInviteOthers" destination="xMT-v9-sSs" id="KSa-gA-dP9"/>
+                        <outlet property="btnRemindMe" destination="Uy5-EU-uQp" id="tyS-hO-KhV"/>
                         <outlet property="creatorName" destination="SIB-CG-Ee7" id="XN4-2A-l5c"/>
                         <outlet property="creatorPicture" destination="TEG-kW-8Fi" id="kFu-FN-Q98"/>
                         <outlet property="descriptionLabel" destination="SdN-rK-1Pr" id="lAV-X0-NpO"/>
@@ -4285,17 +4313,19 @@
                         <outlet property="imgGoing" destination="UgR-ez-duK" id="VBg-gi-wo4"/>
                         <outlet property="imgGoingList" destination="fun-b2-BhN" id="pwv-0V-N6Q"/>
                         <outlet property="imgInviteOthers" destination="GAQ-Pw-LT5" id="nYv-O7-Koe"/>
+                        <outlet property="imgRemindMe" destination="5bT-ae-SxU" id="emc-dT-w7j"/>
                         <segue destination="QCn-Vd-fKL" kind="push" identifier="showAttendees" id="qWT-Vg-1gn"/>
                         <segue destination="H0K-d7-KrW" kind="push" identifier="showComments" id="IoJ-de-HAV"/>
                         <segue destination="qjf-CL-7yd" kind="push" identifier="editEvent" id="hWi-sg-g8m"/>
                         <segue destination="pdv-Sh-Heh" kind="push" identifier="showUser" id="Ms0-5r-99t"/>
                         <segue destination="9s1-Zd-by4" kind="push" identifier="invite" id="kMD-e6-iDp"/>
                         <segue destination="Dd5-m7-xGN" kind="modal" identifier="inviteAll" id="hTI-TE-OlE"/>
+                        <segue destination="EeU-1z-E2H" kind="modal" identifier="chooseDate" id="mYb-7K-k86"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qZJ-5n-s9k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2397" y="3527"/>
+            <point key="canvasLocation" x="2425" y="3638"/>
         </scene>
         <!--Invite View Controller-->
         <scene sceneID="XtK-En-o4D">
@@ -7068,16 +7098,17 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="faW-co-acX"/>
         <segue reference="ehv-QV-wmo"/>
         <segue reference="FzJ-6b-ZNA"/>
-        <segue reference="bOe-mT-zaZ"/>
-        <segue reference="Bok-QY-wEt"/>
+        <segue reference="faW-co-acX"/>
+        <segue reference="kMD-e6-iDp"/>
+        <segue reference="Ms0-5r-99t"/>
+        <segue reference="mYb-7K-k86"/>
+        <segue reference="hWi-sg-g8m"/>
+        <segue reference="hTI-TE-OlE"/>
+        <segue reference="IoJ-de-HAV"/>
+        <segue reference="Hwh-Bc-W0c"/>
         <segue reference="2dl-tD-VcJ"/>
         <segue reference="De6-P3-Poq"/>
-        <segue reference="8UZ-rJ-Viu"/>
-        <segue reference="DrQ-RY-iQz"/>
-        <segue reference="Hwh-Bc-W0c"/>
-        <segue reference="IoJ-de-HAV"/>
     </inferredMetricsTieBreakers>
 </document>

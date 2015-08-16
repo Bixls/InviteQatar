@@ -26,6 +26,9 @@
 //        view.backgroundColor=[UIColor blackColor];
 //        [self.window.rootViewController.view addSubview:view];
 //    }
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
+    }
     return YES;
 }
 

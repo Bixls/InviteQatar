@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface EventViewController : UIViewController
+#import "ChooseDateViewController.h"
+@interface EventViewController : UIViewController <chooseDateViewControllerDelegate>
 
 
 @property (nonatomic) NSInteger selectedType;
@@ -35,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnInviteOthers;
 @property (weak, nonatomic) IBOutlet UIImageView *imgInviteOthers;
 
+@property (weak, nonatomic) IBOutlet UIImageView *imgRemindMe;
+@property (weak, nonatomic) IBOutlet UIButton *btnRemindMe;
 
 
 - (IBAction)btnViewAttendeesPressed:(id)sender;
@@ -43,6 +45,7 @@
 - (IBAction)btnEditEventPressed:(id)sender;
 - (IBAction)btnShowUserPressed:(id)sender;
 - (IBAction)btnInviteOthersPressed:(id)sender;
+- (IBAction)btnRemindMePressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTime;
 

@@ -29,6 +29,7 @@
 - (IBAction)datePickerPressed:(id)sender {
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formatter setLocale:[NSLocale currentLocale]];
     NSString *formatedDate = [formatter stringFromDate:self.datePicker.date];
     self.selectedDate = formatedDate;
     NSLog(@"%@",self.selectedDate);

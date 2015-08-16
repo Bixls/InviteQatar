@@ -31,6 +31,7 @@
 @property (nonatomic,strong) NSDictionary *fullEvent;
 @property (nonatomic,strong) NSDictionary *user;
 @property (nonatomic)NSInteger isVIP;
+@property (nonatomic,strong) NSString *selectedDate;
 
 @end
 
@@ -61,6 +62,8 @@
     [self.imgEditEvent setHidden:YES];
     [self.btnInviteOthers setHidden:YES];
     [self.imgInviteOthers setHidden:YES];
+    [self.imgRemindMe setHidden:YES];
+    [self.btnRemindMe setHidden:YES];
     
     self.isJoined = -1;
     self.isInvited =-1;
@@ -97,6 +100,8 @@
     }
 }
 
+
+#pragma mark - Update UI
 -(void)updateUI {
 
     NSLog(@"EVEENT %@",self.event);
@@ -155,10 +160,14 @@
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"الذهاب؟" forState:UIControlStateNormal];
+        [self.imgRemindMe setHidden:YES];
+        [self.btnRemindMe setHidden:YES];
     }else if(self.isInvited == 1 && self.isJoined == 1){
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
+        [self.imgRemindMe setHidden:NO];
+        [self.btnRemindMe setHidden:NO];
     }
     
     if (self.userID == self.creatorID) {
@@ -214,8 +223,50 @@
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.flag = 1;
         chooseGroupController.eventID = self.eventID;
+    }else if ([segue.identifier isEqualToString:@"chooseDate"]){
+        ChooseDateViewController *chooseDateController = segue.destinationViewController;
+        chooseDateController.delegate = self;
     }
 }
+
+#pragma mark - Choose Date Delegate Method 
+
+-(void)selectedDate:(NSString *)date {
+    self.selectedDate = date;
+    NSLog(@"%@",self.selectedDate);
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+  //  [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    NSDate *dateFromString = [formatter dateFromString:self.selectedDate];
+    NSLog(@"%@",dateFromString);
+
+//    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge
+//                                                                                                              categories:nil]];
+//    }
+   
+    UIApplication *app = [UIApplication sharedApplication];
+    UILocalNotification *notifyAlarm = [[UILocalNotification alloc]init];
+    if (notifyAlarm) {
+        notifyAlarm.fireDate = dateFromString;
+        notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
+        notifyAlarm.repeatInterval = 0;
+        notifyAlarm.alertBody = [NSString stringWithFormat:@"لا تنسي %@ بتاريخ %@ الساعة %@",self.event[@"subject"],self.eventDate.text,self.eventTime.text ];
+        NSLog(@"%@",notifyAlarm.alertBody);
+        [app scheduleLocalNotification:notifyAlarm];
+    }
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+//    NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+//    [formatter setLocale:qatarLocale];
+////    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+////    NSDate *dateString = [formatter dateFromString:self.selectedDate];
+    
+  
+    
+    
+}
+
+
 
 #pragma mark - Connection Setup
 -(void)getUSer {
@@ -479,6 +530,16 @@
         [self performSegueWithIdentifier:@"inviteAll" sender:self];
     }
     
+}
+
+- (IBAction)btnRemindMePressed:(id)sender {
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *oldnotifications = [app scheduledLocalNotifications];
+    if (oldnotifications.count > 0) {
+        [app cancelAllLocalNotifications];
+    }
+    
+    [self performSegueWithIdentifier:@"chooseDate" sender:self];
 }
 
 - (IBAction)btnBackPressed:(id)sender {
