@@ -22,6 +22,11 @@
 @property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger returnedGroupID;
 @property (nonatomic) NSInteger deletionFlag;
+@property (nonatomic) NSInteger VIPPoints;
+@property (nonatomic) NSInteger userID;
+@property (nonatomic,strong) NSString *userMobile;
+@property (nonatomic,strong) NSString *userPassword;
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
 @end
 
 @implementation InviteViewController
@@ -29,6 +34,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    //self.VIPPoints = [self.userDefaults integerForKey:@"VIPPoints"];
+    self.userID = [self.userDefaults integerForKey:@"userID"];
+    self.userPassword = [self.userDefaults objectForKey:@"password"];
+    self.userMobile = [self.userDefaults objectForKey:@"mobile"];
+    
     self.view.backgroundColor = [UIColor blackColor];
     self.selectedUsers = [[NSMutableArray alloc]init];
     self.UsersToInvite = [[NSMutableArray alloc]init];
@@ -44,11 +55,12 @@
     [self.navigationItem setHidesBackButton:YES];
     
     
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     if (self.normORVIP == 0) {
-        [self getUSer];
+        [self getUSerVIPPoints];
     }else{
         NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
                                        @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
@@ -56,6 +68,7 @@
                                                      @"limit":@"50000"}]};
         NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
         [self postRequest:getUSersDict withTag:getUsersTag];
+        [self getUSerVIPPoints];
     }
     
 }
@@ -135,46 +148,46 @@
 #pragma mark - Table view Delegate methods
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    InviteTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    //NSLog(@"%ld",indexPath.row);
+
     InviteTableViewCell *cell = (InviteTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
-        //cell.checkmark.text = @"\u2001";
-        if (self.selectedUsers.count >0) {
-            [self.selectedUsers removeObject:self.users[indexPath.row]];
-            [self.selectedRows removeObject:indexPath];
-            
+    if (self.VIPPoints >= self.selectedUsers.count) {
+        if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
+            //cell.checkmark.text = @"\u2001";
+            if (self.selectedUsers.count >0) {
+                [self.selectedUsers removeObject:self.users[indexPath.row]];
+                [self.selectedRows removeObject:indexPath];
+                
+            }
+            [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
+            self.flag = 0;
+        }else{
+            //cell.checkmark.text = @"\u2713";
+            [self.selectedUsers addObject:self.users[indexPath.row]];
+            [self.selectedRows addObject:indexPath];
         }
-         [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
-        self.flag = 0;
-    }else{
-        //cell.checkmark.text = @"\u2713";
-        [self.selectedUsers addObject:self.users[indexPath.row]];
-        [self.selectedRows addObject:indexPath];
+        [self.tableView reloadData];
+    }else if (self.VIPPoints < self.selectedUsers.count){
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً"
+                                                           message:@"كافية VIP لا يمكنك إختيار المزيد من أفراد القبيلة لعدم توافر نقاط"
+                                                          delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
     }
-    [self.tableView reloadData];
+
     
 }
 
 #pragma mark - Connection setup
 
--(void)getUSer {
-    if (self.createMsgFlag != 1) {
-        NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
-                                                                                   @"id":[NSString stringWithFormat:@"%ld",(long)self.creatorID]
-                                                                                   }]};
-        
-        
-        NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
-        
-        [self postRequest:getUser withTag:getUserTag];
-    }else if (self.createMsgFlag == 1){
-        [self getAllUsers];
-    }
+-(void)getUSerVIPPoints {
+    NSDictionary *getInvNum = @{
+                                @"FunctionName":@"signIn" ,
+                                @"inputs":@[@{@"Mobile":self.userMobile,
+                                              @"password":self.userPassword}]};
+    NSLog(@"%@",getInvNum);
+    
+    NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+    [self postRequest:getInvNum withTag:getInvNumTag];
     
 }
 
@@ -219,18 +232,19 @@
         self.users = array;
         NSLog(@"%@",self.users);
         [self.tableView reloadData];
-    }else if ([key isEqualToString:@"getUser"]){
-        NSLog(@"%@",array);
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        self.returnedGroupID =[dict[@"Gid"]integerValue];
-        [self getAllUsers];
+    }else if ([key isEqualToString:@"invNum"]){
+        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@",dict);
+        self.VIPPoints  = [dict[@"inVIP"]integerValue];
+
     }else if ([key isEqualToString:@"inviteUsers"]){
-        NSLog(@"%@",array);
-        NSDictionary *dict = array[0];
-        NSInteger success = [dict[@"success"]integerValue];
-        NSLog(@"%ld",success);
-        if (success == 0) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم إرسال الدعوة بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+//        NSLog(@"%@",array);
+        NSDictionary *failure = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if ([failure[@"noPoints"]boolValue] == true) {
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال الدعوات بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }else{
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم إرسال الدعوات بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
         }
     }
@@ -258,7 +272,7 @@
     for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
         NSUInteger ints[2] = {0,i};
         NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
-        NSLog(@"%ld",(long)indexPath.row);
+        //NSLog(@"%ld",(long)indexPath.row);
         InviteTableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
 //        if (self.deletionFlag == 1) {
 //            self.deletionFlag = 1;

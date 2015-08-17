@@ -163,6 +163,8 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -598,7 +600,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n19-8s-gS7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3050" y="3391"/>
+            <point key="canvasLocation" x="4978" y="2567"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="aVQ-8i-MCc">
@@ -2546,6 +2548,7 @@
                                                     <constraint firstAttribute="width" constant="144" id="ej4-Dv-Vdg"/>
                                                     <constraint firstAttribute="height" constant="30" id="kCl-I2-IHU"/>
                                                 </constraints>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
                                                 <state key="normal" title="التعليقات">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -2567,11 +2570,11 @@
                                                     <action selector="btnHome:" destination="hJq-kc-YJO" eventType="touchUpInside" id="www-Am-XAH"/>
                                                 </connections>
                                             </button>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="250" misplaced="YES" scrollEnabled="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cI1-h9-N5N">
-                                                <rect key="frame" x="21" y="408" width="277" height="105"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="250" misplaced="YES" scrollEnabled="NO" editable="NO" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="cI1-h9-N5N">
+                                                <rect key="frame" x="16" y="408" width="288" height="105"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJV-a5-jiR">
@@ -2609,7 +2612,7 @@
                                             <constraint firstItem="f9s-Gh-WLZ" firstAttribute="top" secondItem="7rD-vi-Cr7" secondAttribute="bottom" constant="8" id="GL9-Vi-75G"/>
                                             <constraint firstItem="cX0-db-BKC" firstAttribute="top" secondItem="SBu-LF-1g3" secondAttribute="top" constant="26" id="Hre-nf-3uh"/>
                                             <constraint firstItem="cI1-h9-N5N" firstAttribute="top" secondItem="RJV-a5-jiR" secondAttribute="bottom" constant="8" symbolic="YES" id="IbB-la-DPf"/>
-                                            <constraint firstItem="cI1-h9-N5N" firstAttribute="leading" secondItem="MNE-Ym-8wJ" secondAttribute="leading" id="Sb6-Gu-0CM"/>
+                                            <constraint firstItem="cI1-h9-N5N" firstAttribute="leading" secondItem="MNE-Ym-8wJ" secondAttribute="leading" constant="-5" id="Sb6-Gu-0CM"/>
                                             <constraint firstAttribute="bottom" secondItem="YMC-MH-TNi" secondAttribute="bottom" constant="24" id="ZzV-rn-Ura"/>
                                             <constraint firstItem="7rD-vi-Cr7" firstAttribute="top" secondItem="x8O-Eo-2EE" secondAttribute="bottom" constant="8" id="bf4-cJ-pvA"/>
                                             <constraint firstAttribute="centerX" secondItem="ZnU-6R-xck" secondAttribute="centerX" id="ezw-NJ-A35"/>
@@ -2623,7 +2626,7 @@
                                             <constraint firstAttribute="centerX" secondItem="x8O-Eo-2EE" secondAttribute="centerX" id="sDW-3v-wbx"/>
                                             <constraint firstAttribute="centerX" secondItem="MNE-Ym-8wJ" secondAttribute="centerX" id="uDh-Kv-Ld2"/>
                                             <constraint firstItem="ZnU-6R-xck" firstAttribute="top" secondItem="cI1-h9-N5N" secondAttribute="bottom" constant="8" symbolic="YES" id="xkJ-oJ-v1B"/>
-                                            <constraint firstItem="cI1-h9-N5N" firstAttribute="trailing" secondItem="MNE-Ym-8wJ" secondAttribute="trailing" id="xq0-aA-x4C"/>
+                                            <constraint firstItem="cI1-h9-N5N" firstAttribute="trailing" secondItem="MNE-Ym-8wJ" secondAttribute="trailing" constant="6" id="xq0-aA-x4C"/>
                                             <constraint firstItem="cX0-db-BKC" firstAttribute="leading" secondItem="SBu-LF-1g3" secondAttribute="leading" constant="21" id="yT1-Ke-Kgb"/>
                                         </constraints>
                                     </view>
@@ -5574,11 +5577,12 @@
                         <segue destination="xDM-hF-SIL" kind="modal" identifier="invitationTypes" id="aBS-yn-Dc8"/>
                         <segue destination="EeU-1z-E2H" kind="modal" identifier="chooseDate" id="GMF-2B-wF9"/>
                         <segue destination="Pnj-oQ-lDE" kind="push" identifier="event" id="zCe-j8-46Z"/>
+                        <segue destination="Dd5-m7-xGN" kind="modal" identifier="invite" id="lRH-x1-LZj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K6E-sq-3ur" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1804" y="2587"/>
+            <point key="canvasLocation" x="3647" y="299"/>
         </scene>
         <!--Choose Type View Controller-->
         <scene sceneID="Dy8-34-c1d">
@@ -7098,17 +7102,17 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="lRH-x1-LZj"/>
+        <segue reference="hWi-sg-g8m"/>
+        <segue reference="zCe-j8-46Z"/>
+        <segue reference="GMF-2B-wF9"/>
+        <segue reference="DrQ-RY-iQz"/>
+        <segue reference="Hwh-Bc-W0c"/>
         <segue reference="ehv-QV-wmo"/>
         <segue reference="FzJ-6b-ZNA"/>
-        <segue reference="faW-co-acX"/>
-        <segue reference="kMD-e6-iDp"/>
-        <segue reference="Ms0-5r-99t"/>
-        <segue reference="mYb-7K-k86"/>
-        <segue reference="hWi-sg-g8m"/>
-        <segue reference="hTI-TE-OlE"/>
-        <segue reference="IoJ-de-HAV"/>
-        <segue reference="Hwh-Bc-W0c"/>
+        <segue reference="iaT-Lo-dwV"/>
+        <segue reference="Eoi-6P-6lF"/>
         <segue reference="2dl-tD-VcJ"/>
-        <segue reference="De6-P3-Poq"/>
+        <segue reference="bOe-mT-zaZ"/>
     </inferredMetricsTieBreakers>
 </document>

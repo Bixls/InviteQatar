@@ -11,6 +11,8 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "EventViewController.h"
+#import "chooseGroupViewController.h"
+
 @interface CreateEventViewController ()
 
 @property (nonatomic,strong)NSArray *invitationTypes;
@@ -107,6 +109,10 @@
     }else if ([segue.identifier isEqualToString:@"chooseDate"]){
         ChooseDateViewController *chooseDateController = segue.destinationViewController;
         chooseDateController.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"invite"]){
+        chooseGroupViewController *chooseGroupController = segue.destinationViewController;
+        chooseGroupController.eventID = self.eventID;
+        chooseGroupController.flag = 1;
     }
 }
 
@@ -282,11 +288,17 @@
     }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
          NSLog(@"%@",responseDict);
         if ([responseDict[@"sucess"]integerValue] == 1) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@" تم حفظ المناسبة من فضلك انتظر الموافقة عليها في خلال اربعة و عشرين ساعة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            self.eventID = [responseDict[@"id"]integerValue];
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"هل تريد دعوة الآخرين الآن ؟ " delegate:self cancelButtonTitle:@"لا" otherButtonTitles:@"نعم", nil];
             [alertView show];
-            [self.navigationController popToRootViewControllerAnimated:YES];
-
+            
         }
+        /*
+         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@" تم حفظ المناسبة من فضلك انتظر الموافقة عليها في خلال اربعة و عشرين ساعة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+         [alertView show];
+         [self.navigationController popToRootViewControllerAnimated:YES];
+
+         */
     }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"editEvent"]){
         if (responseDict) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم تعديل المناسبه بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
@@ -297,7 +309,6 @@
         self.lblAdmin.text = responseDict[@"value"];
     }
   
-
     
 }
 
@@ -354,6 +365,14 @@
     [self postRequest:postDict withTag:editEventTag];
     
 }
+
+#pragma mark - AlertView Delegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self performSegueWithIdentifier:@"invite" sender:self];
+    }
+}
+
 
 
 #pragma mark - Buttons

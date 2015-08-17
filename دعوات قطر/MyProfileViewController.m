@@ -270,6 +270,8 @@
         NSString *VIP  = dict[@"inVIP"];
         [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
         [self.btnVIPNum setTitle:VIP forState:UIControlStateNormal];
+        [self.userDefaults setInteger:[VIP integerValue] forKey:@"VIPPoints"];
+        [self.userDefaults synchronize];
 
     }else if ([key isEqualToString:@"getEvents"]){
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];

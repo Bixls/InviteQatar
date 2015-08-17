@@ -10,7 +10,7 @@
 #import "ChooseTypeViewController.h"
 #import "ChooseDateViewController.h"
 
-@interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate>
+@interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate,UIAlertViewDelegate>
 
 @property (nonatomic) NSInteger createOrEdit;
 @property (nonatomic) NSInteger eventID;
