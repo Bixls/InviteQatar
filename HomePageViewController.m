@@ -75,6 +75,7 @@
 
    //self.groupsCollectionView.collectionViewLayout = [[UICollectionViewRightAlignedLayout alloc] init];
     [self.groupsCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
+    [self.newsCollectionView setPagingEnabled:YES];
 
 }
 
