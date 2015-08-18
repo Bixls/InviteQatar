@@ -22,14 +22,19 @@
     [super viewDidLoad];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
+
     self.view.backgroundColor = [UIColor blackColor];
     self.viewHeight.constant = self.view.bounds.size.height - 35;
     [self.navigationItem setHidesBackButton:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    
-    [self getUser];
+    if ([self.userDefaults objectForKey:@"userName"] != nil) {
+        self.nameField.text = [self.userDefaults objectForKey:@"userName"];
+        [self getUser];
+    }else{
+        [self getUser];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -136,7 +141,14 @@
         }
     } else if ([key isEqualToString:@"getUser"]) {
         NSLog(@"%@",responseDict);
-        self.nameField.text = responseDict[@"name"] ;
+        if ([responseDict[@"name"] isEqualToString:[self.userDefaults objectForKey:@"userName"]]) {
+            //
+        }else{
+            self.nameField.text = responseDict[@"name"] ;
+            [self.userDefaults setObject:responseDict[@"name"] forKey:@"userName"];
+            [self.userDefaults synchronize];
+        }
+        
         
     }
     
