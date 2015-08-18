@@ -149,7 +149,7 @@
         NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",tempEvent[@"TimeEnded"]]];
         NSString *date = [formatter stringFromDate:dateString];
         NSString *dateWithoutSeconds = [date substringToIndex:16];
-        cell.eventDate.text = dateWithoutSeconds;
+        cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
         NSLog(@"%@",date);
         //cell.eventDate.text = tempEvent[@"TimeEnded"];
         

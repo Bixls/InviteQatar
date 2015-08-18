@@ -16,7 +16,7 @@
 #import "NewsViewController.h"
 #import "AllSectionsViewController.h"
 #import <SVPullToRefresh.h>
-
+#import <sys/sysctl.h>
 
 @interface HomePageViewController ()
 
@@ -79,6 +79,8 @@
 
 }
 
+
+
 -(void)viewDidAppear:(BOOL)animated {
     
     if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
@@ -128,16 +130,18 @@
         self.groupsCollectionView.allowsSelection = YES;
     }
     
+    
+    
     NSArray *groups = [self.userDefaults objectForKey:@"groups"];
     if (groups != nil) {
-        self.offlineGroupsFlag = 1 ;
+//        self.offlineGroupsFlag = 1 ;
         self.groups = groups;
         [self.groupsCollectionView reloadData];
     }
-    
+//
     NSArray *news = [self.userDefaults objectForKey:@"news"];
     if (news != nil) {
-        self.offlineNewsFlag = 1 ;
+       // self.offlineNewsFlag = 1 ;
         self.news = news;
         [self.newsCollectionView reloadData];
     }
@@ -220,7 +224,17 @@
              cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
         }
         
-        if (self.offlineGroupsFlag ==0) {
+        NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
+        NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+        
+        if (imgData != nil) {
+            UIImage *img =  [UIImage imageWithData:imgData];
+            if ([tempGroup[@"Royal"]integerValue] == 1) {
+                cell.royalPP.image = img;
+            }else{
+                cell.groupPP.image = img;
+            }
+        }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempGroup[@"ProfilePic"]];
                 NSLog(@"%@",imgURLString);
@@ -231,30 +245,59 @@
                     if ([tempGroup[@"Royal"]integerValue] == 1) {
                         cell.royalPP.image = image;
                     }else{
-                         cell.groupPP.image = image;
+                        cell.groupPP.image = image;
                     }
                     NSData *imageData = UIImagePNGRepresentation(image);
                     NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
-                    [self.userDefaults setObject:encodedDate forKey:tempGroup[@"ProfilePic"]];
-                    [self.userDefaults synchronize];
-                  
+                    if (encodedDate != nil) {
+                        [self.userDefaults setObject:encodedDate forKey:tempGroup[@"ProfilePic"]];
+                        [self.userDefaults synchronize];
+                    }
+                    
                 });
             });
 
-        }else if (self.offlineGroupsFlag == 1){
-
-            NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
-            if (encodedObject) {
-                NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-                UIImage *img =  [UIImage imageWithData:imgData];
-                if ([tempGroup[@"Royal"]integerValue] == 1) {
-                    cell.royalPP.image = img;
-                }else{
-                    cell.groupPP.image = img;
-                }
-                
-            }
         }
+        
+            
+        
+//        if (self.offlineGroupsFlag ==0) {
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempGroup[@"ProfilePic"]];
+//                NSLog(@"%@",imgURLString);
+//                NSURL *imgURL = [NSURL URLWithString:imgURLString];
+//                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+//                UIImage *image = [[UIImage alloc]initWithData:imgData];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    if ([tempGroup[@"Royal"]integerValue] == 1) {
+//                        cell.royalPP.image = image;
+//                    }else{
+//                         cell.groupPP.image = image;
+//                    }
+//                    NSData *imageData = UIImagePNGRepresentation(image);
+//                    NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
+//                    if (encodedDate != nil) {
+//                        [self.userDefaults setObject:encodedDate forKey:tempGroup[@"ProfilePic"]];
+//                        [self.userDefaults synchronize];
+//                    }
+//                    
+//                });
+//            });
+//
+//        }else if (self.offlineGroupsFlag == 1){
+//
+//            NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
+//            if (encodedObject) {
+//                NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+//                UIImage *img =  [UIImage imageWithData:imgData];
+//                if ([tempGroup[@"Royal"]integerValue] == 1) {
+//                    cell.royalPP.image = img;
+//                }else{
+//                    cell.groupPP.image = img;
+//                }
+//                
+//            }
+//        }
         [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
        return cell;
@@ -325,20 +368,84 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    if (collectionView.tag == 0) {
-//        return CGSizeMake(collectionView.frame.size.width/3,84);
-//    }
-//    return CGSizeMake(298, 142);
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *machine = malloc(size);
+    sysctlbyname("hw.machine", machine, &size, NULL, 0);
+    NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
     
-    if (collectionView.tag ==0 && indexPath.item ==1) {
+    if (collectionView.tag ==0 && indexPath.item ==1 && ![[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]) {
         return CGSizeMake(145, 121);
-    }else if(collectionView.tag == 0){
+    }else if(collectionView.tag == 0 && indexPath.row ==1 && [[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
+        //return CGSizeMake(145 * 2, 121);
+        return CGSizeMake(200, 121);
+    }else if(collectionView.tag == 0 && ![[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
         return CGSizeMake(69, 84);
+    }else if(collectionView.tag == 0 && [[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
+        return CGSizeMake(70, 84);
     }
     
-    return CGSizeMake(298, 142);
+    
+    NSLog(@"%@",[self platformType:platform]);
+    
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width - 27, 142);
 }
 
+- (NSString *) platformType:(NSString *)platform
+{
+    if ([platform isEqualToString:@"iPhone1,1"])    return @"iPhone 1G";
+    if ([platform isEqualToString:@"iPhone1,2"])    return @"iPhone 3G";
+    if ([platform isEqualToString:@"iPhone2,1"])    return @"iPhone 3GS";
+    if ([platform isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
+    if ([platform isEqualToString:@"iPhone3,3"])    return @"Verizon iPhone 4";
+    if ([platform isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
+    if ([platform isEqualToString:@"iPhone5,1"])    return @"iPhone 5 (GSM)";
+    if ([platform isEqualToString:@"iPhone5,2"])    return @"iPhone 5 (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPhone5,3"])    return @"iPhone 5c (GSM)";
+    if ([platform isEqualToString:@"iPhone5,4"])    return @"iPhone 5c (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPhone6,1"])    return @"iPhone 5s (GSM)";
+    if ([platform isEqualToString:@"iPhone6,2"])    return @"iPhone 5s (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPhone7,2"])    return @"iPhone 6";
+    if ([platform isEqualToString:@"iPhone7,1"])    return @"iPhone 6 Plus";
+    if ([platform isEqualToString:@"iPod1,1"])      return @"iPod Touch 1G";
+    if ([platform isEqualToString:@"iPod2,1"])      return @"iPod Touch 2G";
+    if ([platform isEqualToString:@"iPod3,1"])      return @"iPod Touch 3G";
+    if ([platform isEqualToString:@"iPod4,1"])      return @"iPod Touch 4G";
+    if ([platform isEqualToString:@"iPod5,1"])      return @"iPod Touch 5G";
+    if ([platform isEqualToString:@"iPad1,1"])      return @"iPad";
+    if ([platform isEqualToString:@"iPad2,1"])      return @"iPad 2 (WiFi)";
+    if ([platform isEqualToString:@"iPad2,2"])      return @"iPad 2 (GSM)";
+    if ([platform isEqualToString:@"iPad2,3"])      return @"iPad 2 (CDMA)";
+    if ([platform isEqualToString:@"iPad2,4"])      return @"iPad 2 (WiFi)";
+    if ([platform isEqualToString:@"iPad2,5"])      return @"iPad Mini (WiFi)";
+    if ([platform isEqualToString:@"iPad2,6"])      return @"iPad Mini (GSM)";
+    if ([platform isEqualToString:@"iPad2,7"])      return @"iPad Mini (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPad3,1"])      return @"iPad 3 (WiFi)";
+    if ([platform isEqualToString:@"iPad3,2"])      return @"iPad 3 (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPad3,3"])      return @"iPad 3 (GSM)";
+    if ([platform isEqualToString:@"iPad3,4"])      return @"iPad 4 (WiFi)";
+    if ([platform isEqualToString:@"iPad3,5"])      return @"iPad 4 (GSM)";
+    if ([platform isEqualToString:@"iPad3,6"])      return @"iPad 4 (GSM+CDMA)";
+    if ([platform isEqualToString:@"iPad4,1"])      return @"iPad Air (WiFi)";
+    if ([platform isEqualToString:@"iPad4,2"])      return @"iPad Air (Cellular)";
+    if ([platform isEqualToString:@"iPad4,3"])      return @"iPad Air";
+    if ([platform isEqualToString:@"iPad4,4"])      return @"iPad Mini 2G (WiFi)";
+    if ([platform isEqualToString:@"iPad4,5"])      return @"iPad Mini 2G (Cellular)";
+    if ([platform isEqualToString:@"iPad4,6"])      return @"iPad Mini 2G";
+    if ([platform isEqualToString:@"iPad4,7"])      return @"iPad Mini 3 (WiFi)";
+    if ([platform isEqualToString:@"iPad4,8"])      return @"iPad Mini 3 (Cellular)";
+    if ([platform isEqualToString:@"iPad4,9"])      return @"iPad Mini 3 (China)";
+    if ([platform isEqualToString:@"iPad5,3"])      return @"iPad Air 2 (WiFi)";
+    if ([platform isEqualToString:@"iPad5,4"])      return @"iPad Air 2 (Cellular)";
+    if ([platform isEqualToString:@"AppleTV2,1"])   return @"Apple TV 2G";
+    if ([platform isEqualToString:@"AppleTV3,1"])   return @"Apple TV 3";
+    if ([platform isEqualToString:@"AppleTV3,2"])   return @"Apple TV 3 (2013)";
+    if ([platform isEqualToString:@"i386"])         return @"Simulator";
+    if ([platform isEqualToString:@"x86_64"])       return @"Simulator";
+    return platform;
+}
+//298
+//
 #pragma mark - TableView DataSource 
 
 
@@ -376,7 +483,8 @@
         NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",tempEvent[@"TimeEnded"]]];
         NSString *date = [formatter stringFromDate:dateString];
         NSString *dateWithoutSeconds = [date substringToIndex:16];
-        cell.eventDate.text = dateWithoutSeconds;
+        cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+        
         NSLog(@"%@",date);
         //cell.eventDate.text = tempEvent[@"TimeEnded"];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -484,51 +592,67 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getGroups"]) {
         self.pullToRefreshFlag ++;
-        if ([responseArray isEqualToArray:[self.userDefaults objectForKey:@"groups"]]) {
+        
+        if ([self arraysContainSameObjects:responseArray andOtherArray:[self.userDefaults objectForKey:@"groups"]]) {
             //do nothing
+            NSLog(@"THEY ARE EQUAL");
+//            self.offlineGroupsFlag = 0;
+//            [self.userDefaults setObject:self.groups forKey:@"groups"];
+//            [self.userDefaults synchronize];
+//            [self.groupsCollectionView reloadData];
+//            self.groups = responseArray;
+//            [self.userDefaults setObject:self.groups forKey:@"groups"];
+//            [self.userDefaults synchronize];
+//            [self.groupsCollectionView reloadData];
+//            self.offlineGroupsFlag = 0;
+//            self.groups = responseArray;
+//            [self.groupsCollectionView reloadData];
+
         }else{
-            self.offlineGroupsFlag = 0;
+//            self.offlineGroupsFlag = 0;
             self.groups = responseArray;
-            [self.groupsCollectionView reloadData];
             [self.userDefaults setObject:self.groups forKey:@"groups"];
             [self.userDefaults synchronize];
+            [self.groupsCollectionView reloadData];
+
         }
+//        if ([responseArray isEqualToArray:[self.userDefaults objectForKey:@"groups"]]) {
+//            //do nothing
+//            //[self.groupsCollectionView reloadData];
+////            [self.userDefaults setObject:self.groups forKey:@"groups"];
+////            [self.userDefaults synchronize];
+////            [self.groupsCollectionView reloadData];
+//        }else{
+//            self.offlineGroupsFlag = 0;
+//            self.groups = responseArray;
+//            [self.groupsCollectionView reloadData];
+//            [self.userDefaults setObject:self.groups forKey:@"groups"];
+//            [self.userDefaults synchronize];
+//        }
         
     }else if([key isEqualToString:@"getNews"]){
+        
         self.pullToRefreshFlag ++;
-        if ([responseArray isEqualToArray:[self.userDefaults objectForKey:@"news"]]) {
-            //do nothing
-        }else{
-            self.offlineNewsFlag = 0;
-            self.news = responseArray;
-            [self.newsCollectionView reloadData];
-            [self.userDefaults setObject:self.news forKey:@"news"];
-            [self.userDefaults synchronize];
-            
-        }
+        self.offlineNewsFlag = 0;
+        self.news = responseArray;
+        [self.newsCollectionView reloadData];
+        [self.userDefaults setObject:self.news forKey:@"news"];
+        [self.userDefaults synchronize];
 
     }else if ([key isEqualToString:@"getEvents"]){
         self.events = responseArray;
         [self.eventsTableView reloadData];
         self.pullToRefreshFlag ++;
-        //reload
+
     }else if ([key isEqualToString:@"unReadInbox"]){
         NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.unReadMsgs = [dict[@"unReaded"]integerValue];
         [self.btnUnReadMsgs setHidden:NO];
         [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
         self.pullToRefreshFlag ++;
-    }//    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
-//        //do nothing
-//    }else{
-//        [self.userDefaults setObject:self.responseArray forKey:@"groupArray"];
-//        [self.userDefaults synchronize];
-//        //[self.tableView reloadData];
-//    }
-//    if (self.pullToRefreshFlag == 5) {
-//        [self.scrollView.pullToRefreshView stopAnimating];
-//        self.pullToRefreshFlag = 0;
-//    }
+    }
+    
+
 
 }
 
@@ -536,14 +660,33 @@
 {
     NSError *error = [request error];
     NSLog(@"%@",error);
-//    self.pullToRefreshFlag ++;
-//    if (self.pullToRefreshFlag == 5) {
-//        [self.scrollView.pullToRefreshView stopAnimating];
-//        self.pullToRefreshFlag = 0;
-//    }
-
 }
 
+#pragma mark - Compare Method 
+
+- (BOOL)arraysContainSameObjects:(NSArray *)array1 andOtherArray:(NSArray *)array2 {
+    // quit if array count is different
+    if ([array1 count] != [array2 count]) return NO;
+    
+    BOOL bothArraysContainTheSameObjects = YES;
+    for (NSDictionary *objectInArray1 in array1) {
+        BOOL objectFoundInArray2 = NO;
+        for (NSDictionary *objectInArray2 in array2) {
+            if ([objectInArray1 isEqualToDictionary:objectInArray2]) {
+                objectFoundInArray2 = YES;
+                break;
+            }
+        }
+        if (!objectFoundInArray2) {
+            bothArraysContainTheSameObjects = NO;
+            break;
+        }
+    }
+    
+    return bothArraysContainTheSameObjects;
+}
+
+#pragma mark - Buttons
 
 - (IBAction)btnSeeMorePressed:(id)sender {
     [self performSegueWithIdentifier:@"seeMore" sender:self];

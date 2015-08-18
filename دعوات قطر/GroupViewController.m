@@ -138,7 +138,16 @@
         NSDictionary *currentEvent = self.events[indexPath.item];
         cell.subject.text = [currentEvent objectForKey:@"subject"];;
         cell.creator.text = [currentEvent objectForKey:@"CreatorName"];;
-        cell.time.text = [currentEvent objectForKey:@"TimeEnded"];;
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+        [formatter setLocale:qatarLocale];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",currentEvent[@"TimeEnded"]]];
+        NSString *date = [formatter stringFromDate:dateString];
+        NSString *dateWithoutSeconds = [date substringToIndex:16];
+
+        cell.time.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];;
         if ([[currentEvent objectForKey:@"VIP"]integerValue] == 0) {
             [cell.vipImage setHidden:YES];
             [cell.vipLabel setHidden:YES];

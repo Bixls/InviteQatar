@@ -31,6 +31,7 @@
 @property(nonatomic,strong)NSDictionary *createdEvent;
 @property (nonatomic,strong) NSString *selectedDate;
 
+@property (nonatomic,strong) UIImage *selectedImage;
 
 @end
 
@@ -135,7 +136,7 @@
     NSString *arabicDate = [formatter stringFromDate:dateString];
     NSString *dateWithoutSeconds = [arabicDate substringToIndex:16];
     
-    [self.btnChooseDate setTitle:dateWithoutSeconds forState:UIControlStateNormal];
+    [self.btnChooseDate setTitle:[dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"] forState:UIControlStateNormal];
 }
 
 
@@ -206,7 +207,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        self.imagePicker.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
+        self.selectedImage = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
         NSMutableDictionary *postPictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"postPicture",@"key", nil];
         [self postPictureWithTag:postPictureTag];
         self.flag = 1;
@@ -283,7 +284,7 @@
     self.imageRequest.userInfo = dict;
 //    [self.imageRequest setPostValue:@"6" forKey:@"id"];
     [self.imageRequest setPostValue:@"user" forKey:@"type"];
-    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.imagePicker.image, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.selectedImage, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];
 }
 
@@ -400,7 +401,7 @@
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
         imagePicker.allowsEditing = NO;
         [self presentViewController:imagePicker animated:YES completion:nil];
-        [self.btnChoosePic setTitle:@" " forState:UIControlStateNormal];
+   
     
     }
     

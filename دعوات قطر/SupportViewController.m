@@ -23,8 +23,15 @@
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.view.backgroundColor = [UIColor blackColor];
+    self.viewHeight.constant = self.view.bounds.size.height - 35;
     [self.navigationItem setHidesBackButton:YES];
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [self getUser];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
@@ -74,6 +81,16 @@
 }
 #pragma mark - Connection setup
 
+-(void)getUser {
+    
+    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                             }]};
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    
+    [self postRequest:getUser withTag:getUserTag];
+    
+}
+
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
@@ -117,6 +134,10 @@
             [alertView show];
 
         }
+    } else if ([key isEqualToString:@"getUser"]) {
+        NSLog(@"%@",responseDict);
+        self.nameField.text = responseDict[@"name"] ;
+        
     }
     
 }
@@ -141,7 +162,7 @@
 - (IBAction)btnSendPressed:(id)sender {
     if (self.nameField.text.length > 0 && self.msgField.text.length > 0 && (self.feedbackType == 0 || self.feedbackType==1) ) {
         NSDictionary *sendFeedback = @{@"FunctionName":@"SendFeedback" , @"inputs":@[@{
-                                                                                         @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                                         @"SenderID":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                                                          @"FeedbackType":[NSString stringWithFormat:@"%ld",(long)self.feedbackType],
                                                                                          @"Subject":self.nameField.text,
                                                                                          @"Message":self.msgField.text

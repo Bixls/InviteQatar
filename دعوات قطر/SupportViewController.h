@@ -17,6 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseType;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 
 - (IBAction)btnChooseTypePressed:(id)sender;
 
