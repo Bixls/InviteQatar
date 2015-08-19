@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *mobileField;
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseGroup;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 
 @property (strong,nonatomic)UIActivityIndicatorView * spinner;
 @property (strong,nonatomic) NSDictionary *selectedGroup;
@@ -55,7 +56,7 @@
     [self.navigationItem setHidesBackButton:YES];
 
     self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
-    
+   // self.viewHeight.constant = self.view.bounds.size.height - 35;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
