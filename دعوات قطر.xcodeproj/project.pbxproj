@@ -63,6 +63,9 @@
 		184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B659A1B411A0A00B1483C /* HomePageViewController.m */; };
 		184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B659D1B41E9F400B1483C /* EditAccountViewController.m */; };
 		184B65A11B421C0200B1483C /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184B65A01B421C0200B1483C /* GroupViewController.m */; };
+		1859E8BD1B84DE4F00091D25 /* SearchPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1859E8BC1B84DE4F00091D25 /* SearchPageViewController.m */; };
+		1859E8C01B84F14500091D25 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1859E8BF1B84F14500091D25 /* TPKeyboardAvoidingTableView.m */; };
+		1859E8C31B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1859E8C21B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		1873C2141B4D7D000026C905 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2131B4D7D000026C905 /* ViewController.m */; };
 		1873C21A1B4D83200026C905 /* TestNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2191B4D83200026C905 /* TestNewsCollectionViewCell.m */; };
 		1873C21D1B4D89300026C905 /* testCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C21C1B4D89300026C905 /* testCollectionViewCell.m */; };
@@ -207,6 +210,12 @@
 		184B659D1B41E9F400B1483C /* EditAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountViewController.m; sourceTree = "<group>"; };
 		184B659F1B421C0200B1483C /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
 		184B65A01B421C0200B1483C /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		1859E8BB1B84DE4F00091D25 /* SearchPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPageViewController.h; sourceTree = "<group>"; };
+		1859E8BC1B84DE4F00091D25 /* SearchPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPageViewController.m; sourceTree = "<group>"; };
+		1859E8BE1B84F14500091D25 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		1859E8BF1B84F14500091D25 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		1859E8C11B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		1859E8C21B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		1873C2121B4D7D000026C905 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		1873C2131B4D7D000026C905 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1873C2181B4D83200026C905 /* TestNewsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestNewsCollectionViewCell.h; sourceTree = "<group>"; };
@@ -463,6 +472,8 @@
 				184AE3011B51148B00BAE3E3 /* SupportViewController.h */,
 				184AE3021B51148B00BAE3E3 /* SupportViewController.m */,
 				184B65371B3F60AC00B1483C /* Main.storyboard */,
+				1859E8BB1B84DE4F00091D25 /* SearchPageViewController.h */,
+				1859E8BC1B84DE4F00091D25 /* SearchPageViewController.m */,
 				184B653A1B3F60AC00B1483C /* Images.xcassets */,
 				184B653C1B3F60AC00B1483C /* LaunchScreen.xib */,
 				184B652D1B3F60AC00B1483C /* Supporting Files */,
@@ -499,6 +510,10 @@
 		184B65951B40DDD700B1483C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1859E8C11B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				1859E8C21B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+				1859E8BE1B84F14500091D25 /* TPKeyboardAvoidingTableView.h */,
+				1859E8BF1B84F14500091D25 /* TPKeyboardAvoidingTableView.m */,
 				187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */,
 				187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */,
 				184B65931B4088E700B1483C /* libz.1.dylib */,
@@ -735,9 +750,11 @@
 				187C63A71B478CE000B3E3EA /* AllSectionsViewController.m in Sources */,
 				184B659B1B411A0A00B1483C /* HomePageViewController.m in Sources */,
 				184B65711B407F6B00B1483C /* ASIHTTPRequestDelegate.h in Sources */,
+				1859E8BD1B84DE4F00091D25 /* SearchPageViewController.m in Sources */,
 				1813C2F71B50F1140044CDDB /* OfflinePicturesCollectionViewCell.m in Sources */,
 				1873C22E1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m in Sources */,
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
+				1859E8C31B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
 				182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */,
@@ -782,6 +799,7 @@
 				184B65331B3F60AC00B1483C /* AppDelegate.m in Sources */,
 				187C63941B46259900B3E3EA /* MyProfileViewController.m in Sources */,
 				184B65581B3F944D00B1483C /* SignUpViewController.m in Sources */,
+				1859E8C01B84F14500091D25 /* TPKeyboardAvoidingTableView.m in Sources */,
 				187C63C21B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m in Sources */,
 				1873C2251B4DCB760026C905 /* NewsViewController.m in Sources */,
 				184B65301B3F60AC00B1483C /* main.m in Sources */,
