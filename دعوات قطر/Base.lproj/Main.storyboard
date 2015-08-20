@@ -162,7 +162,6 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
-            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -2099,16 +2098,16 @@
                                 </constraints>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynQ-QA-3k8">
-                                <rect key="frame" x="0.0" y="20" width="320" height="477"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="srk-wp-dSN">
-                                        <rect key="frame" x="-1" y="13" width="320" height="444"/>
+                                        <rect key="frame" x="-1" y="13" width="320" height="535"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="48" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="n7m-r0-vpH">
-                                                <rect key="frame" x="16" y="192" width="288" height="250"/>
+                                                <rect key="frame" x="16" y="192" width="288" height="324"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="X4j-n6-m0r"/>
+                                                    <constraint firstAttribute="height" constant="324" id="X4j-n6-m0r"/>
                                                     <constraint firstAttribute="width" constant="288" id="eOc-Q3-sOA"/>
                                                 </constraints>
                                                 <prototypes>
@@ -2246,7 +2245,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="n7m-r0-vpH" firstAttribute="top" secondItem="RXy-82-ScT" secondAttribute="bottom" constant="8" symbolic="YES" id="1LG-hS-WGz"/>
-                                            <constraint firstAttribute="bottom" secondItem="n7m-r0-vpH" secondAttribute="bottom" constant="2" id="3rp-Va-D2O"/>
+                                            <constraint firstAttribute="bottom" secondItem="n7m-r0-vpH" secondAttribute="bottom" constant="19" id="3rp-Va-D2O"/>
                                             <constraint firstAttribute="centerX" secondItem="rs7-Gv-MOa" secondAttribute="centerX" id="8MN-hJ-Icy"/>
                                             <constraint firstItem="JSO-7F-AN3" firstAttribute="top" secondItem="srk-wp-dSN" secondAttribute="top" constant="23" id="AXi-hU-LMo"/>
                                             <constraint firstAttribute="trailing" secondItem="n7m-r0-vpH" secondAttribute="trailing" constant="16" id="FCS-PM-By1"/>
@@ -2271,28 +2270,6 @@
                                     <constraint firstAttribute="centerX" secondItem="srk-wp-dSN" secondAttribute="centerX" constant="1" id="WDM-xs-KwM"/>
                                 </constraints>
                             </scrollView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="v11-Sw-WAb">
-                                <rect key="frame" x="85" y="505" width="150" height="65"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="65" id="PZo-sL-3Tz"/>
-                                    <constraint firstAttribute="width" constant="150" id="gs3-If-hpG"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJp-Gz-ZLK">
-                                <rect key="frame" x="106" y="521" width="108" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="108" id="Z87-g2-Pxz"/>
-                                    <constraint firstAttribute="height" constant="30" id="bJN-CJ-2w5"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
-                                <state key="normal" title="رسالة جديدة">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="newMsgBtnPressed:" destination="P6g-3X-e3y" eventType="touchUpInside" id="z5a-rc-wT6"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="ulv-1w-OC5">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                             </imageView>
@@ -2301,7 +2278,6 @@
                         <constraints>
                             <constraint firstItem="ulv-1w-OC5" firstAttribute="top" secondItem="HaK-tJ-CmV" secondAttribute="top" id="007-M8-uou"/>
                             <constraint firstAttribute="centerX" secondItem="HaK-tJ-CmV" secondAttribute="centerX" id="2JJ-r0-Oxf"/>
-                            <constraint firstItem="QSe-iZ-OfE" firstAttribute="top" secondItem="VJp-Gz-ZLK" secondAttribute="bottom" constant="17" id="93R-0e-mzY"/>
                             <constraint firstItem="ynQ-QA-3k8" firstAttribute="leading" secondItem="Wvc-JH-na9" secondAttribute="leading" id="Ae2-lN-RmK"/>
                             <constraint firstItem="ulv-1w-OC5" firstAttribute="trailing" secondItem="HaK-tJ-CmV" secondAttribute="trailing" id="GL7-sP-CgF"/>
                             <constraint firstItem="ynQ-QA-3k8" firstAttribute="top" secondItem="Wvc-JH-na9" secondAttribute="top" constant="20" id="Ugv-dx-hQz"/>
@@ -2309,12 +2285,9 @@
                             <constraint firstItem="HaK-tJ-CmV" firstAttribute="top" secondItem="Wvc-JH-na9" secondAttribute="topMargin" constant="20" id="ZGq-EA-jgG"/>
                             <constraint firstItem="HaK-tJ-CmV" firstAttribute="leading" secondItem="Wvc-JH-na9" secondAttribute="leading" id="geb-1t-eme"/>
                             <constraint firstAttribute="trailing" secondItem="ynQ-QA-3k8" secondAttribute="trailing" id="iRx-kF-tSC"/>
+                            <constraint firstItem="QSe-iZ-OfE" firstAttribute="top" secondItem="ynQ-QA-3k8" secondAttribute="bottom" id="mro-Ws-IQi"/>
                             <constraint firstItem="QSe-iZ-OfE" firstAttribute="top" secondItem="HaK-tJ-CmV" secondAttribute="bottom" id="oM0-Xs-VkP"/>
-                            <constraint firstItem="v11-Sw-WAb" firstAttribute="top" secondItem="ynQ-QA-3k8" secondAttribute="bottom" constant="8" id="oPJ-vx-MfO"/>
-                            <constraint firstAttribute="centerX" secondItem="VJp-Gz-ZLK" secondAttribute="centerX" id="pCR-Uh-9Mz"/>
                             <constraint firstItem="ulv-1w-OC5" firstAttribute="bottom" secondItem="HaK-tJ-CmV" secondAttribute="bottom" id="q1W-e2-avB"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="v11-Sw-WAb" secondAttribute="bottom" constant="-2" id="sCc-Ne-Vth"/>
-                            <constraint firstAttribute="centerX" secondItem="v11-Sw-WAb" secondAttribute="centerX" id="tnF-Nt-Lgu"/>
                             <constraint firstItem="ulv-1w-OC5" firstAttribute="leading" secondItem="HaK-tJ-CmV" secondAttribute="leading" id="wqy-a9-aLO"/>
                         </constraints>
                     </view>
@@ -7431,17 +7404,17 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="Bok-QY-wEt"/>
+        <segue reference="2dl-tD-VcJ"/>
+        <segue reference="GMF-2B-wF9"/>
         <segue reference="4yJ-AY-O7T"/>
         <segue reference="Pva-az-nrh"/>
         <segue reference="Eoi-6P-6lF"/>
-        <segue reference="ZuK-zp-pMk"/>
-        <segue reference="2dl-tD-VcJ"/>
-        <segue reference="eUh-Aj-ld9"/>
-        <segue reference="Bok-QY-wEt"/>
+        <segue reference="8UZ-rJ-Viu"/>
+        <segue reference="faW-co-acX"/>
         <segue reference="IoJ-de-HAV"/>
         <segue reference="kMD-e6-iDp"/>
         <segue reference="Hwh-Bc-W0c"/>
         <segue reference="hQx-Cj-f0Z"/>
-        <segue reference="GMF-2B-wF9"/>
     </inferredMetricsTieBreakers>
 </document>

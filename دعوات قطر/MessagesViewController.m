@@ -98,15 +98,16 @@
         NSDictionary *message = self.messages[indexPath.row];
         cell.msgSender.text = message[@"name"];
         cell.msgSubject.text = message[@"Subject"];
-        NSInteger type = [message[@"type"]integerValue];
+        NSInteger VIP = [message[@"VIP"]integerValue];
         NSInteger status = [message[@"Status"]integerValue];
-        if (status == 1 && type == 3) {
+        if (status == 1 && VIP == 1 ) {
             cell.msgImage.image = [UIImage imageNamed:@"read.png"];
             cell.secondMsgImage.image = [UIImage imageNamed:@"vip2.png"];
-        }else if (status == 0 && type == 3){
+        }else if (status == 0 && VIP == 1){
             cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
             cell.secondMsgImage.image = [UIImage imageNamed:@"vip2.png"];
-        }else if (status == 1){
+        }
+        else if (status == 1){
             cell.msgImage.image = [UIImage imageNamed:@"read.png"];
         }else if (status==0){
             cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
@@ -165,35 +166,42 @@
    // NSDictionary *message = self.messages[indexPath.row];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == self.messages.count) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }else{
-        NSDictionary *selectedMessage = self.messages[indexPath.row];
-        self.selectedMessageID = [selectedMessage[@"messageID"]integerValue];
-        self.selectedMessageType = [selectedMessage[@"type"]integerValue];
-        if (self.selectedMessageType == 0) {
-            self.profilePicNumber = [selectedMessage[@"ProfilePic"]integerValue];
-            self.messageSubject = selectedMessage[@"Subject"];
-            self.userName = selectedMessage[@"name"];
-            [self performSegueWithIdentifier:@"readMessage" sender:self];
-        }else if (self.selectedMessageType==1){
-            self.messageSubject = selectedMessage[@"Subject"];
-            [self performSegueWithIdentifier:@"readMessage" sender:self];
-        }else if (self.selectedMessageType==2 || self.selectedMessageType == 3){
-            //        self.messageSubject = selectedMessage[@"Subject"];
-            [self performSegueWithIdentifier:@"openEvent" sender:self];
-            
-        }
-
-    }
+    NSDictionary *selectedMessage = self.messages[indexPath.row];
+    self.selectedMessageID = [selectedMessage[@"invitationID"]integerValue];
+    self.selectedMessageType = 3;
+    [self performSegueWithIdentifier:@"openEvent" sender:self];
     
     NSDictionary *message = self.messages[indexPath.row];
     NSDictionary *mutableMessage = [NSMutableDictionary dictionaryWithDictionary:message];
     [mutableMessage setValue:[NSNumber numberWithInteger:1] forKey:@"Status"];
     self.messages[indexPath.row] = mutableMessage;
-    
+    self.messageSubject = selectedMessage[@"Subject"];
+   
     
     [self.tableView reloadData];
+    
+//    if (self.selectedMessageType == 0) {
+//        self.profilePicNumber = [selectedMessage[@"ProfilePic"]integerValue];
+//        self.messageSubject = selectedMessage[@"Subject"];
+//        self.userName = selectedMessage[@"name"];
+//        [self performSegueWithIdentifier:@"readMessage" sender:self];
+//    }else if (self.selectedMessageType==1){
+//        self.messageSubject = selectedMessage[@"Subject"];
+//        [self performSegueWithIdentifier:@"readMessage" sender:self];
+//    }else if (self.selectedMessageType==2 || self.selectedMessageType == 3){
+//        //
+//        
+//        
+//    }
+//
+//    
+//    if (indexPath.row == self.messages.count) {
+//        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    }else{
+//        
+//    }
+    
+   
 
     
 }
@@ -314,7 +322,8 @@
 - (IBAction)btnBackPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (IBAction)newMsgBtnPressed:(id)sender {
-    [self performSegueWithIdentifier:@"selectGroup" sender:self];
-}
+
+//- (IBAction)newMsgBtnPressed:(id)sender {
+//    [self performSegueWithIdentifier:@"selectGroup" sender:self];
+//}
 @end
