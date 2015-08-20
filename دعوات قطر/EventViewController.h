@@ -10,7 +10,8 @@
 #import "ChooseDateViewController.h"
 @interface EventViewController : UIViewController <chooseDateViewControllerDelegate>
 
-
+@property (nonatomic)NSInteger isVIP;
+@property (nonatomic)NSInteger eventID;
 @property (nonatomic) NSInteger selectedType;
 @property (nonatomic) NSInteger selectedMessageID;
 @property (nonatomic,strong) NSDictionary *event;

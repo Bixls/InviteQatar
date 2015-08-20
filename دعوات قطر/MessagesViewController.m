@@ -24,6 +24,7 @@
 @property (nonatomic) NSInteger selectedMessageID;
 @property (nonatomic) NSInteger selectedMessageType;
 @property (nonatomic,strong)NSMutableArray *messages;
+@property (nonatomic,strong)NSDictionary *selectedMessage;
 @property(nonatomic)NSInteger profilePicNumber;
 @property(nonatomic,strong)NSString *userName;
 @property(nonatomic,strong)NSString *messageSubject;
@@ -167,6 +168,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *selectedMessage = self.messages[indexPath.row];
+    self.selectedMessage = selectedMessage;
     self.selectedMessageID = [selectedMessage[@"invitationID"]integerValue];
     self.selectedMessageType = 3;
     [self performSegueWithIdentifier:@"openEvent" sender:self];
@@ -220,11 +222,13 @@
         readMessageController.userName = self.userName;
         readMessageController.messageSubject = self.messageSubject;
         readMessageController.messageType = self.selectedMessageType;
+        
     }else if ([segue.identifier isEqualToString:@"openEvent"]) {
         EventViewController *eventController = segue.destinationViewController;
         eventController.selectedType = self.selectedMessageType;
         eventController.selectedMessageID = self.selectedMessageID;
-
+        eventController.eventID = [self.selectedMessage[@"EventID"]integerValue];
+        eventController.isVIP = [self.selectedMessage[@"VIP"]integerValue];
     }else if ([segue.identifier isEqualToString:@"selectGroup"]){
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.createMsgFlag = 1;

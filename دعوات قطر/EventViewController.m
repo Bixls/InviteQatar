@@ -18,7 +18,7 @@
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
-@property (nonatomic)NSInteger eventID;
+
 @property (nonatomic)NSInteger eventType;
 @property (nonatomic)UIImage *eventImage;
 @property (nonatomic)NSInteger allowComments;
@@ -30,7 +30,7 @@
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *fullEvent;
 @property (nonatomic,strong) NSDictionary *user;
-@property (nonatomic)NSInteger isVIP;
+
 @property (nonatomic,strong) NSString *selectedDate;
 
 @end
@@ -51,7 +51,7 @@
                                         nil] forState:UIControlStateNormal];
     backbutton.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
-    self.isVIP = [self.event[@"VIP"]integerValue];
+ 
  
     
     self.navigationItem.backBarButtonItem = backbutton;
@@ -69,7 +69,14 @@
     self.isInvited =-1;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
-    self.eventID = [self.event[@"Eventid"]integerValue];
+    
+    if ((self.selectedType==2 || self.selectedType == 3)) {
+        //donothing
+    }else{
+        self.isVIP = [self.event[@"VIP"]integerValue];
+        self.eventID = [self.event[@"Eventid"]integerValue];
+    }
+    
     self.eventType = 0;
     
     [self.navigationItem setHidesBackButton:YES];
@@ -84,7 +91,7 @@
     }else{
         [self getEvent];
     }
-    
+    [self getInvited];
     [self getJoined];
 
 }
@@ -142,6 +149,15 @@
         });
     }
     
+    if (self.isVIP == 1 && self.isInvited == 1 ) {
+        [self.imgRemindMe setHidden:NO];
+        [self.btnRemindMe setHidden:NO];
+    }else{
+        [self.imgRemindMe setHidden:YES];
+        [self.btnRemindMe setHidden:YES];
+    }
+    
+    
     if (self.allowComments == 1) {
         [self.btnComments setHidden:NO];
         [self.imgComments setHidden:NO];
@@ -160,14 +176,12 @@
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"الذهاب؟" forState:UIControlStateNormal];
-        [self.imgRemindMe setHidden:YES];
-        [self.btnRemindMe setHidden:YES];
+
     }else if(self.isInvited == 1 && self.isJoined == 1){
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
-        [self.imgRemindMe setHidden:NO];
-        [self.btnRemindMe setHidden:NO];
+
     }
     
     if (self.userID == self.creatorID) {
@@ -304,6 +318,15 @@
     //[NSString stringWithFormat:@"%ld",(long)self.userID]
     //[NSString stringWithFormat:@"%ld",(long)eventID]
     //NSLog(@"%@",getEvents);
+    
+    if (self.selectedType == 2 || self.selectedType == 3) {
+
+        getEvents = @{@"FunctionName":@"isInvited" , @"inputs":@[@{
+                                                                                   @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                                   @"eventID":[NSString stringWithFormat:@"%ld",(long)self.eventID]
+                                                                                   }]};
+
+    }
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"isInvited",@"key", nil];
     
     [self postRequest:getEvents withTag:getEventsTag];
@@ -319,6 +342,14 @@
     //[NSString stringWithFormat:@"%ld",(long)self.userID]
     //[NSString stringWithFormat:@"%ld",(long)eventID]
     //NSLog(@"%@",getEvents);
+    
+    if (self.selectedType == 2 || self.selectedType == 3) {
+
+      getEvents = @{@"FunctionName":@"isJoind" , @"inputs":@[@{
+                                                                                 @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                                 @"eventID":[NSString stringWithFormat:@"%ld",(long)self.eventID]
+                                                                                 }]};
+    }
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"isJoind",@"key", nil];
     
     [self postRequest:getEvents withTag:getEventsTag];
