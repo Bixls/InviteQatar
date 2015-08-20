@@ -85,9 +85,10 @@
     }else if ([self.responseDictionary[@"success"] integerValue]== 1){
         self.responseLabel.text = @"شكراً لك تم تفعيل حسابك";
         [self.userDefaults setInteger:0 forKey:@"Guest"];
+        [self.userDefaults setInteger:1 forKey:@"signedIn"];
         [self.userDefaults synchronize];
-        //[self dismissViewControllerAnimated:YES completion:nil];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        //[self.navigationController popToRootViewControllerAnimated:YES];
     }
     NSLog(@"%@",self.responseDictionary);
  

@@ -114,6 +114,10 @@
         OfflinePicturesViewController *offlinePicturesController = segue.destinationViewController;
         offlinePicturesController.delegate = self;
         
+    }else if ([segue.identifier isEqualToString:@"activateAccount"]){
+        ConfirmationViewController *confirmController = segue.destinationViewController;
+        
+        
     }
 
 }
@@ -196,28 +200,48 @@
     }else {
         self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSLog(@"%@",self.responseDictionary);
-        self.userID = [self.responseDictionary[@"id"]integerValue];
-        NSLog(@"USER ID %d",self.userID);
-        [self.userDefaults setInteger:self.userID forKey:@"userID"];
-        [self.userDefaults synchronize];
-        self.activateFlag = 1;
-        [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-        [self.userDefaults setInteger:1 forKey:@"Guest"];
-        [self.userDefaults setInteger:1 forKey:@"signedIn"];
-        [self.userDefaults synchronize];
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-        
-    }
-    if ([key isEqualToString:@"registerTag"]) {
-         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSInteger success = [responseDict[@"success"]integerValue];
-        if (success == 0) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح،من فضلك انتظر رساله التفعيل في خلال يوم" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        NSInteger success = [self.responseDictionary[@"sucess"]integerValue];
+        if (success == 1) {
+            self.userID = [self.responseDictionary[@"id"]integerValue];
+            NSLog(@"USER ID %d",self.userID);
+            [self.userDefaults setInteger:self.userID forKey:@"userID"];
+            [self.userDefaults synchronize];
+            self.activateFlag = 1;
+            [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
+            //        [self.userDefaults setInteger:1 forKey:@"Guest"];
+            //        [self.userDefaults setInteger:1 forKey:@"signedIn"];
+            [self.userDefaults synchronize];
+            
+            // [self dismissViewControllerAnimated:YES completion:nil];
+
+            
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            [self performSegueWithIdentifier:@"activateAccount" sender:self];
+            
+        }else{
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال طلب التسجيل، من فضلك حاول مرة اخري" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
             
         }
+
+        
+        
     }
+//    if ([key isEqualToString:@"registerTag"]) {
+//        NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        NSInteger success = [responseDict[@"sucess"]integerValue];
+//        if (success == 1) {
+//            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+//            [alertView show];
+//            [self performSegueWithIdentifier:@"activateAccount" sender:self];
+//            
+//        }else{
+//            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال طلب التسجيل، من فضلك حاول مرة اخري" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+//            [alertView show];
+//           
+//        }
+//    }
    
 }
 

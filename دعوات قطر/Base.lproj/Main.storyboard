@@ -900,11 +900,12 @@
                         <outlet property="profilePicture" destination="n0L-3W-GXe" id="HFB-su-CK4"/>
                         <outlet property="viewHeight" destination="lEv-di-vZZ" id="pws-Ad-ydk"/>
                         <segue destination="lcu-Yq-y1P" kind="modal" identifier="offlinePic" id="Eoi-6P-6lF"/>
+                        <segue destination="hSP-nK-Fo0" kind="push" identifier="activateAccount" id="8AK-s1-iMG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="air-YZ-bfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-452" y="-171"/>
+            <point key="canvasLocation" x="-335" y="-148"/>
         </scene>
         <!--Offline Pictures View Controller-->
         <scene sceneID="Kd8-PD-ZSk">
@@ -1260,7 +1261,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kvo-qg-2yO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="939" y="1546"/>
+            <point key="canvasLocation" x="136" y="287"/>
         </scene>
         <!--Home Page View Controller-->
         <scene sceneID="NFn-nI-Zmy">
@@ -7405,12 +7406,12 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Bok-QY-wEt"/>
-        <segue reference="2dl-tD-VcJ"/>
         <segue reference="GMF-2B-wF9"/>
         <segue reference="4yJ-AY-O7T"/>
         <segue reference="Pva-az-nrh"/>
+        <segue reference="8AK-s1-iMG"/>
         <segue reference="Eoi-6P-6lF"/>
-        <segue reference="8UZ-rJ-Viu"/>
+        <segue reference="ZuK-zp-pMk"/>
         <segue reference="faW-co-acX"/>
         <segue reference="IoJ-de-HAV"/>
         <segue reference="kMD-e6-iDp"/>
