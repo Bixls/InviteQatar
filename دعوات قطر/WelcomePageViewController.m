@@ -11,7 +11,7 @@
 @interface WelcomePageViewController ()
 
 @property (nonatomic,strong)NSUserDefaults *userDefaults ;
-
+@property (nonatomic) NSInteger activateFlag;
 @end
 
 @implementation WelcomePageViewController
@@ -33,6 +33,10 @@
 //    self.navigationItem.backBarButtonItem = backbutton;
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
+    if (self.activateFlag == 1) {
+        [self performSegueWithIdentifier:@"activateAccount" sender:self];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -14,6 +14,7 @@
 
 @property (strong,nonatomic) NSUserDefaults *userDefaults;
 @property (nonatomic) int savedID;
+@property (nonatomic) int activateFlag;
 
 @property (weak, nonatomic) IBOutlet UIImageView *responseImage;
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
@@ -87,6 +88,8 @@
         [self.userDefaults setInteger:0 forKey:@"Guest"];
         [self.userDefaults setInteger:1 forKey:@"signedIn"];
         [self.userDefaults synchronize];
+        self.activateFlag = 0;
+        [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
         [self dismissViewControllerAnimated:YES completion:nil];
         //[self.navigationController popToRootViewControllerAnimated:YES];
     }

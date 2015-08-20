@@ -290,6 +290,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7vR-nm-ngl"/>
+                    <connections>
+                        <segue destination="hSP-nK-Fo0" kind="push" identifier="activateAccount" id="5Jh-od-igo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
@@ -620,7 +623,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-RY-7vP">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backwithoutframe.png" translatesAutoresizingMaskIntoConstraints="NO" id="5bI-RY-7vP">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="548" id="t9V-B4-RAa"/>
@@ -877,14 +880,21 @@
                                     <constraint firstItem="U7z-Af-vrD" firstAttribute="leading" secondItem="046-N2-Luv" secondAttribute="leading" id="ulJ-17-yFY"/>
                                 </constraints>
                             </scrollView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="1sE-1f-vuP">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="046-N2-Luv" firstAttribute="top" secondItem="QW9-R1-V9s" secondAttribute="top" constant="20" id="7gW-nM-Rsd"/>
                             <constraint firstItem="046-N2-Luv" firstAttribute="leading" secondItem="QW9-R1-V9s" secondAttribute="leading" id="An7-3I-DiA"/>
                             <constraint firstItem="5bI-RY-7vP" firstAttribute="top" secondItem="QW9-R1-V9s" secondAttribute="top" constant="20" id="B2y-VU-85k"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1sE-1f-vuP" secondAttribute="trailing" constant="-16" id="KzK-bU-obz"/>
+                            <constraint firstItem="FKd-yE-mu9" firstAttribute="top" secondItem="1sE-1f-vuP" secondAttribute="bottom" id="LpT-f8-mn9"/>
                             <constraint firstAttribute="trailing" secondItem="5bI-RY-7vP" secondAttribute="trailing" id="M2e-kN-l9r"/>
+                            <constraint firstItem="1sE-1f-vuP" firstAttribute="leading" secondItem="QW9-R1-V9s" secondAttribute="leadingMargin" constant="-16" id="ZXb-zF-cDI"/>
                             <constraint firstItem="5bI-RY-7vP" firstAttribute="leading" secondItem="QW9-R1-V9s" secondAttribute="leading" id="gGM-qX-DBk"/>
+                            <constraint firstItem="1sE-1f-vuP" firstAttribute="top" secondItem="QW9-R1-V9s" secondAttribute="topMargin" constant="20" id="jRG-dZ-e1L"/>
                             <constraint firstItem="FKd-yE-mu9" firstAttribute="top" secondItem="5bI-RY-7vP" secondAttribute="bottom" id="ppd-n4-N28"/>
                             <constraint firstItem="FKd-yE-mu9" firstAttribute="top" secondItem="046-N2-Luv" secondAttribute="bottom" id="q8H-Vb-sR4"/>
                             <constraint firstAttribute="trailing" secondItem="046-N2-Luv" secondAttribute="trailing" id="wzY-Um-iWf"/>
@@ -1147,9 +1157,9 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="n3d-7X-6ZG">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="568" id="Da5-5D-L6E"/>
+                                    <constraint firstAttribute="height" constant="548" id="Da5-5D-L6E"/>
                                     <constraint firstAttribute="width" constant="320" id="sXo-Ee-jCK"/>
                                 </constraints>
                             </imageView>
@@ -1243,7 +1253,7 @@
                             <constraint firstItem="dLX-pM-z6E" firstAttribute="top" secondItem="q2M-7f-tQJ" secondAttribute="bottom" constant="20" id="WNN-gh-fQ7"/>
                             <constraint firstItem="EjG-gp-MHc" firstAttribute="top" secondItem="XPa-xk-lYG" secondAttribute="topMargin" constant="45" id="a7w-IS-xjW"/>
                             <constraint firstAttribute="centerX" secondItem="wMB-Vm-lgw" secondAttribute="centerX" id="a8V-ml-9Vg"/>
-                            <constraint firstItem="n3d-7X-6ZG" firstAttribute="top" secondItem="XPa-xk-lYG" secondAttribute="topMargin" id="bRa-eb-cSr"/>
+                            <constraint firstItem="n3d-7X-6ZG" firstAttribute="top" secondItem="XPa-xk-lYG" secondAttribute="topMargin" constant="20" id="bRa-eb-cSr"/>
                             <constraint firstItem="EjG-gp-MHc" firstAttribute="leading" secondItem="XPa-xk-lYG" secondAttribute="leadingMargin" constant="2" id="dRJ-1C-t0m"/>
                             <constraint firstAttribute="centerX" secondItem="etz-tn-Cc4" secondAttribute="centerX" id="eHD-GS-n4q"/>
                             <constraint firstItem="0I5-YY-fEr" firstAttribute="top" secondItem="XPa-xk-lYG" secondAttribute="topMargin" constant="46" id="frr-dU-y2A"/>
@@ -1261,7 +1271,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kvo-qg-2yO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136" y="287"/>
+            <point key="canvasLocation" x="-528" y="766"/>
         </scene>
         <!--Home Page View Controller-->
         <scene sceneID="NFn-nI-Zmy">
@@ -7405,17 +7415,17 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Bok-QY-wEt"/>
-        <segue reference="GMF-2B-wF9"/>
-        <segue reference="4yJ-AY-O7T"/>
         <segue reference="Pva-az-nrh"/>
+        <segue reference="4yJ-AY-O7T"/>
         <segue reference="8AK-s1-iMG"/>
         <segue reference="Eoi-6P-6lF"/>
         <segue reference="ZuK-zp-pMk"/>
         <segue reference="faW-co-acX"/>
         <segue reference="IoJ-de-HAV"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="Hwh-Bc-W0c"/>
         <segue reference="hQx-Cj-f0Z"/>
+        <segue reference="Hwh-Bc-W0c"/>
+        <segue reference="Bok-QY-wEt"/>
+        <segue reference="GMF-2B-wF9"/>
     </inferredMetricsTieBreakers>
 </document>
