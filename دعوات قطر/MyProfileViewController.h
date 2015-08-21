@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MyLatestEventsTableViewCell.h"
 
-@interface MyProfileViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface MyProfileViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIDocumentInteractionControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *smallerView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -29,5 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgSeeMore;
 @property (weak, nonatomic) IBOutlet UILabel *activateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *activateLabel2;
+- (IBAction)btnSharePressed:(id)sender;
 
 @end

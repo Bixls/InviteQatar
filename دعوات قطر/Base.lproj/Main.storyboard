@@ -6563,7 +6563,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pd-bA-dXJ">
-                                        <rect key="frame" x="0.0" y="20" width="320" height="820"/>
+                                        <rect key="frame" x="0.0" y="20" width="320" height="849"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s5j-Ol-Dcj">
                                                 <rect key="frame" x="71" y="31" width="177" height="118"/>
@@ -6829,94 +6829,6 @@
                                                     <action selector="btnSeeMorePressed:" destination="Ixl-0i-6kV" eventType="touchUpInside" id="0vj-Ol-uZ6"/>
                                                 </connections>
                                             </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="rUf-Jo-FGZ">
-                                                <rect key="frame" x="40" y="763" width="240" height="58"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="240" id="AH3-fc-Nm8"/>
-                                                    <constraint firstAttribute="height" constant="58" id="agS-ej-YQU"/>
-                                                </constraints>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="w02-E1-9hX">
-                                                <rect key="frame" x="40" y="727" width="240" height="58"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="240" id="5GK-Xw-5ib"/>
-                                                    <constraint firstAttribute="height" constant="58" id="wRS-FC-6hx"/>
-                                                </constraints>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="D9T-mQ-oV8">
-                                                <rect key="frame" x="40" y="692" width="240" height="58"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="58" id="LzO-9N-nGC"/>
-                                                    <constraint firstAttribute="width" constant="240" id="e2U-hp-2e2"/>
-                                                </constraints>
-                                            </imageView>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="2wv-Zg-Sig">
-                                                <rect key="frame" x="40" y="652" width="240" height="58"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="58" id="4yr-Ci-dHj"/>
-                                                    <constraint firstAttribute="width" constant="240" id="cA9-4Z-rdn"/>
-                                                </constraints>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Foy-zi-Z2Y">
-                                                <rect key="frame" x="50" y="738" width="220" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="220" id="RvQ-jg-vno"/>
-                                                    <constraint firstAttribute="height" constant="30" id="eCj-iz-7Ry"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
-                                                <state key="normal" title="مناسبه جديده">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <segue destination="qjf-CL-7yd" kind="push" id="Bok-QY-wEt"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qz-Ap-wb5">
-                                                <rect key="frame" x="16" y="704" width="288" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="UoL-3x-tSA"/>
-                                                    <constraint firstAttribute="width" constant="288" id="rFg-CP-ahT"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
-                                                <state key="normal" title="تعديل حسابي">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <segue destination="m5b-Jy-GkE" kind="push" identifier="editProfile" id="VnQ-QL-SFb"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H3f-7l-FlA">
-                                                <rect key="frame" x="40" y="664" width="240" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="240" id="Z94-AU-j83"/>
-                                                    <constraint firstAttribute="height" constant="30" id="e8M-yb-bkY"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
-                                                <state key="normal" title="تفعيل حسابي">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <segue destination="hSP-nK-Fo0" kind="push" id="2dl-tD-VcJ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="65j-SU-efz">
-                                                <rect key="frame" x="40" y="776" width="240" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="240" id="AxW-wv-hjG"/>
-                                                    <constraint firstAttribute="height" constant="30" id="g5O-mv-dFO"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
-                                                <state key="normal" title="تسجيل الخروج">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnSignoutPressed:" destination="Ixl-0i-6kV" eventType="touchUpInside" id="QQv-uW-2c6"/>
-                                                </connections>
-                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" لا يوجد لديك أي مناسبات" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IX8-ln-IQh">
                                                 <rect key="frame" x="21" y="486" width="283" height="21"/>
                                                 <constraints>
@@ -6937,6 +6849,94 @@
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="rUf-Jo-FGZ">
+                                                <rect key="frame" x="40" y="794" width="240" height="58"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="240" id="AH3-fc-Nm8"/>
+                                                    <constraint firstAttribute="height" constant="58" id="agS-ej-YQU"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="w02-E1-9hX">
+                                                <rect key="frame" x="40" y="758" width="240" height="58"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="240" id="5GK-Xw-5ib"/>
+                                                    <constraint firstAttribute="height" constant="58" id="wRS-FC-6hx"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="D9T-mQ-oV8">
+                                                <rect key="frame" x="40" y="723" width="240" height="58"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="58" id="LzO-9N-nGC"/>
+                                                    <constraint firstAttribute="width" constant="240" id="e2U-hp-2e2"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="b2up" translatesAutoresizingMaskIntoConstraints="NO" id="2wv-Zg-Sig">
+                                                <rect key="frame" x="40" y="683" width="240" height="58"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="58" id="4yr-Ci-dHj"/>
+                                                    <constraint firstAttribute="width" constant="240" id="cA9-4Z-rdn"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Foy-zi-Z2Y">
+                                                <rect key="frame" x="50" y="736" width="220" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="220" id="RvQ-jg-vno"/>
+                                                    <constraint firstAttribute="height" constant="30" id="eCj-iz-7Ry"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
+                                                <state key="normal" title="مناسبه جديده">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="qjf-CL-7yd" kind="push" id="Bok-QY-wEt"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9qz-Ap-wb5">
+                                                <rect key="frame" x="16" y="697" width="288" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="UoL-3x-tSA"/>
+                                                    <constraint firstAttribute="width" constant="288" id="rFg-CP-ahT"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
+                                                <state key="normal" title="تعديل حسابي">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="m5b-Jy-GkE" kind="push" identifier="editProfile" id="VnQ-QL-SFb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="65j-SU-efz">
+                                                <rect key="frame" x="40" y="807" width="240" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="240" id="AxW-wv-hjG"/>
+                                                    <constraint firstAttribute="height" constant="30" id="g5O-mv-dFO"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
+                                                <state key="normal" title="تسجيل الخروج">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="btnSignoutPressed:" destination="Ixl-0i-6kV" eventType="touchUpInside" id="QQv-uW-2c6"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sXE-J7-NGW">
+                                                <rect key="frame" x="16" y="772" width="288" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="aPX-dm-IEV"/>
+                                                    <constraint firstAttribute="width" constant="288" id="rlz-aY-YxI"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
+                                                <state key="normal" title="إنشر الي الأصدقاء">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="btnSharePressed:" destination="Ixl-0i-6kV" eventType="touchUpInside" id="Fvl-Ci-Xen"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -6951,11 +6951,11 @@
                                             <constraint firstItem="2E4-pU-pdo" firstAttribute="top" secondItem="u8y-y4-BWy" secondAttribute="bottom" constant="8" id="AY2-Dy-Pm9"/>
                                             <constraint firstAttribute="trailing" secondItem="rkI-eB-YZR" secondAttribute="trailing" constant="16" id="AiM-Wv-nGr"/>
                                             <constraint firstItem="RCi-kH-zOK" firstAttribute="top" secondItem="gPd-1S-a42" secondAttribute="bottom" constant="6" id="BGy-GO-JQ8"/>
-                                            <constraint firstItem="9qz-Ap-wb5" firstAttribute="top" secondItem="H3f-7l-FlA" secondAttribute="bottom" constant="10" id="Dpp-KU-peC"/>
-                                            <constraint firstAttribute="bottom" secondItem="w02-E1-9hX" secondAttribute="bottom" constant="35" id="F6P-QF-Ru5"/>
-                                            <constraint firstAttribute="bottom" secondItem="65j-SU-efz" secondAttribute="bottom" constant="14" id="JDd-7l-tiy"/>
+                                            <constraint firstAttribute="bottom" secondItem="w02-E1-9hX" secondAttribute="bottom" constant="33" id="F6P-QF-Ru5"/>
+                                            <constraint firstAttribute="bottom" secondItem="65j-SU-efz" secondAttribute="bottom" constant="12" id="JDd-7l-tiy"/>
                                             <constraint firstItem="rkI-eB-YZR" firstAttribute="leading" secondItem="8pd-bA-dXJ" secondAttribute="leading" constant="16" id="JhF-GY-O0I"/>
                                             <constraint firstItem="s5j-Ol-Dcj" firstAttribute="top" secondItem="8pd-bA-dXJ" secondAttribute="top" constant="31" id="LFa-Y9-vfI"/>
+                                            <constraint firstAttribute="centerX" secondItem="sXE-J7-NGW" secondAttribute="centerX" id="No9-ib-lpK"/>
                                             <constraint firstItem="IX8-ln-IQh" firstAttribute="top" secondItem="LKc-v3-SYj" secondAttribute="bottom" constant="77" id="P9B-Wv-IL5"/>
                                             <constraint firstAttribute="centerX" secondItem="RCi-kH-zOK" secondAttribute="centerX" id="Phl-Gz-5pt"/>
                                             <constraint firstAttribute="centerX" secondItem="rUf-Jo-FGZ" secondAttribute="centerX" id="QXq-7j-A06"/>
@@ -6965,18 +6965,19 @@
                                             <constraint firstItem="nMX-gA-VOz" firstAttribute="top" secondItem="8pd-bA-dXJ" secondAttribute="top" constant="19" id="UBO-iL-2DK"/>
                                             <constraint firstItem="GpQ-jH-ULt" firstAttribute="top" secondItem="u8y-y4-BWy" secondAttribute="bottom" constant="1" id="VGs-WK-Qtz"/>
                                             <constraint firstAttribute="centerX" secondItem="9qz-Ap-wb5" secondAttribute="centerX" id="VyE-aL-T2c"/>
-                                            <constraint firstItem="65j-SU-efz" firstAttribute="top" secondItem="Foy-zi-Z2Y" secondAttribute="bottom" constant="8" id="X7z-mi-YTz"/>
+                                            <constraint firstItem="65j-SU-efz" firstAttribute="top" secondItem="Foy-zi-Z2Y" secondAttribute="bottom" constant="41" id="X7z-mi-YTz"/>
                                             <constraint firstAttribute="centerX" secondItem="Foy-zi-Z2Y" secondAttribute="centerX" id="dOC-I8-Efd"/>
                                             <constraint firstItem="rkI-eB-YZR" firstAttribute="top" secondItem="IX8-ln-IQh" secondAttribute="bottom" constant="8" id="dhC-j6-0FA"/>
                                             <constraint firstItem="2jn-34-U3p" firstAttribute="leading" secondItem="8pd-bA-dXJ" secondAttribute="leading" constant="21" id="dkA-MT-iJf"/>
                                             <constraint firstAttribute="centerX" secondItem="s5j-Ol-Dcj" secondAttribute="centerX" id="ebT-UK-eoG"/>
                                             <constraint firstAttribute="trailing" secondItem="u8y-y4-BWy" secondAttribute="trailing" constant="16" id="f6x-17-SH7"/>
                                             <constraint firstAttribute="centerX" secondItem="2E4-pU-pdo" secondAttribute="centerX" id="gPc-xt-TRK"/>
-                                            <constraint firstAttribute="height" constant="820" id="gs5-Ky-mPL"/>
+                                            <constraint firstAttribute="height" constant="849" id="gs5-Ky-mPL"/>
                                             <constraint firstAttribute="centerX" secondItem="GpQ-jH-ULt" secondAttribute="centerX" id="hC0-yl-AD4"/>
-                                            <constraint firstAttribute="bottom" secondItem="rUf-Jo-FGZ" secondAttribute="bottom" constant="-1" id="hJt-zw-guu"/>
+                                            <constraint firstAttribute="bottom" secondItem="rUf-Jo-FGZ" secondAttribute="bottom" constant="-3" id="hJt-zw-guu"/>
+                                            <constraint firstItem="65j-SU-efz" firstAttribute="top" secondItem="sXE-J7-NGW" secondAttribute="bottom" constant="5" id="mwR-v2-eaU"/>
                                             <constraint firstItem="u8y-y4-BWy" firstAttribute="top" secondItem="LKc-v3-SYj" secondAttribute="bottom" constant="11" id="nKU-Un-A0p"/>
-                                            <constraint firstItem="Foy-zi-Z2Y" firstAttribute="top" secondItem="9qz-Ap-wb5" secondAttribute="bottom" constant="4" id="nda-BW-Own"/>
+                                            <constraint firstItem="Foy-zi-Z2Y" firstAttribute="top" secondItem="9qz-Ap-wb5" secondAttribute="bottom" constant="9" id="nda-BW-Own"/>
                                             <constraint firstAttribute="centerX" secondItem="w02-E1-9hX" secondAttribute="centerX" id="nwB-R6-p0r"/>
                                             <constraint firstItem="u8y-y4-BWy" firstAttribute="leading" secondItem="8pd-bA-dXJ" secondAttribute="leading" constant="16" id="oKG-2i-e4v"/>
                                             <constraint firstItem="w02-E1-9hX" firstAttribute="top" secondItem="2wv-Zg-Sig" secondAttribute="bottom" constant="17" id="obC-yG-BoM"/>
@@ -6985,7 +6986,6 @@
                                             <constraint firstAttribute="centerX" secondItem="D9T-mQ-oV8" secondAttribute="centerX" id="sBD-wl-Yyc"/>
                                             <constraint firstItem="fR0-PE-dgl" firstAttribute="leading" secondItem="8pd-bA-dXJ" secondAttribute="leading" constant="17" id="t1d-4q-s8A"/>
                                             <constraint firstAttribute="centerX" secondItem="2wv-Zg-Sig" secondAttribute="centerX" id="tif-aA-RS9"/>
-                                            <constraint firstAttribute="centerX" secondItem="H3f-7l-FlA" secondAttribute="centerX" id="uz3-Ns-Ij0"/>
                                             <constraint firstItem="txY-ry-s0D" firstAttribute="top" secondItem="8pd-bA-dXJ" secondAttribute="top" constant="24" id="w5h-sM-QGf"/>
                                         </constraints>
                                     </view>
@@ -6998,8 +6998,8 @@
                                     <constraint firstItem="8pd-bA-dXJ" firstAttribute="top" secondItem="QRV-Z4-tiv" secondAttribute="top" constant="20" id="cJA-2p-mgt"/>
                                 </constraints>
                             </scrollView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="iXO-h7-tnM">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="iXO-h7-tnM">
+                                <rect key="frame" x="0.0" y="-270" width="320" height="548"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -7025,7 +7025,6 @@
                     <connections>
                         <outlet property="activateLabel" destination="IX8-ln-IQh" id="51r-Ds-pdg"/>
                         <outlet property="activateLabel2" destination="rkI-eB-YZR" id="WIA-l7-Nkj"/>
-                        <outlet property="btnActivateAccount" destination="H3f-7l-FlA" id="9Mz-jd-4Zv"/>
                         <outlet property="btnEditAccount" destination="9qz-Ap-wb5" id="lpx-kO-r0i"/>
                         <outlet property="btnNewEvent" destination="Foy-zi-Z2Y" id="BeA-zp-yxj"/>
                         <outlet property="btnSeeMore" destination="2E4-pU-pdo" id="RTO-Di-uGa"/>
@@ -7362,17 +7361,17 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ZuK-zp-pMk"/>
+        <segue reference="Pva-az-nrh"/>
         <segue reference="Eoi-6P-6lF"/>
-        <segue reference="eUh-Aj-ld9"/>
-        <segue reference="2dl-tD-VcJ"/>
+        <segue reference="ZuK-zp-pMk"/>
+        <segue reference="xKg-Ee-w2s"/>
         <segue reference="Bok-QY-wEt"/>
+        <segue reference="eUh-Aj-ld9"/>
+        <segue reference="GMF-2B-wF9"/>
         <segue reference="IoJ-de-HAV"/>
         <segue reference="kMD-e6-iDp"/>
         <segue reference="Hwh-Bc-W0c"/>
         <segue reference="hQx-Cj-f0Z"/>
-        <segue reference="GMF-2B-wF9"/>
         <segue reference="4yJ-AY-O7T"/>
-        <segue reference="Pva-az-nrh"/>
     </inferredMetricsTieBreakers>
 </document>

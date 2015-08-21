@@ -10,7 +10,8 @@
 #import "ASIHTTPRequest.h"
 #import "EditAccountViewController.h"
 #import "EventViewController.h"
-
+#import <Social/Social.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 @interface MyProfileViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 
@@ -22,6 +23,7 @@
 @property (nonatomic,strong) NSString *userPassword;
 @property (nonatomic,strong) NSArray *events;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
+@property (nonatomic, retain) UIDocumentInteractionController *dic;
 @end
 
 @implementation MyProfileViewController
@@ -40,20 +42,22 @@
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
     
-    if ([self.userDefaults integerForKey:@"Guest"] != 1) {
-        [self.btnActivateAccount setHidden:YES];
-        [self.imgActivateAccount setHidden:YES];
-    }else{
-        [self.myGroup setHidden:YES];
-        [self.btnAllEvents setEnabled:NO];
-        [self.btnEditAccount setEnabled:NO];
-        [self.btnNewEvent setEnabled:NO];
-    }
+//    if ([self.userDefaults integerForKey:@"Guest"] != 1) {
+//        [self.btnActivateAccount setHidden:YES];
+//        [self.imgActivateAccount setHidden:YES];
+//    }else{
+//        [self.myGroup setHidden:YES];
+//        [self.btnAllEvents setEnabled:NO];
+//        [self.btnEditAccount setEnabled:NO];
+//        [self.btnNewEvent setEnabled:NO];
+//    }
   
     //NSLog(@"%ld",self.userID);
 //    if (self.userID) {
 //        [self getUser];
 //    }
+    
+    
     [self.navigationItem setHidesBackButton:YES];
     [self.activateLabel setHidden:YES];
     [self.activateLabel2 setHidden:YES];
@@ -303,7 +307,138 @@
         });
     });
 }
+#pragma mark - Action Sheet 
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook])
+        {
+            SLComposeViewController *fbPostSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+            //[fbPostSheet setInitialText:@"This is a Facebook post!"];
+            [fbPostSheet addURL:[NSURL URLWithString:@"https://itunes.apple.com/qa/app/d-wat-qtr/id1019189072?mt=8"]];
+            [self presentViewController:fbPostSheet animated:YES completion:nil];
+        } else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc]
+                                      initWithTitle:@""
+                                      message:@"Facebook عفواً لا يمكنك النشر الآن ، تأكد من وجود إنترنت و إتصالك بحساب"
+                                      delegate:self
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+            [alertView show];
+        }
+    }else if (buttonIndex == 1){
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+        {
 
+            SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [tweetSheet setInitialText:@"حمل تطبيق دعوات قطر الآن"];
+            [tweetSheet addURL:[NSURL URLWithString:@"https://itunes.apple.com/qa/app/d-wat-qtr/id1019189072?mt=8"]];
+            [self presentViewController:tweetSheet animated:YES completion:nil];
+            
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc]
+                                      initWithTitle:@""
+                                      message:@"Facebook عفواً لا يمكنك النشر الآن ، تأكد من وجود إنترنت و إتصالك بحساب"
+                                      delegate:self
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil];
+            [alertView show];
+        }
+
+    }else if (buttonIndex == 2){
+        
+        NSString *url = @"https://itunes.apple.com/qa/app/d-wat-qtr/id1019189072?mt=8 حمل تطبيق دعوات قطر الآن من هنا";
+        NSURL *whatsappURL = [NSURL URLWithString:[NSString stringWithFormat:@"whatsapp://send?text=%@",url]];
+        if ([[UIApplication sharedApplication] canOpenURL: whatsappURL]) {
+            [[UIApplication sharedApplication] openURL: whatsappURL];
+        }
+        
+        
+
+    }
+}
+
+-(void)shareInsta{
+    UIImage *screenShot = [UIImage imageNamed:@"Image"];
+    
+    NSString *savePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Test.igo"];
+    
+    [UIImagePNGRepresentation(screenShot) writeToFile:savePath atomically:YES];
+    
+    CGRect rect = CGRectMake(0 ,0 , 0, 0);
+    NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Test.igo"];
+    NSURL *igImageHookFile = [[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"file://%@", jpgPath]];
+    
+    self.dic = [UIDocumentInteractionController interactionControllerWithURL:igImageHookFile];
+    self.dic.UTI = @"com.instagram.photo";
+    self.dic.annotation = [NSDictionary dictionaryWithObject:@"Enter your caption hereee" forKey:@"InstagramCaption"];
+    
+    [self.dic presentOpenInMenuFromRect:rect inView:self.view animated:YES];
+    NSURL *instagramURL = [NSURL URLWithString:@"instagram://media?id=MEDIA_ID"];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:instagramURL]) {
+        
+        [self.dic presentOpenInMenuFromRect: rect    inView: self.view animated: YES ];
+        
+    } else {
+        
+        NSLog(@"No Instagram Found");
+    }
+}
+
+- (UIDocumentInteractionController *) setupControllerWithURL: (NSURL*) fileURL usingDelegate: (id <UIDocumentInteractionControllerDelegate>) interactionDelegate {
+    UIDocumentInteractionController *interactionController = [UIDocumentInteractionController interactionControllerWithURL: fileURL];
+    interactionController.delegate = interactionDelegate;
+    return interactionController;
+}
+
+-(void)shareInInstagram
+{
+    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"Image"]); //convert image into .png format.
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];//create instance of NSFileManager
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); //create an array and store result of our search for the documents directory in it
+    
+    NSString *documentsDirectory = [paths objectAtIndex:0]; //create NSString object, that holds our exact path to the documents directory
+    
+    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"insta.igo"]]; //add our image to the path
+    
+    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil]; //finally save the path (image)
+    
+    NSLog(@"image saved");
+    
+    
+    CGRect rect = CGRectMake(0 ,0 , 0, 0);
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, self.view.opaque, 0.0);
+    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIGraphicsEndImageContext();
+    NSString *fileNameToSave = [NSString stringWithFormat:@"Documents/insta.igo"];
+    NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:fileNameToSave];
+    NSLog(@"jpg path %@",jpgPath);
+    NSString *newJpgPath = [NSString stringWithFormat:@"file://%@",jpgPath]; //[[NSString alloc] initWithFormat:@"file://%@", jpgPath] ];
+    NSLog(@"with File path %@",newJpgPath);
+    NSURL *igImageHookFile = [[NSURL alloc] initFileURLWithPath:newJpgPath];
+    NSLog(@"url Path %@",igImageHookFile);
+    
+
+    
+   // self.dic = [self setupControllerWithURL:igImageHookFile usingDelegate:self];
+    self.dic=[UIDocumentInteractionController interactionControllerWithURL:igImageHookFile];
+    self.dic.delegate = self;
+    @{@"InstagramCaption" : @"hooooo"};
+    //self.dic.annotation = [NSDictionary dictionaryWithObject:@"Here Give what you want to share" forKey:@"InstagramCaption"];
+    self.dic.UTI = @"com.instagram.exclusivegram";
+    
+    [self.dic presentOpenInMenuFromRect: rect    inView: self.view animated: YES ];
+    
+    
+}
+
+
+#pragma mark - Buttons
 - (IBAction)btnSignoutPressed:(id)sender {
     [self.userDefaults setInteger:0 forKey:@"Guest"];
     [self.userDefaults setInteger:0 forKey:@"signedIn"];
@@ -326,4 +461,9 @@
 }
 
 
+- (IBAction)btnSharePressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"إلغاء" destructiveButtonTitle:nil otherButtonTitles:@"Facebook",@"Twitter",@"Whatsapp", nil];
+    
+    [actionSheet showInView:self.view];
+}
 @end
