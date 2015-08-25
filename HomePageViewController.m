@@ -42,6 +42,7 @@
 @property (nonatomic,strong) NSMutableArray *groupImages;
 @property (nonatomic) NSInteger offlineGroupsFlag;
 @property (nonatomic) NSInteger offlineNewsFlag;
+@property (nonatomic) NSInteger newsFlag;
 @property (nonatomic,strong) ASINetworkQueue *queue;
 
 @end
@@ -50,6 +51,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.offlineNewsFlag = 1;
+    [self downloadNewsImages];
     self.groupImages = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
@@ -57,6 +61,7 @@
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
     [self.userDefaults synchronize];
     self.pullToRefreshFlag = 0;
+    self.newsFlag = 0;
     [self.btnUnReadMsgs setHidden:YES];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
@@ -140,8 +145,9 @@
     }
 //
     NSArray *news = [self.userDefaults objectForKey:@"news"];
+
     if (news != nil) {
-       // self.offlineNewsFlag = 1 ;
+        //self.offlineNewsFlag = 1 ;
         self.news = news;
         [self.newsCollectionView reloadData];
     }
@@ -176,6 +182,8 @@
     
     self.scrollView.showsPullToRefresh;
     [self.scrollView addPullToRefreshWithActionHandler:^{
+        self.newsFlag = 0 ;
+        [self downloadNewsImages];
         [self postRequest:getGroups withTag:getGroupsTag];
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
@@ -206,7 +214,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    //static NSString *cellIdentifier = @"Cell";
+
      cellGroupsCollectionView *cell = [[cellGroupsCollectionView alloc]init];
     
     if (collectionView.tag == 0) {
@@ -302,7 +310,10 @@
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
        return cell;
     }else if (collectionView.tag == 1){
-        HomeNewsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
+        
+       // NSString * kCellReuseIdentifier = [NSString stringWithFormat:@"collectionViewCell%ld",(long)indexPath.row];
+        HomeNewsCollectionViewCell *cell = (HomeNewsCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
+        
         NSDictionary *tempNews = self.news[indexPath.item];
         cell.newsSubject.text =tempNews[@"Subject"];
         if (self.offlineNewsFlag ==0) {
@@ -311,14 +322,18 @@
 //                NSLog(@"%@",imgURLString);
                 NSURL *imgURL = [NSURL URLWithString:imgURLString];
                 NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-                UIImage *image = [[UIImage alloc]initWithData:imgData];
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    UIImage *image = [[UIImage alloc]initWithData:imgData];
                     cell.newsImage.image = image;
                     NSData *imageData = UIImagePNGRepresentation(image);
                     NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
                     [self.userDefaults setObject:encodedDate forKey:tempNews[@"Image"]];
                     [self.userDefaults synchronize];
-                    
+                    self.newsFlag++;
+                    if (self.newsFlag == 3) {
+                        self.offlineNewsFlag = 1 ;
+                    }
                 });
             });
             
@@ -351,6 +366,32 @@
     return nil ;
 }
 
+-(void)downloadNewsImages {
+    
+    for (int i = 0; i < self.news.count; i++) {
+        NSDictionary *tempNews = self.news[i];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempNews[@"Image"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+            UIImage *image = [[UIImage alloc]initWithData:imgData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSData *imageData = UIImagePNGRepresentation(image);
+                NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
+                [self.userDefaults setObject:encodedDate forKey:tempNews[@"Image"]];
+                [self.userDefaults synchronize];
+                //self.newsFlag++;
+                if (self.newsFlag == 0) {
+                    self.offlineNewsFlag = 1 ;
+                }
+            });
+        });
+        [self.newsCollectionView reloadData];
+    }
+    
+}
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView.tag == 0) {
         self.selectedGroup = self.groups[indexPath.item];
@@ -359,6 +400,7 @@
         NSLog(@"%@",self.selectedGroup);
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
+
         self.selectedNews = self.news[indexPath.item];
         NSLog(@"Seleected news %@",self.selectedNews);
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
@@ -633,7 +675,7 @@
     }else if([key isEqualToString:@"getNews"]){
         
         self.pullToRefreshFlag ++;
-        self.offlineNewsFlag = 0;
+        //self.offlineNewsFlag = 0;
         self.news = responseArray;
         [self.newsCollectionView reloadData];
         [self.userDefaults setObject:self.news forKey:@"news"];
