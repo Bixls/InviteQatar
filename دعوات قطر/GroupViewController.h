@@ -21,6 +21,15 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *groupPic;
 @property (weak, nonatomic) IBOutlet UITextView *groupDescription;
+@property (weak, nonatomic) IBOutlet UIImageView *groupFrame;
+@property (weak, nonatomic) IBOutlet UILabel *lblLatestEvents;
+@property (weak, nonatomic) IBOutlet UILabel *lblLatestNews;
+@property (weak, nonatomic) IBOutlet UILabel *lblUsers;
+@property (weak, nonatomic) IBOutlet UIButton *btnSeeMoreUsers;
+@property (weak, nonatomic) IBOutlet UIImageView *imgSeeMoreUsers;
+@property (weak, nonatomic) IBOutlet UILabel *lblNewsError;
+@property (weak, nonatomic) IBOutlet UILabel *lblEventsError;
+@property (weak, nonatomic) IBOutlet UILabel *lblMembersError;
 
 
 

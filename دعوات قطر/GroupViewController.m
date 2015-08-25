@@ -64,6 +64,18 @@
 //    NSLog(@"%ld",(long)self.groupID);
     [self.navigationItem setHidesBackButton:YES];
     
+    //Hide all UI elements
+    //[self.groupFrame setHidden:YES];
+   // [self.groupPic setHidden:YES];
+    [self.lblLatestEvents setHidden:YES];
+    [self.lblLatestNews setHidden:YES];
+    [self.lblUsers setHidden:YES];
+    [self.btnSeeMoreUsers setHidden:YES];
+    [self.imgSeeMoreUsers setHidden:YES];
+    [self.lblNewsError setHidden:YES];
+    [self.lblEventsError setHidden:YES];
+    [self.lblMembersError setHidden:YES];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.group[@"ProfilePic"]];
         NSLog(@"%@",imgURLString);
@@ -381,25 +393,64 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getEvents"]) {
         self.events = array;
-        [self.collectionView reloadData];
+        if (self.events.count > 0) {
+            [self.lblLatestEvents setHidden:NO];
+            [self.collectionView reloadData];
+        }else{
+            // Atala3 label
+            NSLog(@"No Events!");
+            //[self.lblEventsError setHidden:NO];
+            //[self.lblLatestEvents setHidden:NO];
+            [self.lblEventsError removeFromSuperview];
+            [self.lblLatestEvents removeFromSuperview];
+            [self.collectionView removeFromSuperview];
+        }
+       
     }else if ([key isEqualToString:@"getNews"]){
         self.news = array;
-        NSLog(@"NEWS %@",self.news);
-        [self.newsCollectionView reloadData];
+      //  NSLog(@"NEWS %@",self.news);
+        if (self.news.count > 0) {
+            [self.lblLatestNews setHidden:NO];
+            [self.newsCollectionView reloadData];
+        }else{
+            NSLog(@"No News!");
+            [self.newsCollectionView removeFromSuperview];
+            [self.lblNewsError removeFromSuperview];
+            [self.lblLatestNews removeFromSuperview];
+         //   [self.lblNewsError setHidden:NO];
+           // [self.lblLatestNews setHidden:NO];
+        }
+        
+        
     }else if ([key isEqualToString:@"getGroupInfo"]){
         NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         if (array.count>0) {
             NSDictionary *dict = array[0];
             NSLog(@"%@",dict);
+            
             self.groupDescription.text = dict[@"Description"];
-            NSLog(@"%@",dict[@"Description"]);
+            if (self.groupDescription.text.length > 0) {
+                [self.groupFrame setHidden:NO];
+                [self.groupPic setHidden:NO];
+                NSLog(@"%@",dict[@"Description"]);
+            }
+            
         }
      
     }else if ([key isEqualToString:@"getUsers"]) {
         [self.users addObjectsFromArray:array];
         NSLog(@"%@",self.users);
         self.start = self.users.count;
-        [self.usersTableView reloadData];
+        if (self.users.count > 0) {
+            [self.lblUsers setHidden:NO];
+            [self.btnSeeMoreUsers setHidden:NO];
+            [self.imgSeeMoreUsers setHidden:NO];
+            [self.usersTableView reloadData];
+        }else{
+            NSLog(@"NO Users!");
+            //[self.lblMembersError setHidden:NO];
+            
+        }
         
     }
     
