@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequest.h"
 
-@interface GroupViewController : UIViewController  <UICollectionViewDataSource,UICollectionViewDelegate,ASIHTTPRequestDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface GroupViewController : UIViewController  <UICollectionViewDataSource,UICollectionViewDelegate,ASIHTTPRequestDelegate,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 

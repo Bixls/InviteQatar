@@ -1834,6 +1834,7 @@
                                             <constraint firstAttribute="trailing" secondItem="8Vx-VF-vUN" secondAttribute="trailing" constant="15" id="Bwr-OR-uYC"/>
                                             <constraint firstItem="bz0-Re-JAd" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="11" id="Cg9-Vy-aoF"/>
                                             <constraint firstAttribute="width" constant="320" id="E1S-60-iuZ"/>
+                                            <constraint firstItem="8Vx-VF-vUN" firstAttribute="top" secondItem="rcY-W1-QjF" secondAttribute="bottom" priority="750" constant="20" id="EgJ-dk-EIH"/>
                                             <constraint firstItem="8Vx-VF-vUN" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="15" id="G3d-ka-BrS"/>
                                             <constraint firstItem="5Ju-Ol-9Bx" firstAttribute="top" secondItem="UA6-uW-Bpc" secondAttribute="top" constant="134" id="G8O-nD-kmF"/>
                                             <constraint firstItem="SJO-kC-GHy" firstAttribute="top" secondItem="4Tk-ZX-kE3" secondAttribute="bottom" constant="11" id="Hrg-i9-N6r"/>
@@ -1911,15 +1912,18 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
-                        <outlet property="btnBuyInvitations" destination="rcY-W1-QjF" id="5ZJ-OX-DDq"/>
+                        <outlet property="btnInvitationsBuy" destination="rcY-W1-QjF" id="mWq-eP-hNT"/>
                         <outlet property="btnMyAccount" destination="ZSX-aA-yxu" id="j0k-0b-80z"/>
                         <outlet property="btnMyMessages" destination="lFA-ce-Dj3" id="QQK-DP-WKq"/>
                         <outlet property="btnSearch" destination="Wre-uB-Y5o" id="6T9-7k-57J"/>
                         <outlet property="btnSupport" destination="4Tk-ZX-kE3" id="hQu-JD-AvX"/>
                         <outlet property="btnUnReadMsgs" destination="h2D-We-FD3" id="mTq-lH-GXX"/>
+                        <outlet property="buyInv" destination="Gop-dt-xHV" id="1u2-zC-wB6"/>
                         <outlet property="eventsTableView" destination="bz0-Re-JAd" id="B0E-qm-0hU"/>
                         <outlet property="groupsCollectionView" destination="8Vx-VF-vUN" id="Qn0-Kc-1Oz"/>
+                        <outlet property="lblLatestEvents" destination="q4o-Za-IAu" id="Z54-LJ-jNn"/>
                         <outlet property="myProfileLabel" destination="kji-7q-Hd4" id="KZ5-Rz-ZeM"/>
+                        <outlet property="myView" destination="UA6-uW-Bpc" id="ZYQ-b1-CxH"/>
                         <outlet property="newsCollectionView" destination="HOV-Hr-Q8s" id="aeQ-vi-MeX"/>
                         <outlet property="scrollView" destination="wDn-cb-PpP" id="YLh-vb-ClR"/>
                         <outlet property="tableVerticalLayoutConstraint" destination="eTX-1x-Uef" id="y9p-0d-BRb"/>

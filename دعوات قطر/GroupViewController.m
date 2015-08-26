@@ -18,6 +18,9 @@
 #import <SVPullToRefresh.h>
 #import "GroupUsersTableViewCell.h"
 #import "UserViewController.h"
+#import "Reachability.h"
+
+
 @interface GroupViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
 @property (weak,nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
@@ -76,16 +79,30 @@
     [self.lblEventsError setHidden:YES];
     [self.lblMembersError setHidden:YES];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.group[@"ProfilePic"]];
-        NSLog(@"%@",imgURLString);
-        NSURL *imgURL = [NSURL URLWithString:imgURLString];
-        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-        UIImage *image = [[UIImage alloc]initWithData:imgData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.groupPic.image = image;
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.group[@"ProfilePic"]];
+            NSLog(@"%@",imgURLString);
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+            UIImage *image = [[UIImage alloc]initWithData:imgData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.groupPic.image = image;
+            });
         });
-    });
+
+    }
+    else {
+        //there-is-no-connection warning
+        [self.groupFrame setHidden:YES];
+        [self.groupPic setHidden:YES];
+        [self.groupDescription setHidden:YES];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    
     
     
 }
@@ -438,6 +455,7 @@
             if (self.groupDescription.text.length > 0) {
                 [self.groupFrame setHidden:NO];
                 [self.groupPic setHidden:NO];
+                [self.groupDescription setHidden:NO];
                 NSLog(@"%@",dict[@"Description"]);
             }
             
@@ -468,7 +486,12 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+    NSLog(@"%@",error.userInfo);
+    NSString *errorType = error.userInfo[@"NSLocalizedDescription"];
+    if ([errorType isEqualToString:@"A connection failure occurred"]) {
+        //
+    }
+    
 }
 
 - (IBAction)btnHome:(id)sender {
