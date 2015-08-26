@@ -401,9 +401,12 @@
             NSLog(@"No Events!");
             //[self.lblEventsError setHidden:NO];
             //[self.lblLatestEvents setHidden:NO];
-            [self.lblEventsError removeFromSuperview];
-            [self.lblLatestEvents removeFromSuperview];
+           // [self.lblEventsError removeFromSuperview];
+            //[self.lblLatestEvents removeFromSuperview];
+            [self.lblEventsError setHidden:NO];
+            [self.lblLatestEvents setHidden:NO];
             [self.collectionView removeFromSuperview];
+            
         }
        
     }else if ([key isEqualToString:@"getNews"]){
@@ -414,9 +417,12 @@
             [self.newsCollectionView reloadData];
         }else{
             NSLog(@"No News!");
+            
+            [self.lblLatestNews setHidden:NO];
+            [self.lblNewsError setHidden:NO];
             [self.newsCollectionView removeFromSuperview];
-            [self.lblNewsError removeFromSuperview];
-            [self.lblLatestNews removeFromSuperview];
+            //[self.lblNewsError removeFromSuperview];
+            //[self.lblLatestNews removeFromSuperview];
          //   [self.lblNewsError setHidden:NO];
            // [self.lblLatestNews setHidden:NO];
         }

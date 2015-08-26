@@ -23,9 +23,12 @@
 @property (nonatomic)UIImage *eventImage;
 @property (nonatomic)NSInteger allowComments;
 @property (nonatomic)NSInteger isInvited;
+@property (nonatomic)NSInteger isInvitedFlag;
 @property (nonatomic)NSInteger isJoined;
 @property (nonatomic)NSInteger creatorID;
+@property (nonatomic)NSInteger creatorFlag;
 @property (nonatomic)NSInteger approved;
+@property (nonatomic)NSInteger approvedFlag;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *fullEvent;
@@ -67,6 +70,9 @@
     
     self.isJoined = -1;
     self.isInvited =-1;
+    self.allowComments = -1;
+    self.creatorFlag = -1;
+    self.approvedFlag = -1;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     
@@ -149,10 +155,15 @@
         });
     }
     
-    if (self.isVIP == 1 && self.isInvited == 1 ) {
+    if (self.isVIP == 1 && self.isInvited == 1 && self.isInvitedFlag == 1) {
         [self.imgRemindMe setHidden:NO];
         [self.btnRemindMe setHidden:NO];
-    }else{
+    }else if ((self.isVIP != 1 || self.isInvited != 1) && self.isInvitedFlag == 1){
+        [self.imgRemindMe setHidden:YES];
+        [self.btnRemindMe setHidden:YES];
+        [self.imgRemindMe removeFromSuperview];
+        [self.btnRemindMe removeFromSuperview];
+    }else {
         [self.imgRemindMe setHidden:YES];
         [self.btnRemindMe setHidden:YES];
     }
@@ -161,47 +172,95 @@
     if (self.allowComments == 1) {
         [self.btnComments setHidden:NO];
         [self.imgComments setHidden:NO];
-            }else{
+    }else if (self.allowComments == 0){
         [self.btnComments setHidden:YES];
         [self.imgComments setHidden:YES];
-
+        [self.btnComments removeFromSuperview];
+        [self.imgComments removeFromSuperview];
+    }else if (self.allowComments == -1){
+        [self.btnComments setHidden:YES];
+        [self.imgComments setHidden:YES];
     }
-    if (self.isInvited == 0) {
+    
+    
+    
+    if (self.isInvited == 0 && self.isInvitedFlag == 1) {
         [self.btnGoing setHidden:YES];
         [self.imgGoing setHidden:YES];
-    }else if (self.isInvited == 1 && self.userID == self.creatorID){
+        [self.btnGoing removeFromSuperview];
+        [self.imgGoing removeFromSuperview];
+        
+    }else if (self.isInvited == 1 && self.userID == self.creatorID && self.isInvitedFlag == 1){
         [self.btnGoing setHidden:YES];
         [self.imgGoing setHidden:YES];
-    }else if (self.isInvited == 1 && self.isJoined == 0){
+        [self.btnGoing removeFromSuperview];
+        [self.imgGoing removeFromSuperview];
+        
+    }else if (self.isInvited == 1 && self.isJoined == 0 && self.isInvitedFlag == 1){
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"الذهاب؟" forState:UIControlStateNormal];
 
-    }else if(self.isInvited == 1 && self.isJoined == 1){
+    }else if(self.isInvited == 1 && self.isJoined == 1 && self.isInvitedFlag == 1){
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
         [self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
 
+    }else{
+        [self.btnGoing setHidden:YES];
+        [self.imgGoing setHidden:YES];
     }
     
-    if (self.userID == self.creatorID) {
+    
+    
+    
+    if (self.userID == self.creatorID && self.creatorFlag == 1) {
         [self.btnAttendees setHidden:NO];
         [self.imgGoingList setHidden:NO];
         [self.btnEditEvent setHidden:NO];
         [self.imgEditEvent setHidden:NO];
+        
 
-    }else {
+    }else if (self.userID != self.creatorID && self.creatorFlag == 1){
+        [self.btnAttendees setHidden:YES];
+        [self.imgGoingList setHidden:YES];
+        [self.btnEditEvent setHidden:YES];
+        [self.imgEditEvent setHidden:YES];
+        [self.btnAttendees removeFromSuperview];
+        [self.imgGoingList removeFromSuperview];
+        [self.btnEditEvent removeFromSuperview];
+        [self.imgEditEvent removeFromSuperview];
+        
+    }else if (self.creatorFlag == -1){
         [self.btnAttendees setHidden:YES];
         [self.imgGoingList setHidden:YES];
         [self.btnEditEvent setHidden:YES];
         [self.imgEditEvent setHidden:YES];
     }
-    if (self.approved == 1 && self.userID == self.creatorID) {
+    
+    
+    if (self.approved == 1 && self.userID == self.creatorID && self.approvedFlag == 1) {
         [self.btnInviteOthers setHidden:NO];
         [self.imgInviteOthers setHidden:NO];
-    }else {
+        [self.btnAttendees setHidden:NO];
+        [self.imgGoingList setHidden:NO];
+    }else if ((self.approved != 1 || self.userID != self.creatorID) && self.approvedFlag == 1){
         [self.btnInviteOthers setHidden:YES];
         [self.imgInviteOthers setHidden:YES];
+        [self.btnAttendees setHidden:YES];
+        [self.imgGoingList setHidden:YES];
+        
+        [self.btnInviteOthers removeFromSuperview];
+        [self.imgInviteOthers removeFromSuperview];
+        [self.btnAttendees removeFromSuperview];
+        [self.imgGoingList removeFromSuperview];
+        
+        
+    }else if(self.approvedFlag == -1 ){
+        [self.btnInviteOthers setHidden:YES];
+        [self.imgInviteOthers setHidden:YES];
+        [self.btnAttendees setHidden:YES];
+        [self.imgGoingList setHidden:YES];
     }
 
     
@@ -437,6 +496,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         //NSLog(@"invitation %@",dict);
         self.isInvited = [dict[@"sucess"]integerValue];
+        self.isInvitedFlag = 1;
         [self updateUI];
     }else if ([key isEqualToString:@"getEvent"]){
         
@@ -448,7 +508,9 @@
             self.allowComments = [dict[@"comments"]integerValue];
             self.eventDescription = dict[@"description"];
             self.creatorID = [dict[@"CreatorID"]integerValue];
+            self.creatorFlag = 1;
             self.approved = [dict[@"approved"]integerValue];
+            self.approvedFlag = 1;
             [self getUSer];
             [self updateUI];
             
