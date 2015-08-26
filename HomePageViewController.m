@@ -53,7 +53,7 @@
     [super viewDidLoad];
     
     self.offlineNewsFlag = 1;
-    [self downloadNewsImages];
+    
     self.groupImages = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
@@ -144,13 +144,14 @@
         [self.groupsCollectionView reloadData];
     }
 //
-    NSArray *news = [self.userDefaults objectForKey:@"news"];
-
-    if (news != nil) {
-        //self.offlineNewsFlag = 1 ;
-        self.news = news;
-        [self.newsCollectionView reloadData];
-    }
+    
+//    NSArray *news = [self.userDefaults objectForKey:@"news"];
+//
+//    if (news != nil) {
+//        //self.offlineNewsFlag = 1 ;
+//        self.news = news;
+//        [self.newsCollectionView reloadData];
+//    }
     
     NSDictionary *getGroups = @{
                                 @"FunctionName":@"getGroupList" ,
@@ -382,9 +383,9 @@
                 [self.userDefaults setObject:encodedDate forKey:tempNews[@"Image"]];
                 [self.userDefaults synchronize];
                 //self.newsFlag++;
-                if (self.newsFlag == 0) {
-                    self.offlineNewsFlag = 1 ;
-                }
+//                if (self.newsFlag == 0) {
+//                    self.offlineNewsFlag = 1 ;
+//                }
             });
         });
         [self.newsCollectionView reloadData];
@@ -677,7 +678,8 @@
         self.pullToRefreshFlag ++;
         //self.offlineNewsFlag = 0;
         self.news = responseArray;
-        [self.newsCollectionView reloadData];
+       // [self.newsCollectionView reloadData];
+        [self downloadNewsImages];
         [self.userDefaults setObject:self.news forKey:@"news"];
         [self.userDefaults synchronize];
 
