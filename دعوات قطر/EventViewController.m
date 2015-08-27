@@ -14,7 +14,9 @@
 #import "UserViewController.h"
 #import "InviteViewController.h"
 #import "chooseGroupViewController.h"
-
+#import "ASIDownloadCache.h"
+#import "ASICacheDelegate.h"
+#import "Reachability.h"
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
@@ -68,6 +70,16 @@
     [self.imgRemindMe setHidden:YES];
     [self.btnRemindMe setHidden:YES];
     
+    [self.imgTitle setHidden:YES];
+    
+    [self.imgComments setHidden:YES];
+    [self.btnComments setHidden:YES];
+    
+    [self.imgUserProfile setHidden:YES];
+    [self.imgPicFrame setHidden:YES];
+    [self.lblUsername setHidden:YES];
+    [self.btnUser setHidden:YES];
+    
     self.isJoined = -1;
     self.isInvited =-1;
     self.allowComments = -1;
@@ -84,21 +96,41 @@
     }
     
     self.eventType = 0;
-    
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
+        //do nothing
+        [self updateUI];
+        
+    }
+    else {
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
     [self.navigationItem setHidesBackButton:YES];
-    [self updateUI];
+    
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self getInvited];
-    if (self.selectedType == 2 || self.selectedType == 3) {
-        [self readMessage];
-    }else{
-        [self getEvent];
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
+        [self getInvited];
+        if (self.selectedType == 2 || self.selectedType == 3) {
+            [self readMessage];
+        }else{
+            [self getEvent];
+        }
+        [self getInvited];
+        [self getJoined];
+        
     }
-    [self getInvited];
-    [self getJoined];
+    else {
+        //donothing
+    }
+
 
 }
 
@@ -122,7 +154,12 @@
         
     }else{
         self.eventSubject.text = self.event[@"subject"];
+        [self.imgTitle setHidden:NO];
         self.creatorName.text = self.event[@"CreatorName"];
+        [self.imgUserProfile setHidden:NO];
+        [self.imgPicFrame setHidden:NO];
+        [self.lblUsername setHidden:NO];
+        [self.btnUser setHidden:NO];
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
         NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
@@ -475,6 +512,10 @@
     [request addRequestHeader:@"Authorization" value:authValue];
     [request addRequestHeader:@"Accept" value:@"application/json"];
     [request addRequestHeader:@"content-type" value:@"application/json"];
+   // [[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
+   //[ASIHTTPRequest setDefaultCache:[ASIDownloadCache sharedCache]];
+    
+    
     request.allowCompressedResponse = NO;
     request.useCookiePersistence = NO;
     request.shouldCompressRequestBody = NO;

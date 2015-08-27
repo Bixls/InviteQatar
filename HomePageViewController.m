@@ -49,6 +49,7 @@
 @property (nonatomic) NSInteger offlineNewsFlag;
 @property (nonatomic) NSInteger newsFlag;
 @property (nonatomic) BOOL offline;
+@property (nonatomic) BOOL loadCache;
 @property (nonatomic,strong) ASINetworkQueue *queue;
 
 @end
@@ -92,12 +93,20 @@
     
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    
+    
     if (internetStatus != NotReachable) {
         self.offline = false;
-        
+        self.loadCache = true;
+        self.news = [self.userDefaults objectForKey:@"news"];
+        [self.newsCollectionView reloadData];
+        self.events = [self.userDefaults objectForKey:@"events"];
+        [self.eventsTableView reloadData];
     }
     else {
         self.offline = true;
+        self.loadCache = false;
+        
         self.news = [self.userDefaults objectForKey:@"news"];
         [self.newsCollectionView reloadData];
         self.events = [self.userDefaults objectForKey:@"events"];
@@ -204,6 +213,7 @@
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
         self.offline = false;
+
         [self postRequest:getGroups withTag:getGroupsTag];
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
@@ -391,7 +401,7 @@
                 });
             });
             
-        }else if (self.offlineNewsFlag == 1 || self.offline == true){
+        }else if (self.offlineNewsFlag == 1 || self.offline == true || self.loadCache == true){
             
             NSData *encodedObject =[self.userDefaults objectForKey:tempNews[@"Image"]];
             if (encodedObject) {
@@ -602,7 +612,7 @@
                 
             });
             
-        }else if (self.offline == true){
+        }else if (self.offline == true || self.loadCache == true){
             NSData *encodedObject =[self.userDefaults objectForKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
             if (encodedObject) {
                 NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];

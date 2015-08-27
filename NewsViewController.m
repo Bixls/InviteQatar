@@ -9,7 +9,7 @@
 #import "NewsViewController.h"
 #import "ASIHTTPRequest.h"
 #import "CommentsViewController.h"
-
+#import "Reachability.h"
 @interface NewsViewController ()
 
 @property(nonatomic)NSInteger newsID;
@@ -35,16 +35,30 @@
     [self.btnComments setHidden:YES];
     [self.imgComments setHidden:YES];
     self.newsSubject.text = self.news[@"Subject"];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.news[@"Image"]];
-        NSData *newsData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        UIImage *newsImage = [[UIImage alloc]initWithData:newsData];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            //Run UI Updates
-            self.newsImage.image = newsImage;
+    
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
+        
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+            //Background Thread
+            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.news[@"Image"]];
+            NSData *newsData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+            UIImage *newsImage = [[UIImage alloc]initWithData:newsData];
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                //Run UI Updates
+                self.newsImage.image = newsImage;
+            });
         });
-    });
+        
+    }
+    else {
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    
+    
     [self.navigationItem setHidesBackButton:YES];
     
 }
@@ -93,6 +107,8 @@
 
     self.newsDate.text = date;
     self.newsDescription.text = self.news[@"Description"];
+    
+
 
     //    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     //    [formatter setDateFormat:@"yyyy-MM-dd"];

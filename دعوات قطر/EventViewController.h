@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnAttendees;
+@property (weak, nonatomic) IBOutlet UIImageView *imgTitle;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgGoing;
 @property (weak, nonatomic) IBOutlet UIImageView *imgComments;
@@ -38,6 +39,10 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgRemindMe;
 @property (weak, nonatomic) IBOutlet UIButton *btnRemindMe;
+@property (weak, nonatomic) IBOutlet UIImageView *imgPicFrame;
+@property (weak, nonatomic) IBOutlet UIImageView *imgUserProfile;
+@property (weak, nonatomic) IBOutlet UIButton *btnUser;
+@property (weak, nonatomic) IBOutlet UILabel *lblUsername;
 
 
 - (IBAction)btnViewAttendeesPressed:(id)sender;

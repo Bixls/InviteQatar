@@ -220,7 +220,7 @@
             [self performSegueWithIdentifier:@"activateAccount" sender:self];
             
         }else{
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال طلب التسجيل، من فضلك حاول مرة اخري" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"الإسم أو رقم الهاتف موجودون بالفعل" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
             
         }
