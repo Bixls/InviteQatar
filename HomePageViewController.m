@@ -18,6 +18,7 @@
 #import <SVPullToRefresh.h>
 #import <sys/sysctl.h>
 #import "Reachability.h"
+#import "ASIDownloadCache.h"
 @interface HomePageViewController ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
@@ -47,7 +48,7 @@
 @property (nonatomic) NSInteger offlineGroupsFlag;
 @property (nonatomic) NSInteger offlineNewsFlag;
 @property (nonatomic) NSInteger newsFlag;
-@property (nonatomic) NSInteger offline;
+@property (nonatomic) BOOL offline;
 @property (nonatomic,strong) ASINetworkQueue *queue;
 
 @end
@@ -57,11 +58,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //[self viewDidLoadClone];
-    //self.offlineNewsFlag = 1;
-    self.newsCollectionViewConstraints = [[NSMutableArray alloc]init];
-    self.lblLatestEventsConstraints = [[NSMutableArray alloc]init];
-    self.eventsTableViewConstaints = [[NSMutableArray alloc]init];
-    self.groupsCollectionViewConstraints = [[NSMutableArray alloc]init];
+    self.offlineNewsFlag = 1;
+    
+
     self.groupImages = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
@@ -94,114 +93,15 @@
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
-      //  self.offline = 0;
+        self.offline = false;
+        
     }
     else {
-        //there-is-no-connection warning
-        //self.offline = 1;
-        self.newsCollectionViewConstraints = [NSMutableArray new];
-        
-        for (NSLayoutConstraint *con in self.myView.constraints) {
-            if (con.firstItem == self.newsCollectionView || con.secondItem == self.newsCollectionView) {
-                [self.newsCollectionViewConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.btnInvitationNum.constraints) {
-            if (con.firstItem == self.newsCollectionView || con.secondItem == self.newsCollectionView) {
-                [self.newsCollectionViewConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.lblLatestEvents.constraints) {
-            if (con.firstItem == self.newsCollectionView || con.secondItem == self.newsCollectionView) {
-                [self.newsCollectionViewConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.newsCollectionView.constraints) {
-            if (con.firstItem == self.newsCollectionView || con.secondItem == self.newsCollectionView) {
-                [self.newsCollectionViewConstraints addObject:con];
-            }
-        }
-        
-        // Events
-        
-        self.eventsTableViewConstaints = [NSMutableArray new];
-        for (NSLayoutConstraint *con in self.myView.constraints) {
-            if (con.firstItem == self.eventsTableView || con.secondItem == self.eventsTableView) {
-                [self.eventsTableViewConstaints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.lblLatestEvents.constraints) {
-            if (con.firstItem == self.eventsTableView || con.secondItem == self.eventsTableView) {
-                [self.eventsTableViewConstaints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.eventsTableView.constraints) {
-            if (con.firstItem == self.eventsTableView || con.secondItem == self.eventsTableView) {
-                [self.eventsTableViewConstaints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.groupsCollectionView.constraints) {
-            if (con.firstItem == self.eventsTableView || con.secondItem == self.eventsTableView) {
-                [self.eventsTableViewConstaints addObject:con];
-            }
-        }
-        
-        
-        //Label
-        
-        self.lblLatestEventsConstraints = [NSMutableArray new];
-        for (NSLayoutConstraint *con in self.myView.constraints) {
-            if (con.firstItem == self.lblLatestEvents || con.secondItem == self.lblLatestEvents) {
-                [self.lblLatestEventsConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.lblLatestEvents.constraints) {
-            if (con.firstItem == self.lblLatestEvents || con.secondItem == self.lblLatestEvents) {
-                [self.lblLatestEventsConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.newsCollectionView.constraints) {
-            if (con.firstItem == self.lblLatestEvents || con.secondItem == self.lblLatestEvents) {
-                [self.lblLatestEventsConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.eventsTableView.constraints) {
-            if (con.firstItem == self.lblLatestEvents || con.secondItem == self.lblLatestEvents) {
-                [self.lblLatestEventsConstraints addObject:con];
-            }
-        }
-        
-        
-        
-        self.groupsCollectionViewConstraints = [NSMutableArray new];
-        for (NSLayoutConstraint *con in self.myView.constraints) {
-            if (con.firstItem == self.groupsCollectionView || con.secondItem == self.groupsCollectionView) {
-                [self.groupsCollectionViewConstraints addObject:con];
-            }
-        }
-
-        for (NSLayoutConstraint *con in self.groupsCollectionView.constraints) {
-            if (con.firstItem == self.groupsCollectionView || con.secondItem == self.groupsCollectionView) {
-                [self.groupsCollectionViewConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.btnInvitationsBuy.constraints) {
-            if (con.firstItem == self.groupsCollectionView || con.secondItem == self.groupsCollectionView) {
-                [self.groupsCollectionViewConstraints addObject:con];
-            }
-        }
-        for (NSLayoutConstraint *con in self.eventsTableView.constraints) {
-            if (con.firstItem == self.groupsCollectionView || con.secondItem == self.groupsCollectionView) {
-                [self.groupsCollectionViewConstraints addObject:con];
-            }
-        }
-        
-        
-        [self.newsCollectionView removeFromSuperview];
-        [self.eventsTableView removeFromSuperview];
-        [self.lblLatestEvents removeFromSuperview];
-
-   
+        self.offline = true;
+        self.news = [self.userDefaults objectForKey:@"news"];
+        [self.newsCollectionView reloadData];
+        self.events = [self.userDefaults objectForKey:@"events"];
+        [self.eventsTableView reloadData];
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
     }
@@ -209,80 +109,6 @@
 
 }
 
--(void)viewDidLoadClone{
-    [super viewDidLoad];
-    
-    self.offlineNewsFlag = 1;
-    self.newsCollectionViewConstraints = [[NSMutableArray alloc]init];
-    self.lblLatestEventsConstraints = [[NSMutableArray alloc]init];
-    self.eventsTableViewConstaints = [[NSMutableArray alloc]init];
-    self.groupImages = [[NSMutableArray alloc]init];
-    self.userDefaults = [NSUserDefaults standardUserDefaults];
-    self.userID = [self.userDefaults integerForKey:@"userID"];
-    self.userPassword = [self.userDefaults objectForKey:@"password"];
-    self.userMobile = [self.userDefaults objectForKey:@"mobile"];
-    [self.userDefaults synchronize];
-    self.pullToRefreshFlag = 0;
-    self.newsFlag = 0;
-    [self.btnUnReadMsgs setHidden:YES];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    
-    self.navigationItem.backBarButtonItem = nil;
-    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
-                                        nil] forState:UIControlStateNormal];
-    backbutton.tintColor = [UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = backbutton;
-    self.view.backgroundColor = [UIColor blackColor];
-    
-    //self.groupsCollectionView.collectionViewLayout = [[UICollectionViewRightAlignedLayout alloc] init];
-    [self.groupsCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
-    [self.newsCollectionView setPagingEnabled:YES];
-    
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
-    if (internetStatus != NotReachable) {
-        
-    }
-    else {
-        //there-is-no-connection warning
-        
-        self.newsCollectionViewConstraints = [NSMutableArray new];
-        for (NSLayoutConstraint *con in self.myView.constraints) {
-            if (con.firstItem == self.newsCollectionView || con.secondItem == self.newsCollectionView) {
-                [self.newsCollectionViewConstraints addObject:con];
-            }
-        }
-        
-        self.eventsTableViewConstaints = [NSMutableArray new];
-        for (NSLayoutConstraint *con in self.myView.constraints) {
-            if (con.firstItem == self.eventsTableView || con.secondItem == self.eventsTableView) {
-                [self.eventsTableViewConstaints addObject:con];
-            }
-        }
-        
-        self.lblLatestEventsConstraints = [NSMutableArray new];
-        for (NSLayoutConstraint *con in self.myView.constraints) {
-            if (con.firstItem == self.lblLatestEvents || con.secondItem == self.lblLatestEvents) {
-                [self.lblLatestEventsConstraints addObject:con];
-            }
-        }
-        
-        
-        [self.newsCollectionView removeFromSuperview];
-        [self.eventsTableView removeFromSuperview];
-        [self.lblLatestEvents removeFromSuperview];
-        
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-
-}
 
 -(void)viewDidAppear:(BOOL)animated {
     
@@ -373,72 +199,48 @@
                                                                                     }]};
     NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
     
-    [self postRequest:getGroups withTag:getGroupsTag];
-    [self postRequest:getNews withTag:getNewsTag];
-    [self postRequest:getEvents withTag:getEventsTag];
-    [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
     
-    //        [self.newsCollectionView addConstraints:self.newsCollectionViewConstraints];
-    //        [self.view addSubview:self.newsCollectionView];
-    //        [self.lblLatestEvents addConstraints:self.lblLatestEventsConstraints];
-    //        [self.view addSubview:self.lblLatestEvents];
-    //        [self.eventsTableView addConstraints:self.eventsTableViewConstaints];
-    //        [self.view addSubview:self.eventsTableView];
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
+        self.offline = false;
+        [self postRequest:getGroups withTag:getGroupsTag];
+        [self postRequest:getNews withTag:getNewsTag];
+        [self postRequest:getEvents withTag:getEventsTag];
+        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+    }
+    else {
+        self.offline = true;
+
+    }
+
+    
+
     
     
     self.scrollView.showsPullToRefresh;
+    
     [self.scrollView addPullToRefreshWithActionHandler:^{
         
         Reachability *reachability = [Reachability reachabilityForInternetConnection];
         NetworkStatus internetStatus = [reachability currentReachabilityStatus];
         if (internetStatus != NotReachable) {
-            [self.groupsCollectionView removeFromSuperview];
-            
-            [self.newsCollectionView addConstraints:self.newsCollectionViewConstraints];
-            [self.myView addSubview:self.newsCollectionView];
-            [self.newsCollectionView setNeedsDisplay];
-            
-            [self.lblLatestEvents addConstraints:self.lblLatestEventsConstraints];
-            [self.myView addSubview:self.lblLatestEvents];
-            [self.lblLatestEvents setNeedsDisplay];
-            
-            [self.eventsTableView addConstraints:self.eventsTableViewConstaints];
-            [self.myView addSubview:self.eventsTableView];
-            [self.eventsTableView setNeedsDisplay];
-//
-            
-            
-//            [self.groupsCollectionView addConstraints:self.groupsCollectionViewConstraints];
-//            [self.myView addSubview:self.groupsCollectionView];
-//            [self.groupsCollectionView setNeedsDisplay];
-            
-
-            
-            
-            //[self viewDidLoadClone];
-//            [self viewDidLoad];
-//            [self viewWillAppear:YES];
-//            [self viewDidAppear:YES];
-//            [self.view setNeedsDisplay];
-//            [self.myView setNeedsDisplay];
+            self.offline = false;
+            [self downloadNewsImages];
+            [self postRequest:getGroups withTag:getGroupsTag];
+            [self postRequest:getNews withTag:getNewsTag];
+            [self postRequest:getEvents withTag:getEventsTag];
+            [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
         }
         else {
-            //there-is-no-connection warning
-            self.offline = 1;
-            [self.newsCollectionView removeFromSuperview];
-            [self.eventsTableView removeFromSuperview];
-            [self.lblLatestEvents removeFromSuperview];
-            
+            self.offline = true;
+            [self.scrollView.pullToRefreshView stopAnimating];
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
         }
         
         self.newsFlag = 0 ;
-        [self downloadNewsImages];
-        [self postRequest:getGroups withTag:getGroupsTag];
-        [self postRequest:getNews withTag:getNewsTag];
-        [self postRequest:getEvents withTag:getEventsTag];
-        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+
     }];
     
 }
@@ -563,7 +365,7 @@
        return cell;
     }else if (collectionView.tag == 1){
         
-       // NSString * kCellReuseIdentifier = [NSString stringWithFormat:@"collectionViewCell%ld",(long)indexPath.row];
+    
         HomeNewsCollectionViewCell *cell = (HomeNewsCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:@"NewsCell" forIndexPath:indexPath];
         
         NSDictionary *tempNews = self.news[indexPath.item];
@@ -589,7 +391,7 @@
                 });
             });
             
-        }else if (self.offlineNewsFlag == 1){
+        }else if (self.offlineNewsFlag == 1 || self.offline == true){
             
             NSData *encodedObject =[self.userDefaults objectForKey:tempNews[@"Image"]];
             if (encodedObject) {
@@ -618,6 +420,8 @@
     return nil ;
 }
 
+
+
 -(void)downloadNewsImages {
     
     for (int i = 0; i < self.news.count; i++) {
@@ -628,21 +432,20 @@
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSData *imageData = UIImagePNGRepresentation(image);
                 NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
                 [self.userDefaults setObject:encodedDate forKey:tempNews[@"Image"]];
                 [self.userDefaults synchronize];
-                //self.newsFlag++;
-//                if (self.newsFlag == 0) {
-//                    self.offlineNewsFlag = 1 ;
-//                }
+                
             });
         });
         [self.newsCollectionView reloadData];
     }
     
 }
+
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView.tag == 0) {
@@ -767,6 +570,7 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSDictionary *tempEvent = self.events[indexPath.row];
+        
         cell.eventSubject.text =tempEvent[@"subject"];
         cell.eventCreator.text = tempEvent[@"CreatorName"];
         
@@ -780,18 +584,34 @@
         cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
         
         NSLog(@"%@",date);
-        //cell.eventDate.text = tempEvent[@"TimeEnded"];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
-            NSURL *imgURL = [NSURL URLWithString:imgURLString];
-            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-            UIImage *image = [[UIImage alloc]initWithData:imgData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.eventImage.image = image;
+        
+        if (self.offline == false) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+                NSURL *imgURL = [NSURL URLWithString:imgURLString];
+                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+                UIImage *image = [[UIImage alloc]initWithData:imgData];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.eventImage.image = image;
+                    NSData *imageData = UIImagePNGRepresentation(image);
+                    NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
+                    [self.userDefaults setObject:encodedDate forKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
+                    [self.userDefaults synchronize];
+                });
+                
             });
             
-        });
-        
+        }else if (self.offline == true){
+            NSData *encodedObject =[self.userDefaults objectForKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
+            if (encodedObject) {
+                NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+                UIImage *img =  [UIImage imageWithData:imgData];
+                cell.eventImage.image = img;
+                
+            }
+        }
+
         self.tableVerticalLayoutConstraint.constant = self.eventsTableView.contentSize.height;
         return cell ;
     }else if (indexPath.row == self.events.count){
@@ -890,17 +710,7 @@
         if ([self arraysContainSameObjects:responseArray andOtherArray:[self.userDefaults objectForKey:@"groups"]]) {
             //do nothing
             NSLog(@"THEY ARE EQUAL");
-//            self.offlineGroupsFlag = 0;
-//            [self.userDefaults setObject:self.groups forKey:@"groups"];
-//            [self.userDefaults synchronize];
-//            [self.groupsCollectionView reloadData];
-//            self.groups = responseArray;
-//            [self.userDefaults setObject:self.groups forKey:@"groups"];
-//            [self.userDefaults synchronize];
-//            [self.groupsCollectionView reloadData];
-//            self.offlineGroupsFlag = 0;
-//            self.groups = responseArray;
-//            [self.groupsCollectionView reloadData];
+            
 
         }else{
 //            self.offlineGroupsFlag = 0;
@@ -910,19 +720,8 @@
             [self.groupsCollectionView reloadData];
 
         }
-//        if ([responseArray isEqualToArray:[self.userDefaults objectForKey:@"groups"]]) {
-//            //do nothing
-//            //[self.groupsCollectionView reloadData];
-////            [self.userDefaults setObject:self.groups forKey:@"groups"];
-////            [self.userDefaults synchronize];
-////            [self.groupsCollectionView reloadData];
-//        }else{
-//            self.offlineGroupsFlag = 0;
-//            self.groups = responseArray;
-//            [self.groupsCollectionView reloadData];
-//            [self.userDefaults setObject:self.groups forKey:@"groups"];
-//            [self.userDefaults synchronize];
-//        }
+
+
         
     }else if([key isEqualToString:@"getNews"]){
         
@@ -936,6 +735,8 @@
 
     }else if ([key isEqualToString:@"getEvents"]){
         self.events = responseArray;
+        [self.userDefaults setObject:self.events forKey:@"events"];
+        [self.userDefaults synchronize];
         [self.eventsTableView reloadData];
         self.pullToRefreshFlag ++;
 
