@@ -20,6 +20,8 @@
 		181FA3DE1B87B02D009CB795 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 181FA3DD1B87B02D009CB795 /* Social.framework */; };
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
 		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
+		18249FC21B8F80B100BEEEDB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18249FC11B8F80B100BEEEDB /* StoreKit.framework */; };
+		18249FC51B8FC56200BEEEDB /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 18249FC41B8FC56200BEEEDB /* Shop.m */; };
 		182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629151B4F72FB002E784F /* EditAccountTableViewCell.m */; };
 		182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629181B4F7CBC002E784F /* ChooseTypeViewController.m */; };
 		1826291C1B4F7F92002E784F /* ChooseTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */; };
@@ -146,6 +148,9 @@
 		18243B001B43730B0036A345 /* BuyInvitationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyInvitationsViewController.m; sourceTree = "<group>"; };
 		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
 		18243B121B43BA720036A345 /* CellInvitationTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInvitationTableView.m; sourceTree = "<group>"; };
+		18249FC11B8F80B100BEEEDB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		18249FC31B8FC56200BEEEDB /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shop.h; path = ../Shop.h; sourceTree = "<group>"; };
+		18249FC41B8FC56200BEEEDB /* Shop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shop.m; path = ../Shop.m; sourceTree = "<group>"; };
 		182629141B4F72FB002E784F /* EditAccountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountTableViewCell.h; sourceTree = "<group>"; };
 		182629151B4F72FB002E784F /* EditAccountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountTableViewCell.m; sourceTree = "<group>"; };
 		182629171B4F7CBC002E784F /* ChooseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseTypeViewController.h; sourceTree = "<group>"; };
@@ -310,6 +315,7 @@
 				181FA3DE1B87B02D009CB795 /* Social.framework in Frameworks */,
 				184B65941B4088E700B1483C /* libz.1.dylib in Frameworks */,
 				184B65921B4082E300B1483C /* CFNetwork.framework in Frameworks */,
+				18249FC21B8F80B100BEEEDB /* StoreKit.framework in Frameworks */,
 				184B65901B4082CF00B1483C /* libz.dylib in Frameworks */,
 				184B658E1B40827500B1483C /* SystemConfiguration.framework in Frameworks */,
 				184B655A1B3F9C6D00B1483C /* MobileCoreServices.framework in Frameworks */,
@@ -434,6 +440,8 @@
 				187C639A1B473FE200B3E3EA /* InviteViewController.m */,
 				18A202DC1B424D94005BD875 /* SearchTableViewController.h */,
 				18A202DD1B424D94005BD875 /* SearchTableViewController.m */,
+				18249FC31B8FC56200BEEEDB /* Shop.h */,
+				18249FC41B8FC56200BEEEDB /* Shop.m */,
 				18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */,
 				18243B001B43730B0036A345 /* BuyInvitationsViewController.m */,
 				184B659F1B421C0200B1483C /* GroupViewController.h */,
@@ -513,6 +521,7 @@
 		184B65951B40DDD700B1483C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18249FC11B8F80B100BEEEDB /* StoreKit.framework */,
 				181FA3DD1B87B02D009CB795 /* Social.framework */,
 				1859E8C11B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
 				1859E8C21B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
@@ -632,6 +641,12 @@
 				TargetAttributes = {
 					184B65291B3F60AC00B1483C = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = AQXL58EA5D;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					184B65421B3F60AC00B1483C = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -785,6 +800,7 @@
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,
 				1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */,
+				18249FC51B8FC56200BEEEDB /* Shop.m in Sources */,
 				18EA68391B4BAED500F482FB /* MyEventsTableViewCell.m in Sources */,
 				1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */,
 				1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */,
@@ -936,11 +952,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "دعوات قطر/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2eb615ef-36d1-419e-a4e0-ca9c9936e933";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -950,11 +968,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "دعوات قطر/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2eb615ef-36d1-419e-a4e0-ca9c9936e933";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

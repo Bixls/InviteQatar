@@ -7,18 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
-@interface BuyInvitationsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface BuyInvitationsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,SKProductsRequestDelegate>
 
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITableView *vipTableView;
-
-
 - (IBAction)btnBuyNowPressed:(id)sender;
 
+@property (nonatomic,strong) NSArray *allProducts;
+@property (nonatomic,strong) NSArray *myProducts;
 
+@property (nonatomic,strong) SKProduct *selectedProduct;
 
+-(void)validateProductIdentifiers;
+-(void)makeThePurchase;
 
 
 @end

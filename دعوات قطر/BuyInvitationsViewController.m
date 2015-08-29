@@ -37,7 +37,6 @@
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     
-//    self.normalPackages = [[NSMutableArray alloc]init];
     self.VIPPackages = [[NSMutableArray alloc]init];
     
     self.cellPressed =0 ;
@@ -65,25 +64,74 @@
     }
 }
 
+#pragma mark -Shop Methods
+
+-(NSArray *)allProducts{
+    if (!_allProducts) {
+        _allProducts = @[@"com.bixls.inviteQatar.normalPlanTest",@"com.bixls.inviteQatar.mediumPlan"];
+    }
+    return _allProducts;
+}
+
+-(void)validateProductIdentifiers{
+    
+    SKProductsRequest *request = [[SKProductsRequest alloc]initWithProductIdentifiers:[NSSet setWithArray:self.allProducts]];
+    [request start];
+    
+}
+
+-(void)makeThePurchase{
+    SKPayment *payment = [SKPayment paymentWithProduct:self.selectedProduct];
+    [[SKPaymentQueue defaultQueue]addPayment:payment];
+}
+
+#pragma mark - SKProductsRequest Delegate
+
+-(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
+    
+    self.myProducts = response.products;
+    if ([SKPaymentQueue canMakePayments]) {
+        //can make payments
+        
+    }else{
+        //can't make payments
+        [self cantBuyAnything];
+    }
+}
+
+- (void)displayStoreUIwithProduct:(SKProduct *)product {
+    
+    // display local currency
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    [formatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [formatter setLocale:product.priceLocale];
+    NSString *price = [NSString stringWithFormat:@"Buy for %@", [formatter stringFromNumber:product.price]];
+    
+    // a UIAlertView brings up the purchase option
+    UIAlertView *storeUI = [[UIAlertView alloc]initWithTitle:product.localizedTitle message:product.localizedDescription delegate:self cancelButtonTitle:@"Close" otherButtonTitles:price, nil];
+    [storeUI show];
+    
+}
+
+-(void)cantBuyAnything{
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"عفواً تأكد من فتح الشراء من داخل التطبيقات من داخل الإعدادات" delegate:nil cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+
+
 #pragma mark - Table view Methods 
 
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (tableView.tag ==0) {
-//        return self.normalPackages.count;
-//    }else{
+
         return self.VIPPackages.count;
-//    }
-    
-    
+
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
-//    
-//    
-//    
-//    
+    
 //    if (tableView.tag == 0) {
 //        CellInvitationTableView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
 //        if (cell==nil) {
@@ -117,6 +165,8 @@
     NSDictionary *nowPressed = [[NSDictionary alloc]init];
 
     nowPressed = self.VIPPackages[indexPath.row];
+    self.selectedProduct = self.allProducts[indexPath.row];
+    
     if ([self.selectedItem isEqual:nowPressed]) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.selectedItemType = nil;
@@ -173,11 +223,7 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    // Use when fetching text data
-    NSString *responseString = [request responseString];
-    //NSLog(@"%@",responseString);
-    
-    // Use when fetching binary data
+
     NSData *responseData = [request responseData];
     
     self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -186,12 +232,11 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"invitations"]) {
         for (NSDictionary *dict in self.responseArray) {
-//                [self.normalPackages addObject:dict];
             self.VIPPackages = self.responseArray;
 
         }
         
-        [self.tableView reloadData];
+       
         [self.vipTableView reloadData];
     }else if ([key isEqualToString:@"buyNow"]){
         NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
