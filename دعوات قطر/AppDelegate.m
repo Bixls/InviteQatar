@@ -16,19 +16,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-   // [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
-//#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-//    
-//    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-//    {
-//        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, 20)];
-//        view.backgroundColor=[UIColor blackColor];
-//        [self.window.rootViewController.view addSubview:view];
-//    }
+
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
         [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
+    
+    [[SKPaymentQueue defaultQueue]addTransactionObserver:self];
+    
+    
     return YES;
 }
 
@@ -52,6 +47,45 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - StoreKit Methods
+
+-(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
+    for (SKPaymentTransaction *transaction in transactions) {
+        switch (transaction.transactionState) {
+            case SKPaymentTransactionStatePurchased: {
+                //Finish the transaction
+                [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+                [self saveReceipts];
+                break;
+            }
+            case SKPaymentTransactionStatePurchasing:{
+                break;
+            }
+                
+            case SKPaymentTransactionStateRestored:{
+                break;
+            }
+            case SKPaymentTransactionStateFailed:{
+                break;
+            }
+                
+                
+                
+            default:
+                break;
+        }
+    }
+}
+
+#pragma mark - Store Methods
+
+-(void)saveReceipts{
+    
+}
+-(void)restore{
+    
 }
 
 @end

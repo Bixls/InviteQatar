@@ -14,9 +14,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *vipTableView;
 - (IBAction)btnBuyNowPressed:(id)sender;
 
-@property (nonatomic,strong) NSArray *allProducts;
-@property (nonatomic,strong) NSArray *myProducts;
-
+@property (nonatomic,strong) NSMutableArray *productsIdentifiers;
+@property (nonatomic,strong) NSArray *products;
 @property (nonatomic,strong) SKProduct *selectedProduct;
 
 -(void)validateProductIdentifiers;

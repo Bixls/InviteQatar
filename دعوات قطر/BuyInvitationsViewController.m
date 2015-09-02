@@ -42,6 +42,7 @@
     self.cellPressed =0 ;
    
     [self.navigationItem setHidesBackButton:YES];
+    self.productsIdentifiers = [[NSMutableArray alloc]init];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -66,16 +67,18 @@
 
 #pragma mark -Shop Methods
 
--(NSArray *)allProducts{
-    if (!_allProducts) {
-        _allProducts = @[@"com.bixls.inviteQatar.normalPlanTest",@"com.bixls.inviteQatar.mediumPlan"];
-    }
-    return _allProducts;
-}
+//-(NSArray *)productsIdentifiers{
+//    if (!_productsIdentifiers) {
+//        _productsIdentifiers = @[@"com.bixls.inviteQatar.normalPlanTest",@"com.bixls.inviteQatar.mediumPlan"];
+//    }
+//    return _productsIdentifiers;
+//}
 
 -(void)validateProductIdentifiers{
+//    NSArray *test = @[@"com.bixls.inviteQatar.normalPlanTest"];
     
-    SKProductsRequest *request = [[SKProductsRequest alloc]initWithProductIdentifiers:[NSSet setWithArray:self.allProducts]];
+    SKProductsRequest *request = [[SKProductsRequest alloc]initWithProductIdentifiers:[NSSet setWithArray:self.productsIdentifiers]];
+    request.delegate = self;
     [request start];
     
 }
@@ -89,10 +92,11 @@
 
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
     
-    self.myProducts = response.products;
+    self.selectedProduct = response.products.firstObject;
+    
     if ([SKPaymentQueue canMakePayments]) {
         //can make payments
-        
+        [self displayStoreUIwithProduct:self.selectedProduct];
     }else{
         //can't make payments
         [self cantBuyAnything];
@@ -165,8 +169,7 @@
     NSDictionary *nowPressed = [[NSDictionary alloc]init];
 
     nowPressed = self.VIPPackages[indexPath.row];
-    self.selectedProduct = self.allProducts[indexPath.row];
-    
+   // self.selectedProduct = self.allProducts[indexPath.row];
     if ([self.selectedItem isEqual:nowPressed]) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         self.selectedItemType = nil;
@@ -187,8 +190,24 @@
         [tableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
         
     }
-
     
+    switch ([nowPressed[@"id"]integerValue]) {
+        case 1:{
+            [self.productsIdentifiers addObject:@"com.bixls.inviteQatar.normalPlanTest"];
+            break;
+        }
+        case 2:{
+            [self.productsIdentifiers addObject:@"com.bixls.inviteQatar.mediumPlan"];
+            break;
+        }
+            
+        default:{
+            break;
+        }
+            
+    }
+    
+    [self validateProductIdentifiers];
     
     
 }
