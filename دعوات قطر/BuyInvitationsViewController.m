@@ -78,6 +78,7 @@
 //    NSArray *test = @[@"com.bixls.inviteQatar.normalPlanTest"];
     
     SKProductsRequest *request = [[SKProductsRequest alloc]initWithProductIdentifiers:[NSSet setWithArray:self.productsIdentifiers]];
+    NSLog(@"%@",self.productsIdentifiers);
     request.delegate = self;
     [request start];
     
@@ -93,7 +94,8 @@
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
     
     self.selectedProduct = response.products.firstObject;
-    
+    NSLog(@"%@",response.products);
+     NSLog(@"%@",response.invalidProductIdentifiers);
     if ([SKPaymentQueue canMakePayments]) {
         //can make payments
         [self displayStoreUIwithProduct:self.selectedProduct];
@@ -101,6 +103,13 @@
         //can't make payments
         [self cantBuyAnything];
     }
+}
+
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
+    
+    NSLog(@"Failed to load list of products.");
+
+    
 }
 
 - (void)displayStoreUIwithProduct:(SKProduct *)product {

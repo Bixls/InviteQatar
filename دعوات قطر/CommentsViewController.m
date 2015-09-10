@@ -247,7 +247,7 @@
 -(void)getComments {
     
     NSDictionary *getEvents = @{@"FunctionName":@"retriveComments" , @"inputs":@[@{
-                                                                                 @"POSTType":[NSString stringWithFormat:@"%ld",(long)self.postType], 
+                                                                                 @" §":[NSString stringWithFormat:@"%ld",(long)self.postType],
                                                                                  @"POSTID":[NSString stringWithFormat:@"%ld",(long)self.postID],
                                                                                  @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
                                                                                  @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]
