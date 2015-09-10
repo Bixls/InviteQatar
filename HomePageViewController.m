@@ -72,11 +72,12 @@
     self.newsFlag = 0;
     self.offline = 0;
     [self.btnUnReadMsgs setHidden:YES];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
+//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+//                                                  forBarMetrics:UIBarMetricsDefault];
+//    self.navigationController.navigationBar.shadowImage = [UIImage new];
+//    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.hidden = YES;
     
     self.navigationItem.backBarButtonItem = nil;
     UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];

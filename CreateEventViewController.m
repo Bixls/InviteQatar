@@ -353,7 +353,7 @@
                                                  //
                                              @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
                                              }]};
-    
+    NSLog(@"%@",postDict);
     NSMutableDictionary *createEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"createEvent",@"key", nil];
     self.btnPressed = 1;
     [self postRequest:postDict withTag:createEventTag];
@@ -413,7 +413,7 @@
 
 - (IBAction)btnSubmitPressed:(id)sender {
 
-        if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0) && self.createOrEdit == 0) {
+        if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0) && self.createOrEdit == 0 && self.selectedType.length > 0) {
             if (self.flag == 1 && self.uploaded == 1 ) {
                 
                 [self createEventFN];

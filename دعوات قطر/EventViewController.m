@@ -311,7 +311,8 @@
         commentController.postID = self.eventID;
         commentController.postImage = self.eventImage;
         commentController.postDescription = self.eventDescription;
-        commentController.postType = self.eventType;
+//        commentController.postType = self.eventType;
+        commentController.postType = 0;
     }else if ([segue.identifier isEqualToString:@"showAttendees"]){
         EventAttendeesViewController *eventAttendeesController = segue.destinationViewController;
         eventAttendeesController.eventID = self.eventID;

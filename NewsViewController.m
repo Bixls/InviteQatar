@@ -129,6 +129,7 @@
         commentsController.postImage = self.newsImage.image;
         commentsController.postDescription = self.newsDescription.text;
         commentsController.postID = self.newsID;
+        commentsController.postType = 1;
     }
 }
 
