@@ -10,7 +10,6 @@
 
 @interface WelcomePageViewController : UIViewController 
 
-
 - (IBAction)btnGuestPressed:(id)sender;
 
 @end

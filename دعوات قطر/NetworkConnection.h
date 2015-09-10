@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 
 @interface NetworkConnection : NSObject
 
 @property (nonatomic,strong) NSData *response;
+@property (nonatomic,strong) ASIFormDataRequest *imageRequest;
 
-
--(void)postRequest:(NSDictionary *)postDict;
+-(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict;
+-(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image;
 
 @end

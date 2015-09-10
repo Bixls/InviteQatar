@@ -12,6 +12,11 @@
 #import "ASIFormDataRequest.h"
 #import "ConfirmationViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "NetworkConnection.h"
+
+
+static void *signUpContext = &signUpContext;
+static void *uploadImageContext = &uploadImageContext;
 
 @interface SignUpViewController ()
 
@@ -35,40 +40,49 @@
 @property (nonatomic) int activateFlag;
 @property (nonatomic,strong) NSDictionary *responseDictionary;
 @property (nonatomic,strong) UIImage *selectedImage;
-
+@property (nonatomic,strong) NetworkConnection *uploadImageConn;
+@property (nonatomic,strong) NetworkConnection *signUpConn;
 @end
 
 @implementation SignUpViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
+    
     self.flag = 0;
     self.uploaded =0;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
+    //self.selectedGroup = @{@"id":@"default"} ;
     
-    self.selectedGroup = @{@"id":@"default"} ;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//    self.view.backgroundColor = [UIColor whiteColor];
-    self.view.backgroundColor = [UIColor blackColor];
-//    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//    [self.spinner setCenter:CGPointMake([[UIScreen mainScreen] bounds].size.width/2.0, [[UIScreen mainScreen] bounds].size.height/2.0)];
-//    [self.view addSubview:self.spinner];
-    [self.navigationItem setHidesBackButton:YES];
-
     self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
    // self.viewHeight.constant = self.view.bounds.size.height - 35;
+    self.uploadImageConn = [[NetworkConnection alloc]init];
+    self.signUpConn = [[NetworkConnection alloc]init];
+    
+    
+    
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//    self.view.backgroundColor = [UIColor blackColor];
+    
+    [self.signUpConn addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:signUpContext];
+    [self.uploadImageConn addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:uploadImageContext];
+    
     if (self.offlinePic == 1) {
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
-        [self postPicturewithTag:pictureTag];
+        [self.uploadImageConn postPicturewithTag:pictureTag uploadImage:self.profilePicture.image];
+        //[self postPicturewithTag:pictureTag];
         self.offlinePic = 0;
     }
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
+
+    [self.signUpConn removeObserver:self forKeyPath:@"response" context:signUpContext];
+    [self.uploadImageConn removeObserver:self forKeyPath:@"response" context:uploadImageContext];
+    
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])
@@ -79,24 +93,66 @@
     }
 }
 
--(void)didReceiveMemoryWarning{
-    //
+#pragma mark - KVO Methods
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+  
+    if (context == signUpContext) {
+        if ([keyPath isEqualToString:@"response"]) {
+            
+            NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+            self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+            NSLog(@"%@",self.responseDictionary);
+            NSInteger success = [self.responseDictionary[@"sucess"]integerValue];
+            if (success == 1) {
+                self.userID = [self.responseDictionary[@"id"]integerValue];
+                NSLog(@"USER ID %d",self.userID);
+                [self.userDefaults setInteger:self.userID forKey:@"userID"];
+                [self.userDefaults synchronize];
+                self.activateFlag = 1;
+                [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
+                
+                [self.userDefaults synchronize];
+                
+                
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+                [alertView show];
+                [self performSegueWithIdentifier:@"activateAccount" sender:self];
+                
+            }else{
+                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"الإسم أو رقم الهاتف موجودون بالفعل" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+                [alertView show];
+                
+            }
+            
+        }
+    }else if (context == uploadImageContext){
+        if ([keyPath isEqualToString:@"response"]) {
+            NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+            NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+            NSLog(@"%@",responseDict);
+            self.imageURL = responseDict[@"id"];
+            self.uploaded =1;
+        }
+    }
+    
+    
 }
+
+#pragma mark - Delegate Methods
 
 -(void)selectedGroup:(NSDictionary *)group {
     self.selectedGroup = group;
     [self.btnChooseGroup setTitle:self.selectedGroup[@"name"] forState:UIControlStateNormal];
-    NSLog(@"%@",group);
+//    NSLog(@"%@",group);
     
 }
 
 -(void)selectedPicture:(UIImage *)image{
     self.selectedImage = image;
     self.profilePicture.image = self.selectedImage;
-    NSLog(@"%@",image);
+//    NSLog(@"%@",image);
     [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
-    
-    
     
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     self.offlinePic = 1 ;
@@ -117,142 +173,114 @@
     }else if ([segue.identifier isEqualToString:@"activateAccount"]){
         ConfirmationViewController *confirmController = segue.destinationViewController;
         
-        
     }
 
 }
 
 #pragma mark - Connection setup
 
--(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
-    
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://bixls.com/Qatar/" ;
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    request.delegate = self;
-    request.username =@"admin";
-    request.password = @"admin";
-    [request setRequestMethod:@"POST"];
-    [request addRequestHeader:@"Authorization" value:authValue];
-    [request addRequestHeader:@"Accept" value:@"application/json"];
-    [request addRequestHeader:@"content-type" value:@"application/json"];
-    request.allowCompressedResponse = NO;
-    request.useCookiePersistence = NO;
-    request.shouldCompressRequestBody = NO;
-    request.userInfo = dict;
-    [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
+//-(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
+//    
+//    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
+//    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+//    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+//    NSString *urlString = @"http://bixls.com/Qatar/" ;
+//    NSURL *url = [NSURL URLWithString:urlString];
+//    
+//    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+//    request.delegate = self;
+//    request.username =@"admin";
+//    request.password = @"admin";
+//    [request setRequestMethod:@"POST"];
+//    [request addRequestHeader:@"Authorization" value:authValue];
+//    [request addRequestHeader:@"Accept" value:@"application/json"];
+//    [request addRequestHeader:@"content-type" value:@"application/json"];
+//    request.allowCompressedResponse = NO;
+//    request.useCookiePersistence = NO;
+//    request.shouldCompressRequestBody = NO;
+//    request.userInfo = dict;
+//    [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
+//
+//    
+//    [request startAsynchronous];
+//
+//}
 
-    
-    [request startAsynchronous];
+//-(void)postPicturewithTag:(NSMutableDictionary *)dict{
+//    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
+//    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+//    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+//    
+//    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
+//    [self.imageRequest setUseKeychainPersistence:YES];
+//    self.imageRequest.delegate = self;
+//    self.imageRequest.username = @"admin";
+//    self.imageRequest.password = @"admin";
+//    [self.imageRequest setRequestMethod:@"POST"];
+//    [self.imageRequest addRequestHeader:@"Authorization" value:authValue];
+////    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
+////    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
+//    self.imageRequest.allowCompressedResponse = NO;
+//    self.imageRequest.useCookiePersistence = NO;
+//    self.imageRequest.shouldCompressRequestBody = NO;
+//    self.imageRequest.userInfo = dict;
+////    [self.imageRequest setPostValue:@"6" forKey:@"id"];
+////    [self.imageRequest setPostValue:@"user" forKey:@"type"];
+//    NSLog(@"%@",self.profilePicture.image);
+//    
+//    NSData *testData = [NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 1.0)];
+//    
+//    //NSLog(@"%@ ",testData);
+//    
+//    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image,1.0)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+//    [self.imageRequest startAsynchronous];
+//}
 
-}
-
--(void)postPicturewithTag:(NSMutableDictionary *)dict{
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    
-
-    
-    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
-    [self.imageRequest setUseKeychainPersistence:YES];
-    self.imageRequest.delegate = self;
-    self.imageRequest.username = @"admin";
-    self.imageRequest.password = @"admin";
-    [self.imageRequest setRequestMethod:@"POST"];
-    [self.imageRequest addRequestHeader:@"Authorization" value:authValue];
-//    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
-//    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
-    self.imageRequest.allowCompressedResponse = NO;
-    self.imageRequest.useCookiePersistence = NO;
-    self.imageRequest.shouldCompressRequestBody = NO;
-    self.imageRequest.userInfo = dict;
-//    [self.imageRequest setPostValue:@"6" forKey:@"id"];
-//    [self.imageRequest setPostValue:@"user" forKey:@"type"];
-    NSLog(@"%@",self.profilePicture.image);
-    
-    NSData *testData = [NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image, 1.0)];
-    
-    //NSLog(@"%@ ",testData);
-    
-    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.profilePicture.image,1.0)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
-    [self.imageRequest startAsynchronous];
-}
-
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    // Use when fetching text data
-    NSString *responseString = [request responseString];
-    //NSLog(@"%@",responseString);
-    
-    // Use when fetching binary data
-    NSData *responseData = [request responseData];
-    NSString *key = [request.userInfo objectForKey:@"key"];
-    if ([key isEqualToString:@"pictureTag"]) {
-        NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",responseDict);
-        self.imageURL = responseDict[@"id"];
-        self.uploaded =1;
-    }else {
-        self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",self.responseDictionary);
-        NSInteger success = [self.responseDictionary[@"sucess"]integerValue];
-        if (success == 1) {
-            self.userID = [self.responseDictionary[@"id"]integerValue];
-            NSLog(@"USER ID %d",self.userID);
-            [self.userDefaults setInteger:self.userID forKey:@"userID"];
-            [self.userDefaults synchronize];
-            self.activateFlag = 1;
-            [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-            //        [self.userDefaults setInteger:1 forKey:@"Guest"];
-            //        [self.userDefaults setInteger:1 forKey:@"signedIn"];
-            [self.userDefaults synchronize];
-            
-            // [self dismissViewControllerAnimated:YES completion:nil];
-
-            
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
-            [self performSegueWithIdentifier:@"activateAccount" sender:self];
-            
-        }else{
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"الإسم أو رقم الهاتف موجودون بالفعل" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
-            
-        }
-
-        
-        
-    }
-//    if ([key isEqualToString:@"registerTag"]) {
+//- (void)requestFinished:(ASIHTTPRequest *)request
+//{
+//
+//    NSData *responseData = [request responseData];
+//    NSString *key = [request.userInfo objectForKey:@"key"];
+//    if ([key isEqualToString:@"pictureTag"]) {
 //        NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        NSInteger success = [responseDict[@"sucess"]integerValue];
+//        NSLog(@"%@",responseDict);
+//        self.imageURL = responseDict[@"id"];
+//        self.uploaded =1;
+//    }else {
+//        self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        NSLog(@"%@",self.responseDictionary);
+//        NSInteger success = [self.responseDictionary[@"sucess"]integerValue];
 //        if (success == 1) {
+//            self.userID = [self.responseDictionary[@"id"]integerValue];
+//            NSLog(@"USER ID %d",self.userID);
+//            [self.userDefaults setInteger:self.userID forKey:@"userID"];
+//            [self.userDefaults synchronize];
+//            self.activateFlag = 1;
+//            [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
+//
+//            [self.userDefaults synchronize];
+//
+//            
 //            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
 //            [alertView show];
 //            [self performSegueWithIdentifier:@"activateAccount" sender:self];
 //            
 //        }else{
-//            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال طلب التسجيل، من فضلك حاول مرة اخري" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+//            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"الإسم أو رقم الهاتف موجودون بالفعل" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
 //            [alertView show];
-//           
+//            
 //        }
+//
+//        
+//        
 //    }
-   
-}
+//   
+//}
 
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    NSError *error = [request error];
-    NSLog(@"%@",error);
-}
-
-//-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-//    [self.navigationController popToRootViewControllerAnimated:YES];
+//- (void)requestFailed:(ASIHTTPRequest *)request
+//{
+//    NSError *error = [request error];
+//    NSLog(@"%@",error);
 //}
 
 #pragma mark - Textfield delegate method 
@@ -277,7 +305,9 @@
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
         
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
-        [self postPicturewithTag:pictureTag];
+        
+        [self.uploadImageConn postPicturewithTag:pictureTag uploadImage:self.profilePicture.image];
+//        [self postPicturewithTag:pictureTag];
         self.flag = 1;
     }
     
@@ -329,35 +359,40 @@
     
     
 //    if (self.activateFlag == 0) {
-        if ((self.nameField.text.length != 0) && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length != 0) && (self.selectedGroup != nil)) {
-            if (self.flag == 1 && self.uploaded == 1 ) {
-                
-                NSDictionary *postDict = @{@"FunctionName":@"Register" ,
-                                           @"inputs":@[@{@"name":self.nameField.text,
-                                                         @"Mobile":self.mobileField.text,
-                                                         @"password":self.passwordField.text,
-                                                         @"groupID":(NSString *)self.selectedGroup[@"id"],
-                                                         @"ProfilePic":self.imageURL}]};
-                
-                NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
-                
-                [self postRequest:postDict withTag:registerTag];
-                
-            }else if (self.flag == 1){
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-                [alertView show];
-            }else {
-                
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-                [alertView show];
-                
-            }
+    
+    NSString *groupID = (NSString *)self.selectedGroup[@"id"];
+    
+    if ((self.nameField.text.length != 0) && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length != 0) && (groupID.length > 0)) {
+        if (self.flag == 1 && self.uploaded == 1 ) {
             
-        } else{
+            NSDictionary *postDict = @{@"FunctionName":@"Register" ,
+                                       @"inputs":@[@{@"name":self.nameField.text,
+                                                     @"Mobile":self.mobileField.text,
+                                                     @"password":self.passwordField.text,
+                                                     @"groupID":(NSString *)self.selectedGroup[@"id"],
+                                                     @"ProfilePic":self.imageURL}]};
             
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
+            
+            //                [self postRequest:postDict withTag:registerTag];
+            [self.signUpConn postRequest:postDict withTag:registerTag];
+            
+            
+        }else if (self.flag == 1){
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
+        }else {
+            
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            
         }
+        
+    } else{
+        
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
 
 //    }
     

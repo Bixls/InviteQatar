@@ -343,10 +343,10 @@
 				184B65541B3F84A700B1483C /* WelcomePageViewController.m */,
 				184B65561B3F944D00B1483C /* SignUpViewController.h */,
 				184B65571B3F944D00B1483C /* SignUpViewController.m */,
-				184B65961B40E12100B1483C /* chooseGroupViewController.h */,
-				184B65971B40E12100B1483C /* chooseGroupViewController.m */,
 				1813C2FB1B50FBA20044CDDB /* ChooseGroupTableViewCell.h */,
 				1813C2FC1B50FBA20044CDDB /* ChooseGroupTableViewCell.m */,
+				184B65961B40E12100B1483C /* chooseGroupViewController.h */,
+				184B65971B40E12100B1483C /* chooseGroupViewController.m */,
 				184B655B1B3FBD9900B1483C /* SignInViewController.h */,
 				184B655C1B3FBD9900B1483C /* SignInViewController.m */,
 				184B655E1B3FC52900B1483C /* ConfirmationViewController.h */,
@@ -358,6 +358,7 @@
 		184B65211B3F60AC00B1483C = {
 			isa = PBXGroup;
 			children = (
+				180B11EA1B4B133400133E7C /* Podfile */,
 				18033DB91B68762A00129546 /* InviteTableViewCell.h */,
 				18033DBA1B68762A00129546 /* InviteTableViewCell.m */,
 				1873C21B1B4D89300026C905 /* testCollectionViewCell.h */,
@@ -366,7 +367,6 @@
 				1873C2191B4D83200026C905 /* TestNewsCollectionViewCell.m */,
 				1873C2121B4D7D000026C905 /* ViewController.h */,
 				1873C2131B4D7D000026C905 /* ViewController.m */,
-				180B11EA1B4B133400133E7C /* Podfile */,
 				18243B111B43BA720036A345 /* CellInvitationTableView.h */,
 				18243B121B43BA720036A345 /* CellInvitationTableView.m */,
 				183957001B45382300B47FC2 /* cellGroupsCollectionView.h */,

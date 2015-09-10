@@ -7,14 +7,42 @@
 //
 
 #import "NetworkConnection.h"
-#import "ASIHTTPRequest.h"
+
+#import <AFNetworking/AFNetworking.h>
 
 @implementation NetworkConnection
 
+-(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image {
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
+    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+    
+    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
+    [self.imageRequest setUseKeychainPersistence:YES];
+    self.imageRequest.delegate = self;
+    self.imageRequest.username = @"admin";
+    self.imageRequest.password = @"admin";
+    [self.imageRequest setRequestMethod:@"POST"];
+    [self.imageRequest addRequestHeader:@"Authorization" value:authValue];
+    //    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
+    //    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
+    self.imageRequest.allowCompressedResponse = NO;
+    self.imageRequest.useCookiePersistence = NO;
+    self.imageRequest.shouldCompressRequestBody = NO;
+    self.imageRequest.userInfo = dict;
+    //    [self.imageRequest setPostValue:@"6" forKey:@"id"];
+    //    [self.imageRequest setPostValue:@"user" forKey:@"type"];
+    
+    
+//    NSData *testData = [NSData dataWithData:UIImageJPEGRepresentation(image, 1.0)];
+    
+    //NSLog(@"%@ ",testData);
+    
+    [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(image,1.0)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    [self.imageRequest startAsynchronous];
+}
 
-
-
--(void)postRequest:(NSDictionary *)postDict{
+-(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -40,7 +68,7 @@
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     self.response = [request responseData];
-    
+    NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:self.response options:kNilOptions error:nil]);
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request

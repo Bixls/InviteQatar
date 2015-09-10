@@ -19,29 +19,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                             forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    
-//    self.navigationItem.backBarButtonItem = nil;
-//    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
-//    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-//                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
-//                                        nil] forState:UIControlStateNormal];
-//    backbutton.tintColor = [UIColor whiteColor];
-//    self.navigationItem.backBarButtonItem = backbutton;
+    self.navigationController.navigationBar.hidden = YES;
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
+    
     self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
     if (self.activateFlag == 1) {
         [self performSegueWithIdentifier:@"activateAccount" sender:self];
     }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)btnGuestPressed:(id)sender {
@@ -50,3 +35,10 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end
+
+
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+//                             forBarMetrics:UIBarMetricsDefault];
+
+//    self.navigationController.navigationBar.shadowImage = [UIImage new];
+//    self.navigationController.navigationBar.translucent = YES;

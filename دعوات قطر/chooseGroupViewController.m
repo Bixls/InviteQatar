@@ -10,12 +10,14 @@
 #import "ASIHTTPRequest.h"
 #import "ChooseGroupTableViewCell.h"
 #import "InviteViewController.h"
+#import "NetworkConnection.h"
 
 @interface chooseGroupViewController ()
 
 @property (nonatomic , strong) NSArray *responseArray;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *selectedGroup;
+@property (nonatomic,strong) NetworkConnection *getAllGroupsConn;
 
 @end
 
@@ -24,24 +26,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
     self.view.backgroundColor = [UIColor blackColor];
+
     self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.getAllGroupsConn = [[NetworkConnection alloc]init];
     
-    NSLog(@"EVENT ID %ld" , (long)self.eventID );
+    //NSLog(@"EVENT ID %ld" , (long)self.eventID );
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [self.getAllGroupsConn addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
+    
     NSDictionary *postDict = @{
                                @"FunctionName":@"getGroupList" ,
                                @"inputs":@[@{@"limit":[NSNumber numberWithInt:1000]}]};
-    [self postRequest:postDict];
+    [self.getAllGroupsConn postRequest:postDict withTag:nil];
+//    [self postRequest:postDict];
 
 }
 
-
 -(void)viewWillDisappear:(BOOL)animated{
+    
+    [self.getAllGroupsConn removeObserver:self forKeyPath:@"response"];
+    
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])
@@ -51,6 +59,24 @@
         }
     }
 }
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"response"]) {
+        
+        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+        self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@", self.responseArray );
+        if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
+            //do nothing
+        }else{
+            [self.userDefaults setObject:self.responseArray forKey:@"groupArray"];
+            [self.userDefaults synchronize];
+            [self.tableView reloadData];
+        }
+
+    }
+}
+
 
 #pragma mark - Segue 
 
@@ -121,59 +147,59 @@
     }
 }
 
-#pragma mark - Connection setup
-
--(void)postRequest:(NSDictionary *)postDict{
-    
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://bixls.com/Qatar/" ;
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    request.delegate = self;
-    request.username =@"admin";
-    request.password = @"admin";
-    [request setRequestMethod:@"POST"];
-    [request addRequestHeader:@"Authorization" value:authValue];
-    [request addRequestHeader:@"Accept" value:@"application/json"];
-    [request addRequestHeader:@"content-type" value:@"application/json"];
-    request.allowCompressedResponse = NO;
-    request.useCookiePersistence = NO;
-    request.shouldCompressRequestBody = NO;
-    [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
-    [request startAsynchronous];
-    
-    
-}
-
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    
-     //Use when fetching text data
-    NSString *responseString = [request responseString];
-    // Use when fetching binary data
-    
-    NSData *responseData = [request responseData];
-    self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    NSLog(@"%@", self.responseArray );
-    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
-        //do nothing
-    }else{
-        [self.userDefaults setObject:self.responseArray forKey:@"groupArray"];
-        [self.userDefaults synchronize];
-        [self.tableView reloadData];
-    }
-    
-    
-}
-
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    NSError *error = [request error];
-    NSLog(@"%@",error);
-}
+//#pragma mark - Connection setup
+//
+//-(void)postRequest:(NSDictionary *)postDict{
+//    
+//    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
+//    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+//    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
+//    NSString *urlString = @"http://bixls.com/Qatar/" ;
+//    NSURL *url = [NSURL URLWithString:urlString];
+//    
+//    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+//    request.delegate = self;
+//    request.username =@"admin";
+//    request.password = @"admin";
+//    [request setRequestMethod:@"POST"];
+//    [request addRequestHeader:@"Authorization" value:authValue];
+//    [request addRequestHeader:@"Accept" value:@"application/json"];
+//    [request addRequestHeader:@"content-type" value:@"application/json"];
+//    request.allowCompressedResponse = NO;
+//    request.useCookiePersistence = NO;
+//    request.shouldCompressRequestBody = NO;
+//    [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
+//    [request startAsynchronous];
+//    
+//    
+//}
+//
+//- (void)requestFinished:(ASIHTTPRequest *)request
+//{
+//    
+//     //Use when fetching text data
+//    NSString *responseString = [request responseString];
+//    // Use when fetching binary data
+//    
+//    NSData *responseData = [request responseData];
+//    self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//    NSLog(@"%@", self.responseArray );
+//    if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
+//        //do nothing
+//    }else{
+//        [self.userDefaults setObject:self.responseArray forKey:@"groupArray"];
+//        [self.userDefaults synchronize];
+//        [self.tableView reloadData];
+//    }
+//    
+//    
+//}
+//
+//- (void)requestFailed:(ASIHTTPRequest *)request
+//{
+//    NSError *error = [request error];
+//    NSLog(@"%@",error);
+//}
 
 
 - (IBAction)btnDismissPressed:(id)sender {
