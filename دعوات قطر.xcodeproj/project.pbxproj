@@ -105,6 +105,7 @@
 		18D5AA981B7D0AA3000D8711 /* vip3.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D5AA971B7D0AA3000D8711 /* vip3.png */; };
 		18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */; };
 		18D831751B4CE6E9003F5A86 /* HomeEventsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */; };
+		18E668491BA11D750001B3CA /* NetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E668481BA11D740001B3CA /* NetworkConnection.m */; };
 		18EA68261B4B3BCD00F482FB /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68251B4B3BCD00F482FB /* EventViewController.m */; };
 		18EA68291B4B566000F482FB /* EventAttendeesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA68281B4B566000F482FB /* EventAttendeesViewController.m */; };
 		18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA682B1B4B57C800F482FB /* AttendeeTableViewCell.m */; };
@@ -287,6 +288,8 @@
 		18D831711B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeNewsCollectionViewCell.m; path = "دعوات قطر/HomeNewsCollectionViewCell.m"; sourceTree = "<group>"; };
 		18D831731B4CE6E9003F5A86 /* HomeEventsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeEventsTableViewCell.h; path = "دعوات قطر/HomeEventsTableViewCell.h"; sourceTree = "<group>"; };
 		18D831741B4CE6E9003F5A86 /* HomeEventsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeEventsTableViewCell.m; path = "دعوات قطر/HomeEventsTableViewCell.m"; sourceTree = "<group>"; };
+		18E668471BA11D740001B3CA /* NetworkConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkConnection.h; sourceTree = "<group>"; };
+		18E668481BA11D740001B3CA /* NetworkConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkConnection.m; sourceTree = "<group>"; };
 		18EA68241B4B3BCD00F482FB /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		18EA68251B4B3BCD00F482FB /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
 		18EA68271B4B566000F482FB /* EventAttendeesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAttendeesViewController.h; sourceTree = "<group>"; };
@@ -413,6 +416,8 @@
 				184B65591B3F9C6D00B1483C /* MobileCoreServices.framework */,
 				184B65311B3F60AC00B1483C /* AppDelegate.h */,
 				184B65321B3F60AC00B1483C /* AppDelegate.m */,
+				18E668471BA11D740001B3CA /* NetworkConnection.h */,
+				18E668481BA11D740001B3CA /* NetworkConnection.m */,
 				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
@@ -752,6 +757,7 @@
 				1873C2141B4D7D000026C905 /* ViewController.m in Sources */,
 				18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */,
 				18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */,
+				18E668491BA11D750001B3CA /* NetworkConnection.m in Sources */,
 				1873C2281B4DE7280026C905 /* CommentsViewController.m in Sources */,
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
 				184B65771B40804A00B1483C /* ASIAuthenticationDialog.h in Sources */,
