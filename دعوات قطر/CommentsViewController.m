@@ -39,6 +39,7 @@
     self.start = 0;
     self.limit = 5;
     [self.navigationItem setHidesBackButton:YES];
+    
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self getComments];
@@ -67,7 +68,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.comments.count > 0 ) {
-        return self.comments.count +1 ;
+        return self.comments.count + 1 ;
     }else{
         return 1;
     }
@@ -86,13 +87,15 @@
         cell0.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell0;
         
-    }else if (indexPath.row > 0 && indexPath.row<(self.comments.count+1) ){
+    }else if (indexPath.row > 0 && indexPath.row <= (self.comments.count) ){
         CommentsSecondTableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
         if (cell2==nil) {
             cell2=[[CommentsSecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell2"];
         }
         if (self.comments.count > 0) {
-            NSDictionary *comment = self.comments[indexPath.row-1];
+            NSDictionary *comment = self.comments[indexPath.row - 1];
+            NSLog(@"%d",indexPath.row-1);
+       //     NSLog(@"%@",comment);
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
 //            [cell2.userComment addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
@@ -128,13 +131,6 @@
     
     return nil ;
 }
-
-//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-//    UITextView *textView = object;
-//    CGFloat topCorrect = ([textView bounds].size.height - [textView contentSize].height * [textView zoomScale])/2.0;
-//    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
-//    textView.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
-//}
 
 
 
@@ -247,7 +243,7 @@
 -(void)getComments {
     
     NSDictionary *getEvents = @{@"FunctionName":@"retriveComments" , @"inputs":@[@{
-                                                                                 @" §":[NSString stringWithFormat:@"%ld",(long)self.postType],
+                                                                                 @"POSTType":[NSString stringWithFormat:@"%ld",(long)self.postType],
                                                                                  @"POSTID":[NSString stringWithFormat:@"%ld",(long)self.postID],
                                                                                  @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
                                                                                  @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]
@@ -296,13 +292,17 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getComments"]) {
         [self.comments addObjectsFromArray:array];
-        //NSLog(@"%@",self.comments);
+        NSLog(@"%@",self.comments);
         [self.tableView.infiniteScrollingView stopAnimating];
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"addComment"]){
         NSLog(@"Add Comment Success %@",array);
+        self.start = self.comments.count+1;
+        [self getComments];
+        
     }else if ([key isEqualToString:@"deleteComment"]){
         NSLog(@"%@",array);
+        [self getComments];
     }else if ([key isEqualToString:@"getUser"]){
          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.selectedUser = dict;
