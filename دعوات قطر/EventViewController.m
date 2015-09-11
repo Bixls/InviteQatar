@@ -79,6 +79,7 @@
     [self.imgPicFrame setHidden:YES];
     [self.lblUsername setHidden:YES];
     [self.btnUser setHidden:YES];
+    [self.creatorPicture setHidden:YES];
     
     self.isJoined = -1;
     self.isInvited =-1;
@@ -145,36 +146,36 @@
     }
 }
 
+#pragma mark - UI Methods
 
-#pragma mark - Update UI
+-(void)GenerateArabicDateWithDate:(NSString *)englishDate{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+    [formatter setLocale:qatarLocale];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *dateString = [formatter dateFromString:englishDate];
+    NSString *arabicDate = [formatter stringFromDate:dateString];
+    NSString *date = [arabicDate substringToIndex:10];
+    NSString *tempTime = [arabicDate substringFromIndex:11];
+    NSString *time = [tempTime substringToIndex:5];
+    self.eventTime.text = time;
+    self.eventDate.text = date ;
+    
+}
+
 -(void)updateUI {
 
     NSLog(@"EVEENT %@",self.event);
     if (self.selectedType == 2 || self.selectedType == 3) {
         
+        
     }else{
         self.eventSubject.text = self.event[@"subject"];
         [self.imgTitle setHidden:NO];
-        self.creatorName.text = self.event[@"CreatorName"];
-        [self.imgUserProfile setHidden:NO];
-        [self.imgPicFrame setHidden:NO];
-        [self.lblUsername setHidden:NO];
-        [self.btnUser setHidden:NO];
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
-        [formatter setLocale:qatarLocale];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-        NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",self.event[@"TimeEnded"]]];
-        NSString *arabicDate = [formatter stringFromDate:dateString];
-       // NSString *dateWithoutSeconds = [arabicDate substringToIndex:16];
 
-       // NSString *dateString = self.event[@"TimeEnded"];
-        NSString *date = [arabicDate substringToIndex:10];
-        NSString *tempTime = [arabicDate substringFromIndex:11];
-        NSString *time = [tempTime substringToIndex:5];
-        self.eventTime.text = time;
-        self.eventDate.text = date ;
+        [self GenerateArabicDateWithDate:[NSString stringWithFormat:@"%@",self.event[@"TimeEnded"]]];
+        
         self.descriptionLabel.text = self.eventDescription;
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             //Background Thread
@@ -313,17 +314,31 @@
         commentController.postDescription = self.eventDescription;
 //        commentController.postType = self.eventType;
         commentController.postType = 0;
+        
     }else if ([segue.identifier isEqualToString:@"showAttendees"]){
         EventAttendeesViewController *eventAttendeesController = segue.destinationViewController;
         eventAttendeesController.eventID = self.eventID;
+        
     }else if ([segue.identifier isEqualToString:@"editEvent"]){
         CreateEventViewController *createEventController = segue.destinationViewController;
         createEventController.createOrEdit = 1;
         createEventController.eventID = self.eventID;
         createEventController.event  = self.fullEvent;
+        
     }else if ([segue.identifier isEqualToString:@"showUser"]){
-        UserViewController *userController = segue.destinationViewController;
-        userController.user = @{@"id": [NSNumber numberWithInteger:self.creatorID]};
+        if (self.selectedType == 2 || self.selectedType == 3) {
+            UserViewController *userController = segue.destinationViewController;
+            userController.otherUserID = self.userID;
+            userController.eventOrMsg = 1;
+            
+            //        userController.user = @{@"id": [NSNumber numberWithInteger:self.creatorID]};
+        }else{
+            UserViewController *userController = segue.destinationViewController;
+            userController.user = self.user;
+            userController.eventOrMsg = 0;
+
+        }
+
         
     }else if ([segue.identifier isEqualToString:@"invite"]){
         InviteViewController *inviteController = segue.destinationViewController;
@@ -584,18 +599,24 @@
         NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSDictionary *dict = arr[0];
         //NSLog(@"Full event %@",dict);
+        NSLog(@"%@",dict);
         self.allowComments = [dict[@"comments"]integerValue];
         self.descriptionLabel.text = dict[@"description"];
         self.creatorID = [dict[@"CreatorID"]integerValue];
         self.creatorName.text = dict[@"name"];
         NSInteger eventPic = [dict[@"picture"]integerValue];
         self.eventSubject.text = dict[@"subject"];
+        [self.imgTitle setHidden:NO];
+        [self.imgUserProfile setHidden:NO];
+        [self.imgPicFrame setHidden:NO];
+        [self.lblUsername setHidden:NO];
+        [self.btnUser setHidden:NO];
+       
+        
+        
         NSString *dateString = dict[@"timeCreated"];
-        NSString *date = [dateString substringToIndex:10];
-        NSString *tempTime = [dateString substringFromIndex:11];
-        NSString *time = [tempTime substringToIndex:5];
-        self.eventTime.text = time;
-        self.eventDate.text = date ;
+        [self GenerateArabicDateWithDate:dateString];
+
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             //Background Thread
             NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",eventPic];
@@ -609,17 +630,21 @@
                 //Run UI Updates
                 self.eventPicture.image = self.eventImage;
                 self.creatorPicture.image = creatorImage;
-
+                [self.creatorPicture setHidden:NO];
             });
         });
   
         [self updateUI];
     }
     else if ([key isEqualToString:@"getUser"]){
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"CREATORRR %@",dict);
-        self.user = dict;
-        
+        self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        [self.imgUserProfile setHidden:NO];
+        [self.imgPicFrame setHidden:NO];
+        [self.lblUsername setHidden:NO];
+        [self.btnUser setHidden:NO];
+        [self.creatorPicture setHidden:NO];
+        self.creatorName.text = self.event[@"CreatorName"];
+
     }
     
 }

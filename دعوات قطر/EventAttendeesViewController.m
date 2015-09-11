@@ -122,7 +122,7 @@
                 cell.userImage.image = img;
             });
         });
-
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
     }else if (indexPath.row == self.allUsers.count){
@@ -131,7 +131,7 @@
         if (cell1==nil) {
             cell1=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
         }
-        
+        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell1;
     }
     

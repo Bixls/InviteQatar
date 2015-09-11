@@ -8,11 +8,13 @@
 
 #import "UserViewController.h"
 #import "SendMessageViewController.h"
+#import "NetworkConnection.h"
+
 @interface UserViewController ()
 
 @property (nonatomic,strong)NSUserDefaults *userDefaults;
-@property(nonatomic) NSInteger otherUserID;
 @property (nonatomic) NSInteger userID;
+@property (nonatomic,strong) NetworkConnection *getUserConnection;
 
 @end
 
@@ -20,31 +22,72 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.navigationItem.backBarButtonItem = nil;
-    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
-                                        nil] forState:UIControlStateNormal];
-    backbutton.tintColor = [UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = backbutton;
     self.view.backgroundColor = [UIColor blackColor];
+    
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
-    self.otherUserID = [self.user[@"id"]integerValue];
-    if (self.otherUserID == self.userID) {
-        [self.btnSendMessage setHidden:YES];
-        [self.imgSendMessage setHidden:YES];
-    }else{
-        [self.btnSendMessage setHidden:NO];
-        [self.imgSendMessage setHidden:NO];
+    
+    if (self.eventOrMsg == 0) {
+        self.otherUserID = [self.user[@"id"]integerValue];
+        [self checkIfSameProfile];
+        [self updateUIWithUser:self.user];
+        //NSLog(@"%@",self.user);
+    }else if (self.eventOrMsg == 1){
+        self.getUserConnection = [[NetworkConnection alloc]init];
+        [self.getUserConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
+        
     }
-    NSLog(@"%@",self.user);
-    self.userName.text = self.user[@"name"];
-    self.userGroup.text = self.user[@"GroupName"];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self getUSer];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.getUserConnection removeObserver:self forKeyPath:@"response"];
+    
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
+
+#pragma mark - KVO Methods
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"response"]) {
+        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+        self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        [self updateUIWithUser:self.user];
+    }
+}
+
+#pragma mark - Connection
+-(void)getUSer {
+    
+    NSDictionary *getUserDic = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
+                                                                               @"id":[NSString stringWithFormat:@"%ld",(long)self.otherUserID]
+                                                                               }]};
+    
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    
+    [self.getUserConnection postRequest:getUserDic withTag:getUserTag];
+    
+}
+
+
+#pragma mark - Methods
+
+-(void)updateUIWithUser:(NSDictionary *)user{
+    
+    self.userName.text = user[@"name"];
+    self.userGroup.text = user[@"GName"];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
+        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]];
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         UIImage *userImage = [[UIImage alloc]initWithData:imageData];
         dispatch_async(dispatch_get_main_queue(), ^(void){
@@ -52,10 +95,19 @@
             self.userPicture.image = userImage;
         });
     });
-
-    [self.navigationItem setHidesBackButton:YES];
 }
 
+-(void)checkIfSameProfile{
+    if (self.otherUserID == self.userID) {
+        [self.btnSendMessage setHidden:YES];
+        [self.imgSendMessage setHidden:YES];
+    }else{
+        [self.btnSendMessage setHidden:NO];
+        [self.imgSendMessage setHidden:NO];
+    }
+}
+
+#pragma mark - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"sendMessage"]) {
@@ -63,6 +115,9 @@
         sendMessageController.receiverID = self.otherUserID;
     }
 }
+
+#pragma mark - Buttons
+
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

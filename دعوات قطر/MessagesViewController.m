@@ -257,6 +257,7 @@
     NSDictionary *getMessages = @{@"FunctionName":@"RetriveInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                                              @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
                                                                              @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]};
+    NSLog(@"%@",getMessages);
     NSMutableDictionary *getMessagesTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getMessages",@"key", nil];
     [self postRequest:getMessages withTag:getMessagesTag];
     

@@ -297,7 +297,7 @@
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"addComment"]){
         NSLog(@"Add Comment Success %@",array);
-        self.start = self.comments.count+1;
+        self.start = self.comments.count;
         [self getComments];
         
     }else if ([key isEqualToString:@"deleteComment"]){
