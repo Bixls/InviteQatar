@@ -103,21 +103,21 @@ static void *uploadImageContext = &uploadImageContext;
             NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
             self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
             NSLog(@"%@",self.responseDictionary);
-            NSInteger success = [self.responseDictionary[@"sucess"]integerValue];
-            if (success == 1) {
+            NSInteger success = [self.responseDictionary[@"sucess"]boolValue];
+            if (success == true) {
                 self.userID = [self.responseDictionary[@"id"]integerValue];
                 NSLog(@"USER ID %d",self.userID);
                 [self.userDefaults setInteger:self.userID forKey:@"userID"];
                 [self.userDefaults synchronize];
                 self.activateFlag = 1;
                 [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-                
                 [self.userDefaults synchronize];
                 
                 
                 UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+                alertView.tag = 1;
                 [alertView show];
-                [self performSegueWithIdentifier:@"activateAccount" sender:self];
+
                 
             }else{
                 UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"الإسم أو رقم الهاتف موجودون بالفعل" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
@@ -137,6 +137,16 @@ static void *uploadImageContext = &uploadImageContext;
     }
     
     
+}
+
+#pragma mark - Alert View Delegate 
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag == 1) {
+        if (buttonIndex == 0) {
+            [self performSegueWithIdentifier:@"activateAccount" sender:self];
+        }
+    }
 }
 
 #pragma mark - Delegate Methods
@@ -240,7 +250,21 @@ static void *uploadImageContext = &uploadImageContext;
     }
 }
 
-#pragma mark - Buttons 
+#pragma mark - Methods
+
+-(void)signUp{
+    NSDictionary *postDict = @{@"FunctionName":@"Register" ,
+                               @"inputs":@[@{@"name":self.nameField.text,
+                                             @"Mobile":self.mobileField.text,
+                                             @"password":self.passwordField.text,
+                                             @"groupID":(NSString *)self.selectedGroup[@"id"],
+                                             @"ProfilePic":self.imageURL}]};
+    
+    NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
+    [self.signUpConn postRequest:postDict withTag:registerTag];
+}
+
+#pragma mark - Buttons
 
 - (IBAction)btnChooseImagePressed:(id)sender {
     
@@ -260,18 +284,7 @@ static void *uploadImageContext = &uploadImageContext;
     if ((self.nameField.text.length != 0) && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length != 0) && (groupID.length > 0)) {
         if (self.flag == 1 && self.uploaded == 1 ) {
             
-            NSDictionary *postDict = @{@"FunctionName":@"Register" ,
-                                       @"inputs":@[@{@"name":self.nameField.text,
-                                                     @"Mobile":self.mobileField.text,
-                                                     @"password":self.passwordField.text,
-                                                     @"groupID":(NSString *)self.selectedGroup[@"id"],
-                                                     @"ProfilePic":self.imageURL}]};
-            
-            NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
-            
-            //                [self postRequest:postDict withTag:registerTag];
-            [self.signUpConn postRequest:postDict withTag:registerTag];
-            
+            [self signUp];
             
         }else if (self.flag == 1){
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];

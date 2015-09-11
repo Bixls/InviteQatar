@@ -16,7 +16,7 @@
 @property (nonatomic) NSInteger savedID;
 @property (nonatomic,strong) NSDictionary *user;
 @property (nonatomic,strong) NetworkConnection *connection;
-
+@property (nonatomic, strong) NSString *password;
 @end
 
 @implementation SignInViewController
@@ -55,38 +55,59 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"response"]) {
-        //
         
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
-        NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil]);
         self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSString *temp = [NSString stringWithFormat:@"%@",self.user[@"Mobile"]];
+        
+
         NSInteger userID = [self.user[@"id"]integerValue];
-        NSInteger guest = ![self.user[@"Verified"]integerValue];
-        NSString * mobile = self.mobileField.text;
-        NSString * password = self.passwordField.text;
-        NSLog(@"%ld",(long)guest);
-        if ([temp isEqualToString:self.mobileField.text]) {
+        NSInteger mobile =[self.user[@"Mobile"]integerValue];
+        
+        
+        //NSInteger guest = ![self.user[@"Verified"]integerValue];
+        
+//        NSString * password = self.passwordField.text;
+        //NSLog(@"%ld",(long)guest);
+        
+        //[temp isEqualToString:self.mobileField.text]
+        
+
+        if ([self.user[@"Verified"]boolValue] == true) {
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
-            [self.userDefaults setInteger:guest forKey:@"Guest"];
-            [self.userDefaults setObject:self.user forKey:@"user"];
-            [self.userDefaults setInteger:userID forKey:@"userID"];
-            [self.userDefaults setObject:mobile forKey:@"mobile"];
-            [self.userDefaults setObject:password forKey:@"password"];
             [self.userDefaults synchronize];
+            [self saveUserData];
             [self dismissViewControllerAnimated:YES completion:nil];
-        }else{
+            
+        }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من إدخال بياناتك الصحيحة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
+        }else if ([self.user[@"Verified"]boolValue] == false){
+            [self saveUserData];
+            [self performSegueWithIdentifier:@"activate" sender:self];
         }
 
     }
 }
 
-#pragma mark - Textfield delegate methods 
+#pragma mark - Methods
+
+-(void)saveUserData {
+    NSInteger userID = [self.user[@"id"]integerValue];
+    NSInteger userMobile =[self.user[@"Mobile"]integerValue];
+    NSString *userName = self.user[@"name"];
+    
+    [self.userDefaults setObject:self.user forKey:@"user"];
+    [self.userDefaults setInteger:userID forKey:@"userID"];
+    [self.userDefaults setInteger:userMobile forKey:@"mobile"];
+    [self.userDefaults setObject:userName forKey:@"userName"];
+    
+    [self.userDefaults synchronize];
+
+}
+
+#pragma mark - Textfield delegate methods
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSLog(@"%@ , %@",self.passwordField.text , self.passwordField.text);
     [textField resignFirstResponder];
     return YES;
 }
@@ -96,12 +117,12 @@
 - (IBAction)btnSignInPressed:(id)sender {
     
     
+    self.password = self.passwordField.text;
     
     NSDictionary *postDict = @{
                                @"FunctionName":@"signIn" ,
                                @"inputs":@[@{@"Mobile":self.mobileField.text,
                                                                                        @"password":self.passwordField.text}]};
-    //[self postRequest:postDict];
     [self.connection postRequest:postDict withTag:nil];
 }
 

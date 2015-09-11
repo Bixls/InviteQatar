@@ -23,10 +23,10 @@
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     
-    self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
-    if (self.activateFlag == 1) {
-        [self performSegueWithIdentifier:@"activateAccount" sender:self];
-    }
+//    self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
+//    if (self.activateFlag == 1) {
+//        [self performSegueWithIdentifier:@"activateAccount" sender:self];
+//    }
 }
 
 - (IBAction)btnGuestPressed:(id)sender {
@@ -36,9 +36,3 @@
 }
 @end
 
-
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-//                             forBarMetrics:UIBarMetricsDefault];
-
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
-//    self.navigationController.navigationBar.translucent = YES;

@@ -14,7 +14,7 @@
 
 @property (strong,nonatomic) NSUserDefaults *userDefaults;
 @property (nonatomic) int savedID;
-@property (nonatomic) int activateFlag;
+@property (nonatomic) NSInteger activateFlag;
 
 @property (weak, nonatomic) IBOutlet UIImageView *responseImage;
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
@@ -32,12 +32,10 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
-    [self.navigationItem setHidesBackButton:YES];
-    NSLog(@"Self.user id = %d",self.userID);
+    self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
+
+    //NSLog(@"Self.user id = %ld",(long)self.userID);
     self.verifyConn = [[NetworkConnection alloc]init];
-
-
-
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -60,9 +58,10 @@
     if ([keyPath isEqualToString:@"response"]) {
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        if ([self.responseDictionary[@"success"] integerValue] == 0) {
-            self.responseLabel.text = @"عفوا كودالتفعيل خطأ" ;
-        }else if ([self.responseDictionary[@"success"] integerValue]== 1){
+        
+        if ([self.responseDictionary[@"success"]boolValue] == false) {
+            self.responseLabel.text = @"عفواً كود التفعيل خطأ" ;
+        }else if ([self.responseDictionary[@"success"]boolValue] == true){
             self.responseLabel.text = @"شكراً لك تم تفعيل حسابك";
             [self.userDefaults setInteger:0 forKey:@"Guest"];
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
@@ -90,7 +89,7 @@
 #pragma mark Buttons 
 
 - (IBAction)btnConfirmPressed:(id)sender {
-    NSDictionary *postDict = @{@"FunctionName":@"Verify" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%d",self.userID],
+    NSDictionary *postDict = @{@"FunctionName":@"Verify" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                                                                                                                                               @"Verified":self.confirmField.text}]};
     [self.verifyConn postRequest:postDict withTag:nil];
     
@@ -102,7 +101,12 @@
 }
 
 - (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.activateFlag == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if (self.activateFlag == 1){
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
 }
 
 @end
