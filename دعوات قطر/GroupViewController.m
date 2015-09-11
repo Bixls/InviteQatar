@@ -262,6 +262,18 @@
   
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (collectionView.tag == 1) {
+        return CGSizeMake([UIScreen mainScreen].bounds.size.width - 27, 142);
+    }else{
+        return CGSizeMake([UIScreen mainScreen].bounds.size.width - 25 , 80);
+    }
+    
+    
+}
+
+
 
 
 #pragma mark - Table View 
