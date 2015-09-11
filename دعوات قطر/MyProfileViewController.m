@@ -350,12 +350,15 @@
     }else if (buttonIndex == 2){
         
         NSString *url = @"https://itunes.apple.com/qa/app/d-wat-qtr/id1019189072?mt=8 حمل تطبيق دعوات قطر الآن من هنا";
+        url = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                    (CFStringRef)url,
+                                                                                    NULL,
+                                                                                    CFSTR("!*'();:@&=+$,/?%#[]"),
+                                                                                    kCFStringEncodingUTF8));
         NSURL *whatsappURL = [NSURL URLWithString:[NSString stringWithFormat:@"whatsapp://send?text=%@",url]];
         if ([[UIApplication sharedApplication] canOpenURL: whatsappURL]) {
             [[UIApplication sharedApplication] openURL: whatsappURL];
         }
-        
-        
 
     }
 }

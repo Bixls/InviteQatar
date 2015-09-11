@@ -269,7 +269,6 @@
     }else{
         return CGSizeMake([UIScreen mainScreen].bounds.size.width - 25 , 80);
     }
-    //
     
 }
 
