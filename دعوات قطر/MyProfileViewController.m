@@ -14,6 +14,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 @interface MyProfileViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UIImageView *btnSignOut;
 
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger groupID;
@@ -24,51 +26,34 @@
 @property (nonatomic,strong) NSArray *events;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic, retain) UIDocumentInteractionController *dic;
+@property (nonatomic) BOOL finishedLoadingEvents;
 @end
 
 @implementation MyProfileViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
-                                        nil] forState:UIControlStateNormal];
-    backbutton.tintColor = [UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = backbutton;
     self.view.backgroundColor = [UIColor blackColor];
+    
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
-    
-//    if ([self.userDefaults integerForKey:@"Guest"] != 1) {
-//        [self.btnActivateAccount setHidden:YES];
-//        [self.imgActivateAccount setHidden:YES];
-//    }else{
-//        [self.myGroup setHidden:YES];
-//        [self.btnAllEvents setEnabled:NO];
-//        [self.btnEditAccount setEnabled:NO];
-//        [self.btnNewEvent setEnabled:NO];
-//    }
-  
-    //NSLog(@"%ld",self.userID);
-//    if (self.userID) {
-//        [self getUser];
-//    }
-    
-    
-    [self.navigationItem setHidesBackButton:YES];
+
+    NSLog(@"%d",self.finishedLoadingEvents);
     [self.activateLabel setHidden:YES];
     [self.activateLabel2 setHidden:YES];
+    [self.btnSeeMore setHidden:YES];
+    [self.imgSeeMore setHidden:YES];
     
-    if ([self.userDefaults integerForKey:@"Guest"]==1) {
-        [self.tableView setHidden:YES];
-        [self.btnSeeMore setHidden:YES];
-        [self.imgSeeMore setHidden:YES];
-        self.smallerView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 400)];
-        [self.activateLabel setHidden:NO];
-    }
+//    if ([self.userDefaults integerForKey:@"Guest"]==1) {
+//        [self.tableView setHidden:YES];
+//        [self.btnSeeMore setHidden:YES];
+//        [self.imgSeeMore setHidden:YES];
+//        self.smallerView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 400)];
+//        [self.activateLabel setHidden:NO];
+//    }
+
     
 }
 
@@ -122,12 +107,14 @@
         [self.activateLabel setHidden:YES];
         [self.activateLabel2 setHidden:YES];
         return self.events.count ;
-    }else{
-        
-        [self.btnSeeMore setHidden:YES];
-        [self.imgSeeMore setHidden:YES];
+    }else if (self.events.count == 0 && self.finishedLoadingEvents == true){
+        [self.btnSeeMore removeFromSuperview];
+        [self.imgSeeMore removeFromSuperview];
+        [self.tableView removeFromSuperview];
         [self.activateLabel setHidden:NO];
         [self.activateLabel2 setHidden:NO];
+        return 0;
+    }else{
         return 0;
     }
 }
@@ -280,6 +267,7 @@
     }else if ([key isEqualToString:@"getEvents"]){
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.events = responseArray;
+        self.finishedLoadingEvents = true;
         [self.tableView reloadData];
 
     }
