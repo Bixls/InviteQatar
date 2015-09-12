@@ -46,13 +46,7 @@
     [self.btnSeeMore setHidden:YES];
     [self.imgSeeMore setHidden:YES];
     
-//    if ([self.userDefaults integerForKey:@"Guest"]==1) {
-//        [self.tableView setHidden:YES];
-//        [self.btnSeeMore setHidden:YES];
-//        [self.imgSeeMore setHidden:YES];
-//        self.smallerView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 400)];
-//        [self.activateLabel setHidden:NO];
-//    }
+
 
     
 }
@@ -113,6 +107,9 @@
         [self.tableView removeFromSuperview];
         [self.activateLabel setHidden:NO];
         [self.activateLabel2 setHidden:NO];
+   
+
+        
         return 0;
     }else{
         return 0;

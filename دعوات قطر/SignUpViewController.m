@@ -235,6 +235,7 @@ static void *uploadImageContext = &uploadImageContext;
 #pragma mark - Action Sheet Delegate Methods
 
 - (void)actionSheet:(UIActionSheet * )actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
     if (buttonIndex == 0) {
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
             
@@ -249,6 +250,14 @@ static void *uploadImageContext = &uploadImageContext;
         [self performSegueWithIdentifier:@"offlinePic" sender:self];
     }
 }
+
+#pragma mark - Navigation Controller Delegate
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
+
 
 #pragma mark - Methods
 

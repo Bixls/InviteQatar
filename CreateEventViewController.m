@@ -388,6 +388,11 @@
     }
 }
 
+#pragma mark - Navigation Controller Delegate 
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent];
+}
 
 
 #pragma mark - Buttons

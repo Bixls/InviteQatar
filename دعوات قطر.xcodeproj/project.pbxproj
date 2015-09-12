@@ -218,6 +218,7 @@
 		184B659D1B41E9F400B1483C /* EditAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountViewController.m; sourceTree = "<group>"; };
 		184B659F1B421C0200B1483C /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
 		184B65A01B421C0200B1483C /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		18514B641BA3B92A00DF2C94 /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
 		1859E8BB1B84DE4F00091D25 /* SearchPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchPageViewController.h; sourceTree = "<group>"; };
 		1859E8BC1B84DE4F00091D25 /* SearchPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchPageViewController.m; sourceTree = "<group>"; };
 		1859E8BE1B84F14500091D25 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
@@ -250,7 +251,6 @@
 		187400901B679BEC00D84CD1 /* UnActivatedProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UnActivatedProfileViewController.m; path = ../UnActivatedProfileViewController.m; sourceTree = "<group>"; };
 		187C0AFF1B44F55700A1800B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		187C0B001B44F55700A1800B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
-		187C63921B46259900B3E3EA /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
 		187C63931B46259900B3E3EA /* MyProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileViewController.m; sourceTree = "<group>"; };
 		187C63991B473FE200B3E3EA /* InviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteViewController.h; sourceTree = "<group>"; };
 		187C639A1B473FE200B3E3EA /* InviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteViewController.m; sourceTree = "<group>"; };
@@ -421,7 +421,7 @@
 				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
-				187C63921B46259900B3E3EA /* MyProfileViewController.h */,
+				18514B641BA3B92A00DF2C94 /* MyProfileViewController.h */,
 				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
 				1874008F1B679BEC00D84CD1 /* UnActivatedProfileViewController.h */,
 				187400901B679BEC00D84CD1 /* UnActivatedProfileViewController.m */,
