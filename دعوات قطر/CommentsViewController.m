@@ -12,6 +12,7 @@
 #import "CommentsSecondTableViewCell.h"
 #import "UserViewController.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
+#import "UIImageView+WebCache.h"
 
 @interface CommentsViewController ()
 
@@ -94,23 +95,33 @@
         }
         if (self.comments.count > 0) {
             NSDictionary *comment = self.comments[indexPath.row - 1];
-            NSLog(@"%d",indexPath.row-1);
+            NSLog(@"%ld",indexPath.row-1);
        //     NSLog(@"%@",comment);
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
+            
+            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                if (error) {
+                    NSLog(@"Error downloading images");
+                }else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        cell2.userImage.image = image;
+                    });
+                }
+            }];
 //            [cell2.userComment addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
             
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                //Background Thread
-                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
-                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-                UIImage *img = [[UIImage alloc]initWithData:data];
-                dispatch_async(dispatch_get_main_queue(), ^(void){
-                    //Run UI Updates
-                    cell2.userImage.image = img;
-                    
-                });
-            });
+//            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//                //Background Thread
+//                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
+//                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+//                UIImage *img = [[UIImage alloc]initWithData:data];
+//                dispatch_async(dispatch_get_main_queue(), ^(void){
+//                    //Run UI Updates
+//                    cell2.userImage.image = img;
+//                    
+//                });
+//            });
             
 
         }
