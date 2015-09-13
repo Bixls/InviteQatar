@@ -123,7 +123,7 @@
     
     // a UIAlertView brings up the purchase option
     UIAlertView *storeUI = [[UIAlertView alloc]initWithTitle:product.localizedTitle message:product.localizedDescription delegate:self cancelButtonTitle:@"Close" otherButtonTitles:price, nil];
-    [storeUI show];
+   // [storeUI show];
     
 }
 
