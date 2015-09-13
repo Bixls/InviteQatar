@@ -9,11 +9,13 @@
 #import "SearchPageViewController.h"
 #import "ASIHTTPRequest.h"
 #import "UserViewController.h"
+#import "NetworkConnection.h"
 
 @interface SearchPageViewController ()
 
 @property (nonatomic,strong) NSDictionary *postDict;
 @property (nonatomic,strong) NSDictionary *selectedUser;
+@property (nonatomic,strong) NetworkConnection *searchUsersConnection;
 
 @end
 
@@ -25,11 +27,19 @@
     [self.textField addTarget:self
                        action:@selector(textFieldDidChange)
              forControlEvents:UIControlEventEditingChanged];
-    [self.navigationItem setHidesBackButton:YES];
+    
     self.viewHeight.constant = self.view.bounds.size.height - 35;
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.searchUsersConnection = [[NetworkConnection alloc]init];
+    [self.searchUsersConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [self.searchUsersConnection removeObserver:self forKeyPath:@"response"];
+    
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])
@@ -40,9 +50,21 @@
     }
 }
 
+#pragma mark - Methods
 
 -(void)textFieldDidChange{
-    [self searchDataBaseWithText:self.textField.text];
+    [self.searchUsersConnection searchDataBaseWithText:self.textField.text];
+}
+
+#pragma mark - KVO Methods
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"response"]) {
+        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+        self.filteredNames = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@",self.filteredNames);
+        [self.tableView reloadData];
+    }
 }
 
 
@@ -80,6 +102,7 @@
 }
 
 #pragma mark - Table view Delegate
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedUser = self.filteredNames[indexPath.row];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -87,63 +110,6 @@
     [self performSegueWithIdentifier:@"user" sender:self];
 }
 
-
-#pragma mark - Connection Setup
-
--(void)searchDataBaseWithText:(NSString*)text {
-    self.postDict = @{
-                      @"FunctionName":@"searchUsers" ,
-                      @"inputs":@[@{@"Key":text,
-                                    @"start":@"0",
-                                    @"limit":@"50000"}]};
-    
-    [self postRequest:self.postDict];
-}
-
--(void)postRequest:(NSDictionary *)postDict{
-    
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://bixls.com/Qatar/" ;
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    request.delegate = self;
-    request.username =@"admin";
-    request.password = @"admin";
-    [request setRequestMethod:@"POST"];
-    [request addRequestHeader:@"Authorization" value:authValue];
-    [request addRequestHeader:@"Accept" value:@"application/json"];
-    [request addRequestHeader:@"content-type" value:@"application/json"];
-    request.allowCompressedResponse = NO;
-    request.useCookiePersistence = NO;
-    request.shouldCompressRequestBody = NO;
-    if (self.textField.text.length > 0) {
-        [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
-        [request startAsynchronous];
-    }
-    
-    
-    
-    
-}
-
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-
-    NSData *responseData = [request responseData];
-    self.filteredNames = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    NSLog(@"%@",self.filteredNames);
-    [self.tableView reloadData];
-    
-}
-
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    NSError *error = [request error];
-    NSLog(@"%@",error);
-}
 
 #pragma mark - Buttons
 

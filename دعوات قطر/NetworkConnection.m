@@ -30,14 +30,6 @@
     self.imageRequest.useCookiePersistence = NO;
     self.imageRequest.shouldCompressRequestBody = NO;
     self.imageRequest.userInfo = dict;
-    //    [self.imageRequest setPostValue:@"6" forKey:@"id"];
-    //    [self.imageRequest setPostValue:@"user" forKey:@"type"];
-    
-    
-//    NSData *testData = [NSData dataWithData:UIImageJPEGRepresentation(image, 1.0)];
-    
-    //NSLog(@"%@ ",testData);
-    
     [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(image,1.0)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
     [self.imageRequest startAsynchronous];
 }
@@ -68,15 +60,24 @@
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     self.response = [request responseData];
-    NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:self.response options:kNilOptions error:nil]);
+    //NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:self.response options:kNilOptions error:nil]);
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+    //NSLog(@"%@",error);
 }
 
+-(void)searchDataBaseWithText:(NSString*)text {
+    NSDictionary *postDict = @{
+                      @"FunctionName":@"searchUsers" ,
+                      @"inputs":@[@{@"Key":text,
+                                    @"start":@"0",
+                                    @"limit":@"50000"}]};
+    
+    [self postRequest:postDict withTag:nil];
+}
 
 
 @end

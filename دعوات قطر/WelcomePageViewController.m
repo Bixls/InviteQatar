@@ -23,10 +23,6 @@
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     
-//    self.activateFlag = [self.userDefaults integerForKey:@"activateFlag"];
-//    if (self.activateFlag == 1) {
-//        [self performSegueWithIdentifier:@"activateAccount" sender:self];
-//    }
 }
 
 - (IBAction)btnGuestPressed:(id)sender {

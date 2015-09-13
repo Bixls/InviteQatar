@@ -17,5 +17,6 @@
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict;
 -(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image;
+-(void)searchDataBaseWithText:(NSString*)text;
 
 @end
