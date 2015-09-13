@@ -47,6 +47,7 @@
         }
     }
 }
+
 #pragma mark - TextField Delegate Methods
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -148,7 +149,6 @@
             [self.userDefaults setObject:responseDict[@"name"] forKey:@"userName"];
             [self.userDefaults synchronize];
         }
-        
         
     }
     

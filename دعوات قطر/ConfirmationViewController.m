@@ -69,7 +69,7 @@
             self.activateFlag = 0;
             [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
             [self dismissViewControllerAnimated:YES completion:nil];
-            //[self.navigationController popToRootViewControllerAnimated:YES];
+            
         }
         NSLog(@"%@",self.responseDictionary);
         

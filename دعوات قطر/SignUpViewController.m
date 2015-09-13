@@ -27,6 +27,8 @@ static void *uploadImageContext = &uploadImageContext;
 @property (weak, nonatomic) IBOutlet UITextField *mobileField;
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseGroup;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+
 
 @property (strong,nonatomic)UIActivityIndicatorView * spinner;
 @property (strong,nonatomic) NSDictionary *selectedGroup;
@@ -42,6 +44,7 @@ static void *uploadImageContext = &uploadImageContext;
 @property (nonatomic,strong) UIImage *selectedImage;
 @property (nonatomic,strong) NetworkConnection *uploadImageConn;
 @property (nonatomic,strong) NetworkConnection *signUpConn;
+
 @end
 
 @implementation SignUpViewController
@@ -60,6 +63,8 @@ static void *uploadImageContext = &uploadImageContext;
     self.uploadImageConn = [[NetworkConnection alloc]init];
     self.signUpConn = [[NetworkConnection alloc]init];
     
+    self.customAlert.delegate = self;
+    [self.customAlert setHidden:YES];
     
     
     
@@ -120,6 +125,7 @@ static void *uploadImageContext = &uploadImageContext;
 
                 
             }else{
+                
                 UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"الإسم أو رقم الهاتف موجودون بالفعل" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
                 [alertView show];
                 
@@ -141,13 +147,13 @@ static void *uploadImageContext = &uploadImageContext;
 
 #pragma mark - Alert View Delegate 
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (alertView.tag == 1) {
-        if (buttonIndex == 0) {
-            [self performSegueWithIdentifier:@"activateAccount" sender:self];
-        }
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    if (alertView.tag == 1) {
+//        if (buttonIndex == 0) {
+//            [self performSegueWithIdentifier:@"activateAccount" sender:self];
+//        }
+//    }
+//}
 
 #pragma mark - Delegate Methods
 
@@ -167,6 +173,15 @@ static void *uploadImageContext = &uploadImageContext;
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     self.offlinePic = 1 ;
     self.flag = 1;
+}
+
+-(void)customAlertCancelBtnPressed{
+    [self.customAlert setHidden:YES];
+    if (self.customAlert.tag == 1) {
+        [self performSegueWithIdentifier:@"activateAccount" sender:self];
+        self.customAlert.tag = 0;
+    }
+    
 }
 
 #pragma mark - Segue
@@ -307,8 +322,14 @@ static void *uploadImageContext = &uploadImageContext;
         
     } else{
         
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-        [alertView show];
+//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+//        [alertView show];
+//
+
+        [self.customAlert setHidden:NO];
+        self.customAlert.viewLabel.text = @"من فضلك تأكد من تكمله جميع البيانات" ;
+
+        
     }
 
 //    }
