@@ -13,7 +13,7 @@
 #import "ConfirmationViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "NetworkConnection.h"
-
+#import <URBNAlert/URBNAlert.h>
 
 static void *signUpContext = &signUpContext;
 static void *uploadImageContext = &uploadImageContext;
@@ -28,6 +28,7 @@ static void *uploadImageContext = &uploadImageContext;
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseGroup;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 @property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
 
 
 @property (strong,nonatomic)UIActivityIndicatorView * spinner;
@@ -44,6 +45,7 @@ static void *uploadImageContext = &uploadImageContext;
 @property (nonatomic,strong) UIImage *selectedImage;
 @property (nonatomic,strong) NetworkConnection *uploadImageConn;
 @property (nonatomic,strong) NetworkConnection *signUpConn;
+@property (nonatomic) NSInteger alertTag;
 
 @end
 
@@ -64,9 +66,7 @@ static void *uploadImageContext = &uploadImageContext;
     self.signUpConn = [[NetworkConnection alloc]init];
     
     self.customAlert.delegate = self;
-    [self.customAlert setHidden:YES];
-    
-    
+    [self.customAlertView setHidden:YES];
     
 }
 
@@ -78,7 +78,6 @@ static void *uploadImageContext = &uploadImageContext;
     if (self.offlinePic == 1) {
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
         [self.uploadImageConn postPicturewithTag:pictureTag uploadImage:self.profilePicture.image];
-        //[self postPicturewithTag:pictureTag];
         self.offlinePic = 0;
     }
 }
@@ -117,17 +116,12 @@ static void *uploadImageContext = &uploadImageContext;
                 self.activateFlag = 1;
                 [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
                 [self.userDefaults synchronize];
-                
-                
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال طلب التسجيل بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-                alertView.tag = 1;
-                [alertView show];
+
+                [self showAlertWithMsg:@"تم إرسال طلب التسجيل بنجاح" alertTag:1];
 
                 
             }else{
-                
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"الإسم أو رقم الهاتف موجودون بالفعل" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-                [alertView show];
+                [self showAlertWithMsg:@"الإسم أو رقم الهاتف موجودون بالفعل" alertTag:0];
                 
             }
             
@@ -145,15 +139,16 @@ static void *uploadImageContext = &uploadImageContext;
     
 }
 
-#pragma mark - Alert View Delegate 
+#pragma mark - Alert View Methods
 
-//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-//    if (alertView.tag == 1) {
-//        if (buttonIndex == 0) {
-//            [self performSegueWithIdentifier:@"activateAccount" sender:self];
-//        }
-//    }
-//}
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
+
+    [self.customAlertView setHidden:NO];
+    self.customAlert.viewLabel.text = msg ;
+    self.customAlert.tag = tag;
+}
+
+
 
 #pragma mark - Delegate Methods
 
@@ -176,13 +171,15 @@ static void *uploadImageContext = &uploadImageContext;
 }
 
 -(void)customAlertCancelBtnPressed{
-    [self.customAlert setHidden:YES];
+    [self.customAlertView setHidden:YES];
     if (self.customAlert.tag == 1) {
         [self performSegueWithIdentifier:@"activateAccount" sender:self];
         self.customAlert.tag = 0;
     }
     
 }
+
+
 
 #pragma mark - Segue
 
@@ -288,20 +285,19 @@ static void *uploadImageContext = &uploadImageContext;
     [self.signUpConn postRequest:postDict withTag:registerTag];
 }
 
+
+
 #pragma mark - Buttons
 
 - (IBAction)btnChooseImagePressed:(id)sender {
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"ضع صورتك الشخصية أو اختار صورة رمزية" delegate:self cancelButtonTitle:@"إلغاء" destructiveButtonTitle:nil otherButtonTitles:@"صورة شخصية",@"صورة رمزية", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"ضع صورتك الشخصية أو اختار صورة رمزية" delegate:self cancelButtonTitle:@"إغلاق" destructiveButtonTitle:nil otherButtonTitles:@"صورة شخصية",@"صورة رمزية", nil];
     [actionSheet showInView:self.view];
     
     }
 
 
 - (IBAction)btnSignUpPressed:(id)sender {
-    
-    
-//    if (self.activateFlag == 0) {
     
     NSString *groupID = (NSString *)self.selectedGroup[@"id"];
     
@@ -311,28 +307,19 @@ static void *uploadImageContext = &uploadImageContext;
             [self signUp];
             
         }else if (self.flag == 1){
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
+
+            [self showAlertWithMsg:@"من فضلك انتظر حتي يتم رفع الصورة" alertTag:0];
         }else {
             
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
-            
+            [self showAlertWithMsg:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" alertTag:0];
         }
         
     } else{
-        
-//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من تكمله جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-//        [alertView show];
-//
 
-        [self.customAlert setHidden:NO];
-        self.customAlert.viewLabel.text = @"من فضلك تأكد من تكمله جميع البيانات" ;
-
-        
+        [self showAlertWithMsg:@"من فضلك تأكد من تكمله جميع البيانات" alertTag:0];
     }
 
-//    }
+
     
 }
 

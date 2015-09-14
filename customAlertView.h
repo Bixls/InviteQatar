@@ -22,6 +22,8 @@
 
 @property (strong, nonatomic) IBOutlet UIView *view;
 @property (weak, nonatomic) IBOutlet UILabel *viewLabel;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
+
 - (IBAction)viewCloseBtnPressed:(id)sender;
 
 

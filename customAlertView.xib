@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="customAlertView">
             <connections>
+                <outlet property="closeButton" destination="ML7-Q9-3k1" id="tnA-eK-GvK"/>
                 <outlet property="view" destination="iN0-l3-epB" id="tVQ-7h-YvL"/>
                 <outlet property="viewLabel" destination="Cm8-tW-8BR" id="w6z-mN-dj4"/>
             </connections>
@@ -23,8 +24,8 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ML7-Q9-3k1">
-                    <rect key="frame" x="8" y="72" width="214" height="30"/>
-                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
+                    <rect key="frame" x="8" y="80" width="214" height="29"/>
+                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="16"/>
                     <state key="normal" title="إغلاق">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -32,20 +33,27 @@
                         <action selector="viewCloseBtnPressed:" destination="-1" eventType="touchUpInside" id="8iS-nl-Rg5"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cm8-tW-8BR">
-                    <rect key="frame" x="8" y="17" width="214" height="47"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cm8-tW-8BR">
+                    <rect key="frame" x="8" y="8" width="214" height="64"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="47" id="dcg-Fb-mHy"/>
+                        <constraint firstAttribute="height" constant="64" id="dcg-Fb-mHy"/>
                         <constraint firstAttribute="width" constant="214" id="jw5-4y-Cq7"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="jw5-4y-Cq7"/>
+                        </mask>
+                    </variation>
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.80000000000000004" green="0.80392156862745101" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="Cm8-tW-8BR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="17" id="59R-TD-j9D"/>
+                <constraint firstItem="Cm8-tW-8BR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="59R-TD-j9D"/>
+                <constraint firstItem="Cm8-tW-8BR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="6nn-9X-3ag"/>
+                <constraint firstAttribute="trailing" secondItem="Cm8-tW-8BR" secondAttribute="trailing" constant="8" id="8lg-hR-mIy"/>
                 <constraint firstItem="Cm8-tW-8BR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="9Hp-g9-MUH"/>
                 <constraint firstAttribute="trailing" secondItem="Cm8-tW-8BR" secondAttribute="trailing" constant="8" id="OCs-b7-8TM"/>
                 <constraint firstAttribute="centerX" secondItem="ML7-Q9-3k1" secondAttribute="centerX" id="RR2-Tw-vcv"/>

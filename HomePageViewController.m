@@ -126,10 +126,10 @@
         [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
         self.segueFlag = 0;
         [self.myProfileLabel setText:@"حسابي"];
-        
     }
     
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
+        //Not functional any more
         [self.btnBuyInvitations setEnabled:NO];
         self.segueFlag = 2;
         [self.myProfileLabel setText:@"حسابي"];

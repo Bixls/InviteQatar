@@ -9,6 +9,7 @@
 #import "SignInViewController.h"
 #import "ASIHTTPRequest.h"
 #import "NetworkConnection.h"
+#import "WelcomeUserViewController.h"
 
 @interface SignInViewController ()
 
@@ -17,6 +18,8 @@
 @property (nonatomic,strong) NSDictionary *user;
 @property (nonatomic,strong) NetworkConnection *connection;
 @property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic) NSInteger imageID;
 @end
 
 @implementation SignInViewController
@@ -25,16 +28,21 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationItem setHidesBackButton:YES];
+    
+    //[self.navigationItem setHidesBackButton:YES];
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.savedID = [self.userDefaults integerForKey:@"userID"];
     
+
+    
+    
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     self.connection = [[NetworkConnection alloc]init];
     [self.connection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
-    
-    
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -76,7 +84,12 @@
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
             [self.userDefaults synchronize];
             [self saveUserData];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            self.userName = self.user[@"name"];
+//            self.groupName = self.user[@"GName"]; //check key first
+            self.imageID = [self.user[@"ProfilePic"]integerValue];
+            
+            [self performSegueWithIdentifier:@"welcomeUser" sender:self];
+            //[self dismissViewControllerAnimated:YES completion:nil];
             
         }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من إدخال بياناتك الصحيحة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
@@ -103,6 +116,16 @@
     
     [self.userDefaults synchronize];
 
+}
+
+#pragma mark - Segue
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"welcomeUser"]) {
+        WelcomeUserViewController *welcomeUserController = segue.destinationViewController;
+        welcomeUserController.userName = self.userName;
+        welcomeUserController.imageID = self.imageID;
+        //add group name
+    }
 }
 
 #pragma mark - Textfield delegate methods

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <URBNAlert/URBNAlert.h>
 
 @interface AppDelegate ()
 
@@ -16,13 +17,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window.backgroundColor = [UIColor blackColor];
+
 
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
         [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
     
     [[SKPaymentQueue defaultQueue]addTransactionObserver:self];
-    
     
     return YES;
 }

@@ -10,7 +10,25 @@
 
 #import <AFNetworking/AFNetworking.h>
 
+@interface NetworkConnection()
+@property (nonatomic,strong) ASIFormDataRequest *imageRequest;
+//@property (nonatomic,strong) UIImage *downloadedImage;
+@end
+
 @implementation NetworkConnection
+
+-(void)downloadImageWithID:(NSInteger)imageID{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
+        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+        UIImage *image = [[UIImage alloc]initWithData:imgData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //self.downloadedImage = image;
+            [self.delegate downloadedImage:image];
+        });
+    });
+}
 
 -(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image {
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
@@ -77,6 +95,19 @@
                                     @"limit":@"50000"}]};
     
     [self postRequest:postDict withTag:nil];
+}
+
+-(void)signUpWithName:(NSString *)name mobile:(NSString *)mobile password:(NSString *)password groupID:(NSString *)groupID imageURL:(NSString*)imageURL {
+    
+    NSDictionary *postDict = @{@"FunctionName":@"Register" ,
+                               @"inputs":@[@{@"name":name,
+                                             @"Mobile":mobile,
+                                             @"password":password,
+                                             @"groupID":groupID,
+                                             @"ProfilePic":imageURL}]};
+    
+    NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
+    [self postRequest:postDict withTag:registerTag];
 }
 
 
