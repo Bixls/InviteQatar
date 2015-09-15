@@ -82,6 +82,8 @@
     [self.lblEventsError setHidden:YES];
     [self.lblMembersError setHidden:YES];
     
+    [self.newsCollectionView setPagingEnabled:YES];
+    
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {

@@ -173,6 +173,8 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -1774,8 +1776,8 @@
                                                     <constraint firstAttribute="height" constant="310" id="4aj-z1-3G8"/>
                                                     <constraint firstAttribute="width" constant="290" id="d7w-pT-my1"/>
                                                 </constraints>
-                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="UFX-uQ-uBe">
-                                                    <size key="itemSize" width="77" height="94"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" id="aqS-Sj-tnq">
+                                                    <size key="itemSize" width="50" height="50"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -2785,7 +2787,7 @@
                                                     <constraint firstAttribute="width" constant="288" id="SzS-A2-lKg"/>
                                                     <constraint firstAttribute="height" constant="21" id="ia5-xY-KtJ"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -2823,7 +2825,7 @@
                                                                 </label>
                                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZPq-AN-DFb">
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="16"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -2887,8 +2889,8 @@
                                     <constraint firstItem="Jxa-g5-ZIq" firstAttribute="leading" secondItem="HXX-NQ-SeA" secondAttribute="leading" id="wwp-5S-3BX"/>
                                 </constraints>
                             </scrollView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="BBA-HH-fnn">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="BBA-HH-fnn">
+                                <rect key="frame" x="0.0" y="345" width="320" height="548"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="JJu-hz-GU7"/>
                                     <constraint firstAttribute="height" constant="548" id="TwJ-ln-iUQ"/>
@@ -4352,7 +4354,7 @@
                                                         <constraint firstAttribute="width" constant="71" id="lZL-Ie-MnQ"/>
                                                         <constraint firstAttribute="height" constant="21" id="leS-JL-oT0"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="11"/>
+                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="10"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -4536,8 +4538,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cAQ-sA-jkI">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9EC-oA-HGn">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="732"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9EC-oA-HGn">
+                                        <rect key="frame" x="0.0" y="-164" width="320" height="732"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifv-xo-SpG">
                                                 <rect key="frame" x="154" y="379" width="121" height="50"/>
@@ -4824,6 +4826,7 @@
                                             <constraint firstItem="SdN-rK-1Pr" firstAttribute="top" secondItem="ifv-xo-SpG" secondAttribute="bottom" constant="12" id="Bhb-fE-QTe"/>
                                             <constraint firstAttribute="trailing" secondItem="mNr-qx-VN6" secondAttribute="trailing" constant="71" id="CAs-bv-fWE"/>
                                             <constraint firstItem="GAQ-Pw-LT5" firstAttribute="top" secondItem="5bT-ae-SxU" secondAttribute="bottom" constant="-16" id="CLp-z4-jE0"/>
+                                            <constraint firstItem="mNr-qx-VN6" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" priority="750" constant="20" id="Cxg-8B-VgJ"/>
                                             <constraint firstAttribute="centerX" secondItem="6hh-rS-t7B" secondAttribute="centerX" id="CyX-uc-l5B"/>
                                             <constraint firstAttribute="centerX" secondItem="weX-4j-NYx" secondAttribute="centerX" id="DST-nD-M29"/>
                                             <constraint firstItem="2Sx-Xf-N38" firstAttribute="top" secondItem="gz0-kO-q3q" secondAttribute="bottom" constant="234" id="DZP-9A-ZBU"/>
@@ -4831,6 +4834,7 @@
                                             <constraint firstItem="PHx-r5-rLT" firstAttribute="top" secondItem="6Ra-HG-rgG" secondAttribute="bottom" constant="7" id="EI6-s2-mIn"/>
                                             <constraint firstAttribute="width" constant="320" id="Etf-hu-XV4"/>
                                             <constraint firstItem="2Sx-Xf-N38" firstAttribute="leading" secondItem="SIB-CG-Ee7" secondAttribute="trailing" constant="4" id="GZY-Ox-yl4"/>
+                                            <constraint firstItem="UgR-ez-duK" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" priority="750" constant="8" id="GxM-gN-qU4"/>
                                             <constraint firstItem="nbO-aH-ZAK" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" priority="500" constant="20" id="H1V-rG-Uda"/>
                                             <constraint firstAttribute="centerX" secondItem="gz0-kO-q3q" secondAttribute="centerX" id="I8Z-f4-Hfk"/>
                                             <constraint firstItem="5bT-ae-SxU" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="60" id="IGa-b8-cFJ"/>
@@ -7726,18 +7730,18 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="IoJ-de-HAV"/>
-        <segue reference="o39-sD-7QY"/>
-        <segue reference="Eoi-6P-6lF"/>
-        <segue reference="ZEi-bg-v0b"/>
-        <segue reference="Ked-a5-FQW"/>
-        <segue reference="Bok-QY-wEt"/>
-        <segue reference="GMF-2B-wF9"/>
-        <segue reference="lRH-x1-LZj"/>
-        <segue reference="fSe-Jm-Ttd"/>
         <segue reference="Pva-az-nrh"/>
         <segue reference="4yJ-AY-O7T"/>
-        <segue reference="1o2-k6-8rD"/>
+        <segue reference="blW-Gs-6i2"/>
+        <segue reference="mYb-7K-k86"/>
+        <segue reference="Ms0-5r-99t"/>
+        <segue reference="hTI-TE-OlE"/>
         <segue reference="kMD-e6-iDp"/>
+        <segue reference="IoJ-de-HAV"/>
+        <segue reference="hWi-sg-g8m"/>
+        <segue reference="1o2-k6-8rD"/>
+        <segue reference="ZEi-bg-v0b"/>
+        <segue reference="Ked-a5-FQW"/>
+        <segue reference="Eoi-6P-6lF"/>
     </inferredMetricsTieBreakers>
 </document>

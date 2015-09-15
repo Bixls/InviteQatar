@@ -488,17 +488,14 @@
     sysctlbyname("hw.machine", machine, &size, NULL, 0);
     NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
     
-
     
-
-    
-    if (collectionView.tag ==0 && indexPath.item ==1 && ![[self platformType:platform] isEqualToString:@"Simulator"]) {
+    if (collectionView.tag ==0 && indexPath.item ==1 && ![[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]) {
         return CGSizeMake(145, 121);
-    }else if(collectionView.tag == 0 && indexPath.row ==1 && [[self platformType:platform] isEqualToString:@"Simulator"]){
+    }else if(collectionView.tag == 0 && indexPath.row ==1 && [[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
         return CGSizeMake(200, 121);
-    }else if(collectionView.tag == 0 && ![[self platformType:platform] isEqualToString:@"Simulator"]){
+    }else if(collectionView.tag == 0 && ![[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
         return CGSizeMake(69, 84);
-    }else if(collectionView.tag == 0 && [[self platformType:platform] isEqualToString:@"Simulator"]){
+    }else if(collectionView.tag == 0 && [[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
         return CGSizeMake(70, 84);
     }
     
@@ -564,13 +561,17 @@
 //298
 //
 
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-//    return 10.0;
-//}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+
+    
+    return 3.5 ;
+}
 //
 //- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 //    return 10.0;
 //}
+
+
 //- (UIEdgeInsets)collectionView:
 //(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 //    // return UIEdgeInsetsMake(0,8,0,8);  // top, left, bottom, right
