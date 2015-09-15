@@ -89,36 +89,26 @@
         [self.btnComments setHidden:YES];
     }
     
+    [self GenerateArabicDateWithDate:self.news[@"timeCreated"]];
+    self.newsDescription.text = self.news[@"Description"];
+    
+}
+
+-(void)GenerateArabicDateWithDate:(NSString *)englishDate{
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
     [formatter setLocale:qatarLocale];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *dateD = [formatter dateFromString:[NSString stringWithFormat:@"%@",self.news[@"timeCreated"]]];
-    NSString *dateString = [formatter stringFromDate:dateD];
-  //  NSString *dateWithoutSeconds = [date substringToIndex:16];
-    NSLog(@"%@",dateString);
-
-    
- //   NSString *dateString = self.news[@"timeCreated"];
-    NSString *date = [dateString substringToIndex:10];
-    NSString *tempTime = [dateString substringFromIndex:11];
+    NSDate *dateString = [formatter dateFromString:englishDate];
+    NSString *arabicDate = [formatter stringFromDate:dateString];
+    NSString *date = [arabicDate substringToIndex:10];
+    NSString *tempTime = [arabicDate substringFromIndex:11];
     NSString *time = [tempTime substringToIndex:5];
     self.newsTime.text = time;
-
-    self.newsDate.text = date;
-    self.newsDescription.text = self.news[@"Description"];
+    self.newsDate.text = [date stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     
-
-
-    //    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    //    [formatter setDateFormat:@"yyyy-MM-dd"];
-    //    NSDate *myDate = [formatter dateFromString:date];
-    //    NSLog(@"%@",myDate);
-    //   // NSString *newDate = [formatter stringFromDate:myDate];
-    //    NSString *localizedDateTime = [NSDateFormatter localizedStringFromDate:myDate dateStyle:NSDateFormatterMediumStyle timeStyle:nil];
-    //    self.newsDate.text = localizedDateTime ;
 }
-
 
 
 #pragma mark - Segue

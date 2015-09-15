@@ -65,6 +65,9 @@
 
 -(void)customAlertCancelBtnPressed{
     [self.customAlertView setHidden:YES];
+    if (self.customAlert.tag == 1) {
+        [self performSegueWithIdentifier:@"welcomeUser" sender:self];
+    }
 }
 
 #pragma mark - KVO Methods
@@ -79,7 +82,7 @@
             [self.customAlert showAlertWithMsg:@"عفواً كود التفعيل خطأ" alertTag:0 customAlertView:self.customAlertView customAlert:self.customAlert];
         }else if ([self.responseDictionary[@"success"]boolValue] == true){
         
-            [self.customAlert showAlertWithMsg:@"شكراً لك تم تفعيل حسابك" alertTag:0 customAlertView:self.customAlertView customAlert:self.customAlert];
+            [self.customAlert showAlertWithMsg:@"شكراً لك تم تفعيل حسابك" alertTag:1 customAlertView:self.customAlertView customAlert:self.customAlert];
             NSLog(@"%@",self.responseDictionary);
             [self.userDefaults setInteger:0 forKey:@"Guest"];
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
@@ -87,7 +90,7 @@
             self.activateFlag = 0;
             [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
 //            [self dismissViewControllerAnimated:YES completion:nil];
-            [self performSegueWithIdentifier:@"welcomeUser" sender:self];
+
             
         }
         NSLog(@"%@",self.responseDictionary);

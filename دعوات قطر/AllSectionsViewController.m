@@ -75,6 +75,19 @@
     }
 }
 
+-(NSString *)GenerateArabicDateWithDate:(NSString *)englishDate{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+    [formatter setLocale:qatarLocale];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *dateString = [formatter dateFromString:englishDate];
+    NSString *arabicDate = [formatter stringFromDate:dateString];
+    NSString *date = [arabicDate substringToIndex:16];
+    return [date stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+    
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",section]];
@@ -103,7 +116,7 @@
                 NSDictionary *event = content[indexPath.row];
                 cell.eventName.text = event[@"subject"];
                 cell.eventCreator.text = event[@"CreatorName"];
-                cell.eventDate.text = event[@"TimeEnded"];
+                cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]];
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
                     //Background Thread
                     NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];

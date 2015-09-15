@@ -401,7 +401,7 @@
 
 -(void)getUsers{
     NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
-                                   @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
+                                   @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                  @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
                                                  @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]}; // needs to be changed
     NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];

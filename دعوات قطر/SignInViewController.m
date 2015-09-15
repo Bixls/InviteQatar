@@ -80,7 +80,7 @@
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         
-
+        NSLog(@"%@",self.user);
         NSInteger userID = [self.user[@"id"]integerValue];
         NSInteger mobile =[self.user[@"Mobile"]integerValue];
 
@@ -106,9 +106,11 @@
             
             [self showAlertWithMsg:@"من فضلك تأكد من إدخال بياناتك الصحيحة" alertTag:0];
             
-        }else if ([self.user[@"Verified"]boolValue] == false){
+        }else if ([self.user[@"Verified"]boolValue] == false && self.user[@"Verified"] != nil ){
             [self saveUserData];
             [self performSegueWithIdentifier:@"activate" sender:self];
+        }else if (self.user == nil){
+            [self showAlertWithMsg:@"هناك خطأ في الإتصال من فضلك حاول مرة أخري" alertTag:0];
         }
 
     }

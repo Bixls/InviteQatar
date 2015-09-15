@@ -160,7 +160,8 @@
     NSString *tempTime = [arabicDate substringFromIndex:11];
     NSString *time = [tempTime substringToIndex:5];
     self.eventTime.text = time;
-    self.eventDate.text = date ;
+   
+    self.eventDate.text = [date stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     
 }
 

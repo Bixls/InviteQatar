@@ -96,6 +96,18 @@
     
 }
 
+-(NSString *)GenerateArabicDateWithDate:(NSString *)englishDate{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+    [formatter setLocale:qatarLocale];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *dateString = [formatter dateFromString:englishDate];
+    NSString *arabicDate = [formatter stringFromDate:dateString];
+    NSString *date = [arabicDate substringToIndex:16];
+    return [date stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+    
+}
 #pragma mark - TableView DataSource Methods
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -118,7 +130,7 @@
     NSDictionary *event = self.allEvents[indexPath.row];
     cell.eventSubject.text = event[@"subject"];
     cell.eventCreator.text = event[@"CreatorName"];
-    cell.eventDate.text = event[@"TimeEnded"] ;
+    cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]] ;
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread

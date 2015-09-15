@@ -175,6 +175,12 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -364,11 +370,12 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQH-mk-CDm">
-                                                <rect key="frame" x="44" y="346" width="77" height="30"/>
+                                                <rect key="frame" x="44" y="347" width="77" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Izc-JW-sx9"/>
                                                     <constraint firstAttribute="width" constant="77" id="zDc-Aq-b2t"/>
                                                 </constraints>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="12"/>
                                                 <state key="normal" title="تسجيل الدخول">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -383,7 +390,7 @@
                                                     <constraint firstAttribute="width" constant="202" id="Bnk-go-yDj"/>
                                                     <constraint firstAttribute="height" constant="30" id="OwH-bN-kxA"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="alphabet" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="to7-6S-sNX" id="QC7-Jq-6as"/>
@@ -402,7 +409,7 @@
                                                     <constraint firstAttribute="width" constant="202" id="K1S-lG-4U8"/>
                                                     <constraint firstAttribute="height" constant="30" id="YQx-rr-oXG"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="to7-6S-sNX" id="4le-tK-vu0"/>
@@ -432,7 +439,7 @@
                                             <constraint firstItem="Tzy-iN-9zt" firstAttribute="top" secondItem="oGd-Bf-pJS" secondAttribute="top" constant="234" id="55r-KJ-W9Q"/>
                                             <constraint firstItem="C69-zh-1I1" firstAttribute="leading" secondItem="67L-PB-B1a" secondAttribute="trailing" constant="7" id="5LP-Gw-BhX"/>
                                             <constraint firstItem="OPh-kD-AQD" firstAttribute="leading" secondItem="oGd-Bf-pJS" secondAttribute="leading" constant="20" id="9HU-TD-UK6"/>
-                                            <constraint firstItem="kQH-mk-CDm" firstAttribute="top" secondItem="67L-PB-B1a" secondAttribute="bottom" constant="33" id="A7J-Ms-ku0"/>
+                                            <constraint firstItem="kQH-mk-CDm" firstAttribute="top" secondItem="67L-PB-B1a" secondAttribute="bottom" constant="34" id="A7J-Ms-ku0"/>
                                             <constraint firstItem="JMa-ft-gKs" firstAttribute="top" secondItem="oGd-Bf-pJS" secondAttribute="top" constant="28" id="B4c-C1-UHE"/>
                                             <constraint firstItem="4Ry-PO-yDL" firstAttribute="top" secondItem="oGd-Bf-pJS" secondAttribute="top" constant="30" id="D3m-Ye-6YD"/>
                                             <constraint firstAttribute="height" constant="548" id="DN4-SH-0gc"/>
@@ -836,7 +843,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="bk1-Fk-yiy"/>
                                                     <constraint firstAttribute="width" constant="188" id="gV0-m9-Q4E"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="alphabet" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="01v-Kj-sHf" id="gt7-Gm-hKt"/>
@@ -878,7 +885,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="CHY-3i-gDZ"/>
                                                     <constraint firstAttribute="width" constant="188" id="cY8-NW-yII"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="01v-Kj-sHf" id="QR1-NE-XpD"/>
@@ -890,7 +897,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="hUE-EB-jTl"/>
                                                     <constraint firstAttribute="width" constant="173" id="sc7-0X-92Q"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="01v-Kj-sHf" id="4DY-M1-iO6"/>
@@ -1399,7 +1406,7 @@
                                     <constraint firstAttribute="width" constant="283" id="Qur-li-y4z"/>
                                     <constraint firstAttribute="height" constant="30" id="i1m-OP-w3Z"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                 <connections>
                                     <outlet property="delegate" destination="hSP-nK-Fo0" id="UDT-G4-ia8"/>
@@ -3372,7 +3379,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="0E2-26-OyM"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYy-gp-ijd">
@@ -3514,7 +3521,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="maH-k4-ooi">
-                                        <rect key="frame" x="0.0" y="-189" width="320" height="932"/>
+                                        <rect key="frame" x="0.0" y="-545" width="320" height="932"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4I-ZK-Zql">
                                                 <rect key="frame" x="89" y="15" width="142" height="95"/>
@@ -4050,6 +4057,7 @@
                         <outlet property="lblNewsError" destination="r3D-H2-pEU" id="jga-iz-5pg"/>
                         <outlet property="lblUsers" destination="3V5-88-M5d" id="tnq-hX-bGn"/>
                         <outlet property="newsCollectionView" destination="Uhi-JL-XYM" id="Vt8-fb-kiu"/>
+                        <outlet property="tableVerticalLayoutConstraint" destination="ZVp-ga-HeP" id="2c3-MK-lGG"/>
                         <outlet property="usersTableView" destination="VXg-qq-51b" id="4Dm-hx-lVa"/>
                         <outlet property="verticalLayoutConstraint" destination="KNg-TZ-a1E" id="hl2-Zj-MWN"/>
                         <segue destination="Pnj-oQ-lDE" kind="push" identifier="showEvent" id="o39-sD-7QY"/>
@@ -4130,7 +4138,7 @@
                                                         <constraint firstAttribute="width" constant="107" id="6j4-oq-bVv"/>
                                                         <constraint firstAttribute="height" constant="21" id="lBk-A3-3og"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="11"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -4364,7 +4372,7 @@
                                                         <constraint firstAttribute="height" constant="21" id="4en-K3-31J"/>
                                                         <constraint firstAttribute="width" constant="85" id="fkS-0L-qMU"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="11"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -5951,7 +5959,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="3Eo-pm-EVJ"/>
                                                     <constraint firstAttribute="width" constant="205" id="VQd-RJ-ltx"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="qjf-CL-7yd" id="3uI-Bg-IvQ"/>
@@ -5985,7 +5993,7 @@
                                                     <constraint firstAttribute="height" constant="57" id="GVD-vx-k7G"/>
                                                     <constraint firstAttribute="width" constant="205" id="IhO-Cm-zsN"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -6240,7 +6248,7 @@
                                 </constraints>
                             </scrollView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="DNg-VQ-Rw6">
-                                <rect key="frame" x="0.0" y="-319" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="-404" width="320" height="548"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6660,7 +6668,7 @@
                                                     <constraint firstAttribute="width" constant="189" id="qKr-kd-5DQ"/>
                                                     <constraint firstAttribute="height" constant="30" id="wIO-7o-zzZ"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="m5b-Jy-GkE" id="Hoe-Ab-6ne"/>
@@ -7489,7 +7497,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="WAO-hM-cHC"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="fTr-wW-5Si" id="nNL-fx-EaJ"/>
@@ -7543,7 +7551,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="iGf-be-L03">
                                                 <rect key="frame" x="16" y="334" width="187" height="120"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -7731,17 +7739,17 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Pva-az-nrh"/>
+        <segue reference="o39-sD-7QY"/>
+        <segue reference="fSe-Jm-Ttd"/>
         <segue reference="4yJ-AY-O7T"/>
-        <segue reference="blW-Gs-6i2"/>
-        <segue reference="mYb-7K-k86"/>
-        <segue reference="Ms0-5r-99t"/>
-        <segue reference="hTI-TE-OlE"/>
-        <segue reference="kMD-e6-iDp"/>
-        <segue reference="IoJ-de-HAV"/>
         <segue reference="hWi-sg-g8m"/>
+        <segue reference="lRH-x1-LZj"/>
+        <segue reference="GMF-2B-wF9"/>
+        <segue reference="DrQ-RY-iQz"/>
         <segue reference="1o2-k6-8rD"/>
-        <segue reference="ZEi-bg-v0b"/>
+        <segue reference="iaT-Lo-dwV"/>
+        <segue reference="8AK-s1-iMG"/>
         <segue reference="Ked-a5-FQW"/>
-        <segue reference="Eoi-6P-6lF"/>
+        <segue reference="De6-P3-Poq"/>
     </inferredMetricsTieBreakers>
 </document>
