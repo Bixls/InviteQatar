@@ -12,7 +12,7 @@
 #import "CommentsSecondTableViewCell.h"
 #import "UserViewController.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
-#import "UIImageView+WebCache.h"
+
 
 @interface CommentsViewController ()
 
@@ -100,15 +100,17 @@
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
             
-            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                if (error) {
-                    NSLog(@"Error downloading images");
-                }else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        cell2.userImage.image = image;
-                    });
-                }
-            }];
+//            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                if (error) {
+//                    NSLog(@"Error downloading images");
+//                }else{
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        cell2.userImage.image = image;
+//                    });
+//                }
+//            }];
+            
+            
 //            [cell2.userComment addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
             
 //            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){

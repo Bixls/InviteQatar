@@ -8,7 +8,7 @@
 
 #import "NetworkConnection.h"
 
-#import <AFNetworking/AFNetworking.h>
+
 
 @interface NetworkConnection()
 @property (nonatomic,strong) ASIFormDataRequest *imageRequest;
@@ -17,17 +17,44 @@
 
 @implementation NetworkConnection
 
--(void)downloadImageWithID:(NSInteger)imageID{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
-        NSURL *imgURL = [NSURL URLWithString:imgURLString];
-        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-        UIImage *image = [[UIImage alloc]initWithData:imgData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //self.downloadedImage = image;
+-(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
+//        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+//        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+//        UIImage *image = [[UIImage alloc]initWithData:imgData];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            //self.downloadedImage = image;
+//            [self.delegate downloadedImage:image];
+//        });
+//    });
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+    
+    [[SDWebImageDownloader sharedDownloader]downloadImageWithURL:imgURL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        //
+    } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+        if (image && finished) {
             [self.delegate downloadedImage:image];
+            SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:nameSpace];
+            [imageCache storeImage:image forKey:key];
+            
+        }
+    }];
+    
+}
+-(void)downloadImageWithID:(NSInteger)imageID{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+            UIImage *image = [[UIImage alloc]initWithData:imgData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //self.downloadedImage = image;
+                [self.delegate downloadedImage:image];
+            });
         });
-    });
+    
 }
 
 -(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image {
@@ -110,5 +137,34 @@
     [self postRequest:postDict withTag:registerTag];
 }
 
+-(void)getUserWithID:(NSInteger)userID {
+    
+    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)userID],
+                                                                             }]};
+    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+    
+    [self postRequest:getUser withTag:getUserTag];
+    
+}
+
+-(void)getInvitationsNumberWithMobile:(NSString *)userMobile password:(NSString *)userPassword{
+    NSDictionary *getInvNum = @{
+                                @"FunctionName":@"signIn" ,
+                                @"inputs":@[@{@"Mobile":userMobile,
+                                              @"password":userPassword}]};
+    
+    NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+    [self postRequest:getInvNum withTag:getInvNumTag];
+}
+
+-(void)getUserEventsWithUserID:(NSInteger)userID startValue:(NSInteger)start limitValue:(NSInteger)limit{
+    NSDictionary *getEvents = @{@"FunctionName":@"getUserEventsList" ,
+                                @"inputs":@[@{@"userID":[NSString stringWithFormat:@"%ld",(long)userID],
+                                              @"start":[NSString stringWithFormat:@"%ld",(long)start],
+                                              @"limit":[NSString stringWithFormat:@"%ld",(long)limit]
+                                                                                     }]};
+    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
+    [self postRequest:getEvents withTag:getEventsTag];
+}
 
 @end

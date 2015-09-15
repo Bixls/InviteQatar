@@ -19,6 +19,7 @@
 #import <sys/sysctl.h>
 #import "Reachability.h"
 #import "ASIDownloadCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface HomePageViewController ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
@@ -115,6 +116,7 @@
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
     }
+    
 
 
 }

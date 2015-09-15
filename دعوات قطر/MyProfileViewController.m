@@ -12,6 +12,14 @@
 #import "EventViewController.h"
 #import <Social/Social.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "ASIDownloadCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
+
+static void *invitationsNumberContext = &invitationsNumberContext;
+static void *eventsContext = &eventsContext;
+static void *userContext = &userContext;
+
 @interface MyProfileViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeightConstraint;
@@ -27,6 +35,12 @@
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic, retain) UIDocumentInteractionController *dic;
 @property (nonatomic) BOOL finishedLoadingEvents;
+@property (nonatomic,strong) NetworkConnection *getInvitationsNumConnection;
+@property (nonatomic,strong) NetworkConnection *getUserConnection;
+@property (nonatomic,strong) NetworkConnection *getUserEventsConnection;
+@property (nonatomic,strong) NetworkConnection *downloadProfilePicConnection;
+@property (strong) UIActivityIndicatorView *profilePicSpinner;
+
 @end
 
 @implementation MyProfileViewController
@@ -46,37 +60,60 @@
     [self.btnSeeMore setHidden:YES];
     [self.imgSeeMore setHidden:YES];
     
-
-
+    [self initializeConnections];
     
+
+}
+
+-(void)initializeConnections{
+    self.getInvitationsNumConnection = [[NetworkConnection alloc]init];
+    self.getUserConnection = [[NetworkConnection alloc]init];
+    self.getUserEventsConnection = [[NetworkConnection alloc]init];
+    self.downloadProfilePicConnection = [[NetworkConnection alloc]init];
+    self.downloadProfilePicConnection.delegate = self;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    
+    [self.getInvitationsNumConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:invitationsNumberContext];
+    [self.getUserConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:userContext];
+    [self.getUserEventsConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:eventsContext];
+    
+    SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:@"profile"];
+    [imageCache queryDiskCacheForKey:@"profilePic" done:^(UIImage *image, SDImageCacheType cacheType) {
+        if (image == nil) {
+            self.profilePicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            self.profilePicSpinner.center = self.myProfilePicture.center;
+            self.profilePicSpinner.hidesWhenStopped = YES;
+            [self.view addSubview:self.profilePicSpinner];
+            [self.profilePicSpinner startAnimating];
+        }else{
+            self.myProfilePicture.image = image;
+        }
+    }];
+    
     if (self.userID) {
-        [self getUser];
+        [self.getUserConnection getUserWithID:self.userID];
+        
     }
+    
     if (self.userMobile && self.userPassword) {
-        NSDictionary *getInvNum = @{
-                                    @"FunctionName":@"signIn" ,
-                                    @"inputs":@[@{@"Mobile":self.userMobile,
-                                                  @"password":self.userPassword}]};
-        NSLog(@"%@",getInvNum);
-        
-        
-        NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
-        [self postRequest:getInvNum withTag:getInvNumTag];
+        [self.getInvitationsNumConnection getInvitationsNumberWithMobile:self.userMobile password:self.userPassword];
         
     }
     
-    NSDictionary *getEvents = @{@"FunctionName":@"getUserEventsList" , @"inputs":@[@{@"userID":[NSString stringWithFormat:@"%ld",(long)self.userID],@"start":[NSString stringWithFormat:@"%d",0],@"limit":[NSString stringWithFormat:@"%d",3]
-                                                                                     }]};
-    NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
-    [self postRequest:getEvents withTag:getEventsTag];
-    
+    [self.getUserEventsConnection getUserEventsWithUserID:self.userID startValue:0 limitValue:3];
 
 }
 
+
+
 -(void)viewWillDisappear:(BOOL)animated{
+    
+    [self.getInvitationsNumConnection removeObserver:self forKeyPath:@"response" context:invitationsNumberContext];
+    [self.getUserConnection removeObserver:self forKeyPath:@"response" context:userContext];
+    [self.getUserEventsConnection removeObserver:self forKeyPath:@"response" context:eventsContext];
+    
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])
@@ -87,12 +124,44 @@
     }
 }
 
+#pragma mark - KVO Method
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+    NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+    //NSLog(@"%@",self.responseDictionary);
+    
+    if (context == userContext && [keyPath isEqualToString:@"response"]) {
+        self.user = responseDictionary;
+        [self updateUI];
+    }else if (context == eventsContext && [keyPath isEqualToString:@"response"]){
+        NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        self.events = responseArray;
+        self.finishedLoadingEvents = true;
+        [self.tableView reloadData];
+    }else if (context == invitationsNumberContext && [keyPath isEqualToString:@"response"]){
+        NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
+        [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
+        [self.btnVIPNum setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];
+        [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
+        [self.userDefaults synchronize];
+    }
+}
+
+#pragma mark - Network Connection Delegate
+
+-(void)downloadedImage:(UIImage *)image{
+    self.myProfilePicture.image = image;
+    [self.profilePicSpinner stopAnimating];
+
+
+}
+
 #pragma mark - Table View
 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -108,9 +177,6 @@
         [self.tableView removeFromSuperview];
         [self.activateLabel setHidden:NO];
         [self.activateLabel2 setHidden:NO];
-   
-
-        
         return 0;
     }else{
         return 0;
@@ -183,7 +249,7 @@
     }
 }
 
-
+#pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"editProfile"]) {
         EditAccountViewController *editAccount = segue.destinationViewController;
@@ -201,97 +267,18 @@
     }
 }
 
-#pragma mark - Connection Setup
+#pragma mark - Methods
 
--(void)getUser {
-   
-    NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID],
-                                                                             }]};
-    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
-    
-    [self postRequest:getUser withTag:getUserTag];
-    
-}
-
--(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
-    
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://bixls.com/Qatar/" ;
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    request.delegate = self;
-    request.username =@"admin";
-    request.password = @"admin";
-    [request setRequestMethod:@"POST"];
-    [request addRequestHeader:@"Authorization" value:authValue];
-    [request addRequestHeader:@"Accept" value:@"application/json"];
-    [request addRequestHeader:@"content-type" value:@"application/json"];
-    request.allowCompressedResponse = NO;
-    request.useCookiePersistence = NO;
-    request.shouldCompressRequestBody = NO;
-    request.userInfo = dict;
-    [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
-    [request startAsynchronous];
-    
-    
-}
-
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    
-    //NSString *responseString = [request responseString];
-    
-    NSData *responseData = [request responseData];
-    NSDictionary *receivedDict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    NSString *key = [request.userInfo objectForKey:@"key"];
-    NSLog(@"%@",receivedDict);
-    if ([key isEqualToString:@"getUser"]) {
-        self.user = receivedDict;
-        [self updateUI];
-   
-    }else if ([key isEqualToString:@"invNum"]){
-        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",dict);
-        NSString *normal = dict[@"inNOR"];
-        NSString *VIP  = dict[@"inVIP"];
-        [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
-        [self.btnVIPNum setTitle:VIP forState:UIControlStateNormal];
-        [self.userDefaults setInteger:[VIP integerValue] forKey:@"VIPPoints"];
-        [self.userDefaults synchronize];
-
-    }else if ([key isEqualToString:@"getEvents"]){
-        NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        self.events = responseArray;
-        self.finishedLoadingEvents = true;
-        [self.tableView reloadData];
-
-    }
-
-    
-}
-
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    NSError *error = [request error];
-    NSLog(@"%@",error);
+-(void)downloadProfilePicture {
+    [self.downloadProfilePicConnection downloadImageWithID:[self.user[@"ProfilePic"]integerValue] withCacheNameSpace:@"profile" withKey:@"profilePic"];
 }
 
 -(void)updateUI {
     self.myName.text = self.user[@"name"];
     self.myGroup.text = self.user[@"GName"];
-   // self.groupID = [self.user[@"Gid"]integerValue];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.user[@"ProfilePic"]];
-        NSURL *imgURL = [NSURL URLWithString:imgURLString];
-        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-        UIImage *image = [[UIImage alloc]initWithData:imgData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.myProfilePicture.image = image;
-        });
-    });
+
+    [self downloadProfilePicture];
+
 }
 #pragma mark - Action Sheet 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{

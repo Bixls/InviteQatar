@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @protocol NetworkConnectionDelegate <NSObject>
 
@@ -23,8 +24,14 @@
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict;
 -(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image;
+
 -(void)searchDataBaseWithText:(NSString*)text;
 -(void)signUpWithName:(NSString *)name mobile:(NSString *)mobile password:(NSString *)password groupID:(NSString *)groupID imageURL:(NSString*)imageURL;
 -(void)downloadImageWithID:(NSInteger)imageID;
+-(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key;
+-(void)getUserWithID:(NSInteger)userID;
+-(void)getInvitationsNumberWithMobile:(NSString *)userMobile password:(NSString *)userPassword;
+-(void)getUserEventsWithUserID:(NSInteger)userID startValue:(NSInteger)start limitValue:(NSInteger)limit;
+
 
 @end
