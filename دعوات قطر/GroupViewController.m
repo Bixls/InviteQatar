@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
 @property (weak,nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSArray *events;
 @property (nonatomic,strong) NSArray *news;
 @property (nonatomic,strong) NSMutableArray *users;
@@ -60,6 +61,8 @@
     backbutton.tintColor = [UIColor whiteColor];
     self.navigationItem.backBarButtonItem = backbutton;
     self.view.backgroundColor = [UIColor blackColor];
+    
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.users = [[NSMutableArray alloc]init];
     self.start = 0;
     self.limit = 10;
@@ -109,6 +112,12 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     
+    if ([self.userDefaults integerForKey:@"Visitor"] == 1) {
+        [self disableUserInteraction];
+    }else{
+        [self enableUserInteraction];
+    }
+    
     NSDictionary *getGroupInfo = @{@"FunctionName":@"getGroupbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.groupID],}]};
     NSMutableDictionary *getGroupInfoTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getGroupInfo",@"key", nil];
     [self postRequest:getGroupInfo withTag:getGroupInfoTag];
@@ -133,7 +142,22 @@
                                                  @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
                                                  @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]}; // needs to be changed
     NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
+    
     [self postRequest:getUSersDict withTag:getUsersTag];
+}
+
+-(void)disableUserInteraction {
+    self.newsCollectionView.allowsSelection = NO;
+    self.collectionView.userInteractionEnabled = NO;
+    self.usersTableView.userInteractionEnabled = NO;
+    //[self.btnSeeMoreUsers setEnabled:NO];
+}
+
+-(void)enableUserInteraction {
+    self.newsCollectionView.allowsSelection = YES;
+    self.collectionView.allowsSelection = YES;
+    self.usersTableView.userInteractionEnabled = YES;
+    //[self.btnSeeMoreUsers setEnabled:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

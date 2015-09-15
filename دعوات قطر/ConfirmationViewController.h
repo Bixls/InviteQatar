@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ConfirmationViewController : UIViewController <UITextFieldDelegate>
+#import "customAlertView.h"
+@interface ConfirmationViewController : UIViewController <UITextFieldDelegate,customAlertViewDelegate>
 
 
 @property (nonatomic) NSInteger userID;
 
 @property (weak, nonatomic) IBOutlet UITextField *confirmField;
-
 
 - (IBAction)btnConfirmPressed:(id)sender;
 

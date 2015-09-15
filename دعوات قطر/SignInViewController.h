@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "customAlertView.h"
 
-@interface SignInViewController : UIViewController <UITextFieldDelegate>
+@interface SignInViewController : UIViewController <UITextFieldDelegate,customAlertViewDelegate>
 
 @property (nonatomic) NSInteger userID;
 

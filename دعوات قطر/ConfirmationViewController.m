@@ -9,6 +9,7 @@
 #import "ConfirmationViewController.h"
 #import "ASIHTTPRequest.h"
 #import "NetworkConnection.h"
+#import "WelcomeUserViewController.h"
 
 @interface ConfirmationViewController ()
 
@@ -18,9 +19,13 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *responseImage;
 @property (weak, nonatomic) IBOutlet UILabel *responseLabel;
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
 
 @property (strong,nonatomic)NSDictionary *responseDictionary;
 @property (nonatomic,strong) NetworkConnection *verifyConn;
+@property (nonatomic, strong) NSString *userName;
+@property (nonatomic) NSInteger imageID;
 
 @end
 
@@ -36,6 +41,8 @@
 
     //NSLog(@"Self.user id = %ld",(long)self.userID);
     self.verifyConn = [[NetworkConnection alloc]init];
+    [self.customAlertView setHidden:YES];
+    self.customAlert.delegate = self;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -54,21 +61,33 @@
     }
 }
 
+#pragma mark - Custom Alert
+
+-(void)customAlertCancelBtnPressed{
+    [self.customAlertView setHidden:YES];
+}
+
+#pragma mark - KVO Methods
+
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"response"]) {
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         
         if ([self.responseDictionary[@"success"]boolValue] == false) {
-            self.responseLabel.text = @"عفواً كود التفعيل خطأ" ;
+
+            [self.customAlert showAlertWithMsg:@"عفواً كود التفعيل خطأ" alertTag:0 customAlertView:self.customAlertView customAlert:self.customAlert];
         }else if ([self.responseDictionary[@"success"]boolValue] == true){
-            self.responseLabel.text = @"شكراً لك تم تفعيل حسابك";
+        
+            [self.customAlert showAlertWithMsg:@"شكراً لك تم تفعيل حسابك" alertTag:0 customAlertView:self.customAlertView customAlert:self.customAlert];
+            NSLog(@"%@",self.responseDictionary);
             [self.userDefaults setInteger:0 forKey:@"Guest"];
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
             [self.userDefaults synchronize];
             self.activateFlag = 0;
             [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-            [self dismissViewControllerAnimated:YES completion:nil];
+//            [self dismissViewControllerAnimated:YES completion:nil];
+            [self performSegueWithIdentifier:@"welcomeUser" sender:self];
             
         }
         NSLog(@"%@",self.responseDictionary);
@@ -76,7 +95,15 @@
         
     }
 }
+#pragma mark - Segue
 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"welcomeUser"]) {
+        WelcomeUserViewController *welcomeUserController = segue.destinationViewController;
+//        welcomeUserController.userName = self.userName;
+//        welcomeUserController.imageID = self.imageID;
+    }
+}
 
 #pragma mark Textfield delegate methods
 

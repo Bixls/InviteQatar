@@ -29,6 +29,12 @@
     return self;
 }
 
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag customAlertView:(UIView *)alertView customAlert:(customAlertView *)customAlert {
+    
+    [alertView setHidden:NO];
+    customAlert.viewLabel.text = msg ;
+    customAlert.tag = tag;
+}
 
 - (IBAction)viewCloseBtnPressed:(id)sender {
     

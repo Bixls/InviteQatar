@@ -25,6 +25,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 - (IBAction)viewCloseBtnPressed:(id)sender;
-
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag customAlertView:(UIView *)alertView customAlert:(customAlertView *)customAlert;
 
 @end

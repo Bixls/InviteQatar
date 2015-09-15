@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnMarkComments;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnMarkVIP;
+@property (weak, nonatomic) IBOutlet UIButton *btnMarkNormal;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseType;
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseDate;
@@ -45,8 +46,10 @@
 
 
 - (IBAction)btnMarkCommentsPressed:(id)sender;
+- (IBAction)RadioButtonPressed:(UIButton *)sender;
 
-- (IBAction)btnMarkVipPressed:(id)sender;
+
+
 - (IBAction)datePickerAction:(id)sender;
 
 

@@ -44,6 +44,7 @@
 
 -(void)downloadedImage:(UIImage *)image{
     [self.imageActivityIndicator stopAnimating];
+    [self.imageActivityIndicator setHidden:YES];
     self.userImage.image = image;
     
 }

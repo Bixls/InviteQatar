@@ -19,6 +19,7 @@
 @property (nonatomic)NSString *selectedType;
 @property (nonatomic) int commentsFlag;
 @property (nonatomic) int vipFlag;
+@property (nonatomic) BOOL allowEditing;
 @property (strong,nonatomic) ASIFormDataRequest *imageRequest;
 @property (strong,nonatomic) NSString *imageURL;
 @property (strong , nonatomic) NSUserDefaults *userDefaults;
@@ -32,7 +33,8 @@
 @property (nonatomic,strong) NSString *selectedDate;
 
 @property (nonatomic,strong) UIImage *selectedImage;
-
+@property (nonatomic,strong) NSString *normalUnchecked;
+@property (nonatomic,strong) NSString *normalChecked;
 @end
 
 @implementation CreateEventViewController
@@ -49,9 +51,14 @@
     self.userID  = [self.userDefaults integerForKey:@"userID"];
     //NSLog(@"%ld",(long)self.userID);
     self.commentsFlag = 0;
-    self.vipFlag = 0;
+    self.vipFlag = -1;
+    self.normalUnchecked = @"عاديه \u274F";
+    self.normalChecked = @"عاديه \u2713" ;
+    
+    [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
     [self.btnMarkComments setTitle:@"\u274F  السماح بالتعليقات" forState:UIControlStateNormal];
     [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+    
     self.imageURL = @"default";
     if (self.event != nil && self.createOrEdit ==1) {
         self.vipFlag = [self.event[@"VIP"]integerValue];
@@ -127,7 +134,7 @@
 #pragma mark - ChooseDate ViewController Delegate 
 -(void)selectedDate:(NSString *)date{
     self.selectedDate = date;
-    
+    [self.btnChooseDate.titleLabel setFont:[UIFont systemFontOfSize:13]];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
     [formatter setLocale:qatarLocale];
@@ -469,25 +476,61 @@
 
 }
 
-- (IBAction)btnMarkVipPressed:(id)sender {
-    if (self.createOrEdit == 0) {
-        self.vipFlag = !(self.vipFlag);
+- (IBAction)RadioButtonPressed:(UIButton *)sender {
+    
+    if (sender.tag == 0 && self.createOrEdit == 0) {
         if (self.vipFlag == 1) {
-            [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
-        }else{
+            self.vipFlag = -1;
             [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-        }
-    }else if (self.createOrEdit == 1){
-        if (self.vipFlag == 1) {
-            //do nothing
+            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
         }else{
-            self.vipFlag = !(self.vipFlag);
+            self.vipFlag = 1;
             [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+        }
+
+    }else if (sender.tag == 1 && self.createOrEdit == 0){
+        if (self.vipFlag == 0) {
+            self.vipFlag = -1;
+            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+        }else{
+            self.vipFlag = 0;
+            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+            [self.btnMarkNormal setTitle:self.normalChecked forState:UIControlStateNormal];
+        }
+
+        
+    }else if (sender.tag == 0 && self.createOrEdit == 1 && self.vipFlag == 1){
+        if (self.allowEditing == YES) {
+            self.vipFlag = -1;
+            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+        }else{
+            //do nothing
+        }
+    }else if (sender.tag == 0 && self.createOrEdit == 1 && self.vipFlag == 0){
+        self.allowEditing = YES;
+        self.vipFlag = 1;
+        [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+        [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+    }else if (sender.tag == 1 && self.createOrEdit == 1 ){
+        
+        if (self.vipFlag == 0 && self.allowEditing == YES) {
+            self.vipFlag = -1;
+            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+        }else if (self.vipFlag == 1 && self.allowEditing == YES){
+            self.vipFlag = 0;
+            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+            [self.btnMarkNormal setTitle:self.normalChecked forState:UIControlStateNormal];
+        }else{
+            //do nothing
         }
     }
-   
-
+    
 }
+
 
 - (IBAction)datePickerAction:(id)sender {
     [self performSegueWithIdentifier:@"chooseDate" sender:self];

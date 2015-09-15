@@ -150,10 +150,14 @@
         [self.btnMyMessages setEnabled:NO];
         [self.btnSearch setEnabled:NO];
         [self.btnSupport setEnabled:NO];
+        [self.btnInvitationsBuy setEnabled:NO];
         
-        self.eventsTableView.allowsSelection = NO;
+        
+//        self.eventsTableView.allowsSelection = NO;
+        self.eventsTableView.userInteractionEnabled = NO ;
         self.newsCollectionView.allowsSelection = NO;
-        self.groupsCollectionView.allowsSelection = NO;
+//        self.groupsCollectionView.allowsSelection = NO;
+
         
     }else{
         [self.btnBuyInvitations setEnabled:YES];
@@ -161,10 +165,12 @@
         [self.btnMyMessages setEnabled:YES];
         [self.btnSearch setEnabled:YES];
         [self.btnSupport setEnabled:YES];
+        [self.btnInvitationsBuy setEnabled:YES];
         self.segueFlag = 0;
         [self.myProfileLabel setText:@"حسابي"];
         
-        self.eventsTableView.allowsSelection = YES;
+//        self.eventsTableView.allowsSelection = YES;
+        self.eventsTableView.userInteractionEnabled = YES;
         self.newsCollectionView.allowsSelection = YES;
         self.groupsCollectionView.allowsSelection = YES;
     }
@@ -482,14 +488,17 @@
     sysctlbyname("hw.machine", machine, &size, NULL, 0);
     NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
     
-    if (collectionView.tag ==0 && indexPath.item ==1 && ![[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]) {
+
+    
+
+    
+    if (collectionView.tag ==0 && indexPath.item ==1 && ![[self platformType:platform] isEqualToString:@"Simulator"]) {
         return CGSizeMake(145, 121);
-    }else if(collectionView.tag == 0 && indexPath.row ==1 && [[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
-        //return CGSizeMake(145 * 2, 121);
+    }else if(collectionView.tag == 0 && indexPath.row ==1 && [[self platformType:platform] isEqualToString:@"Simulator"]){
         return CGSizeMake(200, 121);
-    }else if(collectionView.tag == 0 && ![[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
+    }else if(collectionView.tag == 0 && ![[self platformType:platform] isEqualToString:@"Simulator"]){
         return CGSizeMake(69, 84);
-    }else if(collectionView.tag == 0 && [[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]){
+    }else if(collectionView.tag == 0 && [[self platformType:platform] isEqualToString:@"Simulator"]){
         return CGSizeMake(70, 84);
     }
     
@@ -498,7 +507,7 @@
     
     return CGSizeMake([UIScreen mainScreen].bounds.size.width - 27, 142);
 }
-
+//iPhone 6 Plus
 - (NSString *) platformType:(NSString *)platform
 {
     if ([platform isEqualToString:@"iPhone1,1"])    return @"iPhone 1G";
@@ -554,6 +563,20 @@
 }
 //298
 //
+
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+//    return 10.0;
+//}
+//
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+//    return 10.0;
+//}
+//- (UIEdgeInsets)collectionView:
+//(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+//    // return UIEdgeInsetsMake(0,8,0,8);  // top, left, bottom, right
+//    return UIEdgeInsetsMake(0,8,0,8);  // top, left, bottom, right
+//}
+
 #pragma mark - TableView DataSource 
 
 

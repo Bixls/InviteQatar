@@ -13,6 +13,9 @@
 
 @interface SignInViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+
 @property (strong,nonatomic) NSUserDefaults *userDefaults;
 @property (nonatomic) NSInteger savedID;
 @property (nonatomic,strong) NSDictionary *user;
@@ -20,6 +23,8 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic) NSInteger imageID;
+
+
 @end
 
 @implementation SignInViewController
@@ -28,16 +33,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
-    //[self.navigationItem setHidesBackButton:YES];
+    [self.customAlertView setHidden:YES];
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.savedID = [self.userDefaults integerForKey:@"userID"];
-    
-
-    
-    
-    
+    self.customAlert.delegate = self;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -59,6 +59,19 @@
     }
 }
 
+#pragma mark - Custom Alert
+
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
+    
+    [self.customAlertView setHidden:NO];
+    self.customAlert.viewLabel.text = msg ;
+    self.customAlert.tag = tag;
+}
+
+-(void)customAlertCancelBtnPressed{
+    [self.customAlertView setHidden:YES];
+}
+
 #pragma mark - KVO Methods
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -70,8 +83,7 @@
 
         NSInteger userID = [self.user[@"id"]integerValue];
         NSInteger mobile =[self.user[@"Mobile"]integerValue];
-        
-        
+
         //NSInteger guest = ![self.user[@"Verified"]integerValue];
         
 //        NSString * password = self.passwordField.text;
@@ -87,13 +99,13 @@
             self.userName = self.user[@"name"];
 //            self.groupName = self.user[@"GName"]; //check key first
             self.imageID = [self.user[@"ProfilePic"]integerValue];
-            
             [self performSegueWithIdentifier:@"welcomeUser" sender:self];
-            //[self dismissViewControllerAnimated:YES completion:nil];
+
             
         }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من إدخال بياناتك الصحيحة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
+            
+            [self showAlertWithMsg:@"من فضلك تأكد من إدخال بياناتك الصحيحة" alertTag:0];
+            
         }else if ([self.user[@"Verified"]boolValue] == false){
             [self saveUserData];
             [self performSegueWithIdentifier:@"activate" sender:self];
