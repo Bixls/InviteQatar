@@ -109,7 +109,8 @@ static void *uploadImageContext = &uploadImageContext;
             NSLog(@"%@",self.responseDictionary);
             NSInteger success = [self.responseDictionary[@"sucess"]boolValue];
             if (success == true) {
-                self.userID = [self.responseDictionary[@"id"]integerValue];
+                NSDictionary *data = self.responseDictionary[@"data"];
+                self.userID = [data[@"id"]integerValue];
                 NSLog(@"USER ID %d",self.userID);
                 [self.userDefaults setInteger:self.userID forKey:@"userID"];
                 [self.userDefaults synchronize];
@@ -118,7 +119,6 @@ static void *uploadImageContext = &uploadImageContext;
                 [self.userDefaults synchronize];
 
                 [self showAlertWithMsg:@"تم إرسال طلب التسجيل بنجاح" alertTag:1];
-
                 
             }else{
                 [self showAlertWithMsg:@"الإسم أو رقم الهاتف موجودون بالفعل" alertTag:0];

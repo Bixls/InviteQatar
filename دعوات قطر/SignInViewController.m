@@ -22,6 +22,7 @@
 @property (nonatomic,strong) NetworkConnection *connection;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *userName;
+@property (nonatomic, strong) NSString *groupName;
 @property (nonatomic) NSInteger imageID;
 
 
@@ -81,8 +82,8 @@
         self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         
         NSLog(@"%@",self.user);
-        NSInteger userID = [self.user[@"id"]integerValue];
-        NSInteger mobile =[self.user[@"Mobile"]integerValue];
+//        NSInteger userID = [self.user[@"id"]integerValue];
+//        NSInteger mobile =[self.user[@"Mobile"]integerValue];
 
         //NSInteger guest = ![self.user[@"Verified"]integerValue];
         
@@ -97,7 +98,7 @@
             [self.userDefaults synchronize];
             [self saveUserData];
             self.userName = self.user[@"name"];
-//            self.groupName = self.user[@"GName"]; //check key first
+            self.groupName = self.user[@"Gname"];
             self.imageID = [self.user[@"ProfilePic"]integerValue];
             [self performSegueWithIdentifier:@"welcomeUser" sender:self];
 
@@ -119,15 +120,13 @@
 #pragma mark - Methods
 
 -(void)saveUserData {
-    NSInteger userID = [self.user[@"id"]integerValue];
-    NSInteger userMobile =[self.user[@"Mobile"]integerValue];
-    NSString *userName = self.user[@"name"];
-    
+ 
     [self.userDefaults setObject:self.user forKey:@"user"];
-    [self.userDefaults setInteger:userID forKey:@"userID"];
-    [self.userDefaults setInteger:userMobile forKey:@"mobile"];
-    [self.userDefaults setObject:userName forKey:@"userName"];
-    
+    [self.userDefaults setInteger:[self.user[@"id"]integerValue] forKey:@"userID"];
+    [self.userDefaults setInteger:[self.user[@"Mobile"]integerValue] forKey:@"mobile"];
+    [self.userDefaults setObject:self.userName forKey:@"userName"];
+    [self.userDefaults setObject:self.groupName forKey:@"groupName"];
+    [self.userDefaults setObject:self.password forKey:@"password"];
     [self.userDefaults synchronize];
 
 }
@@ -138,6 +137,7 @@
         WelcomeUserViewController *welcomeUserController = segue.destinationViewController;
         welcomeUserController.userName = self.userName;
         welcomeUserController.imageID = self.imageID;
+        welcomeUserController.groupName = self.groupName;
         //add group name
     }
 }

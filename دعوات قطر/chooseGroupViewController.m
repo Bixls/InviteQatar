@@ -27,7 +27,7 @@
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
-
+    self.navigationController.navigationBar.hidden = YES;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.getAllGroupsConn = [[NetworkConnection alloc]init];
     
@@ -84,7 +84,7 @@
     if ([segue.identifier isEqualToString:@"invite"]) {
         if (self.createMsgFlag != 1) {
             InviteViewController *inviteController = segue.destinationViewController;
-            inviteController.normORVIP = 1;
+            inviteController.normORVIP = self.VIPFlag;
             inviteController.group = self.selectedGroup;
             inviteController.eventID = self.eventID;
         }else if (self.createMsgFlag == 1 ){

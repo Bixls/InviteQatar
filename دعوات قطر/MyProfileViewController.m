@@ -24,6 +24,7 @@ static void *userContext = &userContext;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeightConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *btnSignOut;
+@property (weak, nonatomic) IBOutlet UIView *innerView;
 
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger groupID;
@@ -40,6 +41,7 @@ static void *userContext = &userContext;
 @property (nonatomic,strong) NetworkConnection *getUserEventsConnection;
 @property (nonatomic,strong) NetworkConnection *downloadProfilePicConnection;
 @property (strong) UIActivityIndicatorView *profilePicSpinner;
+@property (strong,nonatomic) SDImageCache *imageCache;
 
 @end
 
@@ -79,13 +81,15 @@ static void *userContext = &userContext;
     [self.getUserConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:userContext];
     [self.getUserEventsConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:eventsContext];
     
-    SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:@"profile"];
-    [imageCache queryDiskCacheForKey:@"profilePic" done:^(UIImage *image, SDImageCacheType cacheType) {
+    self.imageCache = [SDImageCache sharedImageCache];
+    
+    [self.imageCache queryDiskCacheForKey:@"profilePic" done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image == nil) {
             self.profilePicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             self.profilePicSpinner.center = self.myProfilePicture.center;
             self.profilePicSpinner.hidesWhenStopped = YES;
-            [self.view addSubview:self.profilePicSpinner];
+            [self.innerView addSubview:self.profilePicSpinner];
+
             [self.profilePicSpinner startAnimating];
         }else{
             self.myProfilePicture.image = image;
@@ -141,7 +145,7 @@ static void *userContext = &userContext;
         [self.tableView reloadData];
     }else if (context == invitationsNumberContext && [keyPath isEqualToString:@"response"]){
         NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
-        [self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
+        //[self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
         [self.btnVIPNum setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];
         [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
         [self.userDefaults synchronize];
@@ -420,7 +424,14 @@ static void *userContext = &userContext;
     [self.userDefaults setInteger:0 forKey:@"signedIn"];
     [self.userDefaults setInteger:0 forKey:@"userID"];
     [self.userDefaults setInteger:0 forKey:@"Visitor"];
+    
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
+    [imageCache removeImageForKey:@"profilePic" fromDisk:YES];
+    
+    
     [self.navigationController popToRootViewControllerAnimated:NO];
+
+    
     //[self performSegueWithIdentifier:@"welcome" sender:self];
 }
 

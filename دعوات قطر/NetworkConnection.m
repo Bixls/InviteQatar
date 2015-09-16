@@ -18,16 +18,7 @@
 @implementation NetworkConnection
 
 -(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key{
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
-//        NSURL *imgURL = [NSURL URLWithString:imgURLString];
-//        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-//        UIImage *image = [[UIImage alloc]initWithData:imgData];
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            //self.downloadedImage = image;
-//            [self.delegate downloadedImage:image];
-//        });
-//    });
+    
     NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     
@@ -36,7 +27,8 @@
     } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
         if (image && finished) {
             [self.delegate downloadedImage:image];
-            SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:nameSpace];
+//            SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:nameSpace];
+            SDImageCache *imageCache = [SDImageCache sharedImageCache];
             [imageCache storeImage:image forKey:key];
             
         }
@@ -165,6 +157,14 @@
                                                                                      }]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
     [self postRequest:getEvents withTag:getEventsTag];
+}
+
+-(void)getCreateEventAdminMsg {
+    NSDictionary *getAdminMsg = @{@"FunctionName":@"getString" , @"inputs":@[@{@"name":@"createEvent",
+                                                                               }]};
+    NSMutableDictionary *getAdminMsgTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAdminMsg",@"key", nil];
+    
+    [self postRequest:getAdminMsg  withTag:getAdminMsgTag];
 }
 
 @end

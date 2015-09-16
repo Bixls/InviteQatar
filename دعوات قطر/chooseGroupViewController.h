@@ -19,6 +19,7 @@
 
 @property(nonatomic)NSInteger createMsgFlag;
 @property(nonatomic)NSInteger eventID;
+@property(nonatomic)NSInteger VIPFlag;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,weak) id <chooseGroupViewControllerDelegate> delegate;
 - (IBAction)btnDismissPressed:(id)sender;

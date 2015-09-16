@@ -32,6 +32,6 @@
 -(void)getUserWithID:(NSInteger)userID;
 -(void)getInvitationsNumberWithMobile:(NSString *)userMobile password:(NSString *)userPassword;
 -(void)getUserEventsWithUserID:(NSInteger)userID startValue:(NSInteger)start limitValue:(NSInteger)limit;
-
+-(void)getCreateEventAdminMsg ;
 
 @end

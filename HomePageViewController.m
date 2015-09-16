@@ -118,6 +118,9 @@
     }
     
 
+    
+    
+
 
 }
 
@@ -233,10 +236,6 @@
 
     }
 
-    
-
-    
-    
     self.scrollView.showsPullToRefresh;
     
     [self.scrollView addPullToRefreshWithActionHandler:^{
@@ -274,6 +273,13 @@
             [request setDelegate:nil];
         }
     }
+}
+
+-(void)clearProfileCaching{
+
+    SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:@"profile"];
+    [imageCache clearMemory];
+    [imageCache clearDisk];
 }
 
 #pragma mark - Collection View methods

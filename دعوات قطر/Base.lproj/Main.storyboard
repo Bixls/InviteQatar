@@ -567,33 +567,15 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="مرحبا بك" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuV-gy-M8X">
-                                <rect key="frame" x="16" y="373" width="288" height="18"/>
-                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="17"/>
-                                <color key="textColor" red="0.86666666670000003" green="0.58039215690000001" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnN-9D-SD7">
-                                <rect key="frame" x="16" y="399" width="288" height="0.0"/>
-                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="17"/>
-                                <color key="textColor" red="0.8666666666666667" green="0.58039215686274515" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtW-74-Izl">
-                                <rect key="frame" x="16" y="407" width="288" height="0.0"/>
-                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
-                                <color key="textColor" red="0.86666666670000003" green="0.58039215690000001" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button@1x" translatesAutoresizingMaskIntoConstraints="NO" id="dMl-Vv-tgg">
-                                <rect key="frame" x="98" y="415" width="124" height="49"/>
+                                <rect key="frame" x="98" y="431" width="124" height="49"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="AcX-VW-TNH"/>
                                     <constraint firstAttribute="width" constant="124" id="OAi-Uu-aVW"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sbo-gY-LSJ">
-                                <rect key="frame" x="107" y="424" width="107" height="30"/>
+                                <rect key="frame" x="107" y="440" width="107" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="107" id="RDs-iD-iLL"/>
                                     <constraint firstAttribute="height" constant="30" id="q2q-2L-dXV"/>
@@ -618,10 +600,28 @@
                                 </constraints>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="مرحبا بك" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuV-gy-M8X">
+                                <rect key="frame" x="16" y="379" width="288" height="18"/>
+                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="17"/>
+                                <color key="textColor" red="0.86666666670000003" green="0.58039215690000001" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnN-9D-SD7">
+                                <rect key="frame" x="16" y="405" width="288" height="0.0"/>
+                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="17"/>
+                                <color key="textColor" red="0.8666666666666667" green="0.58039215686274515" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtW-74-Izl">
+                                <rect key="frame" x="16" y="413" width="288" height="0.0"/>
+                                <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="15"/>
+                                <color key="textColor" red="0.86666666670000003" green="0.58039215690000001" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TuV-gy-M8X" firstAttribute="top" secondItem="iON-92-Xj6" secondAttribute="bottom" constant="4.5" id="0RO-Ir-MIM"/>
+                            <constraint firstItem="TuV-gy-M8X" firstAttribute="top" secondItem="iON-92-Xj6" secondAttribute="bottom" constant="11" id="0RO-Ir-MIM"/>
                             <constraint firstItem="IVc-CO-71d" firstAttribute="top" secondItem="8us-GX-5bZ" secondAttribute="topMargin" constant="20" id="0gs-xM-Y1c"/>
                             <constraint firstItem="IVc-CO-71d" firstAttribute="leading" secondItem="8us-GX-5bZ" secondAttribute="leadingMargin" constant="-16" id="50s-90-1ip"/>
                             <constraint firstItem="omb-Gc-ffu" firstAttribute="top" secondItem="IVc-CO-71d" secondAttribute="bottom" id="6bj-44-btJ"/>
@@ -633,7 +633,7 @@
                             <constraint firstItem="omb-Gc-ffu" firstAttribute="top" secondItem="mm1-t4-9N6" secondAttribute="bottom" id="FHQ-Bf-Vwi"/>
                             <constraint firstAttribute="centerX" secondItem="mfh-u6-WAx" secondAttribute="centerX" id="GAu-Lu-IWo"/>
                             <constraint firstItem="mfh-u6-WAx" firstAttribute="centerY" secondItem="mm1-t4-9N6" secondAttribute="centerY" constant="-10" id="GgZ-YP-3tF"/>
-                            <constraint firstItem="sbo-gY-LSJ" firstAttribute="top" secondItem="NtW-74-Izl" secondAttribute="bottom" constant="17" id="Icu-1A-W52"/>
+                            <constraint firstItem="sbo-gY-LSJ" firstAttribute="top" secondItem="NtW-74-Izl" secondAttribute="bottom" constant="27" id="Icu-1A-W52"/>
                             <constraint firstAttribute="trailingMargin" secondItem="IVc-CO-71d" secondAttribute="trailing" constant="-16" id="K49-df-1Qg"/>
                             <constraint firstItem="mm1-t4-9N6" firstAttribute="leading" secondItem="8us-GX-5bZ" secondAttribute="leadingMargin" constant="-16" id="LLO-KN-oS3"/>
                             <constraint firstAttribute="centerX" secondItem="dMl-Vv-tgg" secondAttribute="centerX" id="OXu-0f-JGg"/>
@@ -643,7 +643,7 @@
                             <constraint firstAttribute="centerX" secondItem="NtW-74-Izl" secondAttribute="centerX" id="a81-pi-gcX"/>
                             <constraint firstItem="pnN-9D-SD7" firstAttribute="leading" secondItem="8us-GX-5bZ" secondAttribute="leadingMargin" id="bDW-0A-AL5"/>
                             <constraint firstAttribute="trailingMargin" secondItem="mm1-t4-9N6" secondAttribute="trailing" constant="-16" id="c9H-y8-O7N"/>
-                            <constraint firstItem="dMl-Vv-tgg" firstAttribute="top" secondItem="NtW-74-Izl" secondAttribute="bottom" constant="8" id="dV4-28-XnP"/>
+                            <constraint firstItem="dMl-Vv-tgg" firstAttribute="top" secondItem="NtW-74-Izl" secondAttribute="bottom" constant="18" id="dV4-28-XnP"/>
                             <constraint firstAttribute="centerX" secondItem="0hJ-aX-51V" secondAttribute="centerX" id="e2t-Dn-RDJ"/>
                             <constraint firstAttribute="centerX" secondItem="iON-92-Xj6" secondAttribute="centerX" id="huc-9b-aIV"/>
                             <constraint firstAttribute="centerX" secondItem="sbo-gY-LSJ" secondAttribute="centerX" id="ibs-ic-oes"/>
@@ -6166,6 +6166,9 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="btnChooseInviteesPressed:" destination="qjf-CL-7yd" eventType="touchUpInside" id="DFW-cE-Mdn"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dv4-eG-bEh">
                                                 <rect key="frame" x="29" y="515" width="65" height="30"/>
@@ -7408,6 +7411,7 @@
                         <outlet property="btnVIPNum" destination="LAC-bt-iFF" id="WIL-dW-2W3"/>
                         <outlet property="imgActivateAccount" destination="2wv-Zg-Sig" id="b5e-FD-fir"/>
                         <outlet property="imgSeeMore" destination="GpQ-jH-ULt" id="IWI-Fs-9Q2"/>
+                        <outlet property="innerView" destination="8pd-bA-dXJ" id="oxv-VJ-wS3"/>
                         <outlet property="myGroup" destination="LKc-v3-SYj" id="5pR-qh-pt0"/>
                         <outlet property="myName" destination="RCi-kH-zOK" id="OVx-Aw-4Uc"/>
                         <outlet property="myProfilePicture" destination="gPd-1S-a42" id="UAY-qI-M4R"/>
@@ -7738,18 +7742,18 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Pva-az-nrh"/>
-        <segue reference="o39-sD-7QY"/>
-        <segue reference="fSe-Jm-Ttd"/>
-        <segue reference="4yJ-AY-O7T"/>
+        <segue reference="zCe-j8-46Z"/>
         <segue reference="hWi-sg-g8m"/>
         <segue reference="lRH-x1-LZj"/>
         <segue reference="GMF-2B-wF9"/>
         <segue reference="DrQ-RY-iQz"/>
-        <segue reference="1o2-k6-8rD"/>
-        <segue reference="iaT-Lo-dwV"/>
         <segue reference="8AK-s1-iMG"/>
         <segue reference="Ked-a5-FQW"/>
+        <segue reference="fSe-Jm-Ttd"/>
+        <segue reference="Pva-az-nrh"/>
+        <segue reference="4yJ-AY-O7T"/>
+        <segue reference="1o2-k6-8rD"/>
+        <segue reference="iaT-Lo-dwV"/>
         <segue reference="De6-P3-Poq"/>
     </inferredMetricsTieBreakers>
 </document>

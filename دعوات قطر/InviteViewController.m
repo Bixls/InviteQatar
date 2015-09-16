@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "InviteTableViewCell.h"
 #import "SendMessageViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface InviteViewController ()
 
 @property (nonatomic,strong) NSArray *users;
@@ -33,43 +34,44 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view
+    
+    self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
-    //self.VIPPoints = [self.userDefaults integerForKey:@"VIPPoints"];
+;
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
+    self.VIPPoints = [self.userDefaults integerForKey:@"VIPPoints"];
+    if (self.normORVIP == 1) {
+        self.VIPPoints = self.VIPPoints - 1 ; //1 VIP point for event Creation
+    }
+    self.groupID = [self.group[@"id"]integerValue];
     
-    self.view.backgroundColor = [UIColor blackColor];
     self.selectedUsers = [[NSMutableArray alloc]init];
     self.UsersToInvite = [[NSMutableArray alloc]init];
     self.selectedRows = [[NSMutableArray alloc]init];
     self.deletedRows = [[NSMutableArray alloc]init];
     self.usersIDs = [[NSMutableArray alloc]init];
-    NSLog(@"EVENT ID : %ld",(long)self.eventID);
-    if (self.normORVIP == 1 || self.createMsgFlag == 1) {
-        self.groupID = [self.group[@"id"]integerValue];
-    }
+
     NSLog(@"%ld",(long)self.createMsgFlag);
-    
-    [self.navigationItem setHidesBackButton:YES];
-    
-    
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    if (self.normORVIP == 0) {
-        [self getUSerVIPPoints];
-    }else{
-        NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
+//    if (self.normORVIP == 0) {
+//        [self getUSerVIPPoints];
+//    }else{
+    [self.tableView reloadData];
+    
+    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
                                        @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
                                                      @"start":@"0",
                                                      @"limit":@"50000"}]};
         NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
         [self postRequest:getUSersDict withTag:getUsersTag];
-        [self getUSerVIPPoints];
-    }
+    
+//        [self getUSerVIPPoints];
+//    }
     
 }
 
@@ -85,20 +87,20 @@
 }
 
 #pragma mark - Segue
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"createMsg"]) {
-        for (NSDictionary *user in self.selectedUsers) {
-            NSLog(@"%@",self.selectedUsers);
-            NSInteger userID = [user[@"id"]integerValue];
-            NSDictionary *dict = @{@"id":[NSNumber numberWithInteger:userID]};
-            [self.usersIDs addObject:dict];
-            NSLog(@"%@",self.usersIDs);
-        }
-        SendMessageViewController *sendMessageController = segue.destinationViewController;
-        sendMessageController.usersIDs = self.usersIDs;
-        sendMessageController.createMsgFlag = 1;
-    }
-}
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if ([segue.identifier isEqualToString:@"createMsg"]) {
+//        for (NSDictionary *user in self.selectedUsers) {
+//            NSLog(@"%@",self.selectedUsers);
+//            NSInteger userID = [user[@"id"]integerValue];
+//            NSDictionary *dict = @{@"id":[NSNumber numberWithInteger:userID]};
+//            [self.usersIDs addObject:dict];
+//            NSLog(@"%@",self.usersIDs);
+//        }
+//        SendMessageViewController *sendMessageController = segue.destinationViewController;
+//        sendMessageController.usersIDs = self.usersIDs;
+//        sendMessageController.createMsgFlag = 1;
+//    }
+//}
 
 #pragma mark - Table view Data Source methods
 
@@ -118,16 +120,24 @@
    
     NSDictionary *tempDict = self.users[indexPath.row];
     cell.userName.text = tempDict[@"name"];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempDict[@"ProfilePic"]];
-        NSURL *imgURL = [NSURL URLWithString:imgURLString];
-        NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-        UIImage *image = [[UIImage alloc]initWithData:imgData];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            cell.userPic.image = image;
-        });
-        
-    });
+    
+
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempDict[@"ProfilePic"]];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+
+    [cell.userPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                spinner.center = cell.userPic.center;
+        spinner.hidesWhenStopped = YES;
+        [cell addSubview:spinner];
+        [spinner startAnimating];
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        cell.userPic.image = image;
+        [spinner stopAnimating];
+        NSLog(@"Cache Type %ld",(long)cacheType);
+    }];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.checkmark.text = @"\u2001";
     
@@ -151,6 +161,7 @@
 
     InviteTableViewCell *cell = (InviteTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (self.VIPPoints >= self.selectedUsers.count) {
         if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
             //cell.checkmark.text = @"\u2001";
@@ -169,7 +180,7 @@
         [self.tableView reloadData];
     }else if (self.VIPPoints < self.selectedUsers.count){
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً"
-                                                           message:@"كافية VIP لا يمكنك إختيار المزيد من أفراد القبيلة لعدم توافر نقاط"
+                                                           message:@"كافية VIP لا يمكنك إختيار المزيد من أفراد القبيلة لعدم توافر نقاط "
                                                           delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
     }
@@ -179,17 +190,17 @@
 
 #pragma mark - Connection setup
 
--(void)getUSerVIPPoints {
-    NSDictionary *getInvNum = @{
-                                @"FunctionName":@"signIn" ,
-                                @"inputs":@[@{@"Mobile":self.userMobile,
-                                              @"password":self.userPassword}]};
-    NSLog(@"%@",getInvNum);
-    
-    NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
-    [self postRequest:getInvNum withTag:getInvNumTag];
-    
-}
+//-(void)getUSerVIPPoints {
+//    NSDictionary *getInvNum = @{
+//                                @"FunctionName":@"signIn" ,
+//                                @"inputs":@[@{@"Mobile":self.userMobile,
+//                                              @"password":self.userPassword}]};
+//    NSLog(@"%@",getInvNum);
+//    
+//    NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+//    [self postRequest:getInvNum withTag:getInvNumTag];
+//    
+//}
 
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
@@ -233,12 +244,13 @@
         NSLog(@"%@",self.users);
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"invNum"]){
+        
         NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         NSLog(@"%@",dict);
         self.VIPPoints  = [dict[@"inVIP"]integerValue];
 
     }else if ([key isEqualToString:@"inviteUsers"]){
-//        NSLog(@"%@",array);
+
         NSDictionary *failure = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         if ([failure[@"noPoints"]boolValue] == true) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال الدعوات بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
@@ -327,6 +339,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (IBAction)btnInvitePressed:(id)sender {
+    
     if (self.selectedUsers.count >0 && self.createMsgFlag != 1) {
         for (int i =0; i < self.selectedUsers.count; i++) {
             
@@ -351,13 +364,7 @@
 }
 
 - (IBAction)btnBackPressed:(id)sender {
-    if (self.normORVIP == 0 && self.createMsgFlag != 1 ) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }else if (self.normORVIP == 1){
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }else if (self.createMsgFlag == 1){
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 @end

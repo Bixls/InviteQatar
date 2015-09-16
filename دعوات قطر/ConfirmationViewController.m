@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet customAlertView *customAlert;
 
 @property (strong,nonatomic)NSDictionary *responseDictionary;
+@property (strong,nonatomic)NSDictionary *user;
 @property (nonatomic,strong) NetworkConnection *verifyConn;
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic) NSInteger imageID;
@@ -76,12 +77,12 @@
     if ([keyPath isEqualToString:@"response"]) {
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        
+        NSLog(@"%@",self.responseDictionary);
         if ([self.responseDictionary[@"success"]boolValue] == false) {
-
+            
             [self.customAlert showAlertWithMsg:@"عفواً كود التفعيل خطأ" alertTag:0 customAlertView:self.customAlertView customAlert:self.customAlert];
         }else if ([self.responseDictionary[@"success"]boolValue] == true){
-        
+            self.user = self.responseDictionary[@"data"];
             [self.customAlert showAlertWithMsg:@"شكراً لك تم تفعيل حسابك" alertTag:1 customAlertView:self.customAlertView customAlert:self.customAlert];
             NSLog(@"%@",self.responseDictionary);
             [self.userDefaults setInteger:0 forKey:@"Guest"];
@@ -103,8 +104,10 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"welcomeUser"]) {
         WelcomeUserViewController *welcomeUserController = segue.destinationViewController;
-//        welcomeUserController.userName = self.userName;
-//        welcomeUserController.imageID = self.imageID;
+        welcomeUserController.userName = self.user[@"name"];
+        welcomeUserController.groupName = self.user[@"Gname"];
+        welcomeUserController.imageID = [self.user[@"ProfilePic"]integerValue];
+
     }
 }
 

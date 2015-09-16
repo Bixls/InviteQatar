@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ChooseTypeViewController.h"
 #import "ChooseDateViewController.h"
+#import "NetworkConnection.h"
 
 @interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate,UIAlertViewDelegate>
 
@@ -37,6 +38,7 @@
 
 //@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 
+- (IBAction)btnChooseInviteesPressed:(id)sender;
 
 - (IBAction)btnChoosePicPressed:(id)sender;
 

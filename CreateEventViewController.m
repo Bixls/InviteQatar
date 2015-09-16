@@ -13,6 +13,8 @@
 #import "EventViewController.h"
 #import "chooseGroupViewController.h"
 
+static void *adminMsgContext = &adminMsgContext;
+
 @interface CreateEventViewController ()
 
 @property (nonatomic,strong)NSArray *invitationTypes;
@@ -35,6 +37,8 @@
 @property (nonatomic,strong) UIImage *selectedImage;
 @property (nonatomic,strong) NSString *normalUnchecked;
 @property (nonatomic,strong) NSString *normalChecked;
+@property (nonatomic) NSInteger VIPPoints;
+@property (nonatomic,strong) NetworkConnection *adminMgsConnection;
 @end
 
 @implementation CreateEventViewController
@@ -49,6 +53,7 @@
     self.textField.delegate = self;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
+    self.VIPPoints = [self.userDefaults integerForKey:@"VIPPoints"];
     //NSLog(@"%ld",(long)self.userID);
     self.commentsFlag = 0;
     self.vipFlag = -1;
@@ -82,15 +87,19 @@
         
     }
     
-    [self.navigationItem setHidesBackButton:YES];
+//    [self.navigationItem setHidesBackButton:YES];
+    self.adminMgsConnection = [[NetworkConnection alloc]init];
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self getAdminMsg];
+    [self.adminMgsConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:adminMsgContext];
+    [self.adminMgsConnection getCreateEventAdminMsg];
+//    [self getCreateEventAdminMsg];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [self.adminMgsConnection removeObserver:self forKeyPath:@"response" context:adminMsgContext];
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])
@@ -101,13 +110,21 @@
     }
 }
 
--(void)getAdminMsg {
-    NSDictionary *getAdminMsg = @{@"FunctionName":@"getString" , @"inputs":@[@{@"name":@"createEvent",
-                                                                             }]};
-    NSMutableDictionary *getAdminMsgTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAdminMsg",@"key", nil];
-    
-    [self postRequest:getAdminMsg  withTag:getAdminMsgTag];
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if (context == adminMsgContext) {
+        if ([keyPath isEqualToString:@"response"]) {
+            //
+        }
+    }
 }
+
+//-(void)getCreateEventAdminMsg {
+//    NSDictionary *getAdminMsg = @{@"FunctionName":@"getString" , @"inputs":@[@{@"name":@"createEvent",
+//                                                                             }]};
+//    NSMutableDictionary *getAdminMsgTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAdminMsg",@"key", nil];
+//    
+//    [self postRequest:getAdminMsg  withTag:getAdminMsgTag];
+//}
 
 #pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -120,6 +137,7 @@
     }else if ([segue.identifier isEqualToString:@"invite"]){
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.eventID = self.eventID;
+        chooseGroupController.VIPFlag = self.vipFlag;
         chooseGroupController.flag = 1;
     }
 }
@@ -313,7 +331,6 @@
             self.eventID = [responseDict[@"id"]integerValue];
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"هل تريد دعوة الآخرين الآن ؟ " delegate:self cancelButtonTitle:@"لا" otherButtonTitles:@"نعم", nil];
             [alertView show];
-            
         }
         /*
          UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@" تم حفظ المناسبة من فضلك انتظر الموافقة عليها في خلال اربعة و عشرين ساعة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
@@ -404,6 +421,15 @@
 
 #pragma mark - Buttons
 
+- (IBAction)btnChooseInviteesPressed:(id)sender {
+    if (self.vipFlag == 1 && (self.VIPPoints == 0 || self.VIPPoints == 1)) {
+        //ALERT
+    }else{
+        [self performSegueWithIdentifier:@"invite" sender:self];
+    }
+    
+}
+
 - (IBAction)btnChoosePicPressed:(id)sender {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         
@@ -413,7 +439,6 @@
         imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
         imagePicker.allowsEditing = NO;
         [self presentViewController:imagePicker animated:YES completion:nil];
-   
     
     }
     

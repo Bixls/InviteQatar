@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *groupNameLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageActivityIndicator;
+
+
 @property (strong,nonatomic) NetworkConnection *downloadImageConnection;
 
 
@@ -27,8 +29,8 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     self.userNameLabel.text = self.userName;
-    //add group name
-    self.groupNameLabel.text = @"testGroup";
+    self.groupNameLabel.text = self.groupName;
+
     self.downloadImageConnection = [[NetworkConnection alloc]init];
     self.downloadImageConnection.delegate = self;
 
