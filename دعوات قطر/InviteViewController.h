@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *inviteesNumberLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *VIPNumberLabel;
+@property (weak,nonatomic) IBOutlet UILabel *VIPlbl;
+
 
 
 - (IBAction)btnInvitePressed:(id)sender;

@@ -11,6 +11,7 @@
 #import "InviteTableViewCell.h"
 #import "SendMessageViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "CreateEventViewController.h"
 @interface InviteViewController ()
 
 @property (nonatomic,strong) NSArray *users;
@@ -20,6 +21,7 @@
 @property (nonatomic,strong) NSMutableArray *UsersToInvite;
 @property (nonatomic,strong) NSMutableArray *selectedRows;
 @property (nonatomic,strong) NSMutableArray *deletedRows;
+@property (nonatomic,strong) NSMutableDictionary *choosenUsers;
 @property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger returnedGroupID;
 @property (nonatomic) NSInteger deletionFlag;
@@ -44,6 +46,9 @@
     self.VIPPoints = [self.userDefaults integerForKey:@"VIPPoints"];
     if (self.normORVIP == 1) {
         self.VIPPoints = self.VIPPoints - 1 ; //1 VIP point for event Creation
+    }else if (self.normORVIP == 0){
+        [self.VIPNumberLabel removeFromSuperview];
+        [self.VIPlbl removeFromSuperview];
     }
     self.groupID = [self.group[@"id"]integerValue];
     
@@ -52,7 +57,7 @@
     self.selectedRows = [[NSMutableArray alloc]init];
     self.deletedRows = [[NSMutableArray alloc]init];
     self.usersIDs = [[NSMutableArray alloc]init];
-
+    self.choosenUsers = [[NSMutableDictionary alloc]init];
     NSLog(@"%ld",(long)self.createMsgFlag);
     [self updateInvitesStatus];
     
@@ -425,64 +430,59 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 - (IBAction)btnInvitePressed:(id)sender {
-    
-    if (self.selectedUsers.count >0 && self.createMsgFlag != 1) {
-        
-        for (int i =0; i < self.selectedUsers.count; i++) {
-            
-            NSDictionary *dict = self.selectedUsers[i];
-            NSInteger userID = [dict[@"id"]integerValue];
-            NSDictionary *temp = [[NSDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)userID],@"id", nil];
-            [self.UsersToInvite addObject:temp];
-            
-        }
-        
-        NSDictionary *inviteUsers = @{@"FunctionName":@"invite" ,
-                                      @"inputs":@[@{@"EventID":[NSString stringWithFormat:@"%ld",self.eventID],
-                                                    @"listArray":self.UsersToInvite,
-                                                    }]};
-        NSMutableDictionary *inviteUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"inviteUsers",@"key", nil];
-        [self postRequest:inviteUsers withTag:inviteUsersTag];
-        
-    }else if (self.createMsgFlag == 1){
-        [self performSegueWithIdentifier:@"createMsg" sender:self];
-    }
-
+    self.choosenUsers = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:self.normORVIP],@"type",self.selectedUsers,@"data",nil];
+    NSLog(@"%@",self.choosenUsers);
+    [self.userDefaults setObject:self.choosenUsers forKey:@"invitees"];
+    [self.userDefaults synchronize];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self jumpToRootViewController];
 }
 
 - (IBAction)btnBackPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }
+
+-(void)jumpToRootViewController {
+    for (UIViewController* viewController in self.navigationController.viewControllers) {
+        
+        //This if condition checks whether the viewController's class is MyGroupViewController
+        // if true that means its the MyGroupViewController (which has been pushed at some point)
+        if ([viewController isKindOfClass:[CreateEventViewController class]] ) {
+            
+            // Here viewController is a reference of UIViewController base class of MyGroupViewController
+            // but viewController holds MyGroupViewController  object so we can type cast it here
+            CreateEventViewController *createEventController = (CreateEventViewController*)viewController;
+            [self.navigationController popToViewController:createEventController animated:YES];
+        }
+    }
+}
 @end
 
-//NSLog(@"%ld",(long)indexPath.row);
-//InviteTableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-//        if (self.deletionFlag == 1) {
-//            self.deletionFlag = 1;
-//            if(self.flag == 1){
-////                cell.checkmark.text = @"\u2001";
-//                if (self.selectedUsers.count >0) {
-//
-//                    [self.selectedUsers removeObject:self.users[indexPath.row]];
-//                    [self.selectedRows removeObject:indexPath];
-//                    [self.deletedRows addObject:indexPath];
-//                    if (self.deletedRows.count == self.users.count) {
-//                        self.deletionFlag =0;
-//                        [self.deletedRows removeAllObjects];
-//                    }
-//                }
-//            }
-//
-//
-//        }else if (self.flag==1){
-//            //do nothing
-//        }else{
-////            cell.checkmark.text = @"\u2713";
-//            [self.selectedUsers addObject:self.users[indexPath.row]];
-//            [self.selectedRows addObject:indexPath];
-//            self.deletionFlag =0;
-//            if (self.selectedUsers.count == self.users.count) {
-//                self.deletionFlag = 1;
-//            }
-//        }
+
+/* Invite 
+ 
+ if (self.selectedUsers.count >0 && self.createMsgFlag != 1) {
+ 
+ for (int i =0; i < self.selectedUsers.count; i++) {
+ 
+ NSDictionary *dict = self.selectedUsers[i];
+ NSInteger userID = [dict[@"id"]integerValue];
+ NSDictionary *temp = [[NSDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)userID],@"id", nil];
+ [self.UsersToInvite addObject:temp];
+ 
+ }
+ 
+ NSDictionary *inviteUsers = @{@"FunctionName":@"invite" ,
+ @"inputs":@[@{@"EventID":[NSString stringWithFormat:@"%ld",self.eventID],
+ @"listArray":self.UsersToInvite,
+ }]};
+ NSMutableDictionary *inviteUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"inviteUsers",@"key", nil];
+ [self postRequest:inviteUsers withTag:inviteUsersTag];
+ 
+ }else if (self.createMsgFlag == 1){
+ [self performSegueWithIdentifier:@"createMsg" sender:self];
+ }
+ 
+ */
+

@@ -50,6 +50,7 @@ static void *adminMsgContext = &adminMsgContext;
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
+    self.navigationController.navigationBar.hidden = YES;
     [self.textView setReturnKeyType:UIReturnKeyDone];
     self.textView.delegate = self;
     self.textField.delegate = self;
@@ -106,6 +107,9 @@ static void *adminMsgContext = &adminMsgContext;
 -(void)viewDidAppear:(BOOL)animated{
     [self.adminMgsConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:adminMsgContext];
     [self.adminMgsConnection getCreateEventAdminMsg];
+    if ([self.userDefaults objectForKey:@"invitees"] != nil) {
+        NSLog(@"%@",[self.userDefaults objectForKey:@"invitees"]);
+    }
 //    [self getCreateEventAdminMsg];
 }
 
