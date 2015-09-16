@@ -18,5 +18,10 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnMarkAll;
+@property (weak, nonatomic) IBOutlet UILabel *inviteesNumberLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *VIPNumberLabel;
+
+
 - (IBAction)btnInvitePressed:(id)sender;
 @end

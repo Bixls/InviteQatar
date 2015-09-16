@@ -35,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnSave;
 @property (weak, nonatomic) IBOutlet UILabel *saveLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lblAdmin;
+@property (weak, nonatomic) IBOutlet UILabel *normalRadioButton;
+@property (weak, nonatomic) IBOutlet UILabel *VIPRadioButton;
 
 //@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 

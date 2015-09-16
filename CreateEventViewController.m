@@ -37,6 +37,8 @@ static void *adminMsgContext = &adminMsgContext;
 @property (nonatomic,strong) UIImage *selectedImage;
 @property (nonatomic,strong) NSString *normalUnchecked;
 @property (nonatomic,strong) NSString *normalChecked;
+@property (nonatomic,strong) NSString *unChecked;
+@property (nonatomic,strong) NSString *checked;
 @property (nonatomic) NSInteger VIPPoints;
 @property (nonatomic,strong) NetworkConnection *adminMgsConnection;
 @end
@@ -57,12 +59,17 @@ static void *adminMsgContext = &adminMsgContext;
     //NSLog(@"%ld",(long)self.userID);
     self.commentsFlag = 0;
     self.vipFlag = -1;
-    self.normalUnchecked = @"عاديه \u274F";
-    self.normalChecked = @"عاديه \u2713" ;
+    self.unChecked =@"⚪️";
+    self.checked = @"🔘";
     
-    [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+    self.VIPRadioButton.text = self.unChecked;
+    self.normalRadioButton.text = self.checked;
+    self.vipFlag = 0;
+    
+    
+//    [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
     [self.btnMarkComments setTitle:@"\u274F  السماح بالتعليقات" forState:UIControlStateNormal];
-    [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+//    [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
     
     self.imageURL = @"default";
     if (self.event != nil && self.createOrEdit ==1) {
@@ -80,9 +87,13 @@ static void *adminMsgContext = &adminMsgContext;
             [self.btnMarkComments setTitle:@"\u2713 السماح بالتعليقات" forState:UIControlStateNormal];
         }
         if (self.vipFlag == 0) {
-            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-        }else{
-             [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.unChecked;
+            self.normalRadioButton.text = self.checked;
+//            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+        }else if(self.vipFlag == 1){
+//             [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.checked;
+            self.normalRadioButton.text = self.unChecked;
         }
         
     }
@@ -506,49 +517,65 @@ static void *adminMsgContext = &adminMsgContext;
     if (sender.tag == 0 && self.createOrEdit == 0) {
         if (self.vipFlag == 1) {
             self.vipFlag = -1;
-            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+//            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.unChecked;
+//            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+            self.normalRadioButton.text = self.unChecked;
         }else{
             self.vipFlag = 1;
-            [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
-            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+//            [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.checked;
+            self.normalRadioButton.text = self.unChecked;
+//            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
         }
 
     }else if (sender.tag == 1 && self.createOrEdit == 0){
         if (self.vipFlag == 0) {
             self.vipFlag = -1;
-            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.unChecked;
+            self.normalRadioButton.text = self.unChecked;
+//            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+//            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
         }else{
             self.vipFlag = 0;
-            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-            [self.btnMarkNormal setTitle:self.normalChecked forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.unChecked;
+            self.normalRadioButton.text = self.checked;
+//            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+//            [self.btnMarkNormal setTitle:self.normalChecked forState:UIControlStateNormal];
         }
 
         
     }else if (sender.tag == 0 && self.createOrEdit == 1 && self.vipFlag == 1){
         if (self.allowEditing == YES) {
             self.vipFlag = -1;
-            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.unChecked;
+            self.normalRadioButton.text = self.unChecked;
+//            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+//            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
         }else{
             //do nothing
         }
     }else if (sender.tag == 0 && self.createOrEdit == 1 && self.vipFlag == 0){
         self.allowEditing = YES;
         self.vipFlag = 1;
-        [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
-        [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+        self.VIPRadioButton.text = self.checked;
+        self.normalRadioButton.text = self.unChecked;
+//        [self.btnMarkVIP setTitle:@"\u2713 VIP" forState:UIControlStateNormal];
+//        [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
     }else if (sender.tag == 1 && self.createOrEdit == 1 ){
         
         if (self.vipFlag == 0 && self.allowEditing == YES) {
             self.vipFlag = -1;
-            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.unChecked;
+            self.normalRadioButton.text = self.unChecked;
+//            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+//            [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
         }else if (self.vipFlag == 1 && self.allowEditing == YES){
             self.vipFlag = 0;
-            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
-            [self.btnMarkNormal setTitle:self.normalChecked forState:UIControlStateNormal];
+            self.VIPRadioButton.text = self.unChecked;
+            self.normalRadioButton.text = self.checked;
+//            [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
+//            [self.btnMarkNormal setTitle:self.normalChecked forState:UIControlStateNormal];
         }else{
             //do nothing
         }

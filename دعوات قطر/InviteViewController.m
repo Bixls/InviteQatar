@@ -54,25 +54,37 @@
     self.usersIDs = [[NSMutableArray alloc]init];
 
     NSLog(@"%ld",(long)self.createMsgFlag);
+    [self updateInvitesStatus];
+    
+}
+
+-(void)updateInvitesStatus{
+    
+    self.inviteesNumberLabel.text = [self arabicNumberFromEnglish:self.selectedUsers.count];
+    self.VIPNumberLabel.text = [self arabicNumberFromEnglish:self.VIPPoints];
+    
+    if (self.selectedUsers.count <= 0) {
+        self.inviteesNumberLabel.textColor = [UIColor redColor];
+    }else{
+         self.inviteesNumberLabel.textColor = [UIColor orangeColor];
+    }
+    if (self.VIPPoints <= 0) {
+        self.VIPNumberLabel.textColor = [UIColor redColor];
+    }else{
+         self.VIPNumberLabel.textColor = [UIColor orangeColor];
+    }
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-//    if (self.normORVIP == 0) {
-//        [self getUSerVIPPoints];
-//    }else{
-    [self.tableView reloadData];
-    
+
     NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
                                        @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
                                                      @"start":@"0",
                                                      @"limit":@"50000"}]};
         NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
         [self postRequest:getUSersDict withTag:getUsersTag];
-    
-//        [self getUSerVIPPoints];
-//    }
-    
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -84,6 +96,14 @@
             [request setDelegate:nil];
         }
     }
+}
+
+-(NSString *)arabicNumberFromEnglish:(NSInteger)num {
+    NSNumber *someNumber = [NSNumber numberWithInteger:num];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSLocale *gbLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"ar"];
+    [formatter setLocale:gbLocale];
+    return [formatter stringFromNumber:someNumber];
 }
 
 #pragma mark - Segue
@@ -117,7 +137,7 @@
         cell=[[InviteTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         
     }
-   
+    NSLog(@"%@",self.users);
     NSDictionary *tempDict = self.users[indexPath.row];
     cell.userName.text = tempDict[@"name"];
     
@@ -144,8 +164,8 @@
 //    NSArray *selectedRows = [tableView indexPathsForSelectedRows];
     for(NSIndexPath *i in self.selectedRows)
     {
-        NSLog(@"%@",i);
-        NSLog(@"%@",indexPath);
+//        NSLog(@"%@",i);
+//        NSLog(@"%@",indexPath);
         if([i isEqual:indexPath])
         {
             cell.checkmark.text = @"\u2713";
@@ -162,12 +182,58 @@
     InviteTableViewCell *cell = (InviteTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (self.VIPPoints >= self.selectedUsers.count) {
+    if (self.VIPPoints != 0 && self.normORVIP == 1) {
+        NSLog(@"%ld",(long)self.VIPPoints);
+        
         if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
             //cell.checkmark.text = @"\u2001";
             if (self.selectedUsers.count >0) {
                 [self.selectedUsers removeObject:self.users[indexPath.row]];
                 [self.selectedRows removeObject:indexPath];
+                self.VIPPoints += 1;
+            }
+            [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
+            self.flag = 0;
+        }else{
+            //cell.checkmark.text = @"\u2713";
+            [self.selectedUsers addObject:self.users[indexPath.row]];
+            [self.selectedRows addObject:indexPath];
+            self.VIPPoints -= 1;
+
+            NSLog(@"%lu",(unsigned long)self.selectedUsers.count);
+        }
+        [self updateInvitesStatus];
+        [self.tableView reloadData];
+        
+    }else if (self.VIPPoints == 0 && self.normORVIP == 1){
+        
+        if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
+            if (self.selectedUsers.count >0) {
+                [self.selectedUsers removeObject:self.users[indexPath.row]];
+                [self.selectedRows removeObject:indexPath];
+                self.VIPPoints +=1;
+                
+
+            }
+            [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
+            self.flag = 0;
+        }else{
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً"
+                                                               message:@" لا يمكنك إختيار المزيد من أفراد القبيلة لعدم توافر نقاط VIP كافية "
+                                                              delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }
+        
+        [self updateInvitesStatus];
+        [self.tableView reloadData];
+        
+    }else if (self.normORVIP == 0){
+        if ([cell.checkmark.text isEqualToString:@"\u2713"]) {
+            //cell.checkmark.text = @"\u2001";
+            if (self.selectedUsers.count >0) {
+                [self.selectedUsers removeObject:self.users[indexPath.row]];
+                [self.selectedRows removeObject:indexPath];
+                
                 
             }
             [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
@@ -176,32 +242,17 @@
             //cell.checkmark.text = @"\u2713";
             [self.selectedUsers addObject:self.users[indexPath.row]];
             [self.selectedRows addObject:indexPath];
+            
+            NSLog(@"%lu",(unsigned long)self.selectedUsers.count);
         }
+        [self updateInvitesStatus];
         [self.tableView reloadData];
-    }else if (self.VIPPoints < self.selectedUsers.count){
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً"
-                                                           message:@"كافية VIP لا يمكنك إختيار المزيد من أفراد القبيلة لعدم توافر نقاط "
-                                                          delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-        [alertView show];
     }
 
     
 }
 
 #pragma mark - Connection setup
-
-//-(void)getUSerVIPPoints {
-//    NSDictionary *getInvNum = @{
-//                                @"FunctionName":@"signIn" ,
-//                                @"inputs":@[@{@"Mobile":self.userMobile,
-//                                              @"password":self.userPassword}]};
-//    NSLog(@"%@",getInvNum);
-//    
-//    NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
-//    [self postRequest:getInvNum withTag:getInvNumTag];
-//    
-//}
-
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
@@ -259,6 +310,10 @@
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم إرسال الدعوات بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
         }
+    }else if ([key isEqualToString:@"getUninvited"]){
+        self.users = array;
+        NSLog(@"%@",self.users);
+        [self.tableView reloadData];
     }
     
     
@@ -279,56 +334,87 @@
     [self postRequest:getUSersDict withTag:getUsersTag];
 }
 
+-(void)getUnInvitedUsers{
+    NSDictionary *getUSersDict = @{@"FunctionName":@"getInvited" ,
+                                   @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
+                                                 @"start":@"0",
+                                                 @"limit":@"10",
+                                                 @"invitation_status":[NSNumber numberWithInteger:1],
+                                                 
+                                                 }]};
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUninvited",@"key", nil];
+    [self postRequest:getUSersDict withTag:getUsersTag];
+    
+}
+
 - (IBAction)btnMarkAllPressed:(id)sender {
     
-    for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
-        NSUInteger ints[2] = {0,i};
-        NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
-        //NSLog(@"%ld",(long)indexPath.row);
-        InviteTableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-//        if (self.deletionFlag == 1) {
-//            self.deletionFlag = 1;
-//            if(self.flag == 1){
-////                cell.checkmark.text = @"\u2001";
-//                if (self.selectedUsers.count >0) {
-//                    
-//                    [self.selectedUsers removeObject:self.users[indexPath.row]];
-//                    [self.selectedRows removeObject:indexPath];
-//                    [self.deletedRows addObject:indexPath];
-//                    if (self.deletedRows.count == self.users.count) {
-//                        self.deletionFlag =0;
-//                        [self.deletedRows removeAllObjects];
-//                    }
-//                }
-//            }
-//            
-//            
-//        }else if (self.flag==1){
-//            //do nothing
-//        }else{
-////            cell.checkmark.text = @"\u2713";
-//            [self.selectedUsers addObject:self.users[indexPath.row]];
-//            [self.selectedRows addObject:indexPath];
-//            self.deletionFlag =0;
-//            if (self.selectedUsers.count == self.users.count) {
-//                self.deletionFlag = 1;
-//            }
-//        }
-    }
+//    for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
+//        NSUInteger ints[2] = {0,i};
+//        NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
+//
+//    }
+    
     self.flag = !(self.flag);
     if (self.flag == 1) {
         [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2713" forState:UIControlStateNormal];
-        [self.selectedUsers removeAllObjects];
-        [self.selectedUsers addObjectsFromArray:self.users];
-        for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
-            NSUInteger ints[2] = {0,i};
-            NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
-            [self.selectedRows addObject:indexPath];
+        if (self.normORVIP == 1) {
+            self.VIPPoints = self.VIPPoints + self.selectedUsers.count;
+            [self.selectedUsers removeAllObjects];
+            [self.selectedRows removeAllObjects];
+            [self updateInvitesStatus];
+        }else{
+            [self.selectedUsers removeAllObjects];
+            [self.selectedRows removeAllObjects];
         }
+
+//        [self.selectedUsers addObjectsFromArray:self.users];
+        if (self.normORVIP == 1){
+            for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
+            
+                NSUInteger ints[2] = {0,i};
+                NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
+                NSLog(@"Selected users Count %lu",(unsigned long)self.selectedUsers.count);
+                NSLog(@"VIP Points Count %ld" , (long)self.VIPPoints);
+                if (self.VIPPoints != 0) {
+//                    [self.selectedUsers addObjectsFromArray:self.users[indexPath.row]];
+                    [self.selectedUsers addObject:self.users[indexPath.row]];
+                    [self.selectedRows addObject:indexPath];
+                    self.VIPPoints -= 1 ;
+                    [self updateInvitesStatus];
+                }else{
+                    NSLog(@"%@",self.selectedUsers);
+                    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"لا يمكن إضافة أشخاص أخري لعدم توافر دعوات VIP كافية" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+                    [alertView show];
+                    [self updateInvitesStatus];
+                    break;
+                }
+            }
+        }else if (self.normORVIP == 0){
+            for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++){
+                NSUInteger ints[2] = {0,i};
+                NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
+//                [self.selectedUsers addObjectsFromArray:self.users[indexPath.row]];
+                [self.selectedUsers addObject:self.users[indexPath.row]];
+                [self.selectedRows addObject:indexPath];
+                [self updateInvitesStatus];
+            }
+        }else{
+            NSLog(@"%@",self.selectedUsers);
+            [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"لا يمكن إضافة أشخاص أخري لعدم توافر دعوات VIP كافية" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+            [self updateInvitesStatus];
+        }
+        
     }else{
         [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
+        if (self.normORVIP == 1) {
+            self.VIPPoints = self.VIPPoints + self.selectedUsers.count;
+        }
         [self.selectedUsers removeAllObjects];
         [self.selectedRows removeAllObjects];
+        [self updateInvitesStatus];
     }
     
     NSLog(@"%ld",(long)self.flag);
@@ -341,6 +427,7 @@
 - (IBAction)btnInvitePressed:(id)sender {
     
     if (self.selectedUsers.count >0 && self.createMsgFlag != 1) {
+        
         for (int i =0; i < self.selectedUsers.count; i++) {
             
             NSDictionary *dict = self.selectedUsers[i];
@@ -368,3 +455,34 @@
     
 }
 @end
+
+//NSLog(@"%ld",(long)indexPath.row);
+//InviteTableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+//        if (self.deletionFlag == 1) {
+//            self.deletionFlag = 1;
+//            if(self.flag == 1){
+////                cell.checkmark.text = @"\u2001";
+//                if (self.selectedUsers.count >0) {
+//
+//                    [self.selectedUsers removeObject:self.users[indexPath.row]];
+//                    [self.selectedRows removeObject:indexPath];
+//                    [self.deletedRows addObject:indexPath];
+//                    if (self.deletedRows.count == self.users.count) {
+//                        self.deletionFlag =0;
+//                        [self.deletedRows removeAllObjects];
+//                    }
+//                }
+//            }
+//
+//
+//        }else if (self.flag==1){
+//            //do nothing
+//        }else{
+////            cell.checkmark.text = @"\u2713";
+//            [self.selectedUsers addObject:self.users[indexPath.row]];
+//            [self.selectedRows addObject:indexPath];
+//            self.deletionFlag =0;
+//            if (self.selectedUsers.count == self.users.count) {
+//                self.deletionFlag = 1;
+//            }
+//        }
