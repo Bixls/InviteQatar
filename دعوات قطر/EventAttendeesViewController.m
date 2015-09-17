@@ -11,12 +11,13 @@
 #import "ASIHTTPRequest.h"
 #import <SVPullToRefresh.h>
 #import "UserViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface EventAttendeesViewController ()
 
 @property (nonatomic,strong) NSMutableArray *allUsers;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
-@property (nonatomic) NSInteger populate;
+@property (nonatomic) BOOL populate;
 @property (nonatomic,strong)NSDictionary *selectedUser;
 @end
 
@@ -39,7 +40,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     
 //    [self.tableView addInfiniteScrollingWithActionHandler:^{
-//        self.populate = 1 ;
+        self.populate = YES ;
 //        self.start = self.start+10 ;
 //        //self.limit = 10;
 //        [self getAttendees];
@@ -107,21 +108,23 @@
         if (cell==nil) {
             cell=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         }
-//        NSLog(@"MEssagesss %@",self.allUsers);
-//        NSLog(@"MEssagesss %ld",(long)indexPath.row);
+        
         NSDictionary *user = self.allUsers[indexPath.row];
         cell.userName.text = user[@"name"];
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            //Background Thread
-             NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]]; //needs to be dynamic
-            //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-            UIImage *img = [[UIImage alloc]initWithData:data];
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                //Run UI Updates
-                cell.userImage.image = img;
-            });
-        });
+
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",user[@"ProfilePic"]];
+        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [cell.userImage sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            spinner.center = cell.userImage.center;
+            spinner.hidesWhenStopped = YES;
+            [cell addSubview:spinner];
+            [spinner startAnimating];
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            cell.userImage.image = image;
+            [spinner stopAnimating];
+        }];
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
@@ -137,29 +140,7 @@
     
     
     return nil ;
-//    static NSString *cellIdentifier = @"Cell";
-//    
-//    AttendeeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-//    if (cell==nil) {
-//        cell=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//    }
-//    
-//    NSDictionary *user = self.allUsers[indexPath.row];
-//    cell.userName.text = user[@"name"];
-//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//        //Background Thread
-//        NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg" ; //needs to be dynamic
-//        //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
-//        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-//        UIImage *img = [[UIImage alloc]initWithData:data];
-//        dispatch_async(dispatch_get_main_queue(), ^(void){
-//            //Run UI Updates
-//            cell.userImage.image = img;
-//        });
-//    });
-//
-//    
-//    return cell ;
+
 }
 
 #pragma mark - Table View Delegate Methods 
@@ -178,6 +159,7 @@
     if ([segue.identifier isEqualToString:@"showUser"]) {
         UserViewController *userController = segue.destinationViewController;
         userController.user = self.selectedUser;
+        self.populate = NO;
     }
 }
 
@@ -223,22 +205,18 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    //NSString *responseString = [request responseString];
     
     NSData *responseData = [request responseData];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
     
-    if ([key isEqualToString:@"getAttendees"]&& array && (self.populate == 0)) {
+    if ([key isEqualToString:@"getAttendees"] && ! [array isEqualToArray:self.allUsers]) {
         [self.allUsers addObjectsFromArray:array];
         [self.tableView reloadData];
     }else{
-        //[self insertRowAtBottomWithArray:self.receivedArray];
-        [self.allUsers addObjectsFromArray:array];
-        [self.tableView reloadData];
-        //[self.tableView.infiniteScrollingView stopAnimating];
+
     }
-//    NSLog(@"%@",self.allUsers);
+
     
 }
 

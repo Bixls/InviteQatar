@@ -19,7 +19,7 @@
 #import "GroupUsersTableViewCell.h"
 #import "UserViewController.h"
 #import "Reachability.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface GroupViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
@@ -67,6 +67,11 @@
     self.start = 0;
     self.limit = 10;
     self.groupID = [self.group[@"id"]integerValue];
+    
+    if ([self.userDefaults objectForKey:[NSString stringWithFormat:@"group %@",[NSNumber numberWithInteger:self.groupID]]]) {
+        self.groupDescription.text = [self.userDefaults objectForKey:[NSString stringWithFormat:@"group %@",[NSNumber numberWithInteger:self.groupID]]];
+        
+    }
 //    NSLog(@"%ld",(long)self.groupID);
     [self.navigationItem setHidesBackButton:YES];
     
@@ -208,18 +213,20 @@
             [cell.vipLabel setHidden:YES];
         }
         
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            //Background Thread
-            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",currentEvent[@"EventPic"]];
-            // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-            UIImage *img = [[UIImage alloc]initWithData:data];
-            
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                //Run UI Updates
-                cell.profilePic.image = img ;
-            });
-        });
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",currentEvent[@"EventPic"]];
+        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [cell.profilePic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            spinner.center = cell.profilePic.center;
+            spinner.hidesWhenStopped = YES;
+            [cell addSubview:spinner];
+            [spinner startAnimating];
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            cell.profilePic.image = image;
+            [spinner stopAnimating];
+        }];
+        
+        
         self.verticalLayoutConstraint.constant = self.collectionView.contentSize.height;
         return cell;
 
@@ -229,18 +236,19 @@
         if (self.news.count > 0) {
             NSDictionary *oneNews = self.news[indexPath.row];
             cell.newsSubject.text = oneNews[@"Subject"];
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                //Background Thread
-                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",oneNews[@"Image"]];
-                // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
-                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-                UIImage *img = [[UIImage alloc]initWithData:data];
-                
-                dispatch_async(dispatch_get_main_queue(), ^(void){
-                    //Run UI Updates
-                    cell.newsImage.image = img ;
-                });
-            });
+
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",oneNews[@"Image"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell.newsImage sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                spinner.center = cell.newsImage.center;
+                spinner.hidesWhenStopped = YES;
+                [cell addSubview:spinner];
+                [spinner startAnimating];
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                cell.newsImage.image = image;
+                [spinner stopAnimating];
+            }];
             
         }
         return cell;
@@ -330,16 +338,19 @@
         if (tempUser != nil) {
             cell.userName.text = tempUser[@"name"];
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempUser[@"ProfilePic"]];
-                NSURL *imgURL = [NSURL URLWithString:imgURLString];
-                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-                UIImage *image = [[UIImage alloc]initWithData:imgData];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.userPic.image = image;
-                });
-                
-            });
+
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempUser[@"ProfilePic"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell.userPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                spinner.center = cell.userPic.center;
+                spinner.hidesWhenStopped = YES;
+                [cell addSubview:spinner];
+                [spinner startAnimating];
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                cell.userPic.image = image;
+                [spinner stopAnimating];
+            }];
             
             self.tableVerticalLayoutConstraint.constant = self.usersTableView.contentSize.height;
             return cell ;
@@ -352,6 +363,8 @@
 
 
 }
+
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -482,6 +495,9 @@
 //            NSLog(@"%@",dict);
             
             self.groupDescription.text = dict[@"Description"];
+            [self.userDefaults setObject:dict[@"Description"] forKey:[NSString stringWithFormat:@"group %@",[NSNumber numberWithInteger:self.groupID]]];
+            [self.userDefaults synchronize];
+            
             if (self.groupDescription.text.length > 0) {
                 [self.groupFrame setHidden:NO];
                 [self.groupPic setHidden:NO];
