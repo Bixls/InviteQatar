@@ -22,6 +22,7 @@
 @property (nonatomic)NSInteger userID;
 
 @property (nonatomic)NSInteger eventType;
+@property (nonatomic)NSInteger VIPFlag;
 @property (nonatomic)UIImage *eventImage;
 @property (nonatomic)NSInteger allowComments;
 @property (nonatomic)NSInteger isInvited;
@@ -393,6 +394,8 @@
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.flag = 1;
         chooseGroupController.eventID = self.eventID;
+        chooseGroupController.VIPFlag = self.VIPFlag;
+        chooseGroupController.inviteOthers = YES;
     }else if ([segue.identifier isEqualToString:@"chooseDate"]){
         ChooseDateViewController *chooseDateController = segue.destinationViewController;
         chooseDateController.delegate = self;
@@ -590,8 +593,9 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         if (dict) {
 //            NSDictionary *dict = arr[0];
-            NSLog(@"Full event %@",dict);
+//            NSLog(@"Full event %@",dict);
             self.fullEvent = dict;
+            self.VIPFlag = [dict[@"VIP"]integerValue];
             self.allowComments = [dict[@"comments"]integerValue];
             self.eventDescription = dict[@"description"];
             [self.descriptionSpinner stopAnimating];

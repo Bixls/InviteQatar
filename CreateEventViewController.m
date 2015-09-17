@@ -33,7 +33,7 @@ static void *adminMsgContext = &adminMsgContext;
 @property(nonatomic,strong)NSDictionary *selectedCategory;
 @property(nonatomic,strong)NSDictionary *createdEvent;
 @property (nonatomic,strong) NSString *selectedDate;
-
+@property (nonatomic) BOOL stopGettingAttendees;
 @property (nonatomic,strong) UIImage *selectedImage;
 @property (nonatomic,strong) NSString *normalUnchecked;
 @property (nonatomic,strong) NSString *normalChecked;
@@ -41,6 +41,7 @@ static void *adminMsgContext = &adminMsgContext;
 @property (nonatomic,strong) NSString *checked;
 @property (nonatomic,strong) NSMutableArray *invitees;
 @property (nonatomic,strong) NSArray *selectedUsers;
+@property (nonatomic,strong) NSArray *previousInvitees;
 @property (nonatomic) NSInteger VIPPoints;
 @property (nonatomic) BOOL allowCreation;
 @property (nonatomic,strong) NetworkConnection *adminMgsConnection;
@@ -48,6 +49,7 @@ static void *adminMsgContext = &adminMsgContext;
 @property (weak, nonatomic) IBOutlet customAlertView *customAlert;
 @property (nonatomic) BOOL isEventCreated;
 @property (nonatomic) BOOL isUsersInvited;
+@property (strong, nonatomic) UIActivityIndicatorView *gettingInvitees;
 
 @end
 
@@ -119,7 +121,13 @@ static void *adminMsgContext = &adminMsgContext;
     
 }
 -(void)refreshInvitees{
-    self.inviteesLabel.text = [self arabicNumberFromEnglish:self.invitees.count];
+    if (self.eventID && self.createOrEdit == 1) {
+        NSInteger temp = self.invitees.count + self.previousInvitees.count;
+        self.inviteesLabel.text = [self arabicNumberFromEnglish:temp];
+    }else{
+        self.inviteesLabel.text = [self arabicNumberFromEnglish:self.invitees.count];
+    }
+    
     if (self.invitees.count <= 0) {
         self.inviteesLabel.textColor = [UIColor redColor];
     }else{
@@ -136,6 +144,10 @@ static void *adminMsgContext = &adminMsgContext;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    if (self.eventID && self.createOrEdit ==1 && self.stopGettingAttendees == NO) {
+        [self getAttendees];
+        self.stopGettingAttendees = YES;
+    }
     [self.adminMgsConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:adminMsgContext];
     [self.adminMgsConnection getCreateEventAdminMsg];
     if ([self.userDefaults objectForKey:@"invitees"] != nil) {
@@ -209,6 +221,10 @@ static void *adminMsgContext = &adminMsgContext;
         chooseGroupController.eventID = self.eventID;
         chooseGroupController.VIPFlag = self.vipFlag;
         chooseGroupController.flag = 1;
+        if (self.eventID) {
+            chooseGroupController.inviteOthers = YES;
+            chooseGroupController.editingMode = YES;
+        }
         if (self.invitees.count > 0) {
             chooseGroupController.invitees = self.selectedUsers;
         }
@@ -435,8 +451,15 @@ static void *adminMsgContext = &adminMsgContext;
             }
         }
 
+    }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"getAttendees"]){
+        self.previousInvitees = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSLog(@"%@",self.previousInvitees);
+        [self.gettingInvitees stopAnimating];
+    
+        [self refreshInvitees];
     }
     
+
   
     
 }
@@ -457,6 +480,22 @@ static void *adminMsgContext = &adminMsgContext;
         [self.userDefaults synchronize];
         [self.navigationController popoverPresentationController];
     }
+}
+
+-(void)getAttendees {
+    
+    NSDictionary *getUsers = @{@"FunctionName":@"ViewEventAttendees" , @"inputs":@[@{@"eventID":[NSString stringWithFormat:@"%ld",(long)self.eventID],
+                                                                                     @"start":[NSString stringWithFormat:@"%@",[NSNumber numberWithInteger:0]],
+                                                                                     @"limit":[NSString stringWithFormat:@"%@",[NSNumber numberWithInteger:50000]]
+                                                                                     }]};
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAttendees",@"key", nil];
+    
+    [self postRequest:getUsers withTag:getUsersTag];
+    self.gettingInvitees = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.gettingInvitees.hidesWhenStopped = YES;
+    self.gettingInvitees.center = self.view.center;
+    [self.gettingInvitees startAnimating];
+    
 }
 
 -(void)createEventFN{
@@ -587,6 +626,7 @@ static void *adminMsgContext = &adminMsgContext;
                 [alertView show];
             }else {
                 [self editEventFN];
+                
             }
             
             

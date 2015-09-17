@@ -12,6 +12,7 @@
 #import "SendMessageViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "CreateEventViewController.h"
+#import "EventViewController.h"
 @interface InviteViewController ()
 
 @property (nonatomic,strong) NSArray *users;
@@ -93,12 +94,16 @@
 
 -(void)viewDidAppear:(BOOL)animated{
 
-    NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
-                                       @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",self.groupID],
+    if (self.inviteOthers == YES) {
+        [self getUnInvitedUsers];
+    }else{
+        NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
+                                       @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                      @"start":@"0",
                                                      @"limit":@"50000"}]};
         NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUsers",@"key", nil];
         [self postRequest:getUSersDict withTag:getUsersTag];
+    }
 
 }
 
@@ -319,7 +324,6 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getUsers"]) {
         self.users = array;
-//        NSLog(@"%@",self.users);
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"invNum"]){
         
@@ -327,19 +331,21 @@
 //        NSLog(@"%@",dict);
         self.VIPPoints  = [dict[@"inVIP"]integerValue];
 
-    }else if ([key isEqualToString:@"inviteUsers"]){
+    }else if ([key isEqualToString:@"sendInvites"]){
 
         NSDictionary *failure = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         if ([failure[@"noPoints"]boolValue] == true) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال الدعوات بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
         }else{
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم إرسال الدعوات بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
+            if (self.editingMode == YES) {
+                [self jumpToRootViewController];
+            }else{
+                [self jumpToEventViewController];
+            }
         }
     }else if ([key isEqualToString:@"getUninvited"]){
         self.users = array;
-//        NSLog(@"%@",self.users);
         [self.tableView reloadData];
     }
     
@@ -352,6 +358,8 @@
 //    NSLog(@"%@",error);
 }
 
+
+
 -(void)getAllUsers{
     NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
                                    @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
@@ -363,13 +371,23 @@
 
 -(void)getUnInvitedUsers{
     NSDictionary *getUSersDict = @{@"FunctionName":@"getInvited" ,
-                                   @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
+                                   @"inputs":@[@{@"groupID":[NSNumber numberWithInteger:self.groupID],
                                                  @"start":@"0",
-                                                 @"limit":@"10",
+                                                 @"limit":@"50000",
                                                  @"invitation_status":[NSNumber numberWithInteger:1],
-                                                 
+                                                 @"EventID":[NSNumber numberWithInteger:self.eventID]
                                                  }]};
     NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUninvited",@"key", nil];
+    [self postRequest:getUSersDict withTag:getUsersTag];
+    
+}
+
+-(void)sendInvitationsWithArray:(NSMutableArray *)users {
+    NSDictionary *getUSersDict = @{@"FunctionName":@"invite" ,
+                                   @"inputs":@[@{@"EventID":[NSString stringWithFormat:@"%ld",(long)self.eventID],
+                                                 @"listArray":users,
+                                                 }]};
+    NSMutableDictionary *getUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendInvites",@"key", nil];
     [self postRequest:getUSersDict withTag:getUsersTag];
     
 }
@@ -453,15 +471,30 @@
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
     [self.userDefaults synchronize];
 }
+
 - (IBAction)btnInvitePressed:(id)sender {
     self.choosenUsers = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:self.normORVIP],@"type",self.selectedUsers,@"data",nil];
 //    NSLog(@"%@",self.choosenUsers);
     [self.userDefaults setObject:self.choosenUsers forKey:@"invitees"];
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
     [self.userDefaults synchronize];
-//    [self dismissViewControllerAnimated:YES completion:nil];
-    [self jumpToRootViewController];
+    
+    if (self.inviteOthers) {
+        for (int i =0; i < self.selectedUsers.count; i++) {
+            
+            NSDictionary *dict = self.selectedUsers[i];
+            NSInteger userID = [dict[@"id"]integerValue];
+            NSDictionary *temp = [[NSDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)userID],@"id", nil];
+            [self.UsersToInvite addObject:temp];
+        }
+        [self sendInvitationsWithArray:self.UsersToInvite];
+
+    }else{
+        [self jumpToRootViewController];
+    }
+    
 }
+
 
 - (IBAction)btnBackPressed:(id)sender {
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
@@ -482,6 +515,20 @@
             // but viewController holds MyGroupViewController  object so we can type cast it here
             CreateEventViewController *createEventController = (CreateEventViewController*)viewController;
             [self.navigationController popToViewController:createEventController animated:YES];
+        }
+    }
+}
+-(void)jumpToEventViewController {
+    for (UIViewController* viewController in self.navigationController.viewControllers) {
+        
+        //This if condition checks whether the viewController's class is MyGroupViewController
+        // if true that means its the MyGroupViewController (which has been pushed at some point)
+        if ([viewController isKindOfClass:[EventViewController class]] ) {
+            
+            // Here viewController is a reference of UIViewController base class of MyGroupViewController
+            // but viewController holds MyGroupViewController  object so we can type cast it here
+            EventViewController *eventController = (EventViewController*)viewController;
+            [self.navigationController popToViewController:eventController animated:YES];
         }
     }
 }

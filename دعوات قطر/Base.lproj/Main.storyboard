@@ -4916,7 +4916,7 @@
                         <segue destination="qjf-CL-7yd" kind="push" identifier="editEvent" id="hWi-sg-g8m"/>
                         <segue destination="pdv-Sh-Heh" kind="push" identifier="showUser" id="Ms0-5r-99t"/>
                         <segue destination="9s1-Zd-by4" kind="push" identifier="invite" id="kMD-e6-iDp"/>
-                        <segue destination="Dd5-m7-xGN" kind="modal" identifier="inviteAll" id="hTI-TE-OlE"/>
+                        <segue destination="Dd5-m7-xGN" kind="push" identifier="inviteAll" id="hTI-TE-OlE"/>
                         <segue destination="EeU-1z-E2H" kind="modal" identifier="chooseDate" id="mYb-7K-k86"/>
                     </connections>
                 </viewController>
@@ -7957,14 +7957,14 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Bok-QY-wEt"/>
-        <segue reference="lRH-x1-LZj"/>
         <segue reference="GMF-2B-wF9"/>
-        <segue reference="DrQ-RY-iQz"/>
-        <segue reference="Hwh-Bc-W0c"/>
         <segue reference="fSe-Jm-Ttd"/>
         <segue reference="o39-sD-7QY"/>
         <segue reference="4yJ-AY-O7T"/>
         <segue reference="Pva-az-nrh"/>
+        <segue reference="hTI-TE-OlE"/>
+        <segue reference="DrQ-RY-iQz"/>
+        <segue reference="Hwh-Bc-W0c"/>
         <segue reference="iaT-Lo-dwV"/>
         <segue reference="ZIm-fH-sIf"/>
         <segue reference="ZEi-bg-v0b"/>

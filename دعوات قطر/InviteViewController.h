@@ -10,12 +10,15 @@
 
 @interface InviteViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+
 @property(nonatomic)NSInteger createMsgFlag;
 @property(nonatomic) NSInteger creatorID;
 @property(nonatomic) NSInteger eventID;
 @property(nonatomic) NSInteger normORVIP;
 @property(nonatomic,strong) NSDictionary *group;
 @property(nonatomic,strong)NSArray *invitees;
+@property(nonatomic)BOOL inviteOthers;
+@property(nonatomic)BOOL editingMode;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnMarkAll;

@@ -87,6 +87,8 @@
             inviteController.normORVIP = self.VIPFlag;
             inviteController.group = self.selectedGroup;
             inviteController.eventID = self.eventID;
+            inviteController.inviteOthers = self.inviteOthers;
+            inviteController.editingMode = self.editingMode;
             if (self.invitees.count > 0) {
                 inviteController.invitees = self.invitees;
             }

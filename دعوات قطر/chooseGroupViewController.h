@@ -17,10 +17,12 @@
 
 @interface chooseGroupViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property(nonatomic)BOOL editingMode;
 @property(nonatomic,strong)NSArray *invitees;
 @property(nonatomic)NSInteger createMsgFlag;
 @property(nonatomic)NSInteger eventID;
 @property(nonatomic)NSInteger VIPFlag;
+@property(nonatomic)BOOL inviteOthers;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,weak) id <chooseGroupViewControllerDelegate> delegate;
 - (IBAction)btnDismissPressed:(id)sender;
