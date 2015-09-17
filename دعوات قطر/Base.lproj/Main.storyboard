@@ -2765,7 +2765,6 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="btnBackPressed:" destination="01v-Kj-sHf" eventType="touchUpInside" id="FAZ-RV-383"/>
                                                     <action selector="btnBackPressed:" destination="Jid-el-ppB" eventType="touchUpInside" id="WUp-Ye-bxk"/>
                                                 </connections>
                                             </button>
@@ -2990,7 +2989,6 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="btnBackPressed:" destination="01v-Kj-sHf" eventType="touchUpInside" id="5PI-rI-dM4"/>
                                                     <action selector="btnBackPressed:" destination="hJq-kc-YJO" eventType="touchUpInside" id="wFt-GD-nC9"/>
                                                 </connections>
                                             </button>
@@ -5388,6 +5386,9 @@
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnBackPressed:" destination="QCn-Vd-fKL" eventType="touchUpInside" id="xEu-aK-cFx"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -7956,15 +7957,15 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Bok-QY-wEt"/>
-        <segue reference="eUh-Aj-ld9"/>
         <segue reference="lRH-x1-LZj"/>
         <segue reference="GMF-2B-wF9"/>
-        <segue reference="Ms0-5r-99t"/>
-        <segue reference="IoJ-de-HAV"/>
-        <segue reference="kMD-e6-iDp"/>
+        <segue reference="DrQ-RY-iQz"/>
         <segue reference="Hwh-Bc-W0c"/>
+        <segue reference="fSe-Jm-Ttd"/>
+        <segue reference="o39-sD-7QY"/>
         <segue reference="4yJ-AY-O7T"/>
         <segue reference="Pva-az-nrh"/>
+        <segue reference="iaT-Lo-dwV"/>
         <segue reference="ZIm-fH-sIf"/>
         <segue reference="ZEi-bg-v0b"/>
         <segue reference="Eoi-6P-6lF"/>
