@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *groupNameLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageActivityIndicator;
-
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
 
 @property (strong,nonatomic) NetworkConnection *downloadImageConnection;
 
@@ -34,11 +34,12 @@
     self.downloadImageConnection = [[NetworkConnection alloc]init];
     self.downloadImageConnection.delegate = self;
 
-    
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self.downloadImageConnection downloadImageWithID:self.imageID];
+//    [self.downloadImageConnection downloadImageWithID:self.imageID];
+    [self.downloadImageConnection downloadImageWithID:self.imageID withCacheNameSpace:@"profile" withKey:@"profilePic" withWidth:150 andHeight:150];
     [self.imageActivityIndicator startAnimating];
 }
 

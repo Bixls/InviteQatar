@@ -21,5 +21,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *btnComments;
 @property (weak, nonatomic) IBOutlet UIImageView *imgComments;
+@property (weak, nonatomic) IBOutlet UIView *innerView;
 
 @end

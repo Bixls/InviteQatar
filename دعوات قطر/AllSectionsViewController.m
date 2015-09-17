@@ -14,6 +14,8 @@
 #import "SecEventsViewController.h"
 #import "EventViewController.h"
 #import <SVPullToRefresh/SVPullToRefresh.h>
+
+
 @interface AllSectionsViewController ()
 
 @property (nonatomic,strong) NSArray *allSections;
@@ -26,6 +28,7 @@
 @property (nonatomic) NSInteger selectedSection;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSString *selectedSectionName;
+@property (nonatomic,strong) UIActivityIndicatorView *userPicSpinner;
 
 @end
 
@@ -52,9 +55,16 @@
     self.backFLag = 0 ;
     //Get All sections first
     [self.navigationItem setHidesBackButton:YES];
+    self.userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.userPicSpinner.hidesWhenStopped = YES;
+    self.userPicSpinner.center = self.view.center;
+    [self.view addSubview:self.userPicSpinner];
+    [self.userPicSpinner startAnimating];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+
+
     if (self.backFLag != 1) {
         NSDictionary *getAllSections = @{@"FunctionName":@"getEventCategories" , @"inputs":@[@{
                                                                                                  }]};
@@ -110,26 +120,27 @@
     if (self.allSections.count) {
         NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
         if (content) {
-            NSLog(@"%@",self.sectionContent);
-            NSLog(@"%@",content);
+//            NSLog(@"%@",self.sectionContent);
+//            NSLog(@"%@",content);
             if (content.count>0) {
                 NSDictionary *event = content[indexPath.row];
                 cell.eventName.text = event[@"subject"];
                 cell.eventCreator.text = event[@"CreatorName"];
                 cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]];
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                    //Background Thread
-                    NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
-                    //NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
-                    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-                    UIImage *img = [[UIImage alloc]initWithData:data];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^(void){
-                        //Run UI Updates
-                        cell.eventPicture.image = img;
-                        
-                    });
-                });
+                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
+                NSURL *imgURL = [NSURL URLWithString:imgURLString];
+                UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                    spinner.center = cell.eventPicture.center;
+                    spinner.hidesWhenStopped = YES;
+                    [cell addSubview:spinner];
+                    [spinner startAnimating];
+                } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    cell.eventPicture.image = image;
+                    [spinner stopAnimating];
+//                    NSLog(@"Cache Type %ld",(long)cacheType);
+                }];
+
             }
         }
 
@@ -242,7 +253,7 @@
     
     if ([key isEqualToString:@"getSections"]) {
         self.allSections = array ;
-        NSLog(@"%@",array);
+//        NSLog(@"%@",array);
         [self getEvents];
         
     }
@@ -252,7 +263,7 @@
         if ([key isEqualToString:section[@"catID"]]) {
             if (array.count>0) {
                 self.skeletonSections = 1;
-                NSLog(@"arraay %@",array);
+//                NSLog(@"arraay %@",array);
                 [self.sectionContent setObject:array forKey:[NSString stringWithFormat:@"%ld",(long)self.secCount]];
                 self.secCount++;
                 [self.collectionView reloadData];
@@ -260,12 +271,12 @@
         }
     }
     
-    NSLog(@"%@",self.sectionContent);
+//    NSLog(@"%@",self.sectionContent);
     self.flag++;
     if (self.flag == self.allSections.count) {
         [self.collectionView reloadData];
     }
-
+     [self.userPicSpinner stopAnimating];
     
 }
 
@@ -293,7 +304,7 @@
             self.selectedSectionName = section[@"catName"];
         }
     }
-    NSLog(@"Section : %ld",(long)self.selectedSection);
+//    NSLog(@"Section : %ld",(long)self.selectedSection);
     
 }
 

@@ -120,14 +120,14 @@
         NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.categories = response;
         [self.tableView reloadData];
-        NSLog(@"%@",self.categories);
+//        NSLog(@"%@",self.categories);
     }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 

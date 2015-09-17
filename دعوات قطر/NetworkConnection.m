@@ -17,9 +17,9 @@
 
 @implementation NetworkConnection
 
--(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key{
+-(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key withWidth:(NSInteger)width andHeight:(NSInteger)height{
     
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld&t=%ldx%ld",(long)imageID,(long)width,(long)height];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     
     [[SDWebImageDownloader sharedDownloader]downloadImageWithURL:imgURL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {

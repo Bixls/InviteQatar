@@ -82,7 +82,7 @@
     NSData *responseData = [request responseData];
     NSDictionary *receivedDict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
-    NSLog(@"%@",receivedDict);
+//    NSLog(@"%@",receivedDict);
     if ([key isEqualToString:@"getUser"]) {
         self.user = receivedDict;
         [self updateUI];
@@ -94,7 +94,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 -(void)updateUI {

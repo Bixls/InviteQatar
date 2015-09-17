@@ -37,6 +37,9 @@
         [self.getUserConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
         
     }
+    if (self.userCurrentGroup == YES) {
+        self.userGroup.text = self.defaultGroup;
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{

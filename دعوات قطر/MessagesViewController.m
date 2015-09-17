@@ -158,7 +158,7 @@
         }
         
     } else {
-        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
+//        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
     }
 }
 
@@ -245,7 +245,7 @@
                                                                                        
                                                                                        }]};
     
-    NSLog(@"%@",deleteMessage);
+//    NSLog(@"%@",deleteMessage);
     NSMutableDictionary *deleteMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"deleteMessage",@"key", nil];
     
     [self postRequest:deleteMessage withTag:deleteMessageTag];
@@ -257,7 +257,7 @@
     NSDictionary *getMessages = @{@"FunctionName":@"RetriveInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                                              @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
                                                                              @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]}]};
-    NSLog(@"%@",getMessages);
+//    NSLog(@"%@",getMessages);
     NSMutableDictionary *getMessagesTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getMessages",@"key", nil];
     [self postRequest:getMessages withTag:getMessagesTag];
     
@@ -300,13 +300,13 @@
     if ([key isEqualToString:@"getMessages"]) {
         
         [self.messages addObjectsFromArray:array];
-        NSLog(@"%@",self.messages);
+//        NSLog(@"%@",self.messages);
         self.start = self.messages.count;
         [self.scrollView.infiniteScrollingView stopAnimating];
         [self.tableView reloadData];
         
     }else if ([key isEqualToString:@"deleteMessage"]){
-        NSLog(@"%@",array);
+//        NSLog(@"%@",array);
     }
 
     
@@ -315,7 +315,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 - (IBAction)btnHome:(id)sender {

@@ -89,7 +89,7 @@
     if (internetStatus != NotReachable) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.group[@"ProfilePic"]];
-            NSLog(@"%@",imgURLString);
+//            NSLog(@"%@",imgURLString);
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
@@ -135,7 +135,7 @@
                               @"inputs":@[@{@"GroupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                             @"start":@"0",
                                             @"limit":@"3"}]};
-    NSLog(@"%@",getNews);
+//    NSLog(@"%@",getNews);
     NSMutableDictionary *getNewsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
     [self postRequest:getNews withTag:getNewsTag];
     
@@ -347,15 +347,7 @@
         }
         
     }
-        //else if (indexPath.row == self.users.count){
-//        GroupUsersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"seeMore" forIndexPath:indexPath];
-//        if (cell==nil) {
-//            cell=[[GroupUsersTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//        }
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        //self.tableVerticalLayoutConstraint.constant = self.collectionView.contentSize.height;
-//        return cell;
-//    }
+
     return nil;
 
 
@@ -382,7 +374,8 @@
     }else if ([segue.identifier isEqualToString:@"user"]) {
         UserViewController *userController = segue.destinationViewController;
         userController.user = self.selectedUser;
-        
+        userController.defaultGroup = self.group[@"name"];
+        userController.userCurrentGroup = YES;
     }
     
 }
@@ -452,7 +445,7 @@
             [self.collectionView reloadData];
         }else{
             // Atala3 label
-            NSLog(@"No Events!");
+//            NSLog(@"No Events!");
             //[self.lblEventsError setHidden:NO];
             //[self.lblLatestEvents setHidden:NO];
            // [self.lblEventsError removeFromSuperview];
@@ -470,7 +463,7 @@
             [self.lblLatestNews setHidden:NO];
             [self.newsCollectionView reloadData];
         }else{
-            NSLog(@"No News!");
+//            NSLog(@"No News!");
             
             [self.lblLatestNews setHidden:NO];
             [self.lblNewsError setHidden:NO];
@@ -486,21 +479,21 @@
         NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         if (array.count>0) {
             NSDictionary *dict = array[0];
-            NSLog(@"%@",dict);
+//            NSLog(@"%@",dict);
             
             self.groupDescription.text = dict[@"Description"];
             if (self.groupDescription.text.length > 0) {
                 [self.groupFrame setHidden:NO];
                 [self.groupPic setHidden:NO];
                 [self.groupDescription setHidden:NO];
-                NSLog(@"%@",dict[@"Description"]);
+//                NSLog(@"%@",dict[@"Description"]);
             }
             
         }
      
     }else if ([key isEqualToString:@"getUsers"]) {
         [self.users addObjectsFromArray:array];
-        NSLog(@"%@",self.users);
+//        NSLog(@"%@",self.users);
         self.start = self.users.count;
         if (self.users.count > 0) {
             [self.lblUsers setHidden:NO];
@@ -508,14 +501,14 @@
             [self.imgSeeMoreUsers setHidden:NO];
             [self.usersTableView reloadData];
         }else{
-            NSLog(@"NO Users!");
+//            NSLog(@"NO Users!");
             //[self.lblMembersError setHidden:NO];
             
         }
         
     }
     
-    NSLog(@"%@",array);
+//    NSLog(@"%@",array);
     
     
 }
@@ -523,7 +516,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error.userInfo);
+//    NSLog(@"%@",error.userInfo);
     NSString *errorType = error.userInfo[@"NSLocalizedDescription"];
     if ([errorType isEqualToString:@"A connection failure occurred"]) {
         //

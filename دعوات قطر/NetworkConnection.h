@@ -28,7 +28,7 @@
 -(void)searchDataBaseWithText:(NSString*)text;
 -(void)signUpWithName:(NSString *)name mobile:(NSString *)mobile password:(NSString *)password groupID:(NSString *)groupID imageURL:(NSString*)imageURL;
 -(void)downloadImageWithID:(NSInteger)imageID;
--(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key;
+-(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key withWidth:(NSInteger)width andHeight:(NSInteger)height;
 -(void)getUserWithID:(NSInteger)userID;
 -(void)getInvitationsNumberWithMobile:(NSString *)userMobile password:(NSString *)userPassword;
 -(void)getUserEventsWithUserID:(NSInteger)userID startValue:(NSInteger)start limitValue:(NSInteger)limit;

@@ -10,11 +10,13 @@
 #import "ASIHTTPRequest.h"
 #import "CommentsViewController.h"
 #import "Reachability.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 @interface NewsViewController ()
 
 @property(nonatomic)NSInteger newsID;
 @property(nonatomic)NSInteger newsType;
-
+@property(nonatomic,strong)UIActivityIndicatorView *newsPicSpinner;
 @end
 
 @implementation NewsViewController
@@ -40,16 +42,7 @@
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
         
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            //Background Thread
-            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.news[@"Image"]];
-            NSData *newsData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-            UIImage *newsImage = [[UIImage alloc]initWithData:newsData];
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                //Run UI Updates
-                self.newsImage.image = newsImage;
-            });
-        });
+        [self downloadNewsPicture];
         
     }
     else {
@@ -64,6 +57,11 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    self.newsPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.newsPicSpinner.hidesWhenStopped = YES;
+    self.newsPicSpinner.center = self.newsDescription.center;
+    [self.innerView addSubview:self.newsPicSpinner];
+    [self.newsPicSpinner startAnimating];
     [self getNews];
 }
 
@@ -77,9 +75,32 @@
         }
     }
 }
+
+-(void)downloadNewsPicture {
+    UIActivityIndicatorView *newsPicSPinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.news[@"Image"]];
+    SDWebImageManager *newsProfileManager = [SDWebImageManager sharedManager];
+    [newsProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
+                                      options:0
+                                     progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                         
+                                         newsPicSPinner.center = self.newsImage.center;
+                                         newsPicSPinner.hidesWhenStopped = YES;
+                                         [self.innerView addSubview:newsPicSPinner];
+                                         [newsPicSPinner startAnimating];
+                                         
+                                     }
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                        if (image) {
+                                            self.newsImage.image = image;
+                                            [newsPicSPinner stopAnimating];
+                                        }
+                                    }];
+}
+
 -(void)updateUI {
     
-    NSLog(@"EVEENT %@",self.news);
+//    NSLog(@"EVEENT %@",self.news);
     if ([self.news[@"AllowComments"]boolValue]) {
 
         [self.btnComments setHidden:NO];
@@ -131,7 +152,7 @@
                                                                                @"NewsID":[NSString stringWithFormat:@"%ld",(long)self.newsID]
                                                                                }]};
 
-    NSLog(@"%@",getEvents);
+//    NSLog(@"%@",getEvents);
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getNews",@"key", nil];
     
     [self postRequest:getEvents withTag:getEventsTag];
@@ -175,6 +196,7 @@
     if ([key isEqualToString:@"getNews"]) {
         self.news = dictionary;
         [self updateUI];
+        [self.newsPicSpinner stopAnimating];
     }
     
 }
@@ -182,7 +204,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 - (IBAction)btnHome:(id)sender {

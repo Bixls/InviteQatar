@@ -21,7 +21,6 @@
 		18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B001B43730B0036A345 /* BuyInvitationsViewController.m */; };
 		18243B131B43BA720036A345 /* CellInvitationTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18243B121B43BA720036A345 /* CellInvitationTableView.m */; };
 		18249FC21B8F80B100BEEEDB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18249FC11B8F80B100BEEEDB /* StoreKit.framework */; };
-		18249FC51B8FC56200BEEEDB /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 18249FC41B8FC56200BEEEDB /* Shop.m */; };
 		182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629151B4F72FB002E784F /* EditAccountTableViewCell.m */; };
 		182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629181B4F7CBC002E784F /* ChooseTypeViewController.m */; };
 		1826291C1B4F7F92002E784F /* ChooseTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */; };
@@ -91,6 +90,7 @@
 		187C63C21B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63C11B49525500B3E3EA /* AllSectionFooterCollectionReusableView.m */; };
 		187C63C81B49795100B3E3EA /* SecEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63C71B49795100B3E3EA /* SecEventsViewController.m */; };
 		187C63CE1B4A326400B3E3EA /* SecEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187C63CD1B4A326400B3E3EA /* SecEventTableViewCell.m */; };
+		188AE94C1BAA4C8100DAE5D6 /* logo_03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 188AE94B1BAA4C8100DAE5D6 /* logo_03.jpg */; };
 		189E0E181B7CD136009DF99B /* backwithoutframe.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E0E161B7CD136009DF99B /* backwithoutframe.png */; };
 		189E0E1D1B7CD762009DF99B /* newFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E0E1C1B7CD762009DF99B /* newFrame.png */; };
 		189E45BC1B660DF2000A7066 /* calendars12.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E45BB1B660DF2000A7066 /* calendars12.png */; };
@@ -150,8 +150,6 @@
 		18243B111B43BA720036A345 /* CellInvitationTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInvitationTableView.h; sourceTree = "<group>"; };
 		18243B121B43BA720036A345 /* CellInvitationTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInvitationTableView.m; sourceTree = "<group>"; };
 		18249FC11B8F80B100BEEEDB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		18249FC31B8FC56200BEEEDB /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shop.h; path = ../Shop.h; sourceTree = "<group>"; };
-		18249FC41B8FC56200BEEEDB /* Shop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shop.m; path = ../Shop.m; sourceTree = "<group>"; };
 		182629141B4F72FB002E784F /* EditAccountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountTableViewCell.h; sourceTree = "<group>"; };
 		182629151B4F72FB002E784F /* EditAccountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountTableViewCell.m; sourceTree = "<group>"; };
 		182629171B4F7CBC002E784F /* ChooseTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseTypeViewController.h; sourceTree = "<group>"; };
@@ -267,6 +265,7 @@
 		187C63C71B49795100B3E3EA /* SecEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecEventsViewController.m; path = ../SecEventsViewController.m; sourceTree = "<group>"; };
 		187C63CC1B4A326400B3E3EA /* SecEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecEventTableViewCell.h; sourceTree = "<group>"; };
 		187C63CD1B4A326400B3E3EA /* SecEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecEventTableViewCell.m; sourceTree = "<group>"; };
+		188AE94B1BAA4C8100DAE5D6 /* logo_03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo_03.jpg; sourceTree = "<group>"; };
 		189E0E161B7CD136009DF99B /* backwithoutframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backwithoutframe.png; sourceTree = "<group>"; };
 		189E0E1C1B7CD762009DF99B /* newFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newFrame.png; sourceTree = "<group>"; };
 		189E45BB1B660DF2000A7066 /* calendars12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendars12.png; sourceTree = "<group>"; };
@@ -443,8 +442,6 @@
 				18EA68351B4BA8DD00F482FB /* MyEventsViewController.m */,
 				187C63991B473FE200B3E3EA /* InviteViewController.h */,
 				187C639A1B473FE200B3E3EA /* InviteViewController.m */,
-				18249FC31B8FC56200BEEEDB /* Shop.h */,
-				18249FC41B8FC56200BEEEDB /* Shop.m */,
 				18243AFF1B43730B0036A345 /* BuyInvitationsViewController.h */,
 				18243B001B43730B0036A345 /* BuyInvitationsViewController.m */,
 				184B659F1B421C0200B1483C /* GroupViewController.h */,
@@ -566,6 +563,7 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				188AE94B1BAA4C8100DAE5D6 /* logo_03.jpg */,
 				18D5AA971B7D0AA3000D8711 /* vip3.png */,
 				189E0E161B7CD136009DF99B /* backwithoutframe.png */,
 				189E0E1C1B7CD762009DF99B /* newFrame.png */,
@@ -696,6 +694,7 @@
 				189E0E181B7CD136009DF99B /* backwithoutframe.png in Resources */,
 				189E0E1D1B7CD762009DF99B /* newFrame.png in Resources */,
 				18D5AA981B7D0AA3000D8711 /* vip3.png in Resources */,
+				188AE94C1BAA4C8100DAE5D6 /* logo_03.jpg in Resources */,
 				18F0A6F61B63399700221F3E /* back2.png in Resources */,
 				18033DF51B68DA8700129546 /* msg.png in Resources */,
 			);
@@ -804,7 +803,6 @@
 				18243B011B43730B0036A345 /* BuyInvitationsViewController.m in Sources */,
 				183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */,
 				1813C2F11B4F98720044CDDB /* ChooseDateViewController.m in Sources */,
-				18249FC51B8FC56200BEEEDB /* Shop.m in Sources */,
 				18EA68391B4BAED500F482FB /* MyEventsTableViewCell.m in Sources */,
 				1873C23A1B4E60490026C905 /* ReadMessageViewController.m in Sources */,
 				1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */,

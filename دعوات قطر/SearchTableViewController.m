@@ -106,8 +106,8 @@
 
 
 -(void)viewDidLayoutSubviews {
-    NSLog(@"%f,%f,%f,%f",self.navX,self.navY , self.navWidth,self.navHeight);
-    NSLog(@"%f,%f,%f,%f",self.tableX,self.tableY , self.tableWidth,self.tableHeight);
+//    NSLog(@"%f,%f,%f,%f",self.navX,self.navY , self.navWidth,self.navHeight);
+//    NSLog(@"%f,%f,%f,%f",self.tableX,self.tableY , self.tableWidth,self.tableHeight);
 //    [self.tableView setFrame:CGRectMake(self.view.bounds.origin.x + 20 , self.view.bounds.origin.y +20 , self.view.bounds.size.width-40, self.view.bounds.size.height -10)];
     
     [self.tableView setFrame:CGRectMake(self.tableX , self.tableY, self.tableWidth , self.tableHeight)];
@@ -143,7 +143,7 @@
     NSArray *arr  = [self.allValues filteredArrayUsingPredicate:searchPredicate];
     self.filteredValues = [NSMutableArray arrayWithArray:arr];
     [self.tableView reloadData];
-    NSLog(@"%@",[NSString stringWithFormat:@"%@",self.searchController.searchBar.text]);
+//    NSLog(@"%@",[NSString stringWithFormat:@"%@",self.searchController.searchBar.text]);
 //    [self.tableView setFrame:CGRectMake(0, 0, 300, 568)];
 }
 
@@ -259,7 +259,7 @@
     // Use when fetching binary data
     NSData *responseData = [request responseData];
     self.filteredValues = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    NSLog(@"%@",self.filteredValues);
+//    NSLog(@"%@",self.filteredValues);
     [self.tableView reloadData];
     
 }
@@ -267,7 +267,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 - (IBAction)btnBackPressed:(id)sender {

@@ -32,7 +32,7 @@
     [formatter setLocale:[NSLocale currentLocale]];
     NSString *formatedDate = [formatter stringFromDate:self.datePicker.date];
     self.selectedDate = formatedDate;
-    NSLog(@"%@",self.selectedDate);
+//    NSLog(@"%@",self.selectedDate);
 }
 
 - (IBAction)btnSavePressed:(id)sender {

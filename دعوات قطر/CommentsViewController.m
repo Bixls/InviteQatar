@@ -95,8 +95,8 @@
         }
         if (self.comments.count > 0) {
             NSDictionary *comment = self.comments[indexPath.row - 1];
-            NSLog(@"%ld",indexPath.row-1);
-       //     NSLog(@"%@",comment);
+//            NSLog(@"%ld",indexPath.row-1);
+//            NSLog(@"%@",comment);
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
             
@@ -186,7 +186,7 @@
         }
        
     } else {
-        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
+//        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
     }
 }
 
@@ -195,7 +195,7 @@
 #pragma mark - TextField 
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    NSLog(@"RETURNN");
+//    NSLog(@"RETURNN");
     return YES;
 }
 
@@ -229,7 +229,7 @@
                                                                     
                                                                                  }]};
     
-    NSLog(@"%@",deleteComment);
+//    NSLog(@"%@",deleteComment);
     NSMutableDictionary *deleteCommentTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"deleteComment",@"key", nil];
     
     [self postRequest:deleteComment withTag:deleteCommentTag];
@@ -246,7 +246,7 @@
                                                                                      @"comment":self.myComment
                                                                                      }]};
     
-    NSLog(@"%@",addComment);
+//    NSLog(@"%@",addComment);
     NSMutableDictionary *addCommentTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"addComment",@"key", nil];
     
     [self postRequest:addComment withTag:addCommentTag];
@@ -262,7 +262,7 @@
                                                                                  @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]
                                                                                  }]};
     
-    NSLog(@"%@",getEvents);
+//    NSLog(@"%@",getEvents);
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getComments",@"key", nil];
     
     [self postRequest:getEvents withTag:getEventsTag];
@@ -305,16 +305,16 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getComments"]) {
         [self.comments addObjectsFromArray:array];
-        NSLog(@"%@",self.comments);
+//        NSLog(@"%@",self.comments);
         [self.tableView.infiniteScrollingView stopAnimating];
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"addComment"]){
-        NSLog(@"Add Comment Success %@",array);
+//        NSLog(@"Add Comment Success %@",array);
         self.start = self.comments.count;
         [self getComments];
         
     }else if ([key isEqualToString:@"deleteComment"]){
-        NSLog(@"%@",array);
+//        NSLog(@"%@",array);
         [self getComments];
     }else if ([key isEqualToString:@"getUser"]){
          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -327,7 +327,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 

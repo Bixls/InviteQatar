@@ -61,7 +61,7 @@
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.editNameField.text = self.userName;
     [self.btnSelectedGroup setTitle:self.groupName forState:UIControlStateNormal];
-    NSLog(@"%@",self.groupName);
+//    NSLog(@"%@",self.groupName);
     [self.navigationItem setHidesBackButton:YES];
     self.selectedGroupID = self.groupID;
     self.chooseFlag = 0;
@@ -98,7 +98,7 @@
     self.selectedGroup = group;
     [self.btnSelectedGroup setTitle:self.selectedGroup[@"name"] forState:UIControlStateNormal];
     self.selectedGroupID =[self.selectedGroup[@"id"]integerValue];
-    NSLog(@"%@",group);
+//    NSLog(@"%@",group);
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -119,7 +119,7 @@
     }
     NSDictionary *category = self.categories[indexPath.row];
     cell.detailLabel.text =category[@"catName"];
-    NSLog(@"%lu",(unsigned long)self.blockList.count);
+//    NSLog(@"%lu",(unsigned long)self.blockList.count);
     
     if (self.blockList.count > 0) {
         for (NSDictionary *blocked in self.listArray) {
@@ -334,7 +334,7 @@
     if ([key isEqualToString:@"pictureTag"]) {
         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.imageURL = responseDict[@"url"];
-        NSLog(@"%@",responseDict);
+//        NSLog(@"%@",responseDict);
         self.uploaded =1;
     }else if ([key isEqualToString:@"blocklist"]){
         NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -350,11 +350,11 @@
         }
         [self.tableView reloadData];
 
-        NSLog(@"%@",response);
+//        NSLog(@"%@",response);
     }else if ([key isEqualToString:@"categories"]){
          NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.categories = response;
-        NSLog(@"%@",self.categories);
+//        NSLog(@"%@",self.categories);
         [self.tableView reloadData];
        
     }else if ([key isEqualToString:@"getUser"]){
@@ -396,7 +396,7 @@
 
         }
     }
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 

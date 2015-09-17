@@ -76,7 +76,7 @@
     if (self.offlineGroupsFlag ==0) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempImage[@"imageID"]];
-            NSLog(@"%@",imgURLString);
+//            NSLog(@"%@",imgURLString);
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
@@ -173,7 +173,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 

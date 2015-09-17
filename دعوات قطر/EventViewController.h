@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ChooseDateViewController.h"
-@interface EventViewController : UIViewController <chooseDateViewControllerDelegate>
+#import "NetworkConnection.h"
+
+@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate>
 
 @property (nonatomic)NSInteger isVIP;
 @property (nonatomic)NSInteger eventID;
@@ -43,7 +45,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgUserProfile;
 @property (weak, nonatomic) IBOutlet UIButton *btnUser;
 @property (weak, nonatomic) IBOutlet UILabel *lblUsername;
-
+@property (weak, nonatomic) IBOutlet UIView *innerView;
 
 - (IBAction)btnViewAttendeesPressed:(id)sender;
 - (IBAction)btnShowCommentsPressed:(id)sender;

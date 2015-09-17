@@ -62,7 +62,7 @@
     if ([keyPath isEqualToString:@"response"]) {
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.filteredNames = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",self.filteredNames);
+//        NSLog(@"%@",self.filteredNames);
         [self.tableView reloadData];
     }
 }

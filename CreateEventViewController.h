@@ -10,8 +10,8 @@
 #import "ChooseTypeViewController.h"
 #import "ChooseDateViewController.h"
 #import "NetworkConnection.h"
-
-@interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate,UIAlertViewDelegate>
+#import "customAlertView.h"
+@interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate,UIAlertViewDelegate,customAlertViewDelegate>
 
 @property (nonatomic) NSInteger createOrEdit;
 @property (nonatomic) NSInteger eventID;
@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblAdmin;
 @property (weak, nonatomic) IBOutlet UILabel *normalRadioButton;
 @property (weak, nonatomic) IBOutlet UILabel *VIPRadioButton;
+@property (weak, nonatomic) IBOutlet UILabel *inviteesLabel;
 
 //@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 

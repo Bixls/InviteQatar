@@ -11,7 +11,7 @@
 #import "SecEventTableViewCell.h"
 #import "Pods/SVPullToRefresh/SVPullToRefresh/SVPullToRefresh.h"
 #import "EventViewController.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
 
 
 @interface SecEventsViewController ()
@@ -23,6 +23,9 @@
 @property (nonatomic,strong) NSArray *receivedArray;
 @property (nonatomic) NSInteger populate;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
+@property (nonatomic) NSInteger backFLag;
+@property (nonatomic,strong) UIActivityIndicatorView *userPicSpinner;
+@property (nonatomic,strong) UIActivityIndicatorView *scrollSpinner;
 
 @end
 
@@ -46,24 +49,29 @@
     self.populate = 0;
     //__weak SecEventsViewController *weakSelf = self;
     // Do any additional setup after loading the view.
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        self.populate = 1;
-        self.start = self.allEvents.count;
-       // self.limit = 10;
-        [self getEvents];
-       
-    }];
+
     self.start = 0 ;
     self.limit = 10;
     self.allEvents = [[NSMutableArray alloc]init];
     self.sectionNameLabel.text = self.sectionName;
     [self.navigationItem setHidesBackButton:YES];
     self.flag = 1 ;
-    
+    self.backFLag = 0 ;
+    self.scrollSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.scrollSpinner.hidesWhenStopped = YES;
+    self.scrollSpinner.center = self.view.center;
+    [self.view addSubview:self.scrollSpinner];
+    [self.scrollSpinner startAnimating];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self getEvents];
+    
+
+    if (self.backFLag != 1){
+        [self getEvents];
+        self.backFLag = 1 ;
+    }
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -132,24 +140,25 @@
     cell.eventCreator.text = event[@"CreatorName"];
     cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]] ;
     
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
-       // NSString *imageURL = @"http://www.bixls.com/Qatar/uploads/user/201507/6-02032211.jpg"; //needs to be dynamic
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        UIImage *img = [[UIImage alloc]initWithData:data];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            //Run UI Updates
-            cell.eventPicture.image = img;
-            
-        });
-    });
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        spinner.center = cell.eventPicture.center;
+        spinner.hidesWhenStopped = YES;
+        [cell addSubview:spinner];
+        [spinner startAnimating];
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        cell.eventPicture.image = image;
+        [spinner stopAnimating];
+//        NSLog(@"Cache Type %ld",(long)cacheType);
+    }];
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
 
-#pragma mark - Delegate Methods 
+#pragma mark - Delegate Methods
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedEvent = self.allEvents[indexPath.row];
@@ -235,16 +244,28 @@
             [self.allEvents addObjectsFromArray:array];
             [self.tableView reloadData];
         }
-
+    
     }else{
          //[self insertRowAtBottomWithArray:self.receivedArray];
         [self.allEvents addObjectsFromArray:array];
         [self.tableView reloadData];
         [self.tableView.infiniteScrollingView stopAnimating];
     }
-    NSLog(@"%@",self.allEvents);
+    [self.userPicSpinner stopAnimating];
+    [self.scrollSpinner stopAnimating];
+//    NSLog(@"%@",self.allEvents);
    
-    //
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        self.populate = 1;
+        self.start = self.allEvents.count;
+        self.userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        self.userPicSpinner.hidesWhenStopped = YES;
+        self.userPicSpinner.center = self.view.center;
+        [self.view addSubview:self.userPicSpinner];
+        [self.userPicSpinner startAnimating];
+        [self getEvents];
+        
+    }];
     
     
 }
@@ -252,7 +273,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 

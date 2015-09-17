@@ -78,7 +78,7 @@
 //    NSArray *test = @[@"com.bixls.inviteQatar.normalPlanTest"];
     
     SKProductsRequest *request = [[SKProductsRequest alloc]initWithProductIdentifiers:[NSSet setWithArray:self.productsIdentifiers]];
-    NSLog(@"%@",self.productsIdentifiers);
+//    NSLog(@"%@",self.productsIdentifiers);
     request.delegate = self;
     [request start];
     
@@ -94,8 +94,8 @@
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
     
     self.selectedProduct = response.products.firstObject;
-    NSLog(@"%@",response.products);
-     NSLog(@"%@",response.invalidProductIdentifiers);
+//    NSLog(@"%@",response.products);
+//     NSLog(@"%@",response.invalidProductIdentifiers);
     if ([SKPaymentQueue canMakePayments]) {
         //can make payments
         [self displayStoreUIwithProduct:self.selectedProduct];
@@ -107,7 +107,7 @@
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
     
-    NSLog(@"Failed to load list of products.");
+//    NSLog(@"Failed to load list of products.");
 
     
 }
@@ -255,7 +255,7 @@
     NSData *responseData = [request responseData];
     
     self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    NSLog(@"%@",self.responseArray);
+//    NSLog(@"%@",self.responseArray);
     
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"invitations"]) {
@@ -268,7 +268,7 @@
         [self.vipTableView reloadData];
     }else if ([key isEqualToString:@"buyNow"]){
         NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",self.responseArray);
+//        NSLog(@"%@",self.responseArray);
         NSInteger success = [dict[@"success"]integerValue];
         if (success == 1) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم شراء الدعوة" delegate:self cancelButtonTitle:@"إغلاق"otherButtonTitles:nil, nil];
@@ -284,7 +284,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 - (IBAction)btnHome:(id)sender {

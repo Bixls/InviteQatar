@@ -17,6 +17,7 @@
 
 @interface chooseGroupViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+@property(nonatomic,strong)NSArray *invitees;
 @property(nonatomic)NSInteger createMsgFlag;
 @property(nonatomic)NSInteger eventID;
 @property(nonatomic)NSInteger VIPFlag;

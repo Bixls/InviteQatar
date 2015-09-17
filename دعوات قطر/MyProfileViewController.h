@@ -10,6 +10,7 @@
 #import "MyLatestEventsTableViewCell.h"
 #import "NetworkConnection.h"
 
+
 @interface MyProfileViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIDocumentInteractionControllerDelegate,NetworkConnectionDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *smallerView;

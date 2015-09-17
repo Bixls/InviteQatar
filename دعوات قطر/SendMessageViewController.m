@@ -63,10 +63,10 @@
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
-        NSLog(@"Return pressed");
+//        NSLog(@"Return pressed");
         [textView resignFirstResponder];
     } else {
-        NSLog(@"Other pressed");
+//        NSLog(@"Other pressed");
     }
     return YES;
 }
@@ -83,7 +83,7 @@
                                                                                        @"Content":self.messageContent.text
                                                                                        }]};
         
-        NSLog(@"%@",sendMessage);
+//        NSLog(@"%@",sendMessage);
         NSMutableDictionary *sendMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendMessage",@"key", nil];
         
         [self postRequest:sendMessage withTag:sendMessageTag];
@@ -96,7 +96,7 @@
                                                                                        @"Content":self.messageContent.text
                                                                                        }]};
         
-        NSLog(@"%@",sendMessage);
+//        NSLog(@"%@",sendMessage);
         NSMutableDictionary *sendMessageTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendMessage",@"key", nil];
         
         [self postRequest:sendMessage withTag:sendMessageTag];
@@ -145,7 +145,7 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     
     if ([key isEqualToString:@"sendMessage"]) {
-        NSLog(@"%@ DICTIONARY ", dictionary);
+//        NSLog(@"%@ DICTIONARY ", dictionary);
         NSInteger success = [dictionary[@"success"]integerValue];
         if (success == 0) {
             UIAlertView * alerView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم إرسال الرسالة بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
@@ -158,7 +158,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 - (IBAction)btnHome:(id)sender {

@@ -65,10 +65,10 @@
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
-        NSLog(@"Return pressed");
+//        NSLog(@"Return pressed");
         [textView resignFirstResponder];
     } else {
-        NSLog(@"Other pressed");
+//        NSLog(@"Other pressed");
     }
     return YES;
 }
@@ -132,16 +132,16 @@
     NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"sendFeedback"]) {
-        NSLog(@"%@",responseDict);
+//        NSLog(@"%@",responseDict);
         NSInteger success = [responseDict[@"success"]integerValue];
-        NSLog(@"%ld",(long)success);
+//        NSLog(@"%ld",(long)success);
         if (success == 0) {
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال الرساله بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
 
         }
     } else if ([key isEqualToString:@"getUser"]) {
-        NSLog(@"%@",responseDict);
+//        NSLog(@"%@",responseDict);
         if ([responseDict[@"name"] isEqualToString:[self.userDefaults objectForKey:@"userName"]]) {
             //
         }else{
@@ -157,7 +157,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 

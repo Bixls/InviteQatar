@@ -41,6 +41,7 @@ static void *userContext = &userContext;
 @property (nonatomic,strong) NetworkConnection *getUserEventsConnection;
 @property (nonatomic,strong) NetworkConnection *downloadProfilePicConnection;
 @property (strong) UIActivityIndicatorView *profilePicSpinner;
+@property (strong) UIActivityIndicatorView *tableViewSpinner;
 @property (strong,nonatomic) SDImageCache *imageCache;
 
 @end
@@ -55,8 +56,18 @@ static void *userContext = &userContext;
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
-
-    NSLog(@"%d",self.finishedLoadingEvents);
+    
+    [self.userDefaults setObject:nil forKey:@"invitees"];
+    [self.userDefaults synchronize];
+//    NSLog(@"%@",[self.userDefaults objectForKey:@"userName"]);
+    if ([self.userDefaults objectForKey:@"userName"]) {
+        self.myName.text = [self.userDefaults objectForKey:@"userName"];
+    }
+    if ([self.userDefaults objectForKey:@"groupName"]) {
+        self.myGroup.text = [self.userDefaults objectForKey:@"groupName"];
+    }
+    
+//    NSLog(@"%d",self.finishedLoadingEvents);
     [self.activateLabel setHidden:YES];
     [self.activateLabel2 setHidden:YES];
     [self.btnSeeMore setHidden:YES];
@@ -64,7 +75,12 @@ static void *userContext = &userContext;
     
     [self initializeConnections];
     
-
+    self.tableViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.tableViewSpinner.center = self.tableView.center;
+    self.tableViewSpinner.hidesWhenStopped = YES;
+    [self.innerView addSubview:self.tableViewSpinner];
+    
+    [self.tableViewSpinner startAnimating];
 }
 
 -(void)initializeConnections{
@@ -82,7 +98,6 @@ static void *userContext = &userContext;
     [self.getUserEventsConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:eventsContext];
     
     self.imageCache = [SDImageCache sharedImageCache];
-    
     [self.imageCache queryDiskCacheForKey:@"profilePic" done:^(UIImage *image, SDImageCacheType cacheType) {
         if (image == nil) {
             self.profilePicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -142,6 +157,7 @@ static void *userContext = &userContext;
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.events = responseArray;
         self.finishedLoadingEvents = true;
+        [self.tableViewSpinner stopAnimating];
         [self.tableView reloadData];
     }else if (context == invitationsNumberContext && [keyPath isEqualToString:@"response"]){
         NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
@@ -157,7 +173,6 @@ static void *userContext = &userContext;
 -(void)downloadedImage:(UIImage *)image{
     self.myProfilePicture.image = image;
     [self.profilePicSpinner stopAnimating];
-
 
 }
 
@@ -209,8 +224,8 @@ static void *userContext = &userContext;
         NSString *date = [formatter stringFromDate:dateString];
         NSString *dateWithoutSeconds = [date substringToIndex:16];
         cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
-        NSLog(@"%@",date);
-        //cell.eventDate.text = tempEvent[@"TimeEnded"];
+//        NSLog(@"%@",date);
+
         
         if ([[tempEvent objectForKey:@"VIP"]integerValue] == 0) {
             [cell.vipImage setHidden:YES];
@@ -220,28 +235,25 @@ static void *userContext = &userContext;
             [cell.vipLabel setHidden:NO];
         }
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
-            NSURL *imgURL = [NSURL URLWithString:imgURLString];
-            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-            UIImage *image = [[UIImage alloc]initWithData:imgData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.eventPic.image = image;
-            });
-            
-        });
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            spinner.center = cell.eventPic.center;
+            spinner.hidesWhenStopped = YES;
+            [cell addSubview:spinner];
+            [spinner startAnimating];
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            cell.eventPic.image = image;
+            [spinner stopAnimating];
+//            NSLog(@"Cache Type %ld",(long)cacheType);
+        }];
+
         
         self.tableVerticalLayoutConstraint.constant = self.tableView.contentSize.height;
         return cell ;
     }
-//    else if (indexPath.row == self.events.count){
-//        MyLatestEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"seeMore" forIndexPath:indexPath];
-//        if (cell==nil) {
-//            cell=[[MyLatestEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//        }
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        return cell;
-//    }
+
     return nil;
 }
 
@@ -261,7 +273,7 @@ static void *userContext = &userContext;
         editAccount.userPic = self.myProfilePicture.image;
         editAccount.groupID = [self.user[@"Gid"]integerValue];
         editAccount.groupName = self.user[@"GName"];
-        NSLog(@"%@",self.user[@"GName"]);
+//        NSLog(@"%@",self.user[@"GName"]);
         
     }else if ([segue.identifier isEqualToString:@"event"]) {
         
@@ -274,7 +286,7 @@ static void *userContext = &userContext;
 #pragma mark - Methods
 
 -(void)downloadProfilePicture {
-    [self.downloadProfilePicConnection downloadImageWithID:[self.user[@"ProfilePic"]integerValue] withCacheNameSpace:@"profile" withKey:@"profilePic"];
+    [self.downloadProfilePicConnection downloadImageWithID:[self.user[@"ProfilePic"]integerValue] withCacheNameSpace:@"profile" withKey:@"profilePic" withWidth:150 andHeight:150];
 }
 
 -(void)updateUI {
@@ -364,7 +376,7 @@ static void *userContext = &userContext;
         
     } else {
         
-        NSLog(@"No Instagram Found");
+//        NSLog(@"No Instagram Found");
     }
 }
 
@@ -388,7 +400,7 @@ static void *userContext = &userContext;
     
     [fileManager createFileAtPath:fullPath contents:imageData attributes:nil]; //finally save the path (image)
     
-    NSLog(@"image saved");
+//    NSLog(@"image saved");
     
     
     CGRect rect = CGRectMake(0 ,0 , 0, 0);
@@ -397,11 +409,11 @@ static void *userContext = &userContext;
     UIGraphicsEndImageContext();
     NSString *fileNameToSave = [NSString stringWithFormat:@"Documents/insta.igo"];
     NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:fileNameToSave];
-    NSLog(@"jpg path %@",jpgPath);
+//    NSLog(@"jpg path %@",jpgPath);
     NSString *newJpgPath = [NSString stringWithFormat:@"file://%@",jpgPath]; //[[NSString alloc] initWithFormat:@"file://%@", jpgPath] ];
-    NSLog(@"with File path %@",newJpgPath);
+//    NSLog(@"with File path %@",newJpgPath);
     NSURL *igImageHookFile = [[NSURL alloc] initFileURLWithPath:newJpgPath];
-    NSLog(@"url Path %@",igImageHookFile);
+//    NSLog(@"url Path %@",igImageHookFile);
     
 
     
@@ -446,7 +458,6 @@ static void *userContext = &userContext;
 - (IBAction)btnSeeMorePressed:(id)sender {
     [self performSegueWithIdentifier:@"seeMore" sender:self];
 }
-
 
 - (IBAction)btnSharePressed:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"" delegate:self cancelButtonTitle:@"إلغاء" destructiveButtonTitle:nil otherButtonTitles:@"Facebook",@"Twitter",@"Whatsapp", nil];

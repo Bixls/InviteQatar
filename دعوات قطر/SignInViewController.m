@@ -81,25 +81,15 @@
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         
-        NSLog(@"%@",self.user);
-//        NSInteger userID = [self.user[@"id"]integerValue];
-//        NSInteger mobile =[self.user[@"Mobile"]integerValue];
-
-        //NSInteger guest = ![self.user[@"Verified"]integerValue];
-        
-//        NSString * password = self.passwordField.text;
-        //NSLog(@"%ld",(long)guest);
-        
-        //[temp isEqualToString:self.mobileField.text]
-        
+//        NSLog(@"%@",self.user);
 
         if ([self.user[@"Verified"]boolValue] == true) {
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
             [self.userDefaults synchronize];
-            [self saveUserData];
             self.userName = self.user[@"name"];
             self.groupName = self.user[@"Gname"];
             self.imageID = [self.user[@"ProfilePic"]integerValue];
+            [self saveUserData];
             [self performSegueWithIdentifier:@"welcomeUser" sender:self];
 
             
@@ -126,6 +116,7 @@
     [self.userDefaults setInteger:[self.user[@"Mobile"]integerValue] forKey:@"mobile"];
     [self.userDefaults setObject:self.userName forKey:@"userName"];
     [self.userDefaults setObject:self.groupName forKey:@"groupName"];
+
     [self.userDefaults setObject:self.password forKey:@"password"];
     [self.userDefaults synchronize];
 

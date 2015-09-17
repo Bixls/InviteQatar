@@ -13,6 +13,8 @@
 @property (nonatomic,strong)NSDictionary *user;
 @property(nonatomic) NSInteger otherUserID;
 @property(nonatomic) NSInteger eventOrMsg;
+@property(nonatomic) BOOL userCurrentGroup;
+@property(nonatomic,strong) NSString *defaultGroup;
 
 @property (weak, nonatomic) IBOutlet UIImageView *userPicture;
 @property (weak, nonatomic) IBOutlet UILabel *userName;

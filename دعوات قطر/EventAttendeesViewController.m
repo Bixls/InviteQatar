@@ -107,8 +107,8 @@
         if (cell==nil) {
             cell=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
         }
-        NSLog(@"MEssagesss %@",self.allUsers);
-        NSLog(@"MEssagesss %ld",(long)indexPath.row);
+//        NSLog(@"MEssagesss %@",self.allUsers);
+//        NSLog(@"MEssagesss %ld",(long)indexPath.row);
         NSDictionary *user = self.allUsers[indexPath.row];
         cell.userName.text = user[@"name"];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
@@ -238,14 +238,14 @@
         [self.tableView reloadData];
         //[self.tableView.infiniteScrollingView stopAnimating];
     }
-    NSLog(@"%@",self.allUsers);
+//    NSLog(@"%@",self.allUsers);
     
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];

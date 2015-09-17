@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,SKPaymentTransactionObserver>
 

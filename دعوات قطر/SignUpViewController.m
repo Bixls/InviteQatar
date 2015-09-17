@@ -106,12 +106,12 @@ static void *uploadImageContext = &uploadImageContext;
             
             NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
             self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-            NSLog(@"%@",self.responseDictionary);
+//            NSLog(@"%@",self.responseDictionary);
             NSInteger success = [self.responseDictionary[@"sucess"]boolValue];
             if (success == true) {
                 NSDictionary *data = self.responseDictionary[@"data"];
                 self.userID = [data[@"id"]integerValue];
-                NSLog(@"USER ID %d",self.userID);
+//                NSLog(@"USER ID %d",self.userID);
                 [self.userDefaults setInteger:self.userID forKey:@"userID"];
                 [self.userDefaults synchronize];
                 self.activateFlag = 1;
@@ -130,7 +130,7 @@ static void *uploadImageContext = &uploadImageContext;
         if ([keyPath isEqualToString:@"response"]) {
             NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
             NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-            NSLog(@"%@",responseDict);
+//            NSLog(@"%@",responseDict);
             self.imageURL = responseDict[@"id"];
             self.uploaded =1;
         }
@@ -203,7 +203,7 @@ static void *uploadImageContext = &uploadImageContext;
 #pragma mark - Textfield delegate method 
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSLog(@"%@",textField.text);
+//    NSLog(@"%@",textField.text);
     
     [textField resignFirstResponder];
     return YES;

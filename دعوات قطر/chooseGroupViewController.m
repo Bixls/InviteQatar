@@ -31,7 +31,7 @@
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.getAllGroupsConn = [[NetworkConnection alloc]init];
     
-    //NSLog(@"EVENT ID %ld" , (long)self.eventID );
+//    NSLog(@"EVENT ID %ld" , (long)self.eventID );
     
 }
 
@@ -65,7 +65,7 @@
         
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@", self.responseArray );
+//        NSLog(@"%@", self.responseArray );
         if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
             //do nothing
         }else{
@@ -87,6 +87,9 @@
             inviteController.normORVIP = self.VIPFlag;
             inviteController.group = self.selectedGroup;
             inviteController.eventID = self.eventID;
+            if (self.invitees.count > 0) {
+                inviteController.invitees = self.invitees;
+            }
         }else if (self.createMsgFlag == 1 ){
             InviteViewController *inviteController = segue.destinationViewController;
             inviteController.createMsgFlag = self.createMsgFlag;
@@ -117,9 +120,9 @@
     }
     
     NSArray *tempArray = [self.userDefaults objectForKey:@"groupArray"];
-    NSLog(@"%@",tempArray);
+//    NSLog(@"%@",tempArray);
     cell.groupName.text = tempArray[indexPath.row][@"name"];
-    NSLog(@"%@",cell.groupName.text);
+//    NSLog(@"%@",cell.groupName.text);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
@@ -133,7 +136,7 @@
         if ([self.delegate respondsToSelector:@selector(selectedGroup:)]) {
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.delegate selectedGroup:selectedGroup];
-            NSLog(@"%@",selectedGroup);
+//            NSLog(@"%@",selectedGroup);
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }else if (self.flag ==1){
@@ -149,5 +152,6 @@
 
 - (IBAction)btnDismissPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

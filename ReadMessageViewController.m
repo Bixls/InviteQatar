@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@",self.message);
+//    NSLog(@"%@",self.message);
     self.view.backgroundColor = [UIColor blackColor];
     self.labelName.text = self.userName;
     self.labelSubject.text = self.messageSubject;
@@ -122,13 +122,13 @@
     if ([key isEqualToString:@"readMessage"]) {
 
         NSDictionary *dict = arr[0];
-        NSLog(@"%@",dict);
+//        NSLog(@"%@",dict);
         self.message = dict;
         self.textViewMessage.text = self.message[@"Content"];
         self.labelDate.text = self.message[@"TimeSent"];
     }else if ([key isEqualToString:@"readInvitation"]){
         NSDictionary *dict = arr[0];
-        NSLog(@"%@",dict);
+//        NSLog(@"%@",dict);
         self.message = dict;
         self.textViewMessage.text = self.message[@"Content"];
         self.labelDate.text = self.message[@"TimeSent"];
@@ -140,7 +140,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 - (IBAction)btnHome:(id)sender {

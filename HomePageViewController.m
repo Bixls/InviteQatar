@@ -324,7 +324,7 @@
         }else{
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempGroup[@"ProfilePic"]];
-                NSLog(@"%@",imgURLString);
+//                NSLog(@"%@",imgURLString);
                 NSURL *imgURL = [NSURL URLWithString:imgURLString];
                 NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
                 UIImage *image = [[UIImage alloc]initWithData:imgData];
@@ -477,12 +477,12 @@
         self.selectedGroup = self.groups[indexPath.item];
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         
-        NSLog(@"%@",self.selectedGroup);
+//        NSLog(@"%@",self.selectedGroup);
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
 
         self.selectedNews = self.news[indexPath.item];
-        NSLog(@"Seleected news %@",self.selectedNews);
+//        NSLog(@"Seleected news %@",self.selectedNews);
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"news" sender:self];
     }
@@ -508,7 +508,7 @@
     }
     
     
-    NSLog(@"%@",[self platformType:platform]);
+//    NSLog(@"%@",[self platformType:platform]);
     
     return CGSizeMake([UIScreen mainScreen].bounds.size.width - 27, 142);
 }
@@ -626,7 +626,7 @@
         NSString *dateWithoutSeconds = [date substringToIndex:16];
         cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
         
-        NSLog(@"%@",date);
+//        NSLog(@"%@",date);
         
         if (self.offline == false) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -745,14 +745,14 @@
 
     NSData *responseData = [request responseData];
     NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-    NSLog(@"%@",responseArray);
+//    NSLog(@"%@",responseArray);
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getGroups"]) {
         self.pullToRefreshFlag ++;
         
         if ([self arraysContainSameObjects:responseArray andOtherArray:[self.userDefaults objectForKey:@"groups"]]) {
             //do nothing
-            NSLog(@"THEY ARE EQUAL");
+//            NSLog(@"THEY ARE EQUAL");
             
 
         }else{
@@ -798,7 +798,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 #pragma mark - Compare Method 

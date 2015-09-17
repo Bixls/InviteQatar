@@ -11,6 +11,7 @@
 #import <SVPullToRefresh.h>
 #import "MyEventsTableViewCell.h"
 #import "EventViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 @interface MyEventsViewController ()
 
 @property (nonatomic) NSInteger userID;
@@ -36,7 +37,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
-    NSLog(@"%ld",self.userID);
+//    NSLog(@"%ld",self.userID);
 
     self.start = 0 ;
     self.limit = 10 ;
@@ -98,17 +99,30 @@
         [cell.vipLabel setHidden:NO];
     }
 
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]] ;
-        //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        UIImage *img = [[UIImage alloc]initWithData:data];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            //Run UI Updates
-            cell.eventPicture.image = img;
-        });
-    });
+//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//        //Background Thread
+//        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]] ;
+//        //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
+//        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+//        UIImage *img = [[UIImage alloc]initWithData:data];
+//        dispatch_async(dispatch_get_main_queue(), ^(void){
+//            //Run UI Updates
+//            cell.eventPicture.image = img;
+//        });
+//    });
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        spinner.center = cell.eventPicture.center;
+        spinner.hidesWhenStopped = YES;
+        [cell addSubview:spinner];
+        [spinner startAnimating];
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        cell.eventPicture.image = image;
+        [spinner stopAnimating];
+//        NSLog(@"Cache Type %ld",(long)cacheType);
+    }];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
@@ -183,13 +197,13 @@
         [self.tableView reloadData];
         [self.tableView.infiniteScrollingView stopAnimating];
     }
-    NSLog(@"%@",self.allEvents);
+//    NSLog(@"%@",self.allEvents);
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 - (IBAction)btnHome:(id)sender {

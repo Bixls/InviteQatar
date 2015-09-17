@@ -38,6 +38,8 @@
 
 @property (nonatomic,strong) NSString *selectedDate;
 
+@property (nonatomic,strong) UIActivityIndicatorView *descriptionSpinner;
+
 @end
 
 @implementation EventViewController
@@ -57,7 +59,7 @@
     backbutton.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
  
- 
+
     
     self.navigationItem.backBarButtonItem = backbutton;
     [self.btnAttendees setHidden:YES];
@@ -75,11 +77,12 @@
     [self.imgComments setHidden:YES];
     [self.btnComments setHidden:YES];
     
-    [self.imgUserProfile setHidden:YES];
-    [self.imgPicFrame setHidden:YES];
-    [self.lblUsername setHidden:YES];
-    [self.btnUser setHidden:YES];
-    [self.creatorPicture setHidden:YES];
+//    [self.imgUserProfile setHidden:YES];
+//    [self.imgPicFrame setHidden:YES];
+//    [self.lblUsername setEnabled:NO];
+    [self.btnUser setEnabled:NO];
+//    [self.btnUser setHidden:YES];
+//    [self.creatorPicture setHidden:YES];
     
     self.isJoined = -1;
     self.isInvited =-1;
@@ -114,6 +117,8 @@
     
 }
 
+
+
 -(void)viewDidAppear:(BOOL)animated{
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
@@ -123,6 +128,11 @@
             [self readMessage];
         }else{
             [self getEvent];
+            self.descriptionSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            self.descriptionSpinner.hidesWhenStopped = YES;
+            self.descriptionSpinner.center = self.descriptionLabel.center;
+            [self.innerView addSubview:self.descriptionSpinner];
+            [self.descriptionSpinner startAnimating];
         }
         [self getInvited];
         [self getJoined];
@@ -165,11 +175,56 @@
     
 }
 
+
+-(void)downloadEventPicture {
+    UIActivityIndicatorView *eventPicSPinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"EventPic"]];
+    SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
+    [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
+                                      options:0
+                                     progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                         
+                                         eventPicSPinner.center = self.eventPicture.center;
+                                         eventPicSPinner.hidesWhenStopped = YES;
+                                         [self.innerView addSubview:eventPicSPinner];
+                                         [eventPicSPinner startAnimating];
+                                         
+                                     }
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                        if (image) {
+                                            self.eventPicture.image = image;
+                                            [eventPicSPinner stopAnimating];
+                                        }
+                                    }];
+}
+
+-(void)downloadUserPicture {
+    UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"CreatorPic"]];
+    SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
+    [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
+                                      options:0
+                                     progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                         userPicSpinner.center = self.creatorPicture.center;
+                                         userPicSpinner.hidesWhenStopped = YES;
+                                         [self.innerView addSubview:userPicSpinner];
+                                         [userPicSpinner startAnimating];
+                                         
+                                     }
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                        if (image) {
+                                            self.creatorPicture.image = image;
+                                            [userPicSpinner stopAnimating];
+                                        }
+                                    }];
+}
+
+
 -(void)updateUI {
 
-    NSLog(@"EVEENT %@",self.event);
+//    NSLog(@"EVEENT %@",self.event);
     if (self.selectedType == 2 || self.selectedType == 3) {
-        
+
         
     }else{
         self.eventSubject.text = self.event[@"subject"];
@@ -178,20 +233,10 @@
         [self GenerateArabicDateWithDate:[NSString stringWithFormat:@"%@",self.event[@"TimeEnded"]]];
         
         self.descriptionLabel.text = self.eventDescription;
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            //Background Thread
-            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"EventPic"]];
-            NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",self.event[@"CreatorPic"]];
-            NSData *eventData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-            NSData *creatorData = [NSData dataWithContentsOfURL:[NSURL URLWithString:creatorPic]];
-            self.eventImage = [[UIImage alloc]initWithData:eventData];
-            UIImage *creatorImage = [[UIImage alloc]initWithData:creatorData];
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                //Run UI Updates
-                self.eventPicture.image = self.eventImage;
-                self.creatorPicture.image = creatorImage;
-            });
-        });
+        
+        [self downloadEventPicture];
+        [self downloadUserPicture];
+
     }
     
     if (self.isVIP == 1 && self.isInvited == 1 && self.isInvitedFlag == 1) {
@@ -331,8 +376,6 @@
             UserViewController *userController = segue.destinationViewController;
             userController.otherUserID = self.userID;
             userController.eventOrMsg = 1;
-            
-            //        userController.user = @{@"id": [NSNumber numberWithInteger:self.creatorID]};
         }else{
             UserViewController *userController = segue.destinationViewController;
             userController.user = self.user;
@@ -360,17 +403,11 @@
 
 -(void)selectedDate:(NSString *)date {
     self.selectedDate = date;
-    NSLog(@"%@",self.selectedDate);
+//    NSLog(@"%@",self.selectedDate);
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-  //  [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDate *dateFromString = [formatter dateFromString:self.selectedDate];
-    NSLog(@"%@",dateFromString);
-
-//    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
-//        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge
-//                                                                                                              categories:nil]];
-//    }
+//    NSLog(@"%@",dateFromString);
    
     UIApplication *app = [UIApplication sharedApplication];
     UILocalNotification *notifyAlarm = [[UILocalNotification alloc]init];
@@ -379,18 +416,10 @@
         notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
         notifyAlarm.repeatInterval = 0;
         notifyAlarm.alertBody = [NSString stringWithFormat:@"لا تنسي %@ بتاريخ %@ الساعة %@",self.event[@"subject"],self.eventDate.text,self.eventTime.text ];
-        NSLog(@"%@",notifyAlarm.alertBody);
+//        NSLog(@"%@",notifyAlarm.alertBody);
         [app scheduleLocalNotification:notifyAlarm];
     }
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-//    NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
-//    [formatter setLocale:qatarLocale];
-////    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-////    NSDate *dateString = [formatter dateFromString:self.selectedDate];
-    
-  
-    
-    
+
 }
 
 
@@ -415,7 +444,7 @@
                                                                                  @"Eventid":[NSString stringWithFormat:@"%@",self.event[@"Eventid"]]
                                                                                  }]};
     
-    //NSLog(@"%@",getEvent);
+//    NSLog(@"%@",getEvent);
     NSMutableDictionary *getEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvent",@"key", nil];
     
     [self postRequest:getEvent withTag:getEventTag];
@@ -558,13 +587,14 @@
         [self updateUI];
     }else if ([key isEqualToString:@"getEvent"]){
         
-        NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        if (arr.count > 0) {
-            NSDictionary *dict = arr[0];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if (dict) {
+//            NSDictionary *dict = arr[0];
             NSLog(@"Full event %@",dict);
             self.fullEvent = dict;
             self.allowComments = [dict[@"comments"]integerValue];
             self.eventDescription = dict[@"description"];
+            [self.descriptionSpinner stopAnimating];
             self.creatorID = [dict[@"CreatorID"]integerValue];
             self.creatorFlag = 1;
             self.approved = [dict[@"approved"]integerValue];
@@ -597,10 +627,10 @@
 
         [self updateUI];
     }else if ( [key isEqualToString:@"readMessage"]){
-        NSArray *arr = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSDictionary *dict = arr[0];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        NSDictionary *dict = arr[0];
         //NSLog(@"Full event %@",dict);
-        NSLog(@"%@",dict);
+//        NSLog(@"%@",dict);
         self.allowComments = [dict[@"comments"]integerValue];
         self.descriptionLabel.text = dict[@"description"];
         self.creatorID = [dict[@"CreatorID"]integerValue];
@@ -612,28 +642,14 @@
         [self.imgPicFrame setHidden:NO];
         [self.lblUsername setHidden:NO];
         [self.btnUser setHidden:NO];
-       
+        [self.btnUser setEnabled:YES];
         
+        [self downloadMsgPicture:dict];
+        [self downloadMsgCreator:dict];
         
         NSString *dateString = dict[@"timeCreated"];
         [self GenerateArabicDateWithDate:dateString];
 
-        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            //Background Thread
-            NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",eventPic];
-            NSData *eventData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-            self.eventImage = [[UIImage alloc]initWithData:eventData];
-            NSString *creatorPic = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",dict[@"ProfilePic"]];
-            NSData *creatorData = [NSData dataWithContentsOfURL:[NSURL URLWithString:creatorPic]];
-            UIImage *creatorImage = [[UIImage alloc]initWithData:creatorData];
-            
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                //Run UI Updates
-                self.eventPicture.image = self.eventImage;
-                self.creatorPicture.image = creatorImage;
-                [self.creatorPicture setHidden:NO];
-            });
-        });
   
         [self updateUI];
     }
@@ -642,13 +658,62 @@
         [self.imgUserProfile setHidden:NO];
         [self.imgPicFrame setHidden:NO];
         [self.lblUsername setHidden:NO];
-        [self.btnUser setHidden:NO];
+//        [self.btnUser setHidden:NO];
+        [self.btnUser setEnabled:YES];
         [self.creatorPicture setHidden:NO];
         self.creatorName.text = self.event[@"CreatorName"];
 
     }
     
 }
+
+-(void)downloadMsgPicture:(NSDictionary*)msg {
+    NSInteger eventPic = [msg[@"picture"]integerValue];
+    
+    UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)eventPic];
+    SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
+    [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
+                                      options:0
+                                     progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                         userPicSpinner.center = self.eventPicture.center;
+                                         userPicSpinner.hidesWhenStopped = YES;
+                                         [self.innerView addSubview:userPicSpinner];
+                                         [userPicSpinner startAnimating];
+                                         
+                                     }
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                        if (image) {
+                                            self.eventPicture.image = image;
+                                            [userPicSpinner stopAnimating];
+                                        }
+                                    }];
+}
+
+-(void)downloadMsgCreator:(NSDictionary*)msg {
+    
+    NSInteger creatorPic = [msg[@"ProfilePic"]integerValue];
+    UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)creatorPic];
+    SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
+    [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
+                                      options:0
+                                     progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                         userPicSpinner.center = self.creatorPicture.center;
+                                         userPicSpinner.hidesWhenStopped = YES;
+                                         [self.innerView addSubview:userPicSpinner];
+                                         [userPicSpinner startAnimating];
+                                         
+                                     }
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                        if (image) {
+                                            self.creatorPicture.image = image;
+                                            [userPicSpinner stopAnimating];
+                                        }
+                                    }];
+}
+
+
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -656,7 +721,7 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
-    NSLog(@"%@",error);
+//    NSLog(@"%@",error);
 }
 
 
