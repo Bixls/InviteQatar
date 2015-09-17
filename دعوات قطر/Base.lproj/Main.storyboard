@@ -7822,6 +7822,9 @@
                                                 <state key="normal">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="btnBackPressed:" destination="fTr-wW-5Si" eventType="touchUpInside" id="3Nq-nE-6gy"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -7953,8 +7956,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Bok-QY-wEt"/>
+        <segue reference="eUh-Aj-ld9"/>
         <segue reference="lRH-x1-LZj"/>
-        <segue reference="zCe-j8-46Z"/>
         <segue reference="GMF-2B-wF9"/>
         <segue reference="Ms0-5r-99t"/>
         <segue reference="IoJ-de-HAV"/>

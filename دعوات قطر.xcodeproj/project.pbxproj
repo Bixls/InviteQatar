@@ -642,7 +642,7 @@
 				TargetAttributes = {
 					184B65291B3F60AC00B1483C = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = AQXL58EA5D;
+						DevelopmentTeam = 3PMM5JJ53Q;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -960,7 +960,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7a45ebb0-6a8b-47b2-b632-0db72a0cc1d9";
+				PROVISIONING_PROFILE = "2eb615ef-36d1-419e-a4e0-ca9c9936e933";
 			};
 			name = Debug;
 		};
@@ -976,7 +976,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7a45ebb0-6a8b-47b2-b632-0db72a0cc1d9";
+				PROVISIONING_PROFILE = "2eb615ef-36d1-419e-a4e0-ca9c9936e933";
 			};
 			name = Release;
 		};
