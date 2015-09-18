@@ -88,16 +88,21 @@
     
     self.userName.text = user[@"name"];
     self.userGroup.text = user[@"GName"];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]];
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        UIImage *userImage = [[UIImage alloc]initWithData:imageData];
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            //Run UI Updates
-            self.userPicture.image = userImage;
-        });
-    });
+    
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.userPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        spinner.center = self.userPicture.center;
+        spinner.hidesWhenStopped = YES;
+        [self.view addSubview:spinner];
+        [spinner startAnimating];
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        self.userPicture.image = image;
+        [spinner stopAnimating];
+    }];
+    
+
 }
 
 -(void)checkIfSameProfile{

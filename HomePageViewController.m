@@ -83,7 +83,7 @@
     self.pullToRefreshFlag = 0;
     self.newsFlag = 0;
     self.offline = 0;
-    [self.btnUnReadMsgs setHidden:YES];
+//    [self.btnUnReadMsgs setHidden:YES];
     
 //    [self.groupsCollectionView registerClass:[cellGroupsCollectionView class] forCellWithReuseIdentifier:@"royal"];
 //    [self.groupsCollectionView registerClass:[cellGroupsCollectionView class] forCellWithReuseIdentifier:@"Cell"];
@@ -94,15 +94,16 @@
 //                                                  forBarMetrics:UIBarMetricsDefault];
 //    self.navigationController.navigationBar.shadowImage = [UIImage new];
 //    self.navigationController.navigationBar.translucent = YES;
+    
     self.navigationController.navigationBar.hidden = YES;
     
-    self.navigationItem.backBarButtonItem = nil;
-    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
-                                        nil] forState:UIControlStateNormal];
-    backbutton.tintColor = [UIColor whiteColor];
-    self.navigationItem.backBarButtonItem = backbutton;
+//    self.navigationItem.backBarButtonItem = nil;
+//    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
+//    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
+//                                        nil] forState:UIControlStateNormal];
+//    backbutton.tintColor = [UIColor whiteColor];
+//    self.navigationItem.backBarButtonItem = backbutton;
     self.view.backgroundColor = [UIColor blackColor];
 
    //self.groupsCollectionView.collectionViewLayout = [[UICollectionViewRightAlignedLayout alloc] init];
@@ -164,6 +165,7 @@
         self.groupsCollectionView.allowsSelection = NO;
         
     }else if ([self.userDefaults integerForKey:@"Visitor"] == 1){
+        
         [self.btnBuyInvitations setEnabled:NO];
         //        [self.btnMyAccount setEnabled:NO];
         self.segueFlag = 1;
@@ -262,7 +264,6 @@
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
         self.offline = false;
-
         [self postRequest:getGroups withTag:getGroupsTag];
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
@@ -312,12 +313,12 @@
     }
 }
 
--(void)clearProfileCaching{
-
-    SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:@"profile"];
-    [imageCache clearMemory];
-    [imageCache clearDisk];
-}
+//-(void)clearProfileCaching{
+//
+//    SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:@"profile"];
+//    [imageCache clearMemory];
+//    [imageCache clearDisk];
+//}
 
 #pragma mark - Collection View methods
 
@@ -375,7 +376,7 @@
 
 - (CGSize)collectionView:(customGroupFooter *)collectionView layout:(customGroupFooter*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
-  return CGSizeMake((self.groupsCollectionView.bounds.size.width), 200   );
+  return CGSizeMake((self.groupsCollectionView.bounds.size.width), 200);
 }
 
 
@@ -385,8 +386,6 @@
      cellGroupsCollectionView *cell = [[cellGroupsCollectionView alloc]init];
     
     if (collectionView.tag == 0 ) {
-        
-//
         NSDictionary *tempGroup = [[NSDictionary alloc]init];
         //self.groups[indexPath.item];
         switch (indexPath.section) {
@@ -446,21 +445,19 @@
                 break;
         }
         
-        
-        
-        
+
         if ([tempGroup[@"Royal"]integerValue] == 1) {
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [cell.royalPP sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                spinner.center = cell.royalPP.center;
-                spinner.hidesWhenStopped = YES;
-                [cell addSubview:spinner];
-                [spinner startAnimating];
+                //spinner.center = cell.royalPP.center;
+                //spinner.hidesWhenStopped = YES;
+                //[cell addSubview:spinner];
+                //[spinner startAnimating];
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 cell.royalPP.image = image;
-                [spinner stopAnimating];
+//                [spinner stopAnimating];
             }];
             
         }else{
@@ -468,13 +465,13 @@
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [cell.groupPP sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                spinner.center = cell.groupPP.center;
-                spinner.hidesWhenStopped = YES;
-                [cell addSubview:spinner];
-                [spinner startAnimating];
+//                spinner.center = cell.groupPP.center;
+//                spinner.hidesWhenStopped = YES;
+//                [cell addSubview:spinner];
+//                [spinner startAnimating];
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 cell.groupPP.image = image;
-                [spinner stopAnimating];
+//                [spinner stopAnimating];
             }];
             
         }
@@ -653,7 +650,7 @@
     
     if (kind== UICollectionElementKindSectionFooter) {
         customGroupFooter *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"adFooter" forIndexPath:indexPath];
-//        self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
+        self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
         [footer.adView setTransform:CGAffineTransformMakeScale(-1, 1)];
     
         reusableview = footer;
@@ -666,15 +663,15 @@
     if (collectionView.tag == 0) {
         self.selectedGroup = self.groups[indexPath.item];
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-        
-//        NSLog(@"%@",self.selectedGroup);
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
-
         self.selectedNews = self.news[indexPath.item];
-//        NSLog(@"Seleected news %@",self.selectedNews);
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"news" sender:self];
+    }else if (collectionView.tag == 2){
+        self.selectedEvent = self.events[indexPath.item];
+        [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+        [self performSegueWithIdentifier:@"event" sender:self];
     }
 }
 
@@ -687,8 +684,6 @@
     NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
-    CGFloat screenHeight = screenRect.size.height;
     
     if (collectionView.tag == 0) {
         if (collectionView.tag ==0 && indexPath.item ==1 && indexPath.section == 0 && ![[self platformType:platform] isEqualToString:@"iPhone 6 Plus"]) {
@@ -708,8 +703,6 @@
     else if (collectionView.tag == 2){
         return CGSizeMake((self.eventCollectionView.bounds.size.width - 5)/2, 210);
     }
-    
-    
     
     return CGSizeMake([UIScreen mainScreen].bounds.size.width - 27, 142);
 }
@@ -772,114 +765,12 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
 
-    
     return 5 ;
 }
-//
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-//    return 10.0;
-//}
 
 
-//- (UIEdgeInsets)collectionView:
-//(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-//    // return UIEdgeInsetsMake(0,8,0,8);  // top, left, bottom, right
-//    return UIEdgeInsetsMake(0,8,0,8);  // top, left, bottom, right
-//}
-
-#pragma mark - TableView DataSource 
 
 
-//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-//    return 1;
-//    
-//}
-//
-//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (self.events.count > 0) {
-//        return self.events.count + 1;
-//    }else{
-//        return 0;
-//    }
-//    
-//}
-//
-//-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    static NSString *cellIdentifier = @"GroupCell";
-//    
-//    if (indexPath.row < self.events.count) {
-//        HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-//        if (cell==nil) {
-//            cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//        }
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        NSDictionary *tempEvent = self.events[indexPath.row];
-//        
-//        cell.eventSubject.text =tempEvent[@"subject"];
-//        cell.eventCreator.text = tempEvent[@"CreatorName"];
-//        
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-//        NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
-//        [formatter setLocale:qatarLocale];
-//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//        NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",tempEvent[@"TimeEnded"]]];
-//        NSString *date = [formatter stringFromDate:dateString];
-//        NSString *dateWithoutSeconds = [date substringToIndex:16];
-//        cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
-//        
-////        NSLog(@"%@",date);
-//        
-//        if (self.offline == false) {
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
-//                NSURL *imgURL = [NSURL URLWithString:imgURLString];
-//                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-//                UIImage *image = [[UIImage alloc]initWithData:imgData];
-//                
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    cell.eventImage.image = image;
-//                    NSData *imageData = UIImagePNGRepresentation(image);
-//                    NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
-//                    [self.userDefaults setObject:encodedDate forKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
-//                    [self.userDefaults synchronize];
-//                });
-//                
-//            });
-//            
-//        }else if (self.offline == true || self.loadCache == true){
-//            NSData *encodedObject =[self.userDefaults objectForKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
-//            if (encodedObject) {
-//                NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-//                UIImage *img =  [UIImage imageWithData:imgData];
-//                cell.eventImage.image = img;
-//                
-//            }
-//        }
-//
-//        self.tableVerticalLayoutConstraint.constant = self.eventsTableView.contentSize.height;
-//        return cell ;
-//    }else if (indexPath.row == self.events.count){
-//        HomeEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-//        if (cell==nil) {
-//            cell=[[HomeEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//        }
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        return cell;
-//    }
-//    
-//    return nil;
-//}
-
-#pragma mark - Tableview delegate 
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.eventsTableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row < self.events.count) {
-        self.selectedEvent = self.events[indexPath.row];
-        [self performSegueWithIdentifier:@"event" sender:self];
-    }
- 
-}
 
 #pragma mark - Segue 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -952,19 +843,9 @@
     if ([key isEqualToString:@"getGroups"]) {
         self.pullToRefreshFlag ++;
         self.groups = responseArray;
-//        self.mutableGroups = [NSMutableArray arrayWithArray:self.groups];
-//        
-//        [self.mutableGroups insertObject:@"Here is an ad" atIndex:5];
-//        [self.mutableGroups insertObject:@"Here is an ad" atIndex:11];
-//        [self.mutableGroups insertObject:@"Here is an ad" atIndex:17];
-//        [self.mutableGroups insertObject:@"Here is an ad" atIndex:23];
-        
         if ([self arraysContainSameObjects:responseArray andOtherArray:[self.userDefaults objectForKey:@"groups"]]) {
             
-            
-
         }else{
-//            self.offlineGroupsFlag = 0;
 
             [self.userDefaults setObject:self.groups forKey:@"groups"];
             

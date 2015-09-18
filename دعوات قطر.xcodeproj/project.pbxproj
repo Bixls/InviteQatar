@@ -24,6 +24,8 @@
 		182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629151B4F72FB002E784F /* EditAccountTableViewCell.m */; };
 		182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629181B4F7CBC002E784F /* ChooseTypeViewController.m */; };
 		1826291C1B4F7F92002E784F /* ChooseTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */; };
+		1831583F1BAC62B6000708A2 /* topAd.png in Resources */ = {isa = PBXBuildFile; fileRef = 1831583E1BAC62B6000708A2 /* topAd.png */; };
+		183158411BAC638B000708A2 /* credits.png in Resources */ = {isa = PBXBuildFile; fileRef = 183158401BAC638B000708A2 /* credits.png */; };
 		183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183957011B45382300B47FC2 /* cellGroupsCollectionView.m */; };
 		184083931BA6DCA30075DE36 /* WelcomeUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184083921BA6DCA30075DE36 /* WelcomeUserViewController.m */; };
 		184338301BABDF9B00B4AADF /* customGroupFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1843382F1BABDF9B00B4AADF /* customGroupFooter.m */; };
@@ -172,6 +174,8 @@
 		182629181B4F7CBC002E784F /* ChooseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseTypeViewController.m; sourceTree = "<group>"; };
 		1826291A1B4F7F92002E784F /* ChooseTypeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseTypeTableViewCell.h; sourceTree = "<group>"; };
 		1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseTypeTableViewCell.m; sourceTree = "<group>"; };
+		1831583E1BAC62B6000708A2 /* topAd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topAd.png; sourceTree = "<group>"; };
+		183158401BAC638B000708A2 /* credits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = credits.png; sourceTree = "<group>"; };
 		183957001B45382300B47FC2 /* cellGroupsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cellGroupsCollectionView.h; path = "دعوات قطر/cellGroupsCollectionView.h"; sourceTree = "<group>"; };
 		183957011B45382300B47FC2 /* cellGroupsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = cellGroupsCollectionView.m; path = "دعوات قطر/cellGroupsCollectionView.m"; sourceTree = "<group>"; };
 		184083911BA6DCA30075DE36 /* WelcomeUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeUserViewController.h; sourceTree = "<group>"; };
@@ -605,6 +609,8 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				183158401BAC638B000708A2 /* credits.png */,
+				1831583E1BAC62B6000708A2 /* topAd.png */,
 				18D3F12F1BABA15F000A2EAE /* sms.png */,
 				188AE9701BAB86D800DAE5D6 /* adSpaceSC.png */,
 				188AE96C1BAB741400DAE5D6 /* ads_decorations_down.jpg */,
@@ -752,7 +758,9 @@
 				188AE9711BAB86D800DAE5D6 /* adSpaceSC.png in Resources */,
 				189E0E181B7CD136009DF99B /* backwithoutframe.png in Resources */,
 				189E0E1D1B7CD762009DF99B /* newFrame.png in Resources */,
+				183158411BAC638B000708A2 /* credits.png in Resources */,
 				18D5AA981B7D0AA3000D8711 /* vip3.png in Resources */,
+				1831583F1BAC62B6000708A2 /* topAd.png in Resources */,
 				188AE94C1BAA4C8100DAE5D6 /* logo_03.jpg in Resources */,
 				188AE9571BAB393100DAE5D6 /* logoTrans.png in Resources */,
 				18F0A6F61B63399700221F3E /* back2.png in Resources */,

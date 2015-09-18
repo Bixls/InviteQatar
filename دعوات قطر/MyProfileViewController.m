@@ -76,7 +76,7 @@ static void *userContext = &userContext;
     [self initializeConnections];
     
     self.tableViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    self.tableViewSpinner.center = self.tableView.center;
+    self.tableViewSpinner.center = CGPointMake(self.view.bounds.size.width/2, self.tableView.frame.origin.y + self.tableView.frame.size.height/2);
     self.tableViewSpinner.hidesWhenStopped = YES;
     [self.innerView addSubview:self.tableViewSpinner];
     
@@ -246,7 +246,6 @@ static void *userContext = &userContext;
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             cell.eventPic.image = image;
             [spinner stopAnimating];
-//            NSLog(@"Cache Type %ld",(long)cacheType);
         }];
 
         
@@ -273,7 +272,6 @@ static void *userContext = &userContext;
         editAccount.userPic = self.myProfilePicture.image;
         editAccount.groupID = [self.user[@"Gid"]integerValue];
         editAccount.groupName = self.user[@"GName"];
-//        NSLog(@"%@",self.user[@"GName"]);
         
     }else if ([segue.identifier isEqualToString:@"event"]) {
         
@@ -352,33 +350,7 @@ static void *userContext = &userContext;
     }
 }
 
--(void)shareInsta{
-    UIImage *screenShot = [UIImage imageNamed:@"Image"];
-    
-    NSString *savePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Test.igo"];
-    
-    [UIImagePNGRepresentation(screenShot) writeToFile:savePath atomically:YES];
-    
-    CGRect rect = CGRectMake(0 ,0 , 0, 0);
-    NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Test.igo"];
-    NSURL *igImageHookFile = [[NSURL alloc] initWithString:[[NSString alloc] initWithFormat:@"file://%@", jpgPath]];
-    
-    self.dic = [UIDocumentInteractionController interactionControllerWithURL:igImageHookFile];
-    self.dic.UTI = @"com.instagram.photo";
-    self.dic.annotation = [NSDictionary dictionaryWithObject:@"Enter your caption hereee" forKey:@"InstagramCaption"];
-    
-    [self.dic presentOpenInMenuFromRect:rect inView:self.view animated:YES];
-    NSURL *instagramURL = [NSURL URLWithString:@"instagram://media?id=MEDIA_ID"];
-    
-    if ([[UIApplication sharedApplication] canOpenURL:instagramURL]) {
-        
-        [self.dic presentOpenInMenuFromRect: rect    inView: self.view animated: YES ];
-        
-    } else {
-        
-//        NSLog(@"No Instagram Found");
-    }
-}
+
 
 - (UIDocumentInteractionController *) setupControllerWithURL: (NSURL*) fileURL usingDelegate: (id <UIDocumentInteractionControllerDelegate>) interactionDelegate {
     UIDocumentInteractionController *interactionController = [UIDocumentInteractionController interactionControllerWithURL: fileURL];
@@ -386,48 +358,7 @@ static void *userContext = &userContext;
     return interactionController;
 }
 
--(void)shareInInstagram
-{
-    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"Image"]); //convert image into .png format.
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];//create instance of NSFileManager
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); //create an array and store result of our search for the documents directory in it
-    
-    NSString *documentsDirectory = [paths objectAtIndex:0]; //create NSString object, that holds our exact path to the documents directory
-    
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"insta.igo"]]; //add our image to the path
-    
-    [fileManager createFileAtPath:fullPath contents:imageData attributes:nil]; //finally save the path (image)
-    
-//    NSLog(@"image saved");
-    
-    
-    CGRect rect = CGRectMake(0 ,0 , 0, 0);
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, self.view.opaque, 0.0);
-    [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIGraphicsEndImageContext();
-    NSString *fileNameToSave = [NSString stringWithFormat:@"Documents/insta.igo"];
-    NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:fileNameToSave];
-//    NSLog(@"jpg path %@",jpgPath);
-    NSString *newJpgPath = [NSString stringWithFormat:@"file://%@",jpgPath]; //[[NSString alloc] initWithFormat:@"file://%@", jpgPath] ];
-//    NSLog(@"with File path %@",newJpgPath);
-    NSURL *igImageHookFile = [[NSURL alloc] initFileURLWithPath:newJpgPath];
-//    NSLog(@"url Path %@",igImageHookFile);
-    
 
-    
-   // self.dic = [self setupControllerWithURL:igImageHookFile usingDelegate:self];
-    self.dic=[UIDocumentInteractionController interactionControllerWithURL:igImageHookFile];
-    self.dic.delegate = self;
-    @{@"InstagramCaption" : @"hooooo"};
-    //self.dic.annotation = [NSDictionary dictionaryWithObject:@"Here Give what you want to share" forKey:@"InstagramCaption"];
-    self.dic.UTI = @"com.instagram.exclusivegram";
-    
-    [self.dic presentOpenInMenuFromRect: rect    inView: self.view animated: YES ];
-    
-    
-}
 
 
 #pragma mark - Buttons
