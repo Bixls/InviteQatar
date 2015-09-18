@@ -84,7 +84,10 @@
     self.pullToRefreshFlag = 0;
     self.newsFlag = 0;
     self.offline = 0;
-
+    
+    self.myView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
+    UIViewAutoresizingFlexibleRightMargin;
+    
     
     self.navigationController.navigationBar.hidden = YES;
     
@@ -372,7 +375,7 @@
 - (CGSize)collectionView:(customGroupFooter *)collectionView layout:(customGroupFooter*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
     if (collectionView.tag == 0) {
-        return CGSizeMake((self.groupsCollectionView.bounds.size.width), 200);
+        return CGSizeMake((self.groupsCollectionView.bounds.size.width), 130);
     }else{
         return CGSizeZero;
     }
@@ -597,6 +600,9 @@
             cell.eventPic.image = image;
             [spinner stopAnimating];
         }];
+        
+        UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
+        [aFlowLayout setSectionInset:UIEdgeInsetsMake(5, 0, 5, 0)];
 
 //            if (self.offline == false) {
 //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
