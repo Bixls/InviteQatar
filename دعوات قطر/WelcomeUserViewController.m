@@ -38,7 +38,6 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-//    [self.downloadImageConnection downloadImageWithID:self.imageID];
     [self.downloadImageConnection downloadImageWithID:self.imageID withCacheNameSpace:@"profile" withKey:@"profilePic" withWidth:150 andHeight:150];
     [self.imageActivityIndicator startAnimating];
 }

@@ -16,16 +16,17 @@
 @property (weak, nonatomic) IBOutlet UIView *myView;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *groupsCollectionView;
-@property (weak, nonatomic) IBOutlet UITableView *eventsTableView;
-@property (weak, nonatomic) IBOutlet UIButton *btnInvitationsBuy;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnMyAccount;
+@property (weak, nonatomic) IBOutlet UIButton *btnInvitationsBuySmall;
+@property (weak, nonatomic) IBOutlet UIButton *btnInvitationsBuy;
+@property (weak, nonatomic) IBOutlet UIButton *btnMyProfile;
+@property (weak, nonatomic) IBOutlet UIButton *btnCreateNewInvitation;
 @property (weak, nonatomic) IBOutlet UIButton *btnMyMessages;
-@property (weak, nonatomic) IBOutlet UIButton *btnSearch;
 @property (weak, nonatomic) IBOutlet UIButton *btnSupport;
+
 @property (weak, nonatomic) IBOutlet UIButton *btnBuyInvitations;
 @property (weak, nonatomic) IBOutlet UILabel *buyInv;
-
+@property (weak, nonatomic) IBOutlet UIButton *btnSearch;
 @property (weak, nonatomic) IBOutlet UICollectionView *newsCollectionView;
 @property (weak, nonatomic) IBOutlet UIButton *btnUnReadMsgs;
 @property (weak, nonatomic) IBOutlet UICollectionView *eventCollectionView;

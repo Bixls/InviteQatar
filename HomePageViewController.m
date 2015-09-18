@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableVerticalLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventCollectionViewConstraint;
 
 //@property (nonatomic , strong) NSArray *responseArray;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
@@ -83,27 +84,11 @@
     self.pullToRefreshFlag = 0;
     self.newsFlag = 0;
     self.offline = 0;
-//    [self.btnUnReadMsgs setHidden:YES];
-    
-//    [self.groupsCollectionView registerClass:[cellGroupsCollectionView class] forCellWithReuseIdentifier:@"royal"];
-//    [self.groupsCollectionView registerClass:[cellGroupsCollectionView class] forCellWithReuseIdentifier:@"Cell"];
-//    [self.groupsCollectionView registerClass:[customGroupFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"adFooter"];
-    
-//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-//                                                  forBarMetrics:UIBarMetricsDefault];
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
-//    self.navigationController.navigationBar.translucent = YES;
+
     
     self.navigationController.navigationBar.hidden = YES;
     
-//    self.navigationItem.backBarButtonItem = nil;
-//    UIBarButtonItem *backbutton =  [[UIBarButtonItem alloc] initWithTitle:@"عوده" style:UIBarButtonItemStylePlain target:nil action:nil];
-//    [backbutton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-//                                        [UIFont systemFontOfSize:18],NSFontAttributeName,
-//                                        nil] forState:UIControlStateNormal];
-//    backbutton.tintColor = [UIColor whiteColor];
-//    self.navigationItem.backBarButtonItem = backbutton;
+
     self.view.backgroundColor = [UIColor blackColor];
 
    //self.groupsCollectionView.collectionViewLayout = [[UICollectionViewRightAlignedLayout alloc] init];
@@ -120,7 +105,7 @@
         self.news = [self.userDefaults objectForKey:@"news"];
         [self.newsCollectionView reloadData];
         self.events = [self.userDefaults objectForKey:@"events"];
-        [self.eventsTableView reloadData];
+    
     }
     else {
         self.offline = true;
@@ -129,7 +114,7 @@
         self.news = [self.userDefaults objectForKey:@"news"];
         [self.newsCollectionView reloadData];
         self.events = [self.userDefaults objectForKey:@"events"];
-        [self.eventsTableView reloadData];
+       
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
     }
@@ -160,40 +145,50 @@
         [self.btnSearch setEnabled:NO];
         [self.btnSupport setEnabled:NO];
         
-        self.eventsTableView.allowsSelection = NO;
+     
         self.newsCollectionView.allowsSelection = NO;
         self.groupsCollectionView.allowsSelection = NO;
         
     }else if ([self.userDefaults integerForKey:@"Visitor"] == 1){
         
-        [self.btnBuyInvitations setEnabled:NO];
+       // [self.btnBuyInvitations setEnabled:NO];
         //        [self.btnMyAccount setEnabled:NO];
         self.segueFlag = 1;
-        [self.myProfileLabel setText:@"خروج"];
+        [self.btnMyProfile setTitle:@"خروج" forState:UIControlStateNormal];
+        [self.btnMyProfile setEnabled:YES];
         [self.btnMyMessages setEnabled:NO];
-        [self.btnSearch setEnabled:NO];
         [self.btnSupport setEnabled:NO];
         [self.btnInvitationsBuy setEnabled:NO];
-        
+        [self.btnInvitationsBuySmall setEnabled:NO];
+        [self.btnCreateNewInvitation setEnabled:NO];
         
 //        self.eventsTableView.allowsSelection = NO;
-        self.eventsTableView.userInteractionEnabled = NO ;
+        self.eventCollectionView.allowsSelection = NO;
         self.newsCollectionView.allowsSelection = NO;
 //        self.groupsCollectionView.allowsSelection = NO;
 
         
     }else{
-        [self.btnBuyInvitations setEnabled:YES];
-        //        [self.btnMyAccount setEnabled:NO];
+        
+        [self.btnMyProfile setTitle:@"حسابي" forState:UIControlStateNormal];
+        [self.btnMyProfile setEnabled:YES];
         [self.btnMyMessages setEnabled:YES];
-        [self.btnSearch setEnabled:YES];
         [self.btnSupport setEnabled:YES];
         [self.btnInvitationsBuy setEnabled:YES];
-        self.segueFlag = 0;
-        [self.myProfileLabel setText:@"حسابي"];
+        [self.btnInvitationsBuySmall setEnabled:YES];
+        [self.btnCreateNewInvitation setEnabled:YES];
+        
+//        [self.btnBuyInvitations setEnabled:YES];
+//        //        [self.btnMyAccount setEnabled:NO];
+//        [self.btnMyMessages setEnabled:YES];
+//        [self.btnSearch setEnabled:YES];
+//        [self.btnSupport setEnabled:YES];
+//        [self.btnInvitationsBuy setEnabled:YES];
+//        self.segueFlag = 0;
+//        [self.myProfileLabel setText:@"حسابي"];
         
 //        self.eventsTableView.allowsSelection = YES;
-        self.eventsTableView.userInteractionEnabled = YES;
+        self.eventCollectionView.allowsSelection = YES;
         self.newsCollectionView.allowsSelection = YES;
         self.groupsCollectionView.allowsSelection = YES;
     }
@@ -376,7 +371,12 @@
 
 - (CGSize)collectionView:(customGroupFooter *)collectionView layout:(customGroupFooter*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
-  return CGSizeMake((self.groupsCollectionView.bounds.size.width), 200);
+    if (collectionView.tag == 0) {
+        return CGSizeMake((self.groupsCollectionView.bounds.size.width), 200);
+    }else{
+        return CGSizeZero;
+    }
+  
 }
 
 
@@ -584,33 +584,49 @@
         //Likes w Comments hena
         cell.eventPic.layer.masksToBounds = YES;
         cell.eventPic.layer.cornerRadius = cell.eventPic.bounds.size.width/2;
+        
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempEvent[@"EventPic"]];
+        NSURL *imgURL = [NSURL URLWithString:imgURLString];
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            spinner.center = cell.eventPic.center;
+            spinner.hidesWhenStopped = YES;
+            [cell addSubview:spinner];
+            [spinner startAnimating];
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            cell.eventPic.image = image;
+            [spinner stopAnimating];
+        }];
 
-            if (self.offline == false) {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
-                    NSURL *imgURL = [NSURL URLWithString:imgURLString];
-                    NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-                    UIImage *image = [[UIImage alloc]initWithData:imgData];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        cell.eventPic.image = image;
-                        NSData *imageData = UIImagePNGRepresentation(image);
-                        NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
-                        [self.userDefaults setObject:encodedDate forKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
-                        [self.userDefaults synchronize];
-                    });
-                    
-                });
-                
-            }else if (self.offline == true || self.loadCache == true){
-                NSData *encodedObject =[self.userDefaults objectForKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
-                if (encodedObject) {
-                    NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-                    UIImage *img =  [UIImage imageWithData:imgData];
-                    cell.eventPic.image = img;
-                    
-                }
-            }
+//            if (self.offline == false) {
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+//                    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+//                    NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
+//                    UIImage *image = [[UIImage alloc]initWithData:imgData];
+//                    
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        cell.eventPic.image = image;
+//                        NSData *imageData = UIImagePNGRepresentation(image);
+//                        NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
+//                        [self.userDefaults setObject:encodedDate forKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
+//                        [self.userDefaults synchronize];
+//                    });
+//                    
+//                });
+//                
+//            }else if (self.offline == true || self.loadCache == true){
+//                NSData *encodedObject =[self.userDefaults objectForKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
+//                if (encodedObject) {
+//                    NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+//                    UIImage *img =  [UIImage imageWithData:imgData];
+//                    cell.eventPic.image = img;
+//                    
+//                }
+//            }
+        
+        
+            self.eventCollectionViewConstraint.constant = self.eventCollectionView.contentSize.height;
             
             return cell ;
     }
@@ -648,12 +664,14 @@
     
     UICollectionReusableView *reusableview = nil;
     
-    if (kind== UICollectionElementKindSectionFooter) {
+    if (kind== UICollectionElementKindSectionFooter && collectionView.tag == 0) {
         customGroupFooter *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"adFooter" forIndexPath:indexPath];
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
         [footer.adView setTransform:CGAffineTransformMakeScale(-1, 1)];
     
         reusableview = footer;
+    }else{
+
     }
     return reusableview;
 }
@@ -661,7 +679,42 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView.tag == 0) {
-        self.selectedGroup = self.groups[indexPath.item];
+//        self.selectedGroup = self.groups[indexPath.item];
+        switch (indexPath.section) {
+            case 0:{
+                self.selectedGroup = self.firstSection[indexPath.row];
+                break;
+            }
+                
+            case 1:{
+                
+                self.selectedGroup = self.secondSection[indexPath.row];
+                
+                break;
+            }
+                
+            case 2:{
+                
+                self.selectedGroup = self.thirdSection[indexPath.row];
+                break;
+            }
+                
+            case 3:{
+                self.selectedGroup = self.fourthSection[indexPath.row];
+
+                break;
+            }
+                
+            case 4:{
+
+                self.selectedGroup = self.fifthSection[indexPath.row];
+                break;
+            }
+                
+            default:
+                break;
+        }
+
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
@@ -818,8 +871,11 @@
     request.shouldCompressRequestBody = NO;
     request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
-    //[request startAsynchronous];
+ 
+    
     [self.queue addOperation:request];
+
+    //[request startAsynchronous];
     [self.queue go];
     //[request startAsynchronous];
     
@@ -879,7 +935,7 @@
         self.events = responseArray;
         [self.userDefaults setObject:self.events forKey:@"events"];
         [self.userDefaults synchronize];
-        [self.eventsTableView reloadData];
+        [self.eventCollectionView reloadData];
         self.pullToRefreshFlag ++;
 
     }else if ([key isEqualToString:@"unReadInbox"]){
