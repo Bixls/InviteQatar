@@ -10,7 +10,8 @@
 #import <UICollectionViewRightAlignedLayout.h>
 #import "ASINetworkQueue.h"
 
-@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout>
+
+@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout>
 
 @property (weak, nonatomic) IBOutlet UIView *myView;
 
@@ -27,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *newsCollectionView;
 @property (weak, nonatomic) IBOutlet UIButton *btnUnReadMsgs;
+@property (weak, nonatomic) IBOutlet UICollectionView *eventCollectionView;
 @property (weak, nonatomic) IBOutlet UIButton *btnInvitationNum;
 @property (weak, nonatomic) IBOutlet UIButton *btnVIPNum;
 @property (weak, nonatomic) IBOutlet UILabel *myProfileLabel;
