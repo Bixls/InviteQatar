@@ -300,7 +300,7 @@
     if ([key isEqualToString:@"getMessages"]) {
         
         [self.messages addObjectsFromArray:array];
-//        NSLog(@"%@",self.messages);
+        NSLog(@"%@",self.messages);
         self.start = self.messages.count;
         [self.scrollView.infiniteScrollingView stopAnimating];
         [self.tableView reloadData];

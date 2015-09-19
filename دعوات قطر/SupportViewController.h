@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "customAlertView.h"
 
-
-@interface SupportViewController : UIViewController <UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate>
+@interface SupportViewController : UIViewController <UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,customAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 

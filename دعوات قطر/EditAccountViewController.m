@@ -18,7 +18,7 @@
 @property (nonatomic,strong) NSString *maskInbox;
 @property (nonatomic,strong) NSString *name;
 @property (strong,nonatomic) ASIFormDataRequest *imageRequest;
-@property (nonatomic,strong) NSString *imageURL;
+@property (nonatomic) NSInteger imageURL;
 @property (nonatomic) int uploaded;
 @property (nonatomic) int flag;
 @property (nonatomic) NSInteger launched;
@@ -42,6 +42,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseImage;
 @property (weak, nonatomic) IBOutlet UIButton *btnSelectedGroup;
 
+@property (strong, nonatomic) UIActivityIndicatorView *editingAccount;
+
 
 @end
 
@@ -51,6 +53,8 @@
     [super viewDidLoad];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor blackColor];
+    [self.customAlertView setHidden:YES];
+    self.customAlert.delegate = self;
     
     self.blockList = [[NSMutableArray alloc]init];
     self.listArray = [[NSMutableArray alloc]init];
@@ -70,8 +74,8 @@
 -(void)viewDidAppear:(BOOL)animated {
     if (self.chooseFlag != 1 ) {
         self.editNameField.text = self.userName;
-        if (self.userPic) {
-            self.profilePic.image = self.userPic;
+        if (self.flag == 1) {
+           // self.profilePic.image = self.userPic;
         }else{
             [self getUser];
         }
@@ -236,6 +240,18 @@
 
 #pragma mark - Connection setup
 
+-(void)editProfile{
+    NSDictionary  *editName = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":[NSString stringWithFormat:
+                                                                       @"%ld",(long)self.userID],
+                                                                @"name":self.editNameField.text,
+                                                                @"groupID":[NSString stringWithFormat:@"%ld",(long)self.selectedGroupID],
+                                                                @"ProfilePic":[NSString stringWithFormat:@"%ld",(long)self.imageURL]
+                                                                }]};
+    
+     NSMutableDictionary *editNameTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editProfile",@"key", nil];
+    [self postRequest:editName withTag:editNameTag];
+}
+
 -(void)getUser {
     
     NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID],
@@ -270,6 +286,15 @@
     
     [self postRequest:getBlockList withTag:getBlockListTag];
     
+}
+
+-(void)editBlockList{
+    NSDictionary *editBlockList = @{@"FunctionName":@"SetBlockList" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                      @"listArray":self.listArray,
+                                                                      
+                                                                      }]};
+     NSMutableDictionary *editBlockListTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editBlockList",@"key", nil];
+    [self postRequest:editBlockList withTag:editBlockListTag];
 }
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict {
@@ -311,8 +336,8 @@
     self.imageRequest.password = @"admin";
     [self.imageRequest setRequestMethod:@"POST"];
     [self.imageRequest addRequestHeader:@"Authorization" value:authValue];
-    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
-    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
+//    [self.imageRequest addRequestHeader:@"Accept" value:@"application/json"];
+//    [self.imageRequest addRequestHeader:@"content-type" value:@"application/json"];
     self.imageRequest.allowCompressedResponse = NO;
     self.imageRequest.useCookiePersistence = NO;
     self.imageRequest.shouldCompressRequestBody = NO;
@@ -326,16 +351,28 @@
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
 
-    NSString *responseString = [request responseString];
+   // NSString *responseString = [request responseString];
 
     NSData *responseData = [request responseData];
     NSString *key = [request.userInfo objectForKey:@"key"];
     
     if ([key isEqualToString:@"pictureTag"]) {
         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        self.imageURL = responseDict[@"url"];
-//        NSLog(@"%@",responseDict);
+        
+        if ([responseDict[@"id"]integerValue]) {
+            self.imageURL = [responseDict[@"id"]integerValue];
+            [self editProfile];
+            [self editBlockList];
+        }else{
+            // ALERT VIEW WE COULDNT UPLOAD THE PICTURE , Try again
+            [self.btnSave setEnabled:YES];
+            [self.customAlert.closeButton setHidden:NO];
+            [self.editingAccount stopAnimating];
+            self.customAlert.viewLabel.text = @" عفواً حدث خطأ ما ، من فضلك إضغط حفظ مرة اخري" ;
+        }
+
         self.uploaded =1;
+        
     }else if ([key isEqualToString:@"blocklist"]){
         NSArray *response =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.blockList = response;
@@ -370,15 +407,39 @@
             });
         });
     }else if ([key isEqualToString:@"editBlockList"]){
-        self.saved0 = 1;
-    }else if([key isEqualToString:@"editName"]){
-        self.saved1 = 1;
+        NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if ([responseDict[@"sucess"]boolValue] == YES) {
+            self.saved0 = 1;
+        }else{
+            [self.btnSave setEnabled:YES];
+            [self.customAlert.closeButton setHidden:NO];
+            [self.editingAccount stopAnimating];
+            self.customAlert.viewLabel.text = @" عفواً حدث خطأ ما ، من فضلك إضغط حفظ مرة اخري" ;
+        }
+        
+    }else if([key isEqualToString:@"editProfile"]){
+        NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if ([responseDict[@"sucess"]boolValue] == YES) {
+            self.saved1 = 1;
+        }else{
+            [self.btnSave setEnabled:YES];
+            [self.customAlert.closeButton setHidden:NO];
+            [self.editingAccount stopAnimating];
+            self.customAlert.viewLabel.text = @" عفواً حدث خطأ ما ، من فضلك إضغط حفظ مرة اخري" ;
+        }
+
+        
     }
     
     
     if (self.saved0 ==1 && self.saved1 ==1 ) {
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم تعديل الحساب بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-        [alertView show];
+        //[self showAlertWithMsg:@"تم تعديل الحساب بنجاح" alertTag:0];
+        [self.editingAccount stopAnimating];
+        self.customAlert.viewLabel.text = @"تم تعديل الحساب بنجاح";
+        self.customAlert.tag = 1;
+//        [self.navigationController popViewControllerAnimated:YES];
+        [self.customAlert.closeButton setHidden:NO];
+        [self.btnSave setEnabled:YES];
         self.saved0 = 0;
         self.saved1 = 0 ;
     }
@@ -390,55 +451,53 @@
     NSError *error = [request error];
     if (error) {
         if (self.btnPressed == 1) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم تعديل الحساب" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
+            [self.btnSave setEnabled:YES];
+            [self.customAlert.closeButton setHidden:NO];
+            [self.editingAccount stopAnimating];
+            self.customAlert.viewLabel.text = @" عفواً حدث خطأ ما ، من فضلك إضغط حفظ مرة اخري" ;
             self.btnPressed = 0;
 
         }
     }
 //    NSLog(@"%@",error);
 }
-
+-(void)customAlertCancelBtnPressed{
+    [self.customAlertView setHidden:YES];
+    if (self.customAlert.tag == 1) {
+        [self.userDefaults setObject:nil forKey:@"invitees"];
+        [self.userDefaults synchronize];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 
 
 #pragma mark - Buttons
 
 - (IBAction)btnSavePressed:(id)sender {
-    NSDictionary *editName = [[NSDictionary alloc]init ];
-    NSDictionary *editBlockList = [[NSDictionary alloc]init ];
-    NSMutableDictionary *editNameTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editName",@"key", nil];
-    NSMutableDictionary *editBlockListTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"editBlockList",@"key", nil];
+
     
     if (self.editNameField.text.length != 0) {
-        editName = @{@"FunctionName":@"editProfile" , @"inputs":@[@{@"id":[NSString stringWithFormat:
-                                                                           @"%ld",self.userID],
-                                                                    @"name":self.editNameField.text,
-                                                                    @"groupID":[NSString stringWithFormat:@"%ld",(long)self.selectedGroupID],
-                                                                    
-                                                                                    }]};
-        editBlockList = @{@"FunctionName":@"SetBlockList" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",self.userID],
-                                                                    @"listArray":self.listArray,
-    
-                                                                    }]};
-        if (self.flag == 1) {
-            NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
-            self.btnPressed = 1;
-            [self postPicturewithTag:pictureTag];
-
-            [self postRequest:editName withTag:editNameTag];
-            [self postRequest:editBlockList withTag:editBlockListTag];
-            
-           
-        }else {
-            self.btnPressed = 1;
-            [self postRequest:editName withTag:editNameTag];
-            [self postRequest:editBlockList withTag:editBlockListTag];
-            
-        }
         
+        [self.customAlertView setHidden:NO];
+        self.customAlert.viewLabel.text = @"من فضلك إنتظر حتي يتم تعديل حسابك" ;
+        [self.customAlert.closeButton setHidden:YES];
+        
+        self.editingAccount = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        self.editingAccount.hidesWhenStopped = YES;
+        self.editingAccount.center = CGPointMake(self.customAlertView.frame.size.width/2, self.customAlert.frame.origin.y - 40);
+        [self.customAlertView addSubview:self.editingAccount];
+        [self.editingAccount startAnimating];
+        
+        [self.btnSave setEnabled:NO];
+        
+        NSMutableDictionary *postPictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
+        [self postPicturewithTag:postPictureTag];
+
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عذرا" message:@"من فضلك تأكد من إدخال الإسم" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-        [alertView show];
+        [self.customAlertView setHidden:NO];
+        [self.btnSave setEnabled:YES];
+        [self.customAlert.closeButton setHidden:NO];
+        self.customAlert.viewLabel.text = @" من فضلك تأكد من إدخال إسمك " ;
     }
     
     
@@ -449,7 +508,7 @@
     self.profilePic.image = image;
     [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
     
-    NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
+   // NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
    // [self postPicturewithTag:pictureTag];
     self.flag = 1;
 
@@ -509,12 +568,28 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        self.profilePic.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
+//        self.profilePic.image = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
+        self.profilePic.image = [self resizeImageWithImage:image];
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
         self.flag = 1;
     }
     
     
+}
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
+
+-(UIImage *)resizeImageWithImage:(UIImage *)image {
+    
+    CGSize newSize = CGSizeMake(200.0f, 200.0f);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{

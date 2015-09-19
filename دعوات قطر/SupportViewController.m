@@ -8,12 +8,16 @@
 
 #import "SupportViewController.h"
 #import "ASIHTTPRequest.h"
+
+
 @interface SupportViewController ()
 
 @property (nonatomic) NSInteger userID ;
 @property (nonatomic) NSInteger feedbackType ;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
-
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+@property (strong, nonatomic) UIActivityIndicatorView *sendingFeedBack;
 @end
 
 @implementation SupportViewController
@@ -22,9 +26,11 @@
     [super viewDidLoad];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
-
     self.view.backgroundColor = [UIColor blackColor];
+    [self.customAlertView setHidden:YES];
+    self.customAlert.delegate = self;
     self.viewHeight.constant = self.view.bounds.size.height - 35;
+    self.feedbackType = -1;
     [self.navigationItem setHidesBackButton:YES];
 }
 
@@ -85,6 +91,22 @@
         self.feedbackType = 1;
     }
 }
+
+#pragma mark - Custom ALert 
+-(void)customAlertCancelBtnPressed{
+    [self.customAlertView setHidden:YES];
+    if (self.customAlert.tag == 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
+    
+    [self.customAlertView setHidden:NO];
+    self.customAlert.viewLabel.text = msg ;
+    self.customAlert.tag = tag;
+    
+}
 #pragma mark - Connection setup
 
 -(void)getUser {
@@ -132,16 +154,29 @@
     NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"sendFeedback"]) {
-//        NSLog(@"%@",responseDict);
         NSInteger success = [responseDict[@"success"]integerValue];
-//        NSLog(@"%ld",(long)success);
-        if (success == 0) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال الرساله بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
 
+        if (success == 0) {
+//            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"شكراً" message:@"تم إرسال الرساله بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+//            [alertView show];
+
+//            [self showAlertWithMsg:@"تم إرسال الرساله بنجاح" alertTag:1];
+            self.customAlert.viewLabel.text = @"تم إرسال الرساله بنجاح" ;
+            self.customAlert.tag = 1;
+            [self.customAlert.closeButton setHidden:NO];
+            [self.btnSendFeedback setEnabled:YES];
+            [self.sendingFeedBack stopAnimating];
+        }else{
+
+//            [self showAlertWithMsg:@"عفواً حاول مرة أخري" alertTag:0];
+            self.customAlert.viewLabel.text = @"عفواً حاول مرة اخري" ;
+            self.customAlert.tag = 0;
+            [self.customAlert.closeButton setHidden:NO];
+            [self.btnSendFeedback setEnabled:YES];
+            [self.sendingFeedBack stopAnimating];
         }
     } else if ([key isEqualToString:@"getUser"]) {
-//        NSLog(@"%@",responseDict);
+
         if ([responseDict[@"name"] isEqualToString:[self.userDefaults objectForKey:@"userName"]]) {
             //
         }else{
@@ -156,6 +191,11 @@
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
+    [self.sendingFeedBack stopAnimating];
+    self.customAlert.viewLabel.text = @"عفواً حاول مرة أخري" ;
+    [self.customAlert.closeButton setHidden:NO];
+    [self.btnSendFeedback setEnabled:YES];
+    
     NSError *error = [request error];
 //    NSLog(@"%@",error);
 }
@@ -180,7 +220,19 @@
                                                                                          @"Message":self.msgField.text
                                                                                          }]};
         NSMutableDictionary *sendFeedbackTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendFeedback",@"key", nil];
+        
+        
+        self.customAlert.viewLabel.text = @"من فضلك إنتظر حتي يتم إنشاء الدعوة" ;
+        [self.customAlertView setHidden:NO];
+        [self.customAlert.closeButton setHidden:YES];
         [self.btnSendFeedback setEnabled:NO];
+        
+        self.sendingFeedBack= [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        self.sendingFeedBack.hidesWhenStopped = YES;
+        self.sendingFeedBack.center = CGPointMake(self.customAlertView.frame.size.width/2, self.customAlert.frame.origin.y - 40);
+        [self.customAlertView addSubview:self.sendingFeedBack];
+        [self.sendingFeedBack startAnimating];
+        
         [self postRequest:sendFeedback withTag:sendFeedbackTag];
 
     }else{

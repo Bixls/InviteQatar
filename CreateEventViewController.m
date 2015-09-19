@@ -318,7 +318,8 @@ static void *adminMsgContext = &adminMsgContext;
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        self.selectedImage = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
+//        self.selectedImage = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
+        self.selectedImage = [self resizeImageWithImage:image];
         self.flag = 1;
 
         
@@ -592,6 +593,16 @@ static void *adminMsgContext = &adminMsgContext;
  
     self.customAlert.viewLabel.text = msg ;
     self.customAlert.tag = tag;
+}
+
+-(UIImage *)resizeImageWithImage:(UIImage *)image {
+    
+    CGSize newSize = CGSizeMake(200.0f, 200.0f);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 #pragma mark - Navigation Controller Delegate 

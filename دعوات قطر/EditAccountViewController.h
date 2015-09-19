@@ -9,15 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "OfflinePicturesViewController.h"
 #import "chooseGroupViewController.h"
-@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate,chooseGroupViewControllerDelegate>
+#import "customAlertView.h"
+
+@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate,chooseGroupViewControllerDelegate,customAlertViewDelegate>
 
 @property (nonatomic,strong)NSString *userName;
 @property (nonatomic,strong)NSString *groupName;
 @property (nonatomic)NSInteger groupID;
 @property (nonatomic,strong)UIImage *userPic;
 
-
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *btnSave;
 
 - (IBAction)btnSelectedGroupPressed:(id)sender;
 

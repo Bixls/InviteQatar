@@ -7516,14 +7516,42 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="Nk4-Zc-mfl">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tR6-cV-peL">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gbj-Lq-7sa" customClass="customAlertView">
+                                        <rect key="frame" x="45" y="219" width="230" height="110"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="110" id="XUs-Ms-7F2"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Gbj-Lq-7sa" firstAttribute="leading" secondItem="tR6-cV-peL" secondAttribute="leading" constant="45" id="V1h-gR-Fdm"/>
+                                    <constraint firstAttribute="centerY" secondItem="Gbj-Lq-7sa" secondAttribute="centerY" id="W3i-bP-8c4"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gbj-Lq-7sa" secondAttribute="trailing" constant="45" id="xKG-LP-YZa"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="jEC-MA-lIL" firstAttribute="leading" secondItem="AdV-UG-anJ" secondAttribute="leading" id="1Oc-4s-dbo"/>
+                            <constraint firstItem="tR6-cV-peL" firstAttribute="leading" secondItem="AdV-UG-anJ" secondAttribute="leadingMargin" constant="-16" id="1px-JR-dIz"/>
                             <constraint firstItem="ADE-Ie-X9N" firstAttribute="leading" secondItem="AdV-UG-anJ" secondAttribute="leading" id="60j-Yu-XjH"/>
                             <constraint firstItem="jEC-MA-lIL" firstAttribute="bottom" secondItem="Nk4-Zc-mfl" secondAttribute="bottom" id="EJq-W7-Z42"/>
                             <constraint firstItem="jEC-MA-lIL" firstAttribute="top" secondItem="Nk4-Zc-mfl" secondAttribute="top" id="EjP-Ym-v9u"/>
+                            <constraint firstItem="c5n-kE-Nft" firstAttribute="top" secondItem="tR6-cV-peL" secondAttribute="bottom" id="FxI-HA-GzV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tR6-cV-peL" secondAttribute="trailing" constant="-16" id="PLN-ny-0f1"/>
                             <constraint firstAttribute="trailing" secondItem="ADE-Ie-X9N" secondAttribute="trailing" id="TwP-Aj-FYI"/>
+                            <constraint firstItem="tR6-cV-peL" firstAttribute="top" secondItem="Dj5-RR-C82" secondAttribute="bottom" id="WgE-aN-mxO"/>
                             <constraint firstItem="c5n-kE-Nft" firstAttribute="top" secondItem="ADE-Ie-X9N" secondAttribute="bottom" id="aNj-Oy-aEe"/>
                             <constraint firstItem="jEC-MA-lIL" firstAttribute="top" secondItem="AdV-UG-anJ" secondAttribute="top" constant="20" id="c3f-JJ-Xiz"/>
                             <constraint firstItem="jEC-MA-lIL" firstAttribute="leading" secondItem="Nk4-Zc-mfl" secondAttribute="leading" id="gXg-2s-P8D"/>
@@ -7536,6 +7564,9 @@
                     <navigationItem key="navigationItem" id="kV9-k2-bTf"/>
                     <connections>
                         <outlet property="btnChooseImage" destination="R5w-i7-ECJ" id="aQP-JF-Aqx"/>
+                        <outlet property="btnSave" destination="o1k-f5-84k" id="lqr-Tn-JLe"/>
+                        <outlet property="customAlert" destination="Gbj-Lq-7sa" id="gnR-5f-Grq"/>
+                        <outlet property="customAlertView" destination="tR6-cV-peL" id="yRm-GR-XH5"/>
                         <outlet property="editNameField" destination="Lbb-g0-8Ce" id="jiG-k5-uK3"/>
                         <outlet property="profilePic" destination="Mcx-Fc-Rh4" id="G6s-ia-vUs"/>
                         <outlet property="tableView" destination="yVI-s6-bB3" id="onV-aK-i6E"/>
@@ -8334,9 +8365,15 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="110" id="gdB-RS-GE1"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="centerY" secondItem="I1a-qf-aTb" secondAttribute="centerY" id="17B-rY-Ru3"/>
                                             <constraint firstAttribute="trailing" secondItem="I1a-qf-aTb" secondAttribute="trailing" constant="45" id="Sc4-qC-n6D"/>
@@ -8375,6 +8412,8 @@
                     <connections>
                         <outlet property="btnChooseType" destination="Srh-yS-UOB" id="SU9-JH-pKK"/>
                         <outlet property="btnSendFeedback" destination="Gq5-Wk-Irp" id="exD-Vx-PDD"/>
+                        <outlet property="customAlert" destination="I1a-qf-aTb" id="q7d-DZ-Xb2"/>
+                        <outlet property="customAlertView" destination="wS9-VE-9Bx" id="Nd5-t3-DlC"/>
                         <outlet property="msgField" destination="iGf-be-L03" id="A8m-Be-TZ5"/>
                         <outlet property="nameField" destination="VI3-1x-VGC" id="XVX-R4-2kJ"/>
                         <outlet property="viewHeight" destination="pKp-Ox-nqJ" id="Guz-V6-Uqu"/>
@@ -8451,15 +8490,15 @@
         <segue reference="Ff3-m5-J1l"/>
         <segue reference="FzJ-6b-ZNA"/>
         <segue reference="ehv-QV-wmo"/>
-        <segue reference="Eoi-6P-6lF"/>
+        <segue reference="zCe-j8-46Z"/>
+        <segue reference="GMF-2B-wF9"/>
+        <segue reference="kMD-e6-iDp"/>
+        <segue reference="IoJ-de-HAV"/>
+        <segue reference="Ms0-5r-99t"/>
+        <segue reference="Hwh-Bc-W0c"/>
+        <segue reference="7YD-cm-usr"/>
+        <segue reference="De6-P3-Poq"/>
         <segue reference="xKg-Ee-w2s"/>
         <segue reference="Ked-a5-FQW"/>
-        <segue reference="eUh-Aj-ld9"/>
-        <segue reference="Ms0-5r-99t"/>
-        <segue reference="IoJ-de-HAV"/>
-        <segue reference="kMD-e6-iDp"/>
-        <segue reference="Hwh-Bc-W0c"/>
-        <segue reference="lRH-x1-LZj"/>
-        <segue reference="GMF-2B-wF9"/>
     </inferredMetricsTieBreakers>
 </document>

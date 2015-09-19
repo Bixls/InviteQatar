@@ -248,8 +248,8 @@
 		1859E8C11B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		1859E8C21B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		185E69D01BA54DF20026194A /* customAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = customAlertView.xib; sourceTree = "<group>"; };
-		185E69D21BA54F6F0026194A /* customAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customAlertView.h; sourceTree = "<group>"; };
-		185E69D31BA54F6F0026194A /* customAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customAlertView.m; sourceTree = "<group>"; };
+		185E69D21BA54F6F0026194A /* customAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = customAlertView.h; path = ../customAlertView.h; sourceTree = "<group>"; };
+		185E69D31BA54F6F0026194A /* customAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = customAlertView.m; path = ../customAlertView.m; sourceTree = "<group>"; };
 		1873C2201B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsFooterCollectionReusableView.h; sourceTree = "<group>"; };
 		1873C2211B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsFooterCollectionReusableView.m; sourceTree = "<group>"; };
 		1873C2231B4DCB760026C905 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsViewController.h; path = ../NewsViewController.h; sourceTree = "<group>"; };
@@ -376,6 +376,8 @@
 		183956F91B4515A900B47FC2 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				185E69D21BA54F6F0026194A /* customAlertView.h */,
+				185E69D31BA54F6F0026194A /* customAlertView.m */,
 				184B65531B3F84A700B1483C /* WelcomePageViewController.h */,
 				184B65541B3F84A700B1483C /* WelcomePageViewController.m */,
 				184B65561B3F944D00B1483C /* SignUpViewController.h */,
@@ -398,8 +400,6 @@
 			isa = PBXGroup;
 			children = (
 				185E69D01BA54DF20026194A /* customAlertView.xib */,
-				185E69D21BA54F6F0026194A /* customAlertView.h */,
-				185E69D31BA54F6F0026194A /* customAlertView.m */,
 				188AE95C1BAB4B3800DAE5D6 /* adSpace.xib */,
 				188AE9631BAB5CFC00DAE5D6 /* customEventCollectionViewCell.h */,
 				188AE9641BAB5CFC00DAE5D6 /* customEventCollectionViewCell.m */,

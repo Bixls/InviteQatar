@@ -217,7 +217,8 @@ static void *uploadImageContext = &uploadImageContext;
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(150 , 150)];
+//        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(150 , 150)];
+        self.profilePicture.image = [self resizeImageWithImage:image];
         //
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
         
@@ -229,6 +230,16 @@ static void *uploadImageContext = &uploadImageContext;
     }
     
     
+}
+
+-(UIImage *)resizeImageWithImage:(UIImage *)image {
+    
+    CGSize newSize = CGSizeMake(200.0f, 200.0f);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
