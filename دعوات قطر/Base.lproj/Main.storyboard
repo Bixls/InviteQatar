@@ -192,6 +192,7 @@
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
             <string>JFFlat-Regular</string>
+            <string>JFFlat-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -1405,7 +1406,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kFU-nz-clO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1677" y="1755"/>
+            <point key="canvasLocation" x="-600" y="4267"/>
         </scene>
         <!--Confirmation View Controller-->
         <scene sceneID="Ecl-i2-uIt">
@@ -2901,10 +2902,10 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sqd-II-eGt">
-                                                                    <rect key="frame" x="9" y="16" width="220" height="31.5"/>
+                                                                    <rect key="frame" x="120" y="16" width="109" height="31.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="31.5" id="dLB-Fz-F2H"/>
-                                                                        <constraint firstAttribute="width" constant="220" id="eeP-6h-0Vb"/>
+                                                                        <constraint firstAttribute="width" constant="109" id="eeP-6h-0Vb"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="11"/>
                                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -2934,19 +2935,45 @@
                                                                         <constraint firstAttribute="height" constant="15" id="htV-lt-vWd"/>
                                                                     </constraints>
                                                                 </imageView>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="golden_button.png" translatesAutoresizingMaskIntoConstraints="NO" id="bsp-s0-wXR">
+                                                                    <rect key="frame" x="8" y="20" width="111" height="24"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="111" id="2xQ-83-rQh"/>
+                                                                        <constraint firstAttribute="height" constant="24" id="kem-tX-CJ5"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3I0-3p-naA">
+                                                                    <rect key="frame" x="14" y="19" width="98" height="27"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="98" id="XXF-Fc-Jty"/>
+                                                                        <constraint firstAttribute="height" constant="27" id="rf3-8O-od5"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="14"/>
+                                                                    <state key="normal" title="ذكرني">
+                                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </state>
+                                                                    <connections>
+                                                                        <action selector="btnRemindMePressed:" destination="P6g-3X-e3y" eventType="touchUpInside" id="9Q8-jX-L5p"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstItem="Sqd-II-eGt" firstAttribute="top" secondItem="803-a0-96c" secondAttribute="topMargin" constant="8" id="014-jm-rnE"/>
-                                                                <constraint firstItem="Sqd-II-eGt" firstAttribute="leading" secondItem="803-a0-96c" secondAttribute="leadingMargin" constant="1" id="AKA-UL-huA"/>
+                                                                <constraint firstItem="bsp-s0-wXR" firstAttribute="top" secondItem="803-a0-96c" secondAttribute="topMargin" constant="12" id="6fl-t4-gBo"/>
+                                                                <constraint firstItem="Sqd-II-eGt" firstAttribute="leading" secondItem="803-a0-96c" secondAttribute="leadingMargin" constant="112" id="AKA-UL-huA"/>
                                                                 <constraint firstItem="c8Y-m3-dRO" firstAttribute="leading" secondItem="Sqd-II-eGt" secondAttribute="trailing" constant="14" id="CGg-gf-tAl"/>
                                                                 <constraint firstItem="Lu5-uA-VFV" firstAttribute="top" secondItem="803-a0-96c" secondAttribute="topMargin" constant="-3" id="GFd-wt-PqC"/>
                                                                 <constraint firstItem="c8Y-m3-dRO" firstAttribute="leading" secondItem="Lu5-uA-VFV" secondAttribute="trailing" constant="14" id="Ie2-zJ-Gya"/>
                                                                 <constraint firstItem="8cx-hi-lbA" firstAttribute="top" secondItem="803-a0-96c" secondAttribute="topMargin" constant="8" id="SRe-fc-QTV"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="8cx-hi-lbA" secondAttribute="trailing" constant="3" id="TYP-Nm-IMJ"/>
+                                                                <constraint firstItem="3I0-3p-naA" firstAttribute="leading" secondItem="803-a0-96c" secondAttribute="leadingMargin" constant="6" id="VLn-d5-xFm"/>
                                                                 <constraint firstItem="eQ5-yO-E7o" firstAttribute="top" secondItem="803-a0-96c" secondAttribute="topMargin" constant="-29" id="VdC-AY-uO0"/>
                                                                 <constraint firstItem="c8Y-m3-dRO" firstAttribute="top" secondItem="803-a0-96c" secondAttribute="topMargin" constant="8" id="cJD-Tg-9JL"/>
+                                                                <constraint firstItem="3I0-3p-naA" firstAttribute="top" secondItem="803-a0-96c" secondAttribute="topMargin" constant="11" id="fbR-my-K2s"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="eQ5-yO-E7o" secondAttribute="trailing" constant="-18" id="hHV-Dg-Oja"/>
+                                                                <constraint firstItem="bsp-s0-wXR" firstAttribute="leading" secondItem="803-a0-96c" secondAttribute="leadingMargin" id="hm4-2c-btf"/>
                                                                 <constraint firstItem="c8Y-m3-dRO" firstAttribute="trailing" secondItem="803-a0-96c" secondAttribute="trailingMargin" id="kVw-F8-tCp"/>
                                                                 <constraint firstItem="Lu5-uA-VFV" firstAttribute="leading" secondItem="803-a0-96c" secondAttribute="leadingMargin" constant="1" id="lV2-Gj-kl7"/>
                                                                 <constraint firstItem="eQ5-yO-E7o" firstAttribute="leading" secondItem="803-a0-96c" secondAttribute="leadingMargin" constant="-18" id="sZ3-gX-LU2"/>
@@ -2954,6 +2981,8 @@
                                                         </tableViewCellContentView>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         <connections>
+                                                            <outlet property="btnRemindMe" destination="3I0-3p-naA" id="qw0-bt-1ZA"/>
+                                                            <outlet property="btnRemindMeFrame" destination="bsp-s0-wXR" id="f6Z-dO-8lK"/>
                                                             <outlet property="msgImage" destination="8cx-hi-lbA" id="BCN-i6-nSh"/>
                                                             <outlet property="msgSender" destination="Lu5-uA-VFV" id="CXp-om-bxO"/>
                                                             <outlet property="msgSubject" destination="Sqd-II-eGt" id="BTY-Wf-a15"/>
@@ -3046,8 +3075,8 @@
                                     <constraint firstItem="DLM-3T-mHs" firstAttribute="leading" secondItem="ynQ-QA-3k8" secondAttribute="leading" constant="1" id="ujA-9V-NSH"/>
                                 </constraints>
                             </scrollView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="ulv-1w-OC5">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="ulv-1w-OC5">
+                                <rect key="frame" x="0.0" y="325" width="320" height="548"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3069,11 +3098,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="vGW-Am-sUE"/>
                     <connections>
+                        <outlet property="innerView" destination="srk-wp-dSN" id="41A-yW-Mgs"/>
                         <outlet property="scrollView" destination="ynQ-QA-3k8" id="Hkw-Bw-syU"/>
                         <outlet property="tableVerticalLayoutConstraint" destination="X4j-n6-m0r" id="KcN-kl-VSS"/>
                         <outlet property="tableView" destination="n7m-r0-vpH" id="S6b-C3-x5Y"/>
                         <segue destination="Pnj-oQ-lDE" kind="push" identifier="openEvent" id="faW-co-acX"/>
                         <segue destination="Dd5-m7-xGN" kind="modal" identifier="selectGroup" id="8UZ-rJ-Viu"/>
+                        <segue destination="EeU-1z-E2H" kind="modal" identifier="chooseDate" id="fAB-BI-gYH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UtO-iI-bA6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -8490,13 +8521,13 @@
         <segue reference="Ff3-m5-J1l"/>
         <segue reference="FzJ-6b-ZNA"/>
         <segue reference="ehv-QV-wmo"/>
-        <segue reference="zCe-j8-46Z"/>
-        <segue reference="GMF-2B-wF9"/>
+        <segue reference="8UZ-rJ-Viu"/>
+        <segue reference="fAB-BI-gYH"/>
+        <segue reference="faW-co-acX"/>
         <segue reference="kMD-e6-iDp"/>
         <segue reference="IoJ-de-HAV"/>
         <segue reference="Ms0-5r-99t"/>
         <segue reference="Hwh-Bc-W0c"/>
-        <segue reference="7YD-cm-usr"/>
         <segue reference="De6-P3-Poq"/>
         <segue reference="xKg-Ee-w2s"/>
         <segue reference="Ked-a5-FQW"/>

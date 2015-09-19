@@ -29,7 +29,11 @@
 @property(nonatomic,strong)NSString *userName;
 @property(nonatomic,strong)NSString *messageSubject;
 @property (nonatomic)NSInteger toDeleteMsgID;
+@property (nonatomic,strong) NSString *selectedDate;
 
+@property (nonatomic,strong) NSString *messageDate;
+@property (nonatomic,strong) NSString *messageTime;
+@property (nonatomic,strong) UIActivityIndicatorView *messageSpinner;
 
 @end
 
@@ -52,7 +56,7 @@
     self.start = 0;
     self.limit = 10;
     [self.navigationItem setHidesBackButton:YES];
-    [self getMessages];
+   
 }
 -(void)viewDidAppear:(BOOL)animated{
     [self getMessages];
@@ -101,17 +105,27 @@
         cell.msgSubject.text = message[@"Subject"];
         NSInteger VIP = [message[@"VIP"]integerValue];
         NSInteger status = [message[@"Status"]integerValue];
+        cell.btnRemindMe.tag = indexPath.row;
+//        cell.btnRemindMe.tag = 
         if (status == 1 && VIP == 1 ) {
             cell.msgImage.image = [UIImage imageNamed:@"read.png"];
             cell.secondMsgImage.image = [UIImage imageNamed:@"vip2.png"];
+            [cell.btnRemindMe setHidden:NO];
+            [cell.btnRemindMeFrame setHidden:NO];
         }else if (status == 0 && VIP == 1){
             cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
             cell.secondMsgImage.image = [UIImage imageNamed:@"vip2.png"];
+            [cell.btnRemindMe setHidden:NO];
+            [cell.btnRemindMeFrame setHidden:NO];
         }
         else if (status == 1){
             cell.msgImage.image = [UIImage imageNamed:@"read.png"];
+            [cell.btnRemindMe setHidden:YES];
+            [cell.btnRemindMeFrame setHidden:YES];
         }else if (status==0){
             cell.msgImage.image = [UIImage imageNamed:@"unread.png"];
+            [cell.btnRemindMe setHidden:YES];
+            [cell.btnRemindMeFrame setHidden:YES];
         }
         
         self.tableVerticalLayoutConstraint.constant = self.tableView.contentSize.height;
@@ -181,34 +195,9 @@
    
     
     [self.tableView reloadData];
-    
-//    if (self.selectedMessageType == 0) {
-//        self.profilePicNumber = [selectedMessage[@"ProfilePic"]integerValue];
-//        self.messageSubject = selectedMessage[@"Subject"];
-//        self.userName = selectedMessage[@"name"];
-//        [self performSegueWithIdentifier:@"readMessage" sender:self];
-//    }else if (self.selectedMessageType==1){
-//        self.messageSubject = selectedMessage[@"Subject"];
-//        [self performSegueWithIdentifier:@"readMessage" sender:self];
-//    }else if (self.selectedMessageType==2 || self.selectedMessageType == 3){
-//        //
-//        
-//        
-//    }
-//
-//    
-//    if (indexPath.row == self.messages.count) {
-//        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    }else{
-//        
-//    }
-    
-   
 
     
 }
-
-
 
 
 #pragma mark - Segue
@@ -232,6 +221,10 @@
     }else if ([segue.identifier isEqualToString:@"selectGroup"]){
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.createMsgFlag = 1;
+    }else if ([segue.identifier isEqualToString:@"chooseDate"]){
+        ChooseDateViewController *chooseDateController = segue.destinationViewController;
+        chooseDateController.delegate = self;
+//        chooseGroupController.createMsgFlag = 1;
     }
 }
 
@@ -250,6 +243,12 @@
     
     [self postRequest:deleteMessage withTag:deleteMessageTag];
     
+    self.messageSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.messageSpinner.hidesWhenStopped = YES;
+    self.messageSpinner.center = self.innerView.center;
+    [self.innerView addSubview:self.messageSpinner];
+    [self.messageSpinner startAnimating];
+    
 }
 
 -(void)getMessages {
@@ -260,6 +259,11 @@
 //    NSLog(@"%@",getMessages);
     NSMutableDictionary *getMessagesTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getMessages",@"key", nil];
     [self postRequest:getMessages withTag:getMessagesTag];
+    self.messageSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.messageSpinner.hidesWhenStopped = YES;
+    self.messageSpinner.center = self.innerView.center;
+    [self.self.innerView addSubview:self.messageSpinner];
+    [self.messageSpinner startAnimating];
     
 }
 
@@ -300,12 +304,18 @@
     if ([key isEqualToString:@"getMessages"]) {
         
         [self.messages addObjectsFromArray:array];
-        NSLog(@"%@",self.messages);
+
         self.start = self.messages.count;
         [self.scrollView.infiniteScrollingView stopAnimating];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageSpinner stopAnimating];
+        });
+        
+        
         [self.tableView reloadData];
         
     }else if ([key isEqualToString:@"deleteMessage"]){
+        [self.messageSpinner stopAnimating];
 //        NSLog(@"%@",array);
     }
 
@@ -315,7 +325,62 @@
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
+    [self.messageSpinner stopAnimating];
 //    NSLog(@"%@",error);
+}
+
+-(void)selectedDate:(NSString *)date{
+    self.selectedDate = date;
+    //    NSLog(@"%@",self.selectedDate);
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *dateFromString = [formatter dateFromString:self.selectedDate];
+    //    NSLog(@"%@",dateFromString);
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    UILocalNotification *notifyAlarm = [[UILocalNotification alloc]init];
+    if (notifyAlarm) {
+        notifyAlarm.fireDate = dateFromString;
+        notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
+        notifyAlarm.repeatInterval = 0;
+        notifyAlarm.soundName = UILocalNotificationDefaultSoundName;
+        
+
+        notifyAlarm.alertBody = [NSString stringWithFormat:@"لا تنسي %@ بتاريخ %@ الساعة %@",self.messageSubject,self.messageDate,self.messageTime];
+        //        NSLog(@"%@",notifyAlarm.alertBody);
+        [app scheduleLocalNotification:notifyAlarm];
+    }
+
+}
+
+-(void)GenerateArabicDateWithDate:(NSString *)englishDate{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+    [formatter setLocale:qatarLocale];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *dateString = [formatter dateFromString:englishDate];
+    NSString *arabicDate = [formatter stringFromDate:dateString];
+    NSString *date = [arabicDate substringToIndex:10];
+    NSString *tempTime = [arabicDate substringFromIndex:11];
+    NSString *time = [tempTime substringToIndex:5];
+    self.messageTime = time;
+    
+    self.messageDate = [date stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+    
+}
+
+- (IBAction)btnRemindMePressed:(id)sender {
+    if ([sender isMemberOfClass:[UIButton class]])
+    {
+        UIButton *btn = (UIButton *)sender;
+        self.selectedMessage = self.messages[btn.tag];
+        self.messageSubject = self.selectedMessage[@"Subject"];
+        [self GenerateArabicDateWithDate:self.selectedMessage[@"TimeEnded"]];
+        
+        [self performSegueWithIdentifier:@"chooseDate" sender:self];
+    }
+   
 }
 
 - (IBAction)btnHome:(id)sender {

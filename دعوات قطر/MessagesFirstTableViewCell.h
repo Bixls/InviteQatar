@@ -17,5 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *msgImage;
 @property (weak, nonatomic) IBOutlet UIImageView *secondMsgImage;
+@property (weak, nonatomic) IBOutlet UIButton *btnRemindMe;
+@property (weak, nonatomic) IBOutlet UIImageView *btnRemindMeFrame;
 
 @end

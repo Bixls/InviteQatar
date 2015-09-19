@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChooseDateViewController.h"
 
-@interface MessagesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface MessagesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate ,chooseDateViewControllerDelegate >
  
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *innerView;
 
 - (IBAction)newMsgBtnPressed:(id)sender;
 
