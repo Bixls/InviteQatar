@@ -20,7 +20,7 @@
 @interface EventViewController ()
 
 @property (nonatomic)NSInteger userID;
-
+@property (nonatomic)NSInteger eventImageID;
 @property (nonatomic)NSInteger eventType;
 @property (nonatomic)NSInteger VIPFlag;
 @property (nonatomic)UIImage *eventImage;
@@ -40,7 +40,7 @@
 @property (nonatomic,strong) NSString *selectedDate;
 
 @property (nonatomic,strong) UIActivityIndicatorView *descriptionSpinner;
-
+@property (nonatomic,strong) UIActivityIndicatorView *eventPicSPinner;
 @end
 
 @implementation EventViewController
@@ -92,6 +92,8 @@
     self.approvedFlag = -1;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
+    self.eventImageID = [self.event[@"EventPic"]integerValue]
+    ;
     
     if ((self.selectedType==2 || self.selectedType == 3)) {
         //donothing
@@ -121,14 +123,19 @@
 
 
 -(void)viewDidAppear:(BOOL)animated{
+    [self.userDefaults removeObjectForKey:@"invitees"];
+    [self.userDefaults synchronize];
+
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
         [self getInvited];
+       
         if (self.selectedType == 2 || self.selectedType == 3) {
             [self readMessage];
         }else{
             [self getEvent];
+            
             self.descriptionSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             self.descriptionSpinner.hidesWhenStopped = YES;
             self.descriptionSpinner.center = self.descriptionLabel.center;
@@ -178,23 +185,23 @@
 
 
 -(void)downloadEventPicture {
-    UIActivityIndicatorView *eventPicSPinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"EventPic"]];
+    self.eventPicSPinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)self.eventImageID];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
                                      progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                                          
-                                         eventPicSPinner.center = self.eventPicture.center;
-                                         eventPicSPinner.hidesWhenStopped = YES;
-                                         [self.innerView addSubview:eventPicSPinner];
-                                         [eventPicSPinner startAnimating];
+                                         self.eventPicSPinner.center = self.eventPicture.center;
+                                         self.eventPicSPinner.hidesWhenStopped = YES;
+                                         [self.innerView addSubview:self.eventPicSPinner];
+                                         [self.eventPicSPinner startAnimating];
                                          
                                      }
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                         if (image) {
                                             self.eventPicture.image = image;
-                                            [eventPicSPinner stopAnimating];
+                                            [self.eventPicSPinner stopAnimating];
                                         }
                                     }];
 }
@@ -354,6 +361,8 @@
 }
 #pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    [self.descriptionSpinner stopAnimating];
+    [self.eventPicSPinner stopAnimating];
     if ([segue.identifier isEqualToString:@"showComments"]) {
         CommentsViewController *commentController = segue.destinationViewController;
         commentController.postID = self.eventID;
@@ -418,6 +427,9 @@
         notifyAlarm.fireDate = dateFromString;
         notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
         notifyAlarm.repeatInterval = 0;
+        notifyAlarm.soundName = UILocalNotificationDefaultSoundName;
+
+        NSLog(@"%@",self.event);
         notifyAlarm.alertBody = [NSString stringWithFormat:@"لا تنسي %@ بتاريخ %@ الساعة %@",self.event[@"subject"],self.eventDate.text,self.eventTime.text ];
 //        NSLog(@"%@",notifyAlarm.alertBody);
         [app scheduleLocalNotification:notifyAlarm];
@@ -595,6 +607,7 @@
 //            NSDictionary *dict = arr[0];
 //            NSLog(@"Full event %@",dict);
             self.fullEvent = dict;
+//            self.event = dict;
             self.VIPFlag = [dict[@"VIP"]integerValue];
             self.allowComments = [dict[@"comments"]integerValue];
             self.eventDescription = dict[@"description"];
@@ -603,6 +616,7 @@
             self.creatorFlag = 1;
             self.approved = [dict[@"approved"]integerValue];
             self.approvedFlag = 1;
+            self.eventImageID = [dict[@"picture"]integerValue];
             [self getUSer];
             [self updateUI];
             

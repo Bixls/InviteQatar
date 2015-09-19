@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *myView;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *groupsCollectionView;
+@property (weak, nonatomic) IBOutlet UILabel *VIPPointsNumber;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnInvitationsBuySmall;
 @property (weak, nonatomic) IBOutlet UIButton *btnInvitationsBuy;
@@ -31,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnUnReadMsgs;
 @property (weak, nonatomic) IBOutlet UICollectionView *eventCollectionView;
 @property (weak, nonatomic) IBOutlet UIButton *btnInvitationNum;
-@property (weak, nonatomic) IBOutlet UIButton *btnVIPNum;
+
 @property (weak, nonatomic) IBOutlet UILabel *myProfileLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblLatestEvents;

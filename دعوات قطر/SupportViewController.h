@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface SupportViewController : UIViewController <UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
@@ -22,5 +23,6 @@
 - (IBAction)btnChooseTypePressed:(id)sender;
 
 - (IBAction)btnSendPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *btnSendFeedback;
 
 @end

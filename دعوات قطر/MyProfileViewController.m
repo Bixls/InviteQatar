@@ -57,9 +57,6 @@ static void *userContext = &userContext;
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
     
-    [self.userDefaults setObject:nil forKey:@"invitees"];
-    [self.userDefaults synchronize];
-//    NSLog(@"%@",[self.userDefaults objectForKey:@"userName"]);
     if ([self.userDefaults objectForKey:@"userName"]) {
         self.myName.text = [self.userDefaults objectForKey:@"userName"];
     }

@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ML7-Q9-3k1">
-                    <rect key="frame" x="8" y="80" width="214" height="29"/>
+                    <rect key="frame" x="8" y="83" width="214" height="29"/>
                     <fontDescription key="fontDescription" name="JFFlat-Regular" family="JF Flat" pointSize="16"/>
                     <state key="normal" title="إغلاق">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -34,7 +34,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cm8-tW-8BR">
-                    <rect key="frame" x="8" y="8" width="214" height="64"/>
+                    <rect key="frame" x="8" y="23" width="214" height="64"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="dcg-Fb-mHy"/>
                         <constraint firstAttribute="width" constant="214" id="jw5-4y-Cq7"/>
@@ -51,14 +51,14 @@
             </subviews>
             <color key="backgroundColor" red="0.80000000000000004" green="0.80392156862745101" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="Cm8-tW-8BR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="59R-TD-j9D"/>
+                <constraint firstItem="Cm8-tW-8BR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="23" id="59R-TD-j9D"/>
                 <constraint firstItem="Cm8-tW-8BR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="6nn-9X-3ag"/>
                 <constraint firstAttribute="trailing" secondItem="Cm8-tW-8BR" secondAttribute="trailing" constant="8" id="8lg-hR-mIy"/>
                 <constraint firstItem="Cm8-tW-8BR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="9Hp-g9-MUH"/>
                 <constraint firstAttribute="trailing" secondItem="Cm8-tW-8BR" secondAttribute="trailing" constant="8" id="OCs-b7-8TM"/>
                 <constraint firstAttribute="centerX" secondItem="ML7-Q9-3k1" secondAttribute="centerX" id="RR2-Tw-vcv"/>
                 <constraint firstAttribute="trailing" secondItem="ML7-Q9-3k1" secondAttribute="trailing" constant="8" id="T74-ZP-zqk"/>
-                <constraint firstItem="ML7-Q9-3k1" firstAttribute="top" secondItem="Cm8-tW-8BR" secondAttribute="bottom" constant="8" id="f80-t1-cQ0"/>
+                <constraint firstItem="ML7-Q9-3k1" firstAttribute="top" secondItem="Cm8-tW-8BR" secondAttribute="bottom" constant="-4" id="f80-t1-cQ0"/>
                 <constraint firstItem="ML7-Q9-3k1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="rvY-7m-z41"/>
                 <constraint firstAttribute="centerX" secondItem="Cm8-tW-8BR" secondAttribute="centerX" id="vJf-4h-vsB"/>
             </constraints>
@@ -69,9 +69,17 @@
                 <mask key="constraints">
                     <exclude reference="9Hp-g9-MUH"/>
                     <exclude reference="OCs-b7-8TM"/>
+                    <exclude reference="vJf-4h-vsB"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="239" y="92"/>
+        </view>
+        <view contentMode="scaleToFill" id="CFB-iP-aXL">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="248" y="530"/>
         </view>
     </objects>
 </document>

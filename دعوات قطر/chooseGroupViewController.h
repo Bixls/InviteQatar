@@ -19,6 +19,7 @@
 
 @property(nonatomic)BOOL editingMode;
 @property(nonatomic,strong)NSArray *invitees;
+@property(nonatomic,strong)NSArray *previousInvitees;
 @property(nonatomic)NSInteger createMsgFlag;
 @property(nonatomic)NSInteger eventID;
 @property(nonatomic)NSInteger VIPFlag;

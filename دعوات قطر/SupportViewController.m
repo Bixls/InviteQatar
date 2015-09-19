@@ -180,10 +180,12 @@
                                                                                          @"Message":self.msgField.text
                                                                                          }]};
         NSMutableDictionary *sendFeedbackTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendFeedback",@"key", nil];
+        [self.btnSendFeedback setEnabled:NO];
         [self postRequest:sendFeedback withTag:sendFeedbackTag];
 
     }else{
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من استكمال جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+        [self.btnSendFeedback setEnabled:YES];
         [alertView show];
     }
     

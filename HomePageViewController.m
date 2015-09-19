@@ -64,6 +64,7 @@
 @property (nonatomic) BOOL offline;
 @property (nonatomic) BOOL loadCache;
 @property (nonatomic,strong) ASINetworkQueue *queue;
+@property (nonatomic,strong) NSTimer *timer;
 
 @end
 
@@ -88,6 +89,7 @@
     self.myView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
     UIViewAutoresizingFlexibleRightMargin;
     
+
     
     self.navigationController.navigationBar.hidden = YES;
     
@@ -131,12 +133,15 @@
 
 
 -(void)viewDidAppear:(BOOL)animated {
+    [self.userDefaults removeObjectForKey:@"invitees"];
+    [self.userDefaults synchronize];
     
     if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
         [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
         self.segueFlag = 0;
         [self.myProfileLabel setText:@"حسابي"];
     }
+    
     
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
         //Not functional any more
@@ -242,11 +247,20 @@
                                                                              @"start":@"0",@"limit":@"4"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
     
-    NSDictionary *getUnReadInbox = @{@"FunctionName":@"unReadInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",self.userID],
+    NSDictionary *getUnReadInbox = @{@"FunctionName":@"unReadInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                                                     //                                                                             @"catID":@"-1",
                                                                                     //                                                                             @"start":@"0",@"limit":@"3"
                                                                                     }]};
     NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
+    
+    NSDictionary *getInvNum = @{
+                                    @"FunctionName":@"signIn" ,
+                                    @"inputs":@[@{@"Mobile":self.userMobile,
+                                                  @"password":self.userPassword}]};
+        
+        NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+    
+
     
 //    NSArray *mutableGroups = [self.userDefaults objectForKey:@"mutableGroups"];
 //    if (mutableGroups != nil) {
@@ -266,6 +280,8 @@
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
         [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+         [self postRequest:getInvNum withTag:getInvNumTag];
+        
     }
     else {
         self.offline = true;
@@ -950,9 +966,17 @@
         [self.btnUnReadMsgs setHidden:NO];
         [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
         self.pullToRefreshFlag ++;
+    }else if ([key isEqualToString:@"invNum"]){
+        NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
+        self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
+        [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
+        [self.userDefaults synchronize];
+        
+       // UPDATE CONTROLS
     }
     
-
+//invNum
 
 }
 

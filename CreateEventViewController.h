@@ -17,6 +17,7 @@
 @property (nonatomic) NSInteger eventID;
 @property (nonatomic,strong) NSDictionary *event;
 @property (nonatomic) NSInteger editMode;
+@property (weak, nonatomic) IBOutlet UIView *innerView;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *imagePicker;

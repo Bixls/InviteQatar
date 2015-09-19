@@ -19,6 +19,7 @@
 @property(nonatomic,strong)NSArray *invitees;
 @property(nonatomic)BOOL inviteOthers;
 @property(nonatomic)BOOL editingMode;
+@property(nonatomic,strong)NSArray *previousInvitees;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnMarkAll;

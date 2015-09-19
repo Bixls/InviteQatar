@@ -92,6 +92,9 @@
             if (self.invitees.count > 0) {
                 inviteController.invitees = self.invitees;
             }
+            if (self.editingMode == YES && self.previousInvitees.count > 0) {
+                inviteController.previousInvitees = self.previousInvitees;
+            }
         }else if (self.createMsgFlag == 1 ){
             InviteViewController *inviteController = segue.destinationViewController;
             inviteController.createMsgFlag = self.createMsgFlag;

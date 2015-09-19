@@ -23,7 +23,7 @@ static void *adminMsgContext = &adminMsgContext;
 @property (nonatomic) int vipFlag;
 @property (nonatomic) BOOL allowEditing;
 @property (strong,nonatomic) ASIFormDataRequest *imageRequest;
-@property (strong,nonatomic) NSString *imageURL;
+@property (nonatomic) NSInteger imageURL;
 @property (strong , nonatomic) NSUserDefaults *userDefaults;
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) int flag;
@@ -50,7 +50,8 @@ static void *adminMsgContext = &adminMsgContext;
 @property (nonatomic) BOOL isEventCreated;
 @property (nonatomic) BOOL isUsersInvited;
 @property (strong, nonatomic) UIActivityIndicatorView *gettingInvitees;
-
+@property (strong, nonatomic) UIActivityIndicatorView *uploadingPicture;
+@property (strong, nonatomic) UIActivityIndicatorView *creatingEvent;
 @end
 
 @implementation CreateEventViewController
@@ -68,7 +69,6 @@ static void *adminMsgContext = &adminMsgContext;
     self.userID  = [self.userDefaults integerForKey:@"userID"];
     self.VIPPoints = [self.userDefaults integerForKey:@"VIPPoints"];
     self.invitees = [[NSMutableArray alloc]init];
-//    NSLog(@"%ld",(long)self.userID);
     self.commentsFlag = 0;
     self.vipFlag = -1;
     self.allowCreation = true;
@@ -81,11 +81,9 @@ static void *adminMsgContext = &adminMsgContext;
     
     self.inviteesLabel.text = [self arabicNumberFromEnglish:0];
     self.inviteesLabel.textColor = [UIColor redColor];
-//    [self.btnMarkNormal setTitle:self.normalUnchecked forState:UIControlStateNormal];
     [self.btnMarkComments setTitle:@"\u274F  السماح بالتعليقات" forState:UIControlStateNormal];
-//    [self.btnMarkVIP setTitle:@"\u274F VIP" forState:UIControlStateNormal];
     
-    self.imageURL = @"default";
+    //self.imageURL = @"default";
     if (self.event != nil && self.createOrEdit ==1) {
         self.vipFlag = [self.event[@"VIP"]integerValue];
 //        NSLog(@"%d",self.vipFlag);
@@ -94,7 +92,7 @@ static void *adminMsgContext = &adminMsgContext;
         self.textView.text = self.event[@"description"];
         self.selectedDate = self.event[@"TimeEnded"];
         self.commentsFlag = [self.event[@"comments"]integerValue];
-        self.imageURL = self.event[@"picture"];
+        self.imageURL = [self.event[@"picture"]integerValue];
         if (self.commentsFlag == 0) {
              [self.btnMarkComments setTitle:@"\u274F  السماح بالتعليقات" forState:UIControlStateNormal];
         }else{
@@ -109,8 +107,6 @@ static void *adminMsgContext = &adminMsgContext;
             self.VIPRadioButton.text = self.checked;
             self.normalRadioButton.text = self.unChecked;
         }
-        
-        
     }
     
     [self.customAlertView setHidden:YES];
@@ -144,12 +140,15 @@ static void *adminMsgContext = &adminMsgContext;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    
+    
     if (self.eventID && self.createOrEdit ==1 && self.stopGettingAttendees == NO) {
         [self getAttendees];
         self.stopGettingAttendees = YES;
     }
     [self.adminMgsConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:adminMsgContext];
     [self.adminMgsConnection getCreateEventAdminMsg];
+    
     if ([self.userDefaults objectForKey:@"invitees"] != nil) {
         NSDictionary *tempDict = [NSDictionary dictionaryWithDictionary:[self.userDefaults objectForKey:@"invitees"]];
         NSArray *tempArray = tempDict[@"data"];
@@ -222,11 +221,14 @@ static void *adminMsgContext = &adminMsgContext;
         chooseGroupController.VIPFlag = self.vipFlag;
         chooseGroupController.flag = 1;
         if (self.eventID) {
-            chooseGroupController.inviteOthers = YES;
+            //chooseGroupController.inviteOthers = YES;
             chooseGroupController.editingMode = YES;
         }
-        if (self.invitees.count > 0) {
+        if (self.invitees.count > 0 && self.createOrEdit == 0) {
             chooseGroupController.invitees = self.selectedUsers;
+        }else if (self.selectedUsers.count > 0 && self.createOrEdit == 1){
+            chooseGroupController.invitees = self.selectedUsers;
+            chooseGroupController.previousInvitees = self.previousInvitees;
         }
     }
 }
@@ -255,13 +257,6 @@ static void *adminMsgContext = &adminMsgContext;
 
 
 #pragma mark - TextField Delegate Methods
-
-
-
-
-//-(void)textFieldDidEndEditing:(UITextField *)textField{
-//    [textField resignFirstResponder];
-//}
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
@@ -324,12 +319,11 @@ static void *adminMsgContext = &adminMsgContext;
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         self.selectedImage = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
-        NSMutableDictionary *postPictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"postPicture",@"key", nil];
-        [self postPictureWithTag:postPictureTag];
         self.flag = 1;
+
+        
     }
    
-    
 }
 
 
@@ -402,6 +396,9 @@ static void *adminMsgContext = &adminMsgContext;
 //    [self.imageRequest setPostValue:@"6" forKey:@"id"];
     [self.imageRequest setPostValue:@"user" forKey:@"type"];
     [self.imageRequest addData:[NSData dataWithData:UIImageJPEGRepresentation(self.selectedImage, 0.9)] withFileName:@"img.jpg" andContentType:@"image/jpeg" forKey:@"fileToUpload"];
+    
+
+    
     [self.imageRequest startAsynchronous];
 }
 
@@ -414,54 +411,86 @@ static void *adminMsgContext = &adminMsgContext;
     NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     
     if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"postPicture"]) {
-//        NSLog(@"%@",responseDict);
-        self.imageURL = responseDict[@"id"];
-        self.uploaded = 1;
+        
+        self.imageURL = [responseDict[@"id"]integerValue];
+        if (self.imageURL) {
+            self.uploaded = 1;
+            if (self.createOrEdit == 0) {
+                [self createEventFN];
+            }else if (self.createOrEdit == 1){
+                [self editEventFN];
+                [self sendInvitations];
+            }
+            
+        }else if (self.createOrEdit == 1){
+            [self editEventFN];
+            [self sendInvitations];
+        }else{
+            [self showAlertWithMsg:@"عفواً لم يتم إنشاء الدعوه من فضلك حاول مرة اخري" alertTag:0];
+        }
+        
+        
     }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
-//         NSLog(@"%@",responseDict);
+
         if ([responseDict[@"sucess"]integerValue] == 1) {
             self.eventID = [responseDict[@"id"]integerValue];
             [self sendInvitations];
-            //Alertview Event Created
             self.isEventCreated = YES;
-            if (self.isEventCreated && self.isUsersInvited) {
-                [self showAlertWithMsg:@"تم إنشاء الدعوه بنجاح" alertTag:1];
-            }
+            
+
+            
         }else{
-            //Alertview failed to create event
-            if (self.isEventCreated && self.isUsersInvited) {
-                [self showAlertWithMsg:@"عفواً حاول مرة أخري" alertTag:0];
-            }
+            [self.btnSave setEnabled:YES];
+            [self.customAlert.closeButton setHidden:NO];
+ 
+            [self showAlertWithMsg:@"عفواً من فضلك حاول مرة أخري" alertTag:0];
+            self.isEventCreated = NO ;
+            self.isUsersInvited = NO;
+            
            
         }
     }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"editEvent"]){
+        
         if (responseDict) {
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تم تعديل المناسبه بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-            [alertView show];
+            self.isEventCreated = YES;
+            if (self.isEventCreated == YES && self.isUsersInvited == YES) {
+                [self showAlertWithMsg:@"تم تعديل المناسبه بنجاح" alertTag:0];
+                [self.navigationController popViewControllerAnimated:YES];
+                [self.btnSave setEnabled:YES];
+
+            }else{
+                [self sendInvitations];
+            }
+            
+        }else{
+            [self showAlertWithMsg:@"عفواً من فضلك حاول مرة أخري" alertTag:0];
+            self.isEventCreated = NO ;
+            self.isUsersInvited = NO;
+            [self.btnSave setEnabled:YES];
+            [self.customAlert.closeButton setHidden:NO];
         }
     }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"getAdminMsg"]){
-//        NSLog(@"%@",responseDict);
+
         self.lblAdmin.text = responseDict[@"value"];
+        
     }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"inviteUsers"]){
-//        NSLog(@"%@",responseDict);
+
         self.isUsersInvited = YES;
+        
         if (self.isEventCreated && self.isUsersInvited) {
-            if (self.isEventCreated && self.isUsersInvited) {
-                [self showAlertWithMsg:@"تم إنشاء الدعوه بنجاح" alertTag:1];
-            }
+            [self.creatingEvent stopAnimating];
+            [self showAlertWithMsg:@"تم إنشاء الدعوه بنجاح" alertTag:1];
+            [self.navigationController popViewControllerAnimated:YES];
+            [self.btnSave setEnabled:YES];
+
         }
 
     }else if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"getAttendees"]){
         self.previousInvitees = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSLog(@"%@",self.previousInvitees);
         [self.gettingInvitees stopAnimating];
     
         [self refreshInvitees];
     }
-    
-
-  
-    
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -469,8 +498,9 @@ static void *adminMsgContext = &adminMsgContext;
     NSError *error = [request error];
     if (error) {
        [self showAlertWithMsg:@"عفواً حاول مرة أخري" alertTag:0];
+        [self.btnSave setEnabled:YES];
+        [self.customAlert.closeButton setHidden:NO];
     }
-//    NSLog(@"%@",error);
 }
 
 -(void)customAlertCancelBtnPressed{
@@ -478,7 +508,7 @@ static void *adminMsgContext = &adminMsgContext;
     if (self.customAlert.tag == 1) {
         [self.userDefaults setObject:nil forKey:@"invitees"];
         [self.userDefaults synchronize];
-        [self.navigationController popoverPresentationController];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -505,7 +535,7 @@ static void *adminMsgContext = &adminMsgContext;
                                              @"eventType":self.selectedType,
                                              @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
                                              @"description":[NSString stringWithFormat:@"%@",self.textView.text],
-                                             @"picture":self.imageURL,
+                                             @"picture":[NSString stringWithFormat:@"%ld",(long)self.imageURL],
                                              @"TimeEnded":self.selectedDate,
                                                  //
                                              @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
@@ -514,6 +544,7 @@ static void *adminMsgContext = &adminMsgContext;
     NSMutableDictionary *createEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"createEvent",@"key", nil];
     self.btnPressed = 1;
     [self postRequest:postDict withTag:createEventTag];
+//    [self.btnSave setEnabled:NO];
 
 }
 
@@ -525,7 +556,7 @@ static void *adminMsgContext = &adminMsgContext;
                                              @"eventType":self.selectedType,
                                              @"subject":[NSString stringWithFormat:@"%@",self.textField.text],
                                              @"description":[NSString stringWithFormat:@"%@",self.textView.text],
-                                             @"picture":self.imageURL,
+                                             @"picture":[NSString stringWithFormat:@"%ld",(long)self.imageURL],
                                              @"TimeEnded":self.selectedDate,
                                              @"Comments":[NSString stringWithFormat:@"%d",self.commentsFlag] //checkmark
                                              }]};
@@ -536,11 +567,12 @@ static void *adminMsgContext = &adminMsgContext;
     
     [self postRequest:postDict withTag:editEventTag];
     
+    
 }
 
 -(void)sendInvitations {
     NSDictionary *inviteUsers = @{@"FunctionName":@"invite" ,
-                                  @"inputs":@[@{@"EventID":[NSString stringWithFormat:@"%ld",(long)self.eventID],
+                                   @"inputs":@[@{@"EventID":[NSString stringWithFormat:@"%ld",(long)self.eventID],
                                                 @"listArray":self.invitees,
                                                 }]};
     NSMutableDictionary *inviteUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"inviteUsers",@"key", nil];
@@ -557,6 +589,7 @@ static void *adminMsgContext = &adminMsgContext;
 -(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
     
     [self.customAlertView setHidden:NO];
+ 
     self.customAlert.viewLabel.text = msg ;
     self.customAlert.tag = tag;
 }
@@ -599,39 +632,62 @@ static void *adminMsgContext = &adminMsgContext;
 
 - (IBAction)btnSubmitPressed:(id)sender {
 
-        if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.uploaded == 1) && (self.selectedDate.length > 0) && self.createOrEdit == 0 && self.vipFlag != -1) {
-            if (self.flag == 1 && self.uploaded == 1 ) {
-                
+        if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.selectedDate.length > 0) && self.createOrEdit == 0 && self.vipFlag != -1) {
+            
+            
+            if (self.flag == 1) {
                 if (self.allowCreation == true) {
                     
-                    [self createEventFN];
+                    [self.customAlertView setHidden:NO];
+                    
+                    
+                    self.customAlert.viewLabel.text = @"من فضلك إنتظر حتي يتم إنشاء الدعوة" ;
+                    [self.customAlert.closeButton setHidden:YES];
+                    
+                    self.creatingEvent = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+                    self.creatingEvent.hidesWhenStopped = YES;
+                    self.creatingEvent.center = CGPointMake(self.customAlertView.frame.size.width/2, self.customAlert.frame.origin.y - 40);
+                    [self.customAlertView addSubview:self.creatingEvent];
+                    [self.creatingEvent startAnimating];
+                    
+                    [self.btnSave setEnabled:NO];
+                    NSMutableDictionary *postPictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"postPicture",@"key", nil];
+                    [self postPictureWithTag:postPictureTag];
+                    
                 }
                 
-            }else if (self.flag == 1){
-                [self showAlertWithMsg:@"من فضلك انتظر حتي يتم رفع الصورة" alertTag:0];
             }else {
-                
+                [self.btnSave setEnabled:YES];
+                [self.customAlert.closeButton setHidden:NO];
                 [self showAlertWithMsg:@"من فضلك تأكد من اختيار صورة للدعوه" alertTag:0];
                 
             }
             
         } else if (self.createOrEdit == 1) {
             
-            if (self.flag == 1 && self.uploaded == 1 ) {
+                [self.customAlertView setHidden:NO];
                 
+                self.customAlert.viewLabel.text = @"من فضلك إنتظر حتي يتم تعديل الدعوة" ;
+                [self.customAlert.closeButton setHidden:YES];
+                
+                self.creatingEvent = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+                self.creatingEvent.hidesWhenStopped = YES;
+                self.creatingEvent.center = CGPointMake(self.customAlertView.frame.size.width/2, self.customAlert.frame.origin.y - 40);
+                [self.customAlertView addSubview:self.creatingEvent];
+                [self.creatingEvent startAnimating];
+                
+                [self.btnSave setEnabled:NO];
+            if (self.flag == 1) {
+                NSMutableDictionary *postPictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"postPicture",@"key", nil];
+                [self postPictureWithTag:postPictureTag];
+            }else{
                 [self editEventFN];
-                
-            }else if (self.flag == 1){
-                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك انتظر حتي يتم رفع الصورة" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-                [alertView show];
-            }else {
-                [self editEventFN];
-                
             }
             
             
         }else{
-            
+            [self.btnSave setEnabled:YES];
+            [self.customAlert.closeButton setHidden:NO];
             [self showAlertWithMsg:@"من فضلك تأكد من تكمله جميع البيانات" alertTag:0];
         }
 
