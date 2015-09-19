@@ -718,7 +718,7 @@ static void *adminMsgContext = &adminMsgContext;
 
 - (IBAction)RadioButtonPressed:(UIButton *)sender {
     
-    if (self.invitees.count > 0) {
+    if (self.invitees.count > 0 && self.createOrEdit == 0) {
         if (sender.tag == 0) { // VIP Pressed
             if (self.vipFlag == 1) {
                 self.vipFlag = -1;
@@ -727,8 +727,7 @@ static void *adminMsgContext = &adminMsgContext;
                 self.VIPPoints += 1;
                 self.VIPPoints += self.invitees.count;
                 [self updateStoredVIPPointsNumber];
-//                NSLog(@"VIP Points %ld ",(long)self.VIPPoints);
-//                NSLog(@"VIP Points %lu ",(unsigned long)self.invitees.count);
+
             }else{
                 if (self.VIPPoints >= (self.invitees.count + 1)) {
                     self.VIPPoints -= 1;
@@ -737,13 +736,11 @@ static void *adminMsgContext = &adminMsgContext;
                     self.normalRadioButton.text = self.unChecked;
                     self.VIPPoints = self.VIPPoints - self.invitees.count;
                     [self updateStoredVIPPointsNumber];
-//                    NSLog(@"VIP Points %ld ",(long)self.VIPPoints);
-//                    NSLog(@"VIP Points %lu ",(unsigned long)self.invitees.count);
+
                 }else{
 //                    UIAlertView *alertview // Buy now
                     [self showAlertWithMsg:@"لا يوجد لديك دعوات VIP كافية" alertTag:0];
-//                    NSLog(@"VIP Points %ld ",(long)self.VIPPoints);
-//                    NSLog(@"VIP Points %lu ",(unsigned long)self.invitees.count);
+
                 }
             }
         }else if (sender.tag == 1){ // Normal Pressed
@@ -751,8 +748,6 @@ static void *adminMsgContext = &adminMsgContext;
                 self.vipFlag = -1;
                 self.VIPRadioButton.text = self.unChecked;
                 self.normalRadioButton.text = self.unChecked;
-//                NSLog(@"VIP Points %ld ",(long)self.VIPPoints);
-//                NSLog(@"VIP Points %lu ",(unsigned long)self.invitees.count);
                 
             }else if (self.vipFlag == 1){
                 self.vipFlag = 0;
@@ -772,7 +767,84 @@ static void *adminMsgContext = &adminMsgContext;
             
         }
     }else{
-        [self chooseTypeWithoutCheckingUsers:sender.tag];
+        if (sender.tag == 0) { // VIP Pressed
+            if (self.vipFlag == 1) {
+               // self.vipFlag = -1;
+                self.VIPRadioButton.text = self.checked;
+                self.normalRadioButton.text = self.unChecked;
+                //self.VIPPoints += 1;
+                //[self updateStoredVIPPointsNumber];
+            }else{
+                if (self.VIPPoints >= (self.invitees.count + self.previousInvitees.count + 1)) {
+                    self.VIPPoints -= 1;
+                    self.vipFlag = 1;
+                    self.VIPRadioButton.text = self.checked;
+                    self.normalRadioButton.text = self.unChecked;
+                    self.VIPPoints = self.VIPPoints - (self.invitees.count + self.previousInvitees.count) ;
+                    [self updateStoredVIPPointsNumber];
+                }else{
+                    //                    UIAlertView *alertview // Buy now
+                    [self showAlertWithMsg:@"لا يوجد لديك دعوات VIP كافية" alertTag:0];
+                    
+                }
+                
+                
+            }
+        }else if (sender.tag == 1 ){ // Normal Pressed
+            if (self.vipFlag == 0) {
+                self.vipFlag = -1;
+                self.VIPRadioButton.text = self.unChecked;
+                self.normalRadioButton.text = self.unChecked;
+                
+            }else if(self.vipFlag == 1){
+                //self.vipFlag = 0;
+                self.VIPRadioButton.text = self.checked;
+                self.normalRadioButton.text = self.unChecked;
+                //self.VIPPoints += 1;
+                //[self updateStoredVIPPointsNumber];
+            }else{
+                
+                self.vipFlag = 0;
+                self.VIPRadioButton.text = self.unChecked;
+                self.normalRadioButton.text = self.checked;
+            }
+            
+            //        NSLog(@"%ld",(long)self.VIPPoints);
+        }else if (sender.tag == 0 && self.createOrEdit == 1 && self.vipFlag == 1){
+            if (self.allowEditing == YES) {
+                self.vipFlag = -1;
+                self.VIPRadioButton.text = self.unChecked;
+                self.normalRadioButton.text = self.unChecked;
+                
+                
+            }else{
+                //do nothing
+            }
+        }else if (sender.tag == 0 && self.createOrEdit == 1 && self.vipFlag == 0){
+            self.allowEditing = YES;
+            self.vipFlag = 1;
+            self.VIPRadioButton.text = self.checked;
+            self.normalRadioButton.text = self.unChecked;
+            
+            
+        }else if (sender.tag == 1 && self.createOrEdit == 1 ){
+            
+            if (self.vipFlag == 0 && self.allowEditing == YES) {
+                self.vipFlag = -1;
+                self.VIPRadioButton.text = self.unChecked;
+                self.normalRadioButton.text = self.unChecked;
+                
+                
+            }else if (self.vipFlag == 1 && self.allowEditing == YES){
+                self.vipFlag = 0;
+                self.VIPRadioButton.text = self.unChecked;
+                self.normalRadioButton.text = self.checked;
+                
+                
+            }else{
+                //do nothing
+            }
+        }
     }
     
 }
@@ -792,80 +864,7 @@ static void *adminMsgContext = &adminMsgContext;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)chooseTypeWithoutCheckingUsers:(NSInteger)tag{
-    if (tag == 0 && self.createOrEdit == 0) { // VIP Pressed
-        if (self.vipFlag == 1) {
-            self.vipFlag = -1;
-            self.VIPRadioButton.text = self.unChecked;
-            self.normalRadioButton.text = self.unChecked;
-            self.VIPPoints += 1;
-            [self updateStoredVIPPointsNumber];
-        }else{
-            self.vipFlag = 1;
-            self.VIPRadioButton.text = self.checked;
-            self.normalRadioButton.text = self.unChecked;
-            self.VIPPoints -= 1;
-            [self updateStoredVIPPointsNumber];
-            
-        }
-//         NSLog(@"%ld",(long)self.VIPPoints);
-    }else if (tag == 1 && self.createOrEdit == 0){ // Normal Pressed
-        if (self.vipFlag == 0) {
-            self.vipFlag = -1;
-            self.VIPRadioButton.text = self.unChecked;
-            self.normalRadioButton.text = self.unChecked;
-            
-            
-        }else if(self.vipFlag == 1){
-            self.vipFlag = 0;
-            self.VIPRadioButton.text = self.unChecked;
-            self.normalRadioButton.text = self.checked;
-            self.VIPPoints += 1;
-            [self updateStoredVIPPointsNumber];
-        }else{
-            
-            self.vipFlag = 0;
-            self.VIPRadioButton.text = self.unChecked;
-            self.normalRadioButton.text = self.checked;
-        }
-        
-//        NSLog(@"%ld",(long)self.VIPPoints);
-    }else if (tag == 0 && self.createOrEdit == 1 && self.vipFlag == 1){
-        if (self.allowEditing == YES) {
-            self.vipFlag = -1;
-            self.VIPRadioButton.text = self.unChecked;
-            self.normalRadioButton.text = self.unChecked;
-            
-            
-        }else{
-            //do nothing
-        }
-    }else if (tag == 0 && self.createOrEdit == 1 && self.vipFlag == 0){
-        self.allowEditing = YES;
-        self.vipFlag = 1;
-        self.VIPRadioButton.text = self.checked;
-        self.normalRadioButton.text = self.unChecked;
-        
-        
-    }else if (tag == 1 && self.createOrEdit == 1 ){
-        
-        if (self.vipFlag == 0 && self.allowEditing == YES) {
-            self.vipFlag = -1;
-            self.VIPRadioButton.text = self.unChecked;
-            self.normalRadioButton.text = self.unChecked;
-            
-            
-        }else if (self.vipFlag == 1 && self.allowEditing == YES){
-            self.vipFlag = 0;
-            self.VIPRadioButton.text = self.unChecked;
-            self.normalRadioButton.text = self.checked;
-            
-            
-        }else{
-            //do nothing
-        }
-    }
-}
+
 
 -(void)updateStoredVIPPointsNumber{
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];

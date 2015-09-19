@@ -94,7 +94,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
 
-    if (self.inviteOthers == YES) {
+    if (self.editingMode == YES) {
         [self getUnInvitedUsers];
     }else{
         NSDictionary *getUSersDict = @{@"FunctionName":@"getUsersbyGroup" ,
@@ -479,7 +479,7 @@
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
     [self.userDefaults synchronize];
     
-    if (self.inviteOthers) {
+    if (self.editingMode) {
         for (int i =0; i < self.selectedUsers.count; i++) {
             
             NSDictionary *dict = self.selectedUsers[i];
