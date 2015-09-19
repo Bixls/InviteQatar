@@ -66,6 +66,10 @@
 @property (nonatomic,strong) ASINetworkQueue *queue;
 @property (nonatomic,strong) NSTimer *timer;
 
+//@property (nonatomic,strong) UIActivityIndicatorView *eventsSpinner;
+//@property (nonatomic,strong) UIActivityIndicatorView *groupsSpinner;
+
+
 @end
 
 @implementation HomePageViewController
@@ -135,6 +139,11 @@
 -(void)viewDidAppear:(BOOL)animated {
     [self.userDefaults removeObjectForKey:@"invitees"];
     [self.userDefaults synchronize];
+    self.userPassword = [self.userDefaults objectForKey:@"password"];
+    self.userMobile = [self.userDefaults objectForKey:@"mobile"];
+    
+    NSDictionary *getInvNum = [[NSDictionary alloc]init];
+    NSDictionary *getInvNumTag = [[NSDictionary alloc]init];
     
     if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
         [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
@@ -199,6 +208,8 @@
         self.eventCollectionView.allowsSelection = YES;
         self.newsCollectionView.allowsSelection = YES;
         self.groupsCollectionView.allowsSelection = YES;
+        
+       
     }
     
     
@@ -253,14 +264,15 @@
                                                                                     }]};
     NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
     
-    NSDictionary *getInvNum = @{
-                                    @"FunctionName":@"signIn" ,
-                                    @"inputs":@[@{@"Mobile":self.userMobile,
-                                                  @"password":self.userPassword}]};
-        
-        NSMutableDictionary *getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
     
-
+    if (self.userMobile && self.userPassword) {
+        getInvNum = @{@"FunctionName":@"signIn" ,
+                      @"inputs":@[@{@"Mobile":self.userMobile,
+                                    @"password":self.userPassword}]};
+        
+        getInvNumTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"invNum",@"key", nil];
+    }
+    
     
 //    NSArray *mutableGroups = [self.userDefaults objectForKey:@"mutableGroups"];
 //    if (mutableGroups != nil) {
@@ -317,6 +329,9 @@
 
 
 -(void)viewWillDisappear:(BOOL)animated{
+//    [self.groupsSpinner stopAnimating];
+//    [self.eventsSpinner stopAnimating];
+    
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])
@@ -468,7 +483,7 @@
         if ([tempGroup[@"Royal"]integerValue] == 1) {
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             [cell.royalPP sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 //spinner.center = cell.royalPP.center;
                 //spinner.hidesWhenStopped = YES;
@@ -482,15 +497,18 @@
         }else{
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+             UIActivityIndicatorView *groupsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             [cell.groupPP sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//                spinner.center = cell.groupPP.center;
-//                spinner.hidesWhenStopped = YES;
-//                [cell addSubview:spinner];
-//                [spinner startAnimating];
+                groupsSpinner.center = cell.groupPP.center;
+                groupsSpinner.hidesWhenStopped = YES;
+                [cell addSubview:groupsSpinner];
+                [groupsSpinner startAnimating];
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 cell.groupPP.image = image;
-//                [spinner stopAnimating];
+                
+                     [groupsSpinner stopAnimating];
+               
+               
             }];
             
         }
@@ -604,17 +622,20 @@
         cell.eventPic.layer.masksToBounds = YES;
         cell.eventPic.layer.cornerRadius = cell.eventPic.bounds.size.width/2;
         
-        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempEvent[@"EventPic"]];
+        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
         NSURL *imgURL = [NSURL URLWithString:imgURLString];
-        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            spinner.center = cell.eventPic.center;
-            spinner.hidesWhenStopped = YES;
-            [cell addSubview:spinner];
-            [spinner startAnimating];
+            eventsSpinner.center = cell.eventPic.center;
+            eventsSpinner.hidesWhenStopped = YES;
+            [cell addSubview:eventsSpinner];
+            [eventsSpinner startAnimating];
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             cell.eventPic.image = image;
-            [spinner stopAnimating];
+         
+            [eventsSpinner stopAnimating];
+
+            
         }];
         
         UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
