@@ -142,6 +142,7 @@
     [self.userDefaults synchronize];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
+
     
     NSDictionary *getInvNum = [[NSDictionary alloc]init];
     NSDictionary *getInvNumTag = [[NSDictionary alloc]init];
@@ -189,6 +190,7 @@
     }else{
         
         [self.btnMyProfile setTitle:@"حسابي" forState:UIControlStateNormal];
+        self.userID = [self.userDefaults integerForKey:@"userID"];
         [self.btnMyProfile setEnabled:YES];
         [self.btnMyMessages setEnabled:YES];
         [self.btnSupport setEnabled:YES];
@@ -265,6 +267,7 @@
                                                                              @"start":@"0",@"limit":@"4"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
     
+    
     NSDictionary *getUnReadInbox = @{@"FunctionName":@"unReadInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.userID],
                                                                                     //                                                                             @"catID":@"-1",
                                                                                     //                                                                             @"start":@"0",@"limit":@"3"
@@ -300,7 +303,15 @@
         [self postRequest:getEvents withTag:getEventsTag];
         [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
          [self postRequest:getInvNum withTag:getInvNumTag];
-        [self postRequest:getUserPoints withTag:getUserPointsTag];
+        
+        @try {
+            [self postRequest:getUserPoints withTag:getUserPointsTag];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"ERROOOR");
+        }
+
+        
         
     }
     else {
@@ -1056,8 +1067,9 @@
 //             self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%@",unread] forState:UIControlStateNormal];
             self.pullToRefreshFlag ++;
         }
-        if ([responseDictionary[@"VIP"]integerValue]) {
-            
+        
+        if (responseDictionary[@"VIP"]!= [NSNull null]) {
+            [responseDictionary[@"VIP"]integerValue];
             NSInteger VIP = [responseDictionary[@"VIP"]integerValue];
             self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
            // [s setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];

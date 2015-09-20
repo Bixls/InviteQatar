@@ -141,7 +141,7 @@ static void *adminMsgContext = &adminMsgContext;
 
 -(void)viewDidAppear:(BOOL)animated{
     
-    
+
     if (self.eventID && self.createOrEdit ==1 && self.stopGettingAttendees == NO) {
         [self getAttendees];
         self.stopGettingAttendees = YES;
@@ -643,7 +643,7 @@ static void *adminMsgContext = &adminMsgContext;
 
 - (IBAction)btnSubmitPressed:(id)sender {
 
-        if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.selectedDate.length > 0) && self.createOrEdit == 0 && self.vipFlag != -1) {
+        if ((self.textField.text.length != 0) && (self.textView.text.length != 0) && (self.selectedDate.length > 0) && self.createOrEdit == 0 && self.vipFlag != -1 && self.selectedType != nil) {
             
             
             if (self.flag == 1) {
