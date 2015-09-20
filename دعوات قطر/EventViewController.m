@@ -17,7 +17,17 @@
 #import "ASIDownloadCache.h"
 #import "ASICacheDelegate.h"
 #import "Reachability.h"
+#import <UIScrollView+SVInfiniteScrolling.h>
+#import "CommentsSecondTableViewCell.h"
+
+
 @interface EventViewController ()
+
+@property (nonatomic,strong) NSMutableArray *comments;
+@property (nonatomic) NSInteger start;
+@property (nonatomic) NSInteger limit;
+@property (nonatomic) NSInteger postType;
+@property (nonatomic) NSInteger selectedUserID;
 
 @property (nonatomic)NSInteger userID;
 @property (nonatomic)NSInteger eventImageID;
@@ -77,6 +87,9 @@
     
     [self.imgComments setHidden:YES];
     [self.btnComments setHidden:YES];
+    [self.CommentsTextField setHidden:YES];
+    [self.sendComments setHidden:YES];
+    [self.imgSendComments setHidden:YES];
     
 //    [self.imgUserProfile setHidden:YES];
 //    [self.imgPicFrame setHidden:YES];
@@ -117,12 +130,31 @@
     }
     [self.navigationItem setHidesBackButton:YES];
     
+// Comments Setup
+    self.comments = [[NSMutableArray alloc]init];
+    self.start = 0;
+    self.limit = 5;
+    
     
 }
 
 
 
 -(void)viewDidAppear:(BOOL)animated{
+    
+    //Comments
+    
+    [self getComments];
+    [self.commentsTableView addInfiniteScrollingWithActionHandler:^{
+        self.start = self.comments.count;
+        [self getComments];
+    }];
+    
+    
+    //--//
+    
+    
+    
     [self.userDefaults removeObjectForKey:@"invitees"];
     [self.userDefaults synchronize];
 
@@ -248,8 +280,10 @@
     }
     
     if (self.isVIP == 1 && self.isInvited == 1 && self.isInvitedFlag == 1) {
+        
         [self.imgRemindMe setHidden:NO];
         [self.btnRemindMe setHidden:NO];
+        
     }else if ((self.isVIP != 1 || self.isInvited != 1) && self.isInvitedFlag == 1){
         [self.imgRemindMe setHidden:YES];
         [self.btnRemindMe setHidden:YES];
@@ -264,14 +298,32 @@
     if (self.allowComments == 1) {
         [self.btnComments setHidden:NO];
         [self.imgComments setHidden:NO];
-    }else if (self.allowComments == 0){
+        [self.CommentsTextField setHidden:NO];
+        [self.sendComments setHidden:NO];
+        [self.imgSendComments setHidden:NO];
+        [self.commentsTableView setHidden:NO];
+        
+    }else if (self.allowComments == 0 && self.userID != self.creatorID){
         [self.btnComments setHidden:YES];
         [self.imgComments setHidden:YES];
+        [self.CommentsTextField setHidden:YES];
+        [self.sendComments setHidden:YES];
+        [self.imgSendComments setHidden:YES];
+        
+        [self.commentsTableView removeFromSuperview];
         [self.btnComments removeFromSuperview];
         [self.imgComments removeFromSuperview];
+        [self.CommentsTextField removeFromSuperview];
+        [self.sendComments removeFromSuperview];
+        [self.imgSendComments removeFromSuperview];
+        
     }else if (self.allowComments == -1){
         [self.btnComments setHidden:YES];
         [self.imgComments setHidden:YES];
+        [self.CommentsTextField setHidden:YES];
+        [self.sendComments setHidden:YES];
+        [self.imgSendComments setHidden:YES];
+        [self.commentsTableView setHidden:YES];
     }
     
     
@@ -296,6 +348,7 @@
     }else if(self.isInvited == 1 && self.isJoined == 1 && self.isInvitedFlag == 1){
         [self.btnGoing setHidden:NO];
         [self.imgGoing setHidden:NO];
+        
         [self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
 
     }else{
@@ -312,7 +365,11 @@
         [self.btnEditEvent setHidden:NO];
         [self.imgEditEvent setHidden:NO];
         
-
+        [self.btnRemindMe removeFromSuperview];
+        [self.imgRemindMe removeFromSuperview];
+        [self.imgLike removeFromSuperview];
+        [self.btnLike removeFromSuperview];
+        
     }else if (self.userID != self.creatorID && self.creatorFlag == 1){
         [self.btnAttendees setHidden:YES];
         [self.imgGoingList setHidden:YES];
@@ -322,12 +379,15 @@
         [self.imgGoingList removeFromSuperview];
         [self.btnEditEvent removeFromSuperview];
         [self.imgEditEvent removeFromSuperview];
+        [self.btnLike setHidden:NO];
+        [self.imgLike setHidden:NO];
         
     }else if (self.creatorFlag == -1){
         [self.btnAttendees setHidden:YES];
         [self.imgGoingList setHidden:YES];
         [self.btnEditEvent setHidden:YES];
         [self.imgEditEvent setHidden:YES];
+
     }
     
     
@@ -336,6 +396,8 @@
         [self.imgInviteOthers setHidden:NO];
         [self.btnAttendees setHidden:NO];
         [self.imgGoingList setHidden:NO];
+        [self.imgLike removeFromSuperview];
+        [self.btnLike removeFromSuperview];
     }else if ((self.approved != 1 || self.userID != self.creatorID) && self.approvedFlag == 1){
         [self.btnInviteOthers setHidden:YES];
         [self.imgInviteOthers setHidden:YES];
@@ -440,10 +502,10 @@
 
 
 #pragma mark - Connection Setup
--(void)getUSer {
+-(void)getUSerWithID:(NSInteger)userID {
     
     NSDictionary *getUser = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
-                                                                                 @"id":[NSString stringWithFormat:@"%ld",(long)self.creatorID]
+                                                                                 @"id":[NSString stringWithFormat:@"%ld",userID]
                                                                                  }]};
     
  
@@ -617,7 +679,7 @@
             self.approved = [dict[@"approved"]integerValue];
             self.approvedFlag = 1;
             self.eventImageID = [dict[@"picture"]integerValue];
-            [self getUSer];
+            [self getUSerWithID:self.creatorID];
             [self updateUI];
             
         }
@@ -676,11 +738,25 @@
         [self.imgUserProfile setHidden:NO];
         [self.imgPicFrame setHidden:NO];
         [self.lblUsername setHidden:NO];
-//        [self.btnUser setHidden:NO];
+        //        [self.btnUser setHidden:NO];
         [self.btnUser setEnabled:YES];
         [self.creatorPicture setHidden:NO];
         self.creatorName.text = self.event[@"CreatorName"];
-
+        
+    }else if ([key isEqualToString:@"getComments"]){
+        NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        //NSString *key = [request.userInfo objectForKey:@"key"];
+        [self.comments addObjectsFromArray:array];
+        [self.commentsTableView.infiniteScrollingView stopAnimating];
+        [self.commentsTableView reloadData];
+        
+    }else if ([key isEqualToString:@"addComment"]){
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if ([dict[@"sucess"]boolValue]) {
+//            self.start = self.comments.count;
+            self.start = 0;
+            [self getComments];
+        }
     }
     
 }
@@ -694,16 +770,16 @@
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
                                      progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                         userPicSpinner.center = self.eventPicture.center;
-                                         userPicSpinner.hidesWhenStopped = YES;
-                                         [self.innerView addSubview:userPicSpinner];
-                                         [userPicSpinner startAnimating];
+//                                         userPicSpinner.center = self.eventPicture.center;
+//                                         userPicSpinner.hidesWhenStopped = YES;
+//                                         [self.innerView addSubview:userPicSpinner];
+//                                         [userPicSpinner startAnimating];
                                          
                                      }
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                         if (image) {
                                             self.eventPicture.image = image;
-                                            [userPicSpinner stopAnimating];
+//                                            [userPicSpinner stopAnimating];
                                         }
                                     }];
 }
@@ -717,23 +793,113 @@
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
                                      progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                         userPicSpinner.center = self.creatorPicture.center;
-                                         userPicSpinner.hidesWhenStopped = YES;
-                                         [self.innerView addSubview:userPicSpinner];
-                                         [userPicSpinner startAnimating];
+//                                         userPicSpinner.center = self.creatorPicture.center;
+//                                         userPicSpinner.hidesWhenStopped = YES;
+//                                         [self.innerView addSubview:userPicSpinner];
+//                                         [userPicSpinner startAnimating];
                                          
                                      }
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                         if (image) {
                                             self.creatorPicture.image = image;
-                                            [userPicSpinner stopAnimating];
+//                                            [userPicSpinner stopAnimating];
                                         }
                                     }];
 }
 
+#pragma mark - Comments 
+
+-(void)getComments {
+    
+    NSDictionary *getComments = @{@"FunctionName":@"retriveComments" , @"inputs":@[@{
+                                                                                     @"POSTType":[NSString stringWithFormat:@"%d",0],
+                                                                                     @"POSTID":[NSString stringWithFormat:@"%ld",(long)self.eventID],
+                                                                                     @"start":[NSString stringWithFormat:@"%ld",(long)self.start],
+                                                                                     @"limit":[NSString stringWithFormat:@"%ld",(long)self.limit]
+                                                                                     }]};
+    
+
+    NSMutableDictionary *getCommentsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getComments",@"key", nil];
+    
+    [self postRequest:getComments withTag:getCommentsTag];
+    
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+    
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.comments.count;
+    
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+ 
+        CommentsSecondTableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
+        if (cell2==nil) {
+            cell2=[[CommentsSecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell2"];
+        }
+        if (self.comments.count > 0) {
+            NSDictionary *comment = self.comments[indexPath.row];
+            
+            cell2.userName.text = comment[@"name"];
+            cell2.userComment.text = comment[@"comment"];
+            
+            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                if (error) {
+                    NSLog(@"Error downloading images");
+                }else{
+                    cell2.userImage.image = image;
+                }
+            }];
+            
+            
+//            [cell2.userComment addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
+//            
+//            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+//                //Background Thread
+//                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
+//                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+//                UIImage *img = [[UIImage alloc]initWithData:data];
+//                dispatch_async(dispatch_get_main_queue(), ^(void){
+//                    //Run UI Updates
+//                    cell2.userImage.image = img;
+//                    
+//                });
+//            });
+//            
+            
+        //self.commentsHeightLayoutConstraint.constant = self.commentsTableView.contentSize.height;
+        cell2.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell2;
+    }
+    
+    return nil ;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        NSDictionary *comment =self.comments[indexPath.row];
+        self.selectedUserID = [comment[@"id"]integerValue];
+        [self getUSerWithID:self.selectedUserID];
+
+    
+}
+
+
+
+
+#pragma mark - Buttons
+
 
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
+
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -742,6 +908,9 @@
 //    NSLog(@"%@",error);
 }
 
+
+- (IBAction)btnSendCommentPressed:(id)sender {
+}
 
 - (IBAction)btnViewAttendeesPressed:(id)sender {
     [self performSegueWithIdentifier:@"showAttendees" sender:self];

@@ -74,6 +74,11 @@
 		1859E8C31B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1859E8C21B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		185E69D11BA54DF20026194A /* customAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185E69D01BA54DF20026194A /* customAlertView.xib */; };
 		185E69D41BA54F6F0026194A /* customAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E69D31BA54F6F0026194A /* customAlertView.m */; };
+		18651CD21BAE658D00978969 /* like.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18651CD01BAE658D00978969 /* like.jpg */; };
+		18651CD31BAE658D00978969 /* view.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18651CD11BAE658D00978969 /* view.jpg */; };
+		18651CD61BAE67D100978969 /* SpecialEventsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18651CD51BAE67D100978969 /* SpecialEventsCollectionViewCell.m */; };
+		18651CD91BAE685800978969 /* SpecialEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18651CD81BAE685800978969 /* SpecialEventsViewController.m */; };
+		18651CDC1BAE7DCF00978969 /* ServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18651CDB1BAE7DCF00978969 /* ServiceViewController.m */; };
 		1873C2221B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2211B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m */; };
 		1873C2251B4DCB760026C905 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2241B4DCB760026C905 /* NewsViewController.m */; };
 		1873C2281B4DE7280026C905 /* CommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1873C2271B4DE7280026C905 /* CommentsViewController.m */; };
@@ -250,6 +255,14 @@
 		185E69D01BA54DF20026194A /* customAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = customAlertView.xib; sourceTree = "<group>"; };
 		185E69D21BA54F6F0026194A /* customAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = customAlertView.h; path = ../customAlertView.h; sourceTree = "<group>"; };
 		185E69D31BA54F6F0026194A /* customAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = customAlertView.m; path = ../customAlertView.m; sourceTree = "<group>"; };
+		18651CD01BAE658D00978969 /* like.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = like.jpg; sourceTree = "<group>"; };
+		18651CD11BAE658D00978969 /* view.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = view.jpg; sourceTree = "<group>"; };
+		18651CD41BAE67D100978969 /* SpecialEventsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialEventsCollectionViewCell.h; sourceTree = "<group>"; };
+		18651CD51BAE67D100978969 /* SpecialEventsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialEventsCollectionViewCell.m; sourceTree = "<group>"; };
+		18651CD71BAE685800978969 /* SpecialEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialEventsViewController.h; sourceTree = "<group>"; };
+		18651CD81BAE685800978969 /* SpecialEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialEventsViewController.m; sourceTree = "<group>"; };
+		18651CDA1BAE7DCF00978969 /* ServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceViewController.h; sourceTree = "<group>"; };
+		18651CDB1BAE7DCF00978969 /* ServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceViewController.m; sourceTree = "<group>"; };
 		1873C2201B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsFooterCollectionReusableView.h; sourceTree = "<group>"; };
 		1873C2211B4DAC5B0026C905 /* GroupsFooterCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsFooterCollectionReusableView.m; sourceTree = "<group>"; };
 		1873C2231B4DCB760026C905 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsViewController.h; path = ../NewsViewController.h; sourceTree = "<group>"; };
@@ -399,6 +412,10 @@
 		184B65211B3F60AC00B1483C = {
 			isa = PBXGroup;
 			children = (
+				18651CD41BAE67D100978969 /* SpecialEventsCollectionViewCell.h */,
+				18651CD51BAE67D100978969 /* SpecialEventsCollectionViewCell.m */,
+				18651CD71BAE685800978969 /* SpecialEventsViewController.h */,
+				18651CD81BAE685800978969 /* SpecialEventsViewController.m */,
 				185E69D01BA54DF20026194A /* customAlertView.xib */,
 				188AE95C1BAB4B3800DAE5D6 /* adSpace.xib */,
 				188AE9631BAB5CFC00DAE5D6 /* customEventCollectionViewCell.h */,
@@ -466,6 +483,8 @@
 				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
+				18651CDA1BAE7DCF00978969 /* ServiceViewController.h */,
+				18651CDB1BAE7DCF00978969 /* ServiceViewController.m */,
 				18514B641BA3B92A00DF2C94 /* MyProfileViewController.h */,
 				187C63931B46259900B3E3EA /* MyProfileViewController.m */,
 				1874008F1B679BEC00D84CD1 /* UnActivatedProfileViewController.h */,
@@ -609,6 +628,8 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				18651CD01BAE658D00978969 /* like.jpg */,
+				18651CD11BAE658D00978969 /* view.jpg */,
 				183158401BAC638B000708A2 /* credits.png */,
 				1831583E1BAC62B6000708A2 /* topAd.png */,
 				18D3F12F1BABA15F000A2EAE /* sms.png */,
@@ -757,8 +778,10 @@
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				188AE9711BAB86D800DAE5D6 /* adSpaceSC.png in Resources */,
 				189E0E181B7CD136009DF99B /* backwithoutframe.png in Resources */,
+				18651CD21BAE658D00978969 /* like.jpg in Resources */,
 				189E0E1D1B7CD762009DF99B /* newFrame.png in Resources */,
 				183158411BAC638B000708A2 /* credits.png in Resources */,
+				18651CD31BAE658D00978969 /* view.jpg in Resources */,
 				18D5AA981B7D0AA3000D8711 /* vip3.png in Resources */,
 				1831583F1BAC62B6000708A2 /* topAd.png in Resources */,
 				188AE94C1BAA4C8100DAE5D6 /* logo_03.jpg in Resources */,
@@ -829,10 +852,12 @@
 				184B65831B4080D600B1483C /* ASIDataCompressor.h in Sources */,
 				18D831721B4CC7F7003F5A86 /* HomeNewsCollectionViewCell.m in Sources */,
 				184083931BA6DCA30075DE36 /* WelcomeUserViewController.m in Sources */,
+				18651CD91BAE685800978969 /* SpecialEventsViewController.m in Sources */,
 				18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */,
 				18E668491BA11D750001B3CA /* NetworkConnection.m in Sources */,
 				1873C2281B4DE7280026C905 /* CommentsViewController.m in Sources */,
 				184B657B1B40808900B1483C /* ASIInputStream.h in Sources */,
+				18651CD61BAE67D100978969 /* SpecialEventsCollectionViewCell.m in Sources */,
 				184B65771B40804A00B1483C /* ASIAuthenticationDialog.h in Sources */,
 				1873C2311B4E0EB20026C905 /* CommentsSecondTableViewCell.m in Sources */,
 				18EA68291B4B566000F482FB /* EventAttendeesViewController.m in Sources */,
@@ -864,6 +889,7 @@
 				1873C2341B4E4C360026C905 /* MessagesViewController.m in Sources */,
 				182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */,
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
+				18651CDC1BAE7DCF00978969 /* ServiceViewController.m in Sources */,
 				1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */,
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,
 				18EA68361B4BA8DD00F482FB /* MyEventsViewController.m in Sources */,

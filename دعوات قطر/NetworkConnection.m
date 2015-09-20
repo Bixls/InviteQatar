@@ -167,4 +167,14 @@
     [self postRequest:getAdminMsg  withTag:getAdminMsgTag];
 }
 
+-(void)getSpecialEventWithType:(NSInteger)type startFrom:(NSInteger)start limit:(NSInteger)limit {
+    NSDictionary *getAdminMsg = @{@"FunctionName":@"getServicesList" , @"inputs":@[@{@"start":[NSString stringWithFormat:@"%ld",(long)start],
+                                                                                     @"limit":[NSString stringWithFormat:@"%ld",(long)limit],
+                                                                                     @"type":[NSString stringWithFormat:@"%ld",(long)type]
+                                                                               }]};
+    NSMutableDictionary *getAdminMsgTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAdminMsg",@"key", nil];
+    
+    [self postRequest:getAdminMsg  withTag:getAdminMsgTag];
+}
+
 @end

@@ -22,7 +22,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "customEventCollectionViewCell.h"
 #import "customGroupFooter.h"
-
+#import "SpecialEventsViewController.h"
 
 @interface HomePageViewController ()
 
@@ -61,6 +61,7 @@
 @property (nonatomic) NSInteger offlineGroupsFlag;
 @property (nonatomic) NSInteger offlineNewsFlag;
 @property (nonatomic) NSInteger newsFlag;
+@property (nonatomic) NSInteger selectedSpecialEventType;
 @property (nonatomic) BOOL offline;
 @property (nonatomic) BOOL loadCache;
 @property (nonatomic,strong) ASINetworkQueue *queue;
@@ -229,7 +230,7 @@
         [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
 //
 //        
-        [self.groupsCollectionView reloadData];
+      //  [self.groupsCollectionView reloadData];
     }
   
 //
@@ -263,7 +264,6 @@
                                                                                     //                                                                             @"start":@"0",@"limit":@"3"
                                                                                     }]};
     NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
-    
     
     if (self.userMobile && self.userPassword) {
         getInvNum = @{@"FunctionName":@"signIn" ,
@@ -309,7 +309,7 @@
         if (internetStatus != NotReachable) {
             self.offline = false;
             [self downloadNewsImages];
-            [self postRequest:getGroups withTag:getGroupsTag];
+            //[self postRequest:getGroups withTag:getGroupsTag];
             [self postRequest:getNews withTag:getNewsTag];
             [self postRequest:getEvents withTag:getEventsTag];
             [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
@@ -484,6 +484,7 @@
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            
             [cell.royalPP sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 //spinner.center = cell.royalPP.center;
                 //spinner.hidesWhenStopped = YES;
@@ -495,6 +496,7 @@
             }];
             
         }else{
+            
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
              UIActivityIndicatorView *groupsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -609,6 +611,8 @@
         
         cell.eventName.text =tempEvent[@"subject"];
         cell.eventCreator.text = tempEvent[@"CreatorName"];
+//        cell.likesNumber.text = tempEvent[@"Likes"];
+//        cell.viewsNumber.text = tempEvent[@"views"];
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
         NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
@@ -882,6 +886,9 @@
     }else if ([segue.identifier isEqualToString:@"seeMore"]){
         AllSectionsViewController *allSectionsController=  segue.destinationViewController;
         allSectionsController.groupID = -1;
+    }else if ([segue.identifier isEqualToString:@"specialEvent"]){
+        SpecialEventsViewController *specialEvent = segue.destinationViewController;
+        specialEvent.eventType = self.selectedSpecialEventType;
     }
 }
 
@@ -942,8 +949,22 @@
     if ([key isEqualToString:@"getGroups"]) {
         self.pullToRefreshFlag ++;
         self.groups = responseArray;
+        
         if ([self arraysContainSameObjects:responseArray andOtherArray:[self.userDefaults objectForKey:@"groups"]]) {
+            [self.userDefaults setObject:self.groups forKey:@"groups"];
             
+            self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
+            self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
+            self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
+            self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
+            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(76,self.groups.count - 76)];
+            
+            self.groupSections = [[NSMutableArray alloc]init];
+            [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
+            
+            [self.userDefaults synchronize];
+            
+            [self.groupsCollectionView reloadData];
         }else{
 
             [self.userDefaults setObject:self.groups forKey:@"groups"];
@@ -958,6 +979,7 @@
             [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
 
             [self.userDefaults synchronize];
+            
             [self.groupsCollectionView reloadData];
 
         }
@@ -1054,5 +1076,11 @@
     }else if (self.segueFlag == 2){
         [self performSegueWithIdentifier:@"activate" sender:self];
     }
+}
+- (IBAction)specialEventPressed:(UIButton *)sender {
+    self.selectedSpecialEventType = sender.tag;
+    [self performSegueWithIdentifier:@"specialEvent" sender:self];
+    
+    
 }
 @end

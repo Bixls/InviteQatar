@@ -16,11 +16,12 @@
 
 @interface CommentsViewController ()
 
+@property (nonatomic,strong) NSMutableArray *comments;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger commentID;
-@property (nonatomic,strong) NSMutableArray *comments;
+
 @property (nonatomic,strong) NSString *myComment;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic) NSInteger selectedUserID;
@@ -95,8 +96,7 @@
         }
         if (self.comments.count > 0) {
             NSDictionary *comment = self.comments[indexPath.row - 1];
-//            NSLog(@"%ld",indexPath.row-1);
-//            NSLog(@"%@",comment);
+
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
             
@@ -127,6 +127,7 @@
             
 
         }
+        
         cell2.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell2;
     }
@@ -162,6 +163,8 @@
     }
     
 }
+
+
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         return NO;
@@ -186,7 +189,7 @@
         }
        
     } else {
-//        NSLog(@"Unhandled editing style! %ld", (long)editingStyle);
+
     }
 }
 

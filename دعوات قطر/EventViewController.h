@@ -12,6 +12,15 @@
 
 @interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate>
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentsHeightLayoutConstraint;
+@property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
+
+@property (weak, nonatomic) IBOutlet UITextField *CommentsTextField;
+@property (weak, nonatomic) IBOutlet UIButton *sendComments;
+@property (weak, nonatomic) IBOutlet UIImageView *imgSendComments;
+
+
+
 @property (nonatomic)NSInteger isVIP;
 @property (nonatomic)NSInteger eventID;
 @property (nonatomic) NSInteger selectedType;
@@ -46,7 +55,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnUser;
 @property (weak, nonatomic) IBOutlet UILabel *lblUsername;
 @property (weak, nonatomic) IBOutlet UIView *innerView;
+@property (weak, nonatomic) IBOutlet UIImageView *imgLike;
+@property (weak, nonatomic) IBOutlet UIButton *btnLike;
 
+- (IBAction)btnSendCommentPressed:(id)sender;
 - (IBAction)btnViewAttendeesPressed:(id)sender;
 - (IBAction)btnShowCommentsPressed:(id)sender;
 - (IBAction)btnGoingPressed:(id)sender;
@@ -54,6 +66,7 @@
 - (IBAction)btnShowUserPressed:(id)sender;
 - (IBAction)btnInviteOthersPressed:(id)sender;
 - (IBAction)btnRemindMePressed:(id)sender;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTime;
 
