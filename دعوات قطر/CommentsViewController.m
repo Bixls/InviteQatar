@@ -249,7 +249,7 @@
                                                                                      @"comment":self.myComment
                                                                                      }]};
     
-//    NSLog(@"%@",addComment);
+
     NSMutableDictionary *addCommentTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"addComment",@"key", nil];
     
     [self postRequest:addComment withTag:addCommentTag];

@@ -19,7 +19,13 @@
 #import "Reachability.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
 #import "CommentsSecondTableViewCell.h"
+#import "NetworkConnection.h"
 
+
+
+
+static void *likeContext = &likeContext;
+static void *getAllLikesContext = &getAllLikesContext;
 
 @interface EventViewController ()
 
@@ -43,6 +49,7 @@
 @property (nonatomic)NSInteger approved;
 @property (nonatomic)NSInteger approvedFlag;
 @property (nonatomic,strong)NSString *eventDescription;
+@property (nonatomic,strong)NSString *userInput;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *fullEvent;
 @property (nonatomic,strong) NSDictionary *user;
@@ -51,6 +58,9 @@
 
 @property (nonatomic,strong) UIActivityIndicatorView *descriptionSpinner;
 @property (nonatomic,strong) UIActivityIndicatorView *eventPicSPinner;
+@property (nonatomic,strong) NetworkConnection *likeConnection;
+@property (nonatomic,strong) NetworkConnection *getAllLikesConnection;
+
 @end
 
 @implementation EventViewController
@@ -82,6 +92,10 @@
     [self.imgInviteOthers setHidden:YES];
     [self.imgRemindMe setHidden:YES];
     [self.btnRemindMe setHidden:YES];
+
+    [self.btnLike setHidden:YES];
+    [self.imgLike setHidden:YES];
+    
     
     [self.imgTitle setHidden:YES];
     
@@ -133,7 +147,7 @@
 // Comments Setup
     self.comments = [[NSMutableArray alloc]init];
     self.start = 0;
-    self.limit = 5;
+    self.limit = 5000;
     
     
 }
@@ -141,6 +155,14 @@
 
 
 -(void)viewDidAppear:(BOOL)animated{
+    
+    
+    self.likeConnection = [[NetworkConnection alloc]init];
+    [self.likeConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:likeContext];
+    
+    self.getAllLikesConnection = [[NetworkConnection alloc]init];
+    [self.getAllLikesConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:getAllLikesContext];
+    
     
     //Comments
     
@@ -186,6 +208,10 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    
+    [self.likeConnection removeObserver:self forKeyPath:@"response"];
+    [self.getAllLikesConnection removeObserver:self forKeyPath:@"response"];
+    
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])
@@ -196,7 +222,24 @@
     }
 }
 
+#pragma mark - Textfield delegate methods
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    self.userInput = textField.text;
+    
+    [textField resignFirstResponder];
+    return YES;
+}
+
 #pragma mark - UI Methods
+
+-(NSString *)arabicNumberFromEnglish:(NSInteger)num {
+    NSNumber *someNumber = [NSNumber numberWithInteger:num];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSLocale *gbLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"ar"];
+    [formatter setLocale:gbLocale];
+    return [formatter stringFromNumber:someNumber];
+}
 
 -(void)GenerateArabicDateWithDate:(NSString *)englishDate{
     
@@ -316,6 +359,15 @@
         [self.CommentsTextField removeFromSuperview];
         [self.sendComments removeFromSuperview];
         [self.imgSendComments removeFromSuperview];
+        
+    }else if (self.allowComments == 0 && self.userID == self.creatorID){
+        [self.commentsTableView removeFromSuperview];
+        [self.btnComments removeFromSuperview];
+        [self.imgComments removeFromSuperview];
+        [self.CommentsTextField removeFromSuperview];
+        [self.sendComments removeFromSuperview];
+        [self.imgSendComments removeFromSuperview];
+
         
     }else if (self.allowComments == -1){
         [self.btnComments setHidden:YES];
@@ -617,6 +669,22 @@
     
 }
 
+-(void)addComment {
+    
+    NSDictionary *addComment = @{@"FunctionName":@"addComment" , @"inputs":@[@{
+                                                                                 @"POSTType":[NSString stringWithFormat:@"%ld",(long)self.postType],
+                                                                                 @"POSTID":[NSString stringWithFormat:@"%ld",(long)self.eventID],
+                                                                                 @"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],
+                                                                                 @"comment":self.userInput
+                                                                                 }]};
+    
+    
+    NSMutableDictionary *addCommentTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"addComment",@"key", nil];
+    
+    [self postRequest:addComment withTag:addCommentTag];
+    
+}
+
 
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
@@ -679,6 +747,9 @@
             self.approved = [dict[@"approved"]integerValue];
             self.approvedFlag = 1;
             self.eventImageID = [dict[@"picture"]integerValue];
+            self.eventLikes.text = [self arabicNumberFromEnglish:[dict[@"Likes"]integerValue]];
+            self.eventViews.text = [self arabicNumberFromEnglish:[dict[@"views"]integerValue]];
+            
             [self getUSerWithID:self.creatorID];
             [self updateUI];
             
@@ -746,6 +817,7 @@
     }else if ([key isEqualToString:@"getComments"]){
         NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         //NSString *key = [request.userInfo objectForKey:@"key"];
+        [self.comments removeAllObjects];
         [self.comments addObjectsFromArray:array];
         [self.commentsTableView.infiniteScrollingView stopAnimating];
         [self.commentsTableView reloadData];
@@ -825,6 +897,8 @@
     
 }
 
+
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
     
@@ -834,6 +908,7 @@
     return self.comments.count;
     
 }
+
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -856,23 +931,7 @@
                 }
             }];
             
-            
-//            [cell2.userComment addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
-//            
-//            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//                //Background Thread
-//                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
-//                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-//                UIImage *img = [[UIImage alloc]initWithData:data];
-//                dispatch_async(dispatch_get_main_queue(), ^(void){
-//                    //Run UI Updates
-//                    cell2.userImage.image = img;
-//                    
-//                });
-//            });
-//            
-            
-        //self.commentsHeightLayoutConstraint.constant = self.commentsTableView.contentSize.height;
+        self.commentsHeightLayoutConstraint.constant = self.commentsTableView.contentSize.height;
         cell2.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell2;
     }
@@ -890,12 +949,37 @@
 
     
 }
+#pragma mark - KVO 
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    if ([keyPath isEqualToString:@"response"] && context == likeContext) {
+        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if ([responseDictionary[@"sucess"]boolValue] == YES) {
+            [self.getAllLikesConnection getAllLikesWithMemberID:self.userID EventsOrService:@"EventsLikes" postID:self.eventID];
+        }else{
+            //Like is unSuccessful
+        }
+    }else if ([keyPath isEqualToString:@"response"] && context == getAllLikesContext){
+        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        if (responseDictionary) {
+            
+            NSInteger likesNumber = [responseDictionary[@"likes"]integerValue];
+            self.eventLikes.text = [self arabicNumberFromEnglish:likesNumber];
+            
+            
+        }
+    }
+}
 
 
 
 #pragma mark - Buttons
 
+- (IBAction)btnLikePressed:(id)sender {
+    [self.likeConnection likePostWithMemberID:self.userID EventsOrService:@"Events" postID:self.eventID];
+}
 
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -910,6 +994,9 @@
 
 
 - (IBAction)btnSendCommentPressed:(id)sender {
+    self.userInput = self.CommentsTextField.text;
+    [self addComment];
+    
 }
 
 - (IBAction)btnViewAttendeesPressed:(id)sender {

@@ -413,8 +413,9 @@ static void *adminMsgContext = &adminMsgContext;
     
     if ([[request.userInfo objectForKey:@"key"] isEqualToString:@"postPicture"]) {
         
-        self.imageURL = [responseDict[@"id"]integerValue];
-        if (self.imageURL) {
+        
+        if ([responseDict[@"id"]integerValue]) {
+            self.imageURL = [responseDict[@"id"]integerValue];
             self.uploaded = 1;
             if (self.createOrEdit == 0) {
                 [self createEventFN];
@@ -434,11 +435,10 @@ static void *adminMsgContext = &adminMsgContext;
     }else if([[request.userInfo objectForKey:@"key"] isEqualToString:@"createEvent"]){
 
         if ([responseDict[@"sucess"]integerValue] == 1) {
+            
             self.eventID = [responseDict[@"id"]integerValue];
             [self sendInvitations];
             self.isEventCreated = YES;
-            
-
             
         }else{
             [self.btnSave setEnabled:YES];
@@ -662,6 +662,7 @@ static void *adminMsgContext = &adminMsgContext;
                     [self.creatingEvent startAnimating];
                     
                     [self.btnSave setEnabled:NO];
+                    
                     NSMutableDictionary *postPictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"postPicture",@"key", nil];
                     [self postPictureWithTag:postPictureTag];
                     

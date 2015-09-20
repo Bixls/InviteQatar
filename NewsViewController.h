@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewsViewController : UIViewController
+@interface NewsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 
 @property(nonatomic,strong) NSDictionary *news;
 
@@ -22,5 +22,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnComments;
 @property (weak, nonatomic) IBOutlet UIImageView *imgComments;
 @property (weak, nonatomic) IBOutlet UIView *innerView;
+@property (weak, nonatomic) IBOutlet UITextField *commentsTextField;
+@property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentsHeightLayoutConstraint;
 
 @end

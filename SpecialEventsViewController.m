@@ -9,14 +9,18 @@
 #import "SpecialEventsViewController.h"
 #import "SpecialEventsCollectionViewCell.h"
 #import "NetworkConnection.h"
+#import "ServiceViewController.h"
 
 @interface SpecialEventsViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *mainTitle;
 
 
 @property (nonatomic,strong) NetworkConnection *getEventsConnection;
 @property (nonatomic,strong) NSArray *specialEvents;
+@property (nonatomic,strong) NSDictionary *selectedService;
+@property (nonatomic,strong) UIImage *selectedServiceImage;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
 
@@ -31,6 +35,34 @@
 //    NSLog(@"%ld",(long)self.eventType);
     self.start = 0;
     self.limit = 5000;
+    
+    switch (self.eventType) {
+        case 1:
+        {
+         self.mainTitle.text = @"قاعات الافراح";
+            break;
+            
+        }
+        case 2:{
+            self.mainTitle.text = @"شركات الخيام";
+            break;
+        }
+        case 3:{
+            self.mainTitle.text = @"المطابخ الشعبيه";
+            break;
+        }
+        case 4:{
+            self.mainTitle.text = @"الفرق الشعبيه";
+            break;
+        }
+        case 5:{
+            self.mainTitle.text = @"شامل";
+            break;
+        }
+            
+        default:
+            break;
+    }
     
 }
 
@@ -57,6 +89,14 @@
     }
 }
 
+-(NSString *)arabicNumberFromEnglish:(NSInteger)num {
+    NSNumber *someNumber = [NSNumber numberWithInteger:num];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSLocale *gbLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"ar"];
+    [formatter setLocale:gbLocale];
+    return [formatter stringFromNumber:someNumber];
+}
+
 #pragma mark - KVO 
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -64,7 +104,6 @@
     if ([keyPath isEqualToString:@"response"]) {
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.specialEvents = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        NSLog(@"%@",self.specialEvents);
         [self.collectionView reloadData];
         
     }
@@ -83,8 +122,11 @@
     if (self.specialEvents.count > 0) {
         
         NSDictionary *event = self.specialEvents[indexPath.row];
-        cell.eventLikes.text = event[@"Likes"];
-        cell.eventViews.text = event[@"views"];
+        NSString *likes = [NSString stringWithFormat:@"%ld",(long)[event[@"Likes"]integerValue]];
+        NSString *views = [NSString stringWithFormat:@"%ld",(long)[event[@"views"]integerValue]];
+
+        cell.eventLikes.text = likes;
+        cell.eventViews.text = views;
         cell.eventTitle.text = event[@"title"];
         
         NSURL *imgURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"image"]]];
@@ -103,6 +145,18 @@
     return nil;
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.specialEvents[indexPath.row]) {
+        SpecialEventsCollectionViewCell *Cell = (SpecialEventsCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        self.selectedService = self.specialEvents[indexPath.row];
+        self.selectedServiceImage = Cell.eventImage.image;
+        [self performSegueWithIdentifier:@"showService" sender:self];
+    }
+    
+    
+}
+
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     return CGSizeMake((self.collectionView.bounds.size.width - 5 )/2, 233);
@@ -111,6 +165,16 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     
     return 3 ;
+}
+
+#pragma mark - Segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showService"]) {
+        ServiceViewController *serviceViewController = segue.destinationViewController;
+        serviceViewController.service = self.selectedService;
+        serviceViewController.serviceImage = self.selectedServiceImage;
+    }
 }
 
 

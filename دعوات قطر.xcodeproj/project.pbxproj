@@ -74,6 +74,10 @@
 		1859E8C31B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1859E8C21B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		185E69D11BA54DF20026194A /* customAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185E69D01BA54DF20026194A /* customAlertView.xib */; };
 		185E69D41BA54F6F0026194A /* customAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 185E69D31BA54F6F0026194A /* customAlertView.m */; };
+		1860DA091BAE82B3006BAB0E /* likeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1860DA081BAE82B3006BAB0E /* likeButton.png */; };
+		1860DA0B1BAE82EA006BAB0E /* viewsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1860DA0A1BAE82EA006BAB0E /* viewsButton.png */; };
+		1860DA121BAE8C9D006BAB0E /* roundedRectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 1860DA111BAE8C9D006BAB0E /* roundedRectangle.png */; };
+		1860DA141BAEB331006BAB0E /* likesAndViewsFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 1860DA131BAEB331006BAB0E /* likesAndViewsFrame.png */; };
 		18651CD21BAE658D00978969 /* like.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18651CD01BAE658D00978969 /* like.jpg */; };
 		18651CD31BAE658D00978969 /* view.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18651CD11BAE658D00978969 /* view.jpg */; };
 		18651CD61BAE67D100978969 /* SpecialEventsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18651CD51BAE67D100978969 /* SpecialEventsCollectionViewCell.m */; };
@@ -255,6 +259,10 @@
 		185E69D01BA54DF20026194A /* customAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = customAlertView.xib; sourceTree = "<group>"; };
 		185E69D21BA54F6F0026194A /* customAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = customAlertView.h; path = ../customAlertView.h; sourceTree = "<group>"; };
 		185E69D31BA54F6F0026194A /* customAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = customAlertView.m; path = ../customAlertView.m; sourceTree = "<group>"; };
+		1860DA081BAE82B3006BAB0E /* likeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = likeButton.png; sourceTree = "<group>"; };
+		1860DA0A1BAE82EA006BAB0E /* viewsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewsButton.png; sourceTree = "<group>"; };
+		1860DA111BAE8C9D006BAB0E /* roundedRectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roundedRectangle.png; sourceTree = "<group>"; };
+		1860DA131BAEB331006BAB0E /* likesAndViewsFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = likesAndViewsFrame.png; sourceTree = "<group>"; };
 		18651CD01BAE658D00978969 /* like.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = like.jpg; sourceTree = "<group>"; };
 		18651CD11BAE658D00978969 /* view.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = view.jpg; sourceTree = "<group>"; };
 		18651CD41BAE67D100978969 /* SpecialEventsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialEventsCollectionViewCell.h; sourceTree = "<group>"; };
@@ -628,6 +636,10 @@
 		18D1CBB11B44C47A00B8B787 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1860DA131BAEB331006BAB0E /* likesAndViewsFrame.png */,
+				1860DA111BAE8C9D006BAB0E /* roundedRectangle.png */,
+				1860DA081BAE82B3006BAB0E /* likeButton.png */,
+				1860DA0A1BAE82EA006BAB0E /* viewsButton.png */,
 				18651CD01BAE658D00978969 /* like.jpg */,
 				18651CD11BAE658D00978969 /* view.jpg */,
 				183158401BAC638B000708A2 /* credits.png */,
@@ -770,6 +782,7 @@
 				189E45C61B6718CD000A7066 /* groupFrame2.png in Resources */,
 				18B589C51B674242009F8B90 /* UserGroup.png in Resources */,
 				188AE95F1BAB4E3D00DAE5D6 /* golden_button.png in Resources */,
+				1860DA091BAE82B3006BAB0E /* likeButton.png in Resources */,
 				18033DF11B68B95D00129546 /* JF FLAT REGULAR.TTF in Resources */,
 				188AE9691BAB602A00DAE5D6 /* vip_icon.png in Resources */,
 				185E69D11BA54DF20026194A /* customAlertView.xib in Resources */,
@@ -778,11 +791,14 @@
 				184B653B1B3F60AC00B1483C /* Images.xcassets in Resources */,
 				188AE9711BAB86D800DAE5D6 /* adSpaceSC.png in Resources */,
 				189E0E181B7CD136009DF99B /* backwithoutframe.png in Resources */,
+				1860DA0B1BAE82EA006BAB0E /* viewsButton.png in Resources */,
 				18651CD21BAE658D00978969 /* like.jpg in Resources */,
 				189E0E1D1B7CD762009DF99B /* newFrame.png in Resources */,
 				183158411BAC638B000708A2 /* credits.png in Resources */,
 				18651CD31BAE658D00978969 /* view.jpg in Resources */,
+				1860DA141BAEB331006BAB0E /* likesAndViewsFrame.png in Resources */,
 				18D5AA981B7D0AA3000D8711 /* vip3.png in Resources */,
+				1860DA121BAE8C9D006BAB0E /* roundedRectangle.png in Resources */,
 				1831583F1BAC62B6000708A2 /* topAd.png in Resources */,
 				188AE94C1BAA4C8100DAE5D6 /* logo_03.jpg in Resources */,
 				188AE9571BAB393100DAE5D6 /* logoTrans.png in Resources */,

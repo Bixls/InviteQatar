@@ -242,10 +242,16 @@
 //        self.news = news;
 //        [self.newsCollectionView reloadData];
 //    }
+    NSDictionary *getUserPoints = @{
+                                @"FunctionName":@"getUserPoints" ,
+                                @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID]}]};
+    
+    NSMutableDictionary *getUserPointsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUserPoints",@"key", nil];
     
     NSDictionary *getGroups = @{
                                 @"FunctionName":@"getGroupList" ,
                                 @"inputs":@[@{@"limit":[NSNumber numberWithInteger:5000]}]};
+    
     NSMutableDictionary *getGroupsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getGroups",@"key", nil];
     NSDictionary *getNews = @{
                               @"FunctionName":@"GetNewsList" ,
@@ -264,6 +270,7 @@
                                                                                     //                                                                             @"start":@"0",@"limit":@"3"
                                                                                     }]};
     NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
+    
     
     if (self.userMobile && self.userPassword) {
         getInvNum = @{@"FunctionName":@"signIn" ,
@@ -293,6 +300,7 @@
         [self postRequest:getEvents withTag:getEventsTag];
         [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
          [self postRequest:getInvNum withTag:getInvNumTag];
+        [self postRequest:getUserPoints withTag:getUserPointsTag];
         
     }
     else {
@@ -313,6 +321,7 @@
             [self postRequest:getNews withTag:getNewsTag];
             [self postRequest:getEvents withTag:getEventsTag];
             [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+            [self postRequest:getUserPointsTag withTag:getUserPointsTag];
         }
         else {
             self.offline = true;
@@ -340,6 +349,14 @@
             [request setDelegate:nil];
         }
     }
+}
+
+-(NSString *)arabicNumberFromEnglish:(NSInteger)num {
+    NSNumber *someNumber = [NSNumber numberWithInteger:num];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSLocale *gbLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"ar"];
+    [formatter setLocale:gbLocale];
+    return [formatter stringFromNumber:someNumber];
 }
 
 //-(void)clearProfileCaching{
@@ -611,8 +628,10 @@
         
         cell.eventName.text =tempEvent[@"subject"];
         cell.eventCreator.text = tempEvent[@"CreatorName"];
-//        cell.likesNumber.text = tempEvent[@"Likes"];
-//        cell.viewsNumber.text = tempEvent[@"views"];
+        
+        cell.likesNumber.text = [self arabicNumberFromEnglish:[tempEvent[@"Likes"]integerValue]];
+        cell.viewsNumber.text = [self arabicNumberFromEnglish:[tempEvent[@"views"]integerValue]];
+        
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
         NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
@@ -1003,20 +1022,59 @@
         [self.eventCollectionView reloadData];
         self.pullToRefreshFlag ++;
 
-    }else if ([key isEqualToString:@"unReadInbox"]){
-        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        self.unReadMsgs = [dict[@"unReaded"]integerValue];
-        [self.btnUnReadMsgs setHidden:NO];
-        [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
-        self.pullToRefreshFlag ++;
-    }else if ([key isEqualToString:@"invNum"]){
-        NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
-        self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
-        [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
-        [self.userDefaults synchronize];
+    }
+//    else if ([key isEqualToString:@"unReadInbox"]){
+//        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        self.unReadMsgs = [dict[@"unReaded"]integerValue];
+//        [self.btnUnReadMsgs setHidden:NO];
+//        [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
+//        self.pullToRefreshFlag ++;
+//    }
+//    else if ([key isEqualToString:@"invNum"]){
+//        NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
+//        self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
+//        [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
+//        [self.userDefaults synchronize];
+//        
+//       // UPDATE CONTROLS
+//    }
+    else if ([key isEqualToString:@"getUserPoints"]){
         
-       // UPDATE CONTROLS
+        NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        
+        if (responseDictionary[@"unRead"]) {
+            
+            NSInteger unread = [responseDictionary[@"unRead"]integerValue];
+            [self.btnUnReadMsgs setHidden:NO];
+//            NSString *unread = [responseDictionary[@"unRead"]stringValue];
+//            NSLog(@"%@",unread);
+            [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)unread] forState:UIControlStateNormal];
+            
+            //[self.btnUnReadMsgs setTitle:[responseDictionary[@"unRead"]stringValue] forState:UIControlStateNormal];
+//            [[self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%@",unread] forState:UIControlStateNormal];
+//             self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%@",unread] forState:UIControlStateNormal];
+            self.pullToRefreshFlag ++;
+        }
+        if ([responseDictionary[@"VIP"]integerValue]) {
+            
+            NSInteger VIP = [responseDictionary[@"VIP"]integerValue];
+            self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
+           // [s setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];
+            
+//            NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
+//            self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
+//            self.lblVIPPoints.text = [NSString stringWithFormat:@"%ld",(long)VIP];
+            
+            [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
+            [self.userDefaults synchronize];
+        }
+        
+        
+        
+    
+        
+        // UPDATE CONTROLS
     }
     
 //invNum

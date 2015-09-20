@@ -177,4 +177,37 @@
     [self postRequest:getAdminMsg  withTag:getAdminMsgTag];
 }
 
+
+-(void)getFullServiceWithID:(NSInteger)serviceID {
+    NSDictionary *getService = @{@"FunctionName":@"getServicesFull" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)serviceID]
+                                                                                     
+                                                                                     }]};
+    NSMutableDictionary *getServiceTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"GetServices",@"key", nil];
+    
+    [self postRequest:getService  withTag:getServiceTag];
+}
+
+-(void)likePostWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID{
+    NSDictionary *getService = @{@"FunctionName":@"Like" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",(long)memberID],
+                                                                         @"table":table,
+                                                                         @"PostID":[NSString stringWithFormat:@"%ld",(long)postID]
+                                                                                    
+                                                                                    }]};
+    NSMutableDictionary *getServiceTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"GetServices",@"key", nil];
+    
+    [self postRequest:getService  withTag:getServiceTag];
+}
+
+-(void)getAllLikesWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID{
+    NSDictionary *getService = @{@"FunctionName":@"getLikes" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",(long)memberID],
+                                                                         @"table":table,
+                                                                         @"PostID":[NSString stringWithFormat:@"%ld",(long)postID]
+                                                                         
+                                                                         }]};
+    NSMutableDictionary *getServiceTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getLikes",@"key", nil];
+    
+    [self postRequest:getService  withTag:getServiceTag];
+}
+
+
 @end

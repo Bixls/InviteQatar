@@ -10,7 +10,7 @@
 #import "ChooseDateViewController.h"
 #import "NetworkConnection.h"
 
-@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate>
+@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate , UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentsHeightLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *CommentsTextField;
 @property (weak, nonatomic) IBOutlet UIButton *sendComments;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSendComments;
+@property (weak, nonatomic) IBOutlet UILabel *eventLikes;
+@property (weak, nonatomic) IBOutlet UILabel *eventViews;
 
 
 

@@ -34,6 +34,7 @@
 -(void)getUserEventsWithUserID:(NSInteger)userID startValue:(NSInteger)start limitValue:(NSInteger)limit;
 -(void)getCreateEventAdminMsg ;
 -(void)getSpecialEventWithType:(NSInteger)type startFrom:(NSInteger)start limit:(NSInteger)limit ;
-
-
+-(void)getFullServiceWithID:(NSInteger)serviceID;
+-(void)likePostWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID;
+-(void)getAllLikesWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID;
 @end
