@@ -42,13 +42,15 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    self.connection = [[NetworkConnection alloc]init];
-    [self.connection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
+//    self.connection = [[NetworkConnection alloc]init];
+//    [self.connection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
+    [self initiateSignIn];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     
-    [self.connection removeObserver:self forKeyPath:@"response"];
+//    [self.connection removeObserver:self forKeyPath:@"response"];
     
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
@@ -58,6 +60,37 @@
             [request setDelegate:nil];
         }
     }
+}
+
+-(void)initiateSignIn{
+    
+    self.connection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        
+        self.user = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        
+        if ([self.user[@"Verified"]boolValue] == true) {
+            [self.userDefaults setInteger:1 forKey:@"signedIn"];
+            [self.userDefaults synchronize];
+            self.userName = self.user[@"name"];
+            self.groupName = self.user[@"Gname"];
+            self.imageID = [self.user[@"ProfilePic"]integerValue];
+            [self saveUserData];
+            [self performSegueWithIdentifier:@"welcomeUser" sender:self];
+            
+            
+        }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
+            
+            [self showAlertWithMsg:@"من فضلك تأكد من إدخال بياناتك الصحيحة" alertTag:0];
+            
+        }else if ([self.user[@"Verified"]boolValue] == false && self.user[@"Verified"] != nil ){
+            [self saveUserData];
+            [self performSegueWithIdentifier:@"activate" sender:self];
+        }else if (self.user == nil){
+            [self showAlertWithMsg:@"هناك خطأ في الإتصال من فضلك حاول مرة أخري" alertTag:0];
+        }
+
+        
+    }];
 }
 
 #pragma mark - Custom Alert
@@ -75,37 +108,37 @@
 
 #pragma mark - KVO Methods
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"response"]) {
-        
-        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
-        self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        
-//        NSLog(@"%@",self.user);
-
-        if ([self.user[@"Verified"]boolValue] == true) {
-            [self.userDefaults setInteger:1 forKey:@"signedIn"];
-            [self.userDefaults synchronize];
-            self.userName = self.user[@"name"];
-            self.groupName = self.user[@"Gname"];
-            self.imageID = [self.user[@"ProfilePic"]integerValue];
-            [self saveUserData];
-            [self performSegueWithIdentifier:@"welcomeUser" sender:self];
-
-            
-        }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
-            
-            [self showAlertWithMsg:@"من فضلك تأكد من إدخال بياناتك الصحيحة" alertTag:0];
-            
-        }else if ([self.user[@"Verified"]boolValue] == false && self.user[@"Verified"] != nil ){
-            [self saveUserData];
-            [self performSegueWithIdentifier:@"activate" sender:self];
-        }else if (self.user == nil){
-            [self showAlertWithMsg:@"هناك خطأ في الإتصال من فضلك حاول مرة أخري" alertTag:0];
-        }
-
-    }
-}
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+//    if ([keyPath isEqualToString:@"response"]) {
+//        
+//        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+//        self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        
+////        NSLog(@"%@",self.user);
+//
+//        if ([self.user[@"Verified"]boolValue] == true) {
+//            [self.userDefaults setInteger:1 forKey:@"signedIn"];
+//            [self.userDefaults synchronize];
+//            self.userName = self.user[@"name"];
+//            self.groupName = self.user[@"Gname"];
+//            self.imageID = [self.user[@"ProfilePic"]integerValue];
+//            [self saveUserData];
+//            [self performSegueWithIdentifier:@"welcomeUser" sender:self];
+//
+//            
+//        }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
+//            
+//            [self showAlertWithMsg:@"من فضلك تأكد من إدخال بياناتك الصحيحة" alertTag:0];
+//            
+//        }else if ([self.user[@"Verified"]boolValue] == false && self.user[@"Verified"] != nil ){
+//            [self saveUserData];
+//            [self performSegueWithIdentifier:@"activate" sender:self];
+//        }else if (self.user == nil){
+//            [self showAlertWithMsg:@"هناك خطأ في الإتصال من فضلك حاول مرة أخري" alertTag:0];
+//        }
+//
+//    }
+//}
 
 #pragma mark - Methods
 

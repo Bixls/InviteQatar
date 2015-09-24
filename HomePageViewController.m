@@ -527,16 +527,16 @@
             
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
-             UIActivityIndicatorView *groupsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            // UIActivityIndicatorView *groupsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             [cell.groupPP sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                groupsSpinner.center = cell.groupPP.center;
-                groupsSpinner.hidesWhenStopped = YES;
-                [cell addSubview:groupsSpinner];
-                [groupsSpinner startAnimating];
+//                groupsSpinner.center = cell.groupPP.center;
+//                groupsSpinner.hidesWhenStopped = YES;
+//                [cell addSubview:groupsSpinner];
+//                [groupsSpinner startAnimating];
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 cell.groupPP.image = image;
                 
-                     [groupsSpinner stopAnimating];
+                    // [groupsSpinner stopAnimating];
                
                
             }];
@@ -658,16 +658,16 @@
         
         NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
         NSURL *imgURL = [NSURL URLWithString:imgURLString];
-        UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+       // UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            eventsSpinner.center = cell.eventPic.center;
-            eventsSpinner.hidesWhenStopped = YES;
-            [cell addSubview:eventsSpinner];
-            [eventsSpinner startAnimating];
+//            eventsSpinner.center = cell.eventPic.center;
+//            eventsSpinner.hidesWhenStopped = YES;
+//            [cell addSubview:eventsSpinner];
+//            [eventsSpinner startAnimating];
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             cell.eventPic.image = image;
          
-            [eventsSpinner stopAnimating];
+//            [eventsSpinner stopAnimating];
 
             
         }];

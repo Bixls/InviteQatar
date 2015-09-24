@@ -22,6 +22,8 @@
 @property (nonatomic,strong) NSData *response;
 @property (nonatomic,weak) id <NetworkConnectionDelegate> delegate;
 
+-(instancetype)initWithCompletionHandler:(void (^)(NSData * response))completionHandler;
+
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict;
 -(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image;
 
@@ -37,4 +39,6 @@
 -(void)getFullServiceWithID:(NSInteger)serviceID;
 -(void)likePostWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID;
 -(void)getAllLikesWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID;
+
+
 @end

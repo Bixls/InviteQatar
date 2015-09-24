@@ -11,12 +11,25 @@
 
 
 @interface NetworkConnection()
+
 @property (nonatomic,strong) ASIFormDataRequest *imageRequest;
-//@property (nonatomic,strong) UIImage *downloadedImage;
+
+@property (nonatomic,strong) void (^completionHandler)(NSData *) ;
+
 @end
 
 @implementation NetworkConnection
 
+//Inistantiation and assigning reference to the completion handler
+-(instancetype)initWithCompletionHandler:(void (^)(NSData * response))completionHandler{
+    self = [super init];
+    if (self) {
+        self.completionHandler = completionHandler;
+    }
+    return self;
+}
+
+#pragma mark - Images
 -(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key withWidth:(NSInteger)width andHeight:(NSInteger)height{
     
     NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld&t=%ldx%ld",(long)imageID,(long)width,(long)height];
@@ -71,6 +84,8 @@
     [self.imageRequest startAsynchronous];
 }
 
+#pragma mark - Content
+
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict{
     
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
@@ -98,6 +113,10 @@
 {
     self.response = [request responseData];
     //NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:self.response options:kNilOptions error:nil]);
+    
+    if (self.completionHandler) {
+        self.completionHandler(self.response);
+    }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -105,6 +124,7 @@
     NSError *error = [request error];
     //NSLog(@"%@",error);
 }
+
 
 -(void)searchDataBaseWithText:(NSString*)text {
     NSDictionary *postDict = @{

@@ -38,11 +38,12 @@ static void *uploadImageContext = &uploadImageContext;
 @property (nonatomic) int flag;
 @property (nonatomic) int uploaded;
 @property (nonatomic,strong) NSString *imageURL;
-@property (nonatomic) int userID;
+@property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger offlinePic;
 @property (nonatomic) int activateFlag;
 @property (nonatomic,strong) NSDictionary *responseDictionary;
 @property (nonatomic,strong) UIImage *selectedImage;
+
 @property (nonatomic,strong) NetworkConnection *uploadImageConn;
 @property (nonatomic,strong) NetworkConnection *signUpConn;
 @property (nonatomic) NSInteger alertTag;
@@ -72,10 +73,10 @@ static void *uploadImageContext = &uploadImageContext;
 
 -(void)viewDidAppear:(BOOL)animated{
     
-    [self.signUpConn addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:signUpContext];
-    [self.uploadImageConn addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:uploadImageContext];
-    
+    [self initiateSignUp];
+
     if (self.offlinePic == 1) {
+        [self initiateUploadImage];
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
         [self.uploadImageConn postPicturewithTag:pictureTag uploadImage:self.profilePicture.image];
         self.offlinePic = 0;
@@ -83,9 +84,6 @@ static void *uploadImageContext = &uploadImageContext;
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-
-    [self.signUpConn removeObserver:self forKeyPath:@"response" context:signUpContext];
-    [self.uploadImageConn removeObserver:self forKeyPath:@"response" context:uploadImageContext];
     
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
@@ -97,46 +95,39 @@ static void *uploadImageContext = &uploadImageContext;
     }
 }
 
-#pragma mark - KVO Methods
+#pragma mark - Completion Handlers
 
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-  
-    if (context == signUpContext) {
-        if ([keyPath isEqualToString:@"response"]) {
+-(void)initiateSignUp{
+    self.signUpConn = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        
+        self.responseDictionary =[NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        NSInteger success = [self.responseDictionary[@"sucess"]boolValue];
+        if (success == true) {
+            NSDictionary *data = self.responseDictionary[@"data"];
+            self.userID = [data[@"id"]integerValue];
+
+            [self.userDefaults setInteger:self.userID forKey:@"userID"];
+            [self.userDefaults synchronize];
+            self.activateFlag = 1;
+            [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
+            [self.userDefaults synchronize];
             
-            NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
-            self.responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//            NSLog(@"%@",self.responseDictionary);
-            NSInteger success = [self.responseDictionary[@"sucess"]boolValue];
-            if (success == true) {
-                NSDictionary *data = self.responseDictionary[@"data"];
-                self.userID = [data[@"id"]integerValue];
-//                NSLog(@"USER ID %d",self.userID);
-                [self.userDefaults setInteger:self.userID forKey:@"userID"];
-                [self.userDefaults synchronize];
-                self.activateFlag = 1;
-                [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-                [self.userDefaults synchronize];
-
-                [self showAlertWithMsg:@"تم إرسال طلب التسجيل بنجاح" alertTag:1];
-                
-            }else{
-                [self showAlertWithMsg:@"الإسم أو رقم الهاتف موجودون بالفعل" alertTag:0];
-                
-            }
+            [self showAlertWithMsg:@"تم إرسال طلب التسجيل بنجاح" alertTag:1];
+            
+        }else{
+            [self showAlertWithMsg:@"الإسم أو رقم الهاتف موجودون بالفعل" alertTag:0];
             
         }
-    }else if (context == uploadImageContext){
-        if ([keyPath isEqualToString:@"response"]) {
-            NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
-            NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//            NSLog(@"%@",responseDict);
-            self.imageURL = responseDict[@"id"];
-            self.uploaded =1;
-        }
-    }
-    
-    
+
+    }];
+}
+
+-(void)initiateUploadImage {
+    self.uploadImageConn = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        self.imageURL = responseDict[@"id"];
+        self.uploaded =1;
+    }];
 }
 
 #pragma mark - Alert View Methods
@@ -155,14 +146,12 @@ static void *uploadImageContext = &uploadImageContext;
 -(void)selectedGroup:(NSDictionary *)group {
     self.selectedGroup = group;
     [self.btnChooseGroup setTitle:self.selectedGroup[@"name"] forState:UIControlStateNormal];
-//    NSLog(@"%@",group);
     
 }
 
 -(void)selectedPicture:(UIImage *)image{
     self.selectedImage = image;
     self.profilePicture.image = self.selectedImage;
-//    NSLog(@"%@",image);
     [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
     
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -203,8 +192,7 @@ static void *uploadImageContext = &uploadImageContext;
 #pragma mark - Textfield delegate method 
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-//    NSLog(@"%@",textField.text);
-    
+
     [textField resignFirstResponder];
     return YES;
 }
@@ -217,15 +205,15 @@ static void *uploadImageContext = &uploadImageContext;
     [self dismissViewControllerAnimated:YES completion:nil];
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-//        self.profilePicture.image = [self imageWithImage:image scaledToSize:CGSizeMake(150 , 150)];
+
         self.profilePicture.image = [self resizeImageWithImage:image];
-        //
+        
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
         
+        [self initiateUploadImage];
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
-        
         [self.uploadImageConn postPicturewithTag:pictureTag uploadImage:self.profilePicture.image];
-//        [self postPicturewithTag:pictureTag];
+
         self.flag = 1;
     }
     
@@ -281,23 +269,6 @@ static void *uploadImageContext = &uploadImageContext;
 }
 
 
-
-#pragma mark - Methods
-
--(void)signUp{
-    NSDictionary *postDict = @{@"FunctionName":@"Register" ,
-                               @"inputs":@[@{@"name":self.nameField.text,
-                                             @"Mobile":self.mobileField.text,
-                                             @"password":self.passwordField.text,
-                                             @"groupID":(NSString *)self.selectedGroup[@"id"],
-                                             @"ProfilePic":self.imageURL}]};
-    
-    NSMutableDictionary *registerTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"registerTag",@"key", nil];
-    [self.signUpConn postRequest:postDict withTag:registerTag];
-}
-
-
-
 #pragma mark - Buttons
 
 - (IBAction)btnChooseImagePressed:(id)sender {
@@ -315,7 +286,8 @@ static void *uploadImageContext = &uploadImageContext;
     if ((self.nameField.text.length != 0) && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length != 0) && (groupID.length > 0)) {
         if (self.flag == 1 && self.uploaded == 1 ) {
             
-            [self signUp];
+            [self.signUpConn signUpWithName:self.nameField.text mobile:self.mobileField.text password:self.passwordField.text groupID:(NSString *)self.selectedGroup[@"id"] imageURL:self.imageURL];
+//            [self signUp];
             
         }else if (self.flag == 1){
 
