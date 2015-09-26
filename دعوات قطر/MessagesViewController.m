@@ -203,6 +203,11 @@
 #pragma mark - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if (self.messageSpinner) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.messageSpinner stopAnimating];
+        });
+    }
     
     if ([segue.identifier isEqualToString:@"readMessage"]) {
         ReadMessageViewController *readMessageController = segue.destinationViewController;
