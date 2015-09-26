@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NetworkConnection.h"
 
-@interface UserViewController : UIViewController
+@interface UserViewController : UIViewController 
 
 @property (nonatomic,strong)NSDictionary *user;
 @property(nonatomic) NSInteger otherUserID;
@@ -16,9 +17,12 @@
 @property(nonatomic) BOOL userCurrentGroup;
 @property(nonatomic,strong) NSString *defaultGroup;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventsCollectionViewHeight;
+@property (weak, nonatomic) IBOutlet UICollectionView *eventsCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *userPicture;
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UILabel *userGroup;
+@property (weak, nonatomic) IBOutlet UIImageView *userType;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnSendMessage;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSendMessage;

@@ -8,14 +8,19 @@
 
 #import "UserViewController.h"
 #import "SendMessageViewController.h"
-#import "NetworkConnection.h"
+#import "EventViewController.h"
+#import "EventsDataSource.h"
 
 @interface UserViewController ()
 
 @property (nonatomic,strong)NSUserDefaults *userDefaults;
 @property (nonatomic) NSInteger userID;
+@property (nonatomic) NSInteger userTypeFlag;
 @property (nonatomic,strong) NetworkConnection *getUserConnection;
-
+@property (nonatomic,strong) NetworkConnection *getEvents;
+@property (nonatomic,strong) EventsDataSource *customEvent;
+@property (nonatomic,strong) NSArray *events;
+@property (nonatomic,strong) NSDictionary *selectedEvent;
 @end
 
 @implementation UserViewController
@@ -23,31 +28,55 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
-    
+    self.userTypeFlag = -1;
+    [self.userType setHidden:YES];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID  = [self.userDefaults integerForKey:@"userID"];
     
+
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     if (self.eventOrMsg == 0) {
         self.otherUserID = [self.user[@"id"]integerValue];
+        
         [self checkIfSameProfile];
         [self updateUIWithUser:self.user];
-        //NSLog(@"%@",self.user);
+        
     }else if (self.eventOrMsg == 1){
         self.getUserConnection = [[NetworkConnection alloc]init];
-        [self.getUserConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
+        
+       
         
     }
     if (self.userCurrentGroup == YES) {
         self.userGroup.text = self.defaultGroup;
     }
+    
+    
+    [self getUSer];
+    [self getUserEvents];
+    
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [self getUSer];
+
+-(void)getUserEvents{
+    
+    self.getEvents = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        self.events = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        self.customEvent = [[EventsDataSource alloc]initWithEvents:self.events withHeightConstraint:self.eventsCollectionViewHeight andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
+            self.selectedEvent = selectedEvent;
+        }];
+        [self.eventsCollectionView setDelegate:self.customEvent];
+        [self.eventsCollectionView setDataSource:self.customEvent];
+        [self.eventsCollectionView reloadData];
+    }];
+    [self.getEvents getUserEventsWithUserID:self.otherUserID startValue:0 limitValue:10000];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.getUserConnection removeObserver:self forKeyPath:@"response"];
+    
     
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
@@ -59,27 +88,36 @@
     }
 }
 
-#pragma mark - KVO Methods
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"response"]) {
-        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
-        self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-        [self updateUIWithUser:self.user];
-    }
-}
-
 #pragma mark - Connection
 -(void)getUSer {
+    self.getUserConnection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        self.user = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        self.userTypeFlag = 1;
+        [self updateUIWithUser:self.user];
+    }];
     
-    NSDictionary *getUserDic = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
-                                                                               @"id":[NSString stringWithFormat:@"%ld",(long)self.otherUserID]
-                                                                               }]};
+    [self.getUserConnection getUserWithID:self.otherUserID];
     
-    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
-    
-    [self.getUserConnection postRequest:getUserDic withTag:getUserTag];
+//    NSDictionary *getUserDic = @{@"FunctionName":@"getUserbyID" , @"inputs":@[@{
+//                                                                                  @"id":[NSString stringWithFormat:@"%ld",(long)self.otherUserID]
+//                                                                                  }]};
+//    
+//    NSMutableDictionary *getUserTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUser",@"key", nil];
+//    
+//    [self.getUserConnection postRequest:getUserDic withTag:getUserTag];
     
 }
+
+//#pragma mark - KVO Methods
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+//    if ([keyPath isEqualToString:@"response"]) {
+//        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
+//        self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+//        [self updateUIWithUser:self.user];
+//    }
+//}
+
+
 
 
 #pragma mark - Methods
@@ -88,7 +126,7 @@
     
     self.userName.text = user[@"name"];
     self.userGroup.text = user[@"GName"];
-    
+    [self showOrHideUserType:[user[@"Type"]integerValue]];
     NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -104,6 +142,23 @@
     
 
 }
+
+-(void)showOrHideUserType:(NSInteger)userType {
+    
+    if (userType == 2 && self.userTypeFlag == 1) {
+        [self.userType setHidden:NO];
+        self.userType.image = [UIImage imageNamed:@"ownerUser.png"];
+    }else if (userType == 1 && self.userTypeFlag == 1){
+        [self.userType setHidden:NO];
+        self.userType.image = [UIImage imageNamed:@"vipUser.png"];
+    }else if (userType == 0 && self.userTypeFlag == 1){
+        [self.userType removeFromSuperview];
+    }else{
+        [self.userType setHidden:YES];
+    }
+    
+}
+
 
 -(void)checkIfSameProfile{
     if (self.otherUserID == self.userID) {
@@ -121,6 +176,9 @@
     if ([segue.identifier isEqualToString:@"sendMessage"]) {
         SendMessageViewController *sendMessageController = segue.destinationViewController;
         sendMessageController.receiverID = self.otherUserID;
+    }else if ([segue.identifier isEqualToString:@"event"]){
+        EventViewController *eventController = segue.destinationViewController;
+        eventController.event = self.selectedEvent;
     }
 }
 
