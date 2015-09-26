@@ -23,7 +23,7 @@
 @property (nonatomic)NSInteger userID;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 
-
+@property (nonatomic) NSInteger userTypeFlag;
 @property(nonatomic)NSInteger newsID;
 @property(nonatomic)NSInteger newsType;
 @property(nonatomic,strong)UIActivityIndicatorView *newsPicSpinner;
@@ -202,6 +202,8 @@
         
         cell2.userName.text = comment[@"name"];
         cell2.userComment.text = comment[@"comment"];
+        NSInteger userType = [comment[@"Type"]integerValue];
+        [self showOrHideUserType:userType andCell:cell2];
         
         [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error) {
@@ -220,6 +222,7 @@
 }
 
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -229,6 +232,23 @@
     
     
 }
+
+-(void)showOrHideUserType:(NSInteger)userType andCell:(CommentsSecondTableViewCell *)cell {
+    
+    if (userType == 2 && self.userTypeFlag == 1) {
+        [cell.userType setHidden:NO];
+        cell.userType.image = [UIImage imageNamed:@"ownerUser.png"];
+    }else if (userType == 1 && self.userTypeFlag == 1){
+        [cell.userType setHidden:NO];
+        cell.userType.image = [UIImage imageNamed:@"vipUser.png"];
+    }else if (userType == 0 && self.userTypeFlag == 1){
+        [cell.userType removeFromSuperview];
+    }else{
+        [cell.userType setHidden:YES];
+    }
+    
+}
+
 
 
 #pragma mark - Connection Setup
@@ -326,6 +346,7 @@
         NSLog(@"%@",array);
         [self.comments removeAllObjects];
         [self.comments addObjectsFromArray:array];
+        self.userTypeFlag = 1;
         [self.commentsTableView reloadData];
         [self.commentsTableView.infiniteScrollingView stopAnimating];
         

@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *userComment;
 
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
+@property (weak, nonatomic) IBOutlet UIImageView *userType;
 
 @end

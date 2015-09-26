@@ -845,6 +845,7 @@ static void *getAllLikesContext = &getAllLikesContext;
         //NSString *key = [request.userInfo objectForKey:@"key"];
         [self.comments removeAllObjects];
         [self.comments addObjectsFromArray:array];
+        self.userTypeFlag = 1;
         [self.commentsTableView.infiniteScrollingView stopAnimating];
         [self.commentsTableView reloadData];
         
@@ -964,6 +965,8 @@ static void *getAllLikesContext = &getAllLikesContext;
             
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
+            NSInteger userType = [comment[@"Type"]integerValue];
+            [self showOrHideUserType:userType andCell:cell2];
             
             [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 if (error) {
@@ -991,6 +994,23 @@ static void *getAllLikesContext = &getAllLikesContext;
 
     
 }
+
+-(void)showOrHideUserType:(NSInteger)userType andCell:(CommentsSecondTableViewCell *)cell {
+    
+    if (userType == 2 && self.userTypeFlag == 1) {
+        [cell.userType setHidden:NO];
+        cell.userType.image = [UIImage imageNamed:@"ownerUser.png"];
+    }else if (userType == 1 && self.userTypeFlag == 1){
+        [cell.userType setHidden:NO];
+        cell.userType.image = [UIImage imageNamed:@"vipUser.png"];
+    }else if (userType == 0 && self.userTypeFlag == 1){
+        [cell.userType removeFromSuperview];
+    }else{
+        [cell.userType setHidden:YES];
+    }
+    
+}
+
 #pragma mark - KVO 
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
