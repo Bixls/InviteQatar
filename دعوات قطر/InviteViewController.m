@@ -185,8 +185,7 @@
     
     for(NSIndexPath *i in self.selectedRows)
     {
-//        NSLog(@"%@",i);
-//        NSLog(@"%@",indexPath);
+
         if([i isEqual:indexPath])
         {
             cell.checkmark.text = @"\u2713";
@@ -338,7 +337,7 @@
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"لم يتم إرسال الدعوات بنجاح" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
         }else{
-            if (self.editingMode == YES) {
+            if (self.editingMode == YES && self.inviteOthers == NO) {
                 [self jumpToRootViewController];
             }else{
                 [self jumpToEventViewController];
@@ -535,29 +534,5 @@
 @end
 
 
-/* Invite 
- 
- if (self.selectedUsers.count >0 && self.createMsgFlag != 1) {
- 
- for (int i =0; i < self.selectedUsers.count; i++) {
- 
- NSDictionary *dict = self.selectedUsers[i];
- NSInteger userID = [dict[@"id"]integerValue];
- NSDictionary *temp = [[NSDictionary alloc]initWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)userID],@"id", nil];
- [self.UsersToInvite addObject:temp];
- 
- }
- 
- NSDictionary *inviteUsers = @{@"FunctionName":@"invite" ,
- @"inputs":@[@{@"EventID":[NSString stringWithFormat:@"%ld",self.eventID],
- @"listArray":self.UsersToInvite,
- }]};
- NSMutableDictionary *inviteUsersTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"inviteUsers",@"key", nil];
- [self postRequest:inviteUsers withTag:inviteUsersTag];
- 
- }else if (self.createMsgFlag == 1){
- [self performSegueWithIdentifier:@"createMsg" sender:self];
- }
- 
- */
+
 

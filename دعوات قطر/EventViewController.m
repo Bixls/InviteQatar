@@ -300,7 +300,10 @@ static void *getAllLikesContext = &getAllLikesContext;
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                         if (image) {
                                             self.creatorPicture.image = image;
-                                            [userPicSpinner stopAnimating];
+                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                               [userPicSpinner stopAnimating];
+                                            });
+                                            
                                         }
                                     }];
 }
@@ -478,8 +481,13 @@ static void *getAllLikesContext = &getAllLikesContext;
 }
 #pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    [self.descriptionSpinner stopAnimating];
-    [self.eventPicSPinner stopAnimating];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.descriptionSpinner stopAnimating];
+        [self.eventPicSPinner stopAnimating];
+    });
+    
+
     if ([segue.identifier isEqualToString:@"showComments"]) {
         CommentsViewController *commentController = segue.destinationViewController;
         commentController.postID = self.eventID;
@@ -522,6 +530,7 @@ static void *getAllLikesContext = &getAllLikesContext;
         chooseGroupController.eventID = self.eventID;
         chooseGroupController.VIPFlag = self.VIPFlag;
         chooseGroupController.inviteOthers = YES;
+        chooseGroupController.editingMode = YES;
     }else if ([segue.identifier isEqualToString:@"chooseDate"]){
         ChooseDateViewController *chooseDateController = segue.destinationViewController;
         chooseDateController.delegate = self;
@@ -744,7 +753,11 @@ static void *getAllLikesContext = &getAllLikesContext;
             self.VIPFlag = [dict[@"VIP"]integerValue];
             self.allowComments = [dict[@"comments"]integerValue];
             self.eventDescription = dict[@"description"];
-            [self.descriptionSpinner stopAnimating];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+               [self.descriptionSpinner stopAnimating];
+            });
+            
             self.creatorID = [dict[@"CreatorID"]integerValue];
             self.creatorFlag = 1;
             self.approved = [dict[@"approved"]integerValue];
@@ -763,8 +776,7 @@ static void *getAllLikesContext = &getAllLikesContext;
         //NSLog(@"Joined!! %@",dict);
         if ([dict[@"sucess"]integerValue] == 1) {
             self.isJoined = 1;
-            //[self.btnGoing setTitle:@"عدم الذهاب؟" forState:UIControlStateNormal];
-            //NSLog(@"bardo 3adam zahab");
+
             [self updateUI];
         }
     }else if ([key isEqualToString:@"isJoind"]){
@@ -782,14 +794,19 @@ static void *getAllLikesContext = &getAllLikesContext;
         [self updateUI];
     }else if ( [key isEqualToString:@"readMessage"]){
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        NSDictionary *dict = arr[0];
-        //NSLog(@"Full event %@",dict);
-//        NSLog(@"%@",dict);
-        self.allowComments = [dict[@"comments"]integerValue];
+        self.allowComments = [dict[@"comments"]boolValue];
+
+        self.approved = [dict[@"approved"]boolValue];
+        self.approvedFlag = 1;
+        self.eventLikes.text = [self arabicNumberFromEnglish:[dict[@"Likes"]integerValue]];
+        self.eventViews.text = [self arabicNumberFromEnglish:[dict[@"views"]integerValue]];
+        
+        
         self.descriptionLabel.text = dict[@"description"];
         self.creatorID = [dict[@"CreatorID"]integerValue];
+        self.creatorFlag = 1;
         self.creatorName.text = dict[@"name"];
-        NSInteger eventPic = [dict[@"picture"]integerValue];
+
         self.eventSubject.text = dict[@"subject"];
         [self.imgTitle setHidden:NO];
         [self.imgUserProfile setHidden:NO];

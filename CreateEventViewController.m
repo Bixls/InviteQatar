@@ -721,8 +721,9 @@ static void *adminMsgContext = &adminMsgContext;
 
 
 - (IBAction)RadioButtonPressed:(UIButton *)sender {
+    //self.invitees.count > 0 &&
     
-    if (self.invitees.count > 0 && self.createOrEdit == 0) {
+    if ( self.createOrEdit == 0) {
         if (sender.tag == 0) { // VIP Pressed
             if (self.vipFlag == 1) {
                 self.vipFlag = -1;
