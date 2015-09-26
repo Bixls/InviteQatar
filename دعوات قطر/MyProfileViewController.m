@@ -27,9 +27,11 @@ static void *userContext = &userContext;
 @property (weak, nonatomic) IBOutlet UIView *innerView;
 @property (weak, nonatomic) IBOutlet UICollectionView *eventsCollectionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventsCollectionViewHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *userType;
 
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger groupID;
+@property (nonatomic) NSInteger userTypeFlag;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *user;
 @property (nonatomic,strong) NSString *userMobile;
@@ -63,6 +65,8 @@ static void *userContext = &userContext;
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
+    self.userTypeFlag = -1;
+    [self.userType setHidden:YES];
     
     if ([self.userDefaults objectForKey:@"userName"]) {
         self.myName.text = [self.userDefaults objectForKey:@"userName"];
@@ -155,6 +159,7 @@ static void *userContext = &userContext;
     
     if (context == userContext && [keyPath isEqualToString:@"response"]) {
         self.user = responseDictionary;
+        self.userTypeFlag = 1;
         [self updateUI];
     }else if (context == eventsContext && [keyPath isEqualToString:@"response"]){
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -204,93 +209,6 @@ static void *userContext = &userContext;
 
 }
 
-#pragma mark - Table View
-
-
-//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-//    return 1;
-//}
-//
-//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (self.events.count > 0) {
-//        [self.btnSeeMore setHidden:NO];
-//        [self.imgSeeMore setHidden:NO];
-//        [self.activateLabel setHidden:YES];
-//        [self.activateLabel2 setHidden:YES];
-//        return self.events.count ;
-//    }else if (self.events.count == 0 && self.finishedLoadingEvents == true){
-//        [self.btnSeeMore removeFromSuperview];
-//        [self.imgSeeMore removeFromSuperview];
-//        [self.tableView removeFromSuperview];
-//        [self.activateLabel setHidden:NO];
-//        [self.activateLabel2 setHidden:NO];
-//        return 0;
-//    }else{
-//        return 0;
-//    }
-//}
-//
-//-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    static NSString *cellIdentifier = @"Cell";
-//    
-//    if (indexPath.row < self.events.count) {
-//        
-//        MyLatestEventsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-//        if (cell==nil) {
-//            cell=[[MyLatestEventsTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//        }
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        NSDictionary *tempEvent = self.events[indexPath.row];
-//        cell.eventName.text =tempEvent[@"subject"];
-//        cell.eventCreator.text = tempEvent[@"CreatorName"];
-//        
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-//        NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
-//        [formatter setLocale:qatarLocale];
-//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//        NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",tempEvent[@"TimeEnded"]]];
-//        NSString *date = [formatter stringFromDate:dateString];
-//        NSString *dateWithoutSeconds = [date substringToIndex:16];
-//        cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
-////        NSLog(@"%@",date);
-//
-//        
-//        if ([[tempEvent objectForKey:@"VIP"]integerValue] == 0) {
-//            [cell.vipImage setHidden:YES];
-//            [cell.vipLabel setHidden:YES];
-//        }else{
-//            [cell.vipImage setHidden:NO];
-//            [cell.vipLabel setHidden:NO];
-//        }
-//
-//        NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
-//        NSURL *imgURL = [NSURL URLWithString:imgURLString];
-//        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//            spinner.center = cell.eventPic.center;
-//            spinner.hidesWhenStopped = YES;
-//            [cell addSubview:spinner];
-//            [spinner startAnimating];
-//        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//            cell.eventPic.image = image;
-//            [spinner stopAnimating];
-//        }];
-//
-//        
-//        self.tableVerticalLayoutConstraint.constant = self.tableView.contentSize.height;
-//        return cell ;
-//    }
-//
-//    return nil;
-//}
-
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.row < self.events.count) {
-//        self.selectedEvent = self.events[indexPath.row];
-//        [self performSegueWithIdentifier:@"event" sender:self];
-//    }
-//}
 
 #pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -318,9 +236,26 @@ static void *userContext = &userContext;
 -(void)updateUI {
     self.myName.text = self.user[@"name"];
     self.myGroup.text = self.user[@"GName"];
-
+    [self showOrHideUserType:[self.user[@"Type"]integerValue]];
+    
     [self downloadProfilePicture];
 
+}
+
+-(void)showOrHideUserType:(NSInteger)userType {
+    
+    if (userType == 2 && self.userTypeFlag == 1) {
+        [self.userType setHidden:NO];
+        self.userType.image = [UIImage imageNamed:@"ownerUser.png"];
+    }else if (userType == 1 && self.userTypeFlag == 1){
+        [self.userType setHidden:NO];
+        self.userType.image = [UIImage imageNamed:@"vipUser.png"];
+    }else if (userType == 0 && self.userTypeFlag == 1){
+        [self.userType removeFromSuperview];
+    }else{
+        [self.userType setHidden:YES];
+    }
+    
 }
 #pragma mark - Action Sheet 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{

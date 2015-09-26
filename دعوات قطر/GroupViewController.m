@@ -42,6 +42,7 @@
 @property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
+@property (nonatomic) NSInteger userTypeFlag;
 
 @end
 
@@ -313,6 +314,21 @@
 
 #pragma mark - Table View 
 
+-(void)showOrHideUserType:(NSInteger)userType andCell:(GroupUsersTableViewCell *)cell {
+    
+    if (userType == 2 && self.userTypeFlag == 1) {
+        [cell.userType setHidden:NO];
+        cell.userType.image = [UIImage imageNamed:@"ownerUser.png"];
+    }else if (userType == 1 && self.userTypeFlag == 1){
+        [cell.userType setHidden:NO];
+        cell.userType.image = [UIImage imageNamed:@"vipUser.png"];
+    }else if (userType == 0 && self.userTypeFlag == 1){
+        [cell.userType removeFromSuperview];
+    }else{
+        [cell.userType setHidden:YES];
+    }
+    
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -339,6 +355,8 @@
         NSDictionary *tempUser = self.users[indexPath.row];
         if (tempUser != nil) {
             cell.userName.text = tempUser[@"name"];
+            NSInteger userType = [tempUser[@"Type"]integerValue];
+            [self showOrHideUserType:userType andCell:cell];
             
 
             NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempUser[@"ProfilePic"]];
@@ -522,6 +540,7 @@
             [self.lblUsers setHidden:NO];
             [self.btnSeeMoreUsers setHidden:NO];
             [self.imgSeeMoreUsers setHidden:NO];
+            self.userTypeFlag = 1;
             [self.usersTableView reloadData];
         }else{
 //            NSLog(@"NO Users!");

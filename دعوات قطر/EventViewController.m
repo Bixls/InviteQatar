@@ -48,6 +48,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (nonatomic)NSInteger creatorFlag;
 @property (nonatomic)NSInteger approved;
 @property (nonatomic)NSInteger approvedFlag;
+@property (nonatomic) NSInteger userTypeFlag;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong)NSString *userInput;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
@@ -111,6 +112,9 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self.btnUser setEnabled:NO];
 //    [self.btnUser setHidden:YES];
 //    [self.creatorPicture setHidden:YES];
+    
+    [self.userType setHidden:YES];
+    self.userTypeFlag = -1;
     
     self.isJoined = -1;
     self.isInvited =-1;
@@ -833,6 +837,8 @@ static void *getAllLikesContext = &getAllLikesContext;
         [self.btnUser setEnabled:YES];
         [self.creatorPicture setHidden:NO];
         self.creatorName.text = self.event[@"CreatorName"];
+        self.userTypeFlag = 1;
+        [self showOrHideUserType:[self.user[@"Type"]integerValue]];
         
     }else if ([key isEqualToString:@"getComments"]){
         NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -849,6 +855,22 @@ static void *getAllLikesContext = &getAllLikesContext;
             self.start = 0;
             [self getComments];
         }
+    }
+    
+}
+
+-(void)showOrHideUserType:(NSInteger)userType {
+    
+    if (userType == 2 && self.userTypeFlag == 1) {
+        [self.userType setHidden:NO];
+        self.userType.image = [UIImage imageNamed:@"ownerUser.png"];
+    }else if (userType == 1 && self.userTypeFlag == 1){
+        [self.userType setHidden:NO];
+        self.userType.image = [UIImage imageNamed:@"vipUser.png"];
+    }else if (userType == 0 && self.userTypeFlag == 1){
+        [self.userType removeFromSuperview];
+    }else{
+        [self.userType setHidden:YES];
     }
     
 }
@@ -1061,6 +1083,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     
     [self performSegueWithIdentifier:@"chooseDate" sender:self];
 }
+
 
 - (IBAction)btnBackPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];

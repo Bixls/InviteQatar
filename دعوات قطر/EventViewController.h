@@ -59,6 +59,7 @@
 @property (weak, nonatomic) IBOutlet UIView *innerView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgLike;
 @property (weak, nonatomic) IBOutlet UIButton *btnLike;
+@property (weak, nonatomic) IBOutlet UIImageView *userType;
 
 - (IBAction)btnSendCommentPressed:(id)sender;
 - (IBAction)btnViewAttendeesPressed:(id)sender;
