@@ -12,6 +12,8 @@
 @interface GroupViewController : UIViewController  <UICollectionViewDataSource,UICollectionViewDelegate,ASIHTTPRequestDelegate,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *eventsCollectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventsCollectionViewHeight;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *newsCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView *usersTableView;

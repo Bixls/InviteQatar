@@ -320,8 +320,10 @@ static void *adminMsgContext = &adminMsgContext;
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 //        self.selectedImage = [self imageWithImage:image scaledToSize:CGSizeMake(200, 200)];
         self.selectedImage = [self resizeImageWithImage:image];
+        [self.btnChoosePic setImage:nil forState:UIControlStateNormal];
+        self.imgChoosePic.image = self.selectedImage;
         self.flag = 1;
-
+        
         
     }
    
@@ -716,6 +718,7 @@ static void *adminMsgContext = &adminMsgContext;
     }
 
 }
+
 
 - (IBAction)RadioButtonPressed:(UIButton *)sender {
     

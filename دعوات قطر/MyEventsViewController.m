@@ -12,6 +12,8 @@
 #import "MyEventsTableViewCell.h"
 #import "EventViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "EventsDataSource.h"
+
 @interface MyEventsViewController ()
 
 @property (nonatomic) NSInteger userID;
@@ -21,6 +23,7 @@
 @property (nonatomic,strong) NSMutableArray *allEvents;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (nonatomic,strong) EventsDataSource *customEvent;
 
 @end
 
@@ -137,7 +140,7 @@
 
 #pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"Event"]) {
+    if ([segue.identifier isEqualToString:@"event"]) {
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
     }
@@ -190,10 +193,12 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getEvents"]&& array && (self.populate == 0)) {
         [self.allEvents addObjectsFromArray:array];
+        [self initCollectionView];
         [self.tableView reloadData];
     }else{
         //[self insertRowAtBottomWithArray:self.receivedArray];
         [self.allEvents addObjectsFromArray:array];
+        [self initCollectionView];
         [self.tableView reloadData];
         [self.tableView.infiniteScrollingView stopAnimating];
     }
@@ -205,6 +210,15 @@
     NSError *error = [request error];
 //    NSLog(@"%@",error);
 }
+
+-(void)initCollectionView{
+    self.customEvent = [[EventsDataSource alloc]initWithEvents:self.allEvents withHeightConstraint:nil andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
+        self.selectedEvent = selectedEvent;
+    }];
+    [self.eventsCollectionView setDelegate:self.customEvent];
+    [self.eventsCollectionView setDataSource:self.customEvent];
+}
+
 
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];

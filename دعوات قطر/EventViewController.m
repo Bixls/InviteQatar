@@ -276,7 +276,10 @@ static void *getAllLikesContext = &getAllLikesContext;
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                                         if (image) {
                                             self.eventPicture.image = image;
-                                            [self.eventPicSPinner stopAnimating];
+                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                [self.eventPicSPinner stopAnimating];
+                                            });
+                                            
                                         }
                                     }];
 }

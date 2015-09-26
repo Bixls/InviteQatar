@@ -12,6 +12,7 @@
 #import "Pods/SVPullToRefresh/SVPullToRefresh/SVPullToRefresh.h"
 #import "EventViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "EventsDataSource.h"
 
 
 @interface SecEventsViewController ()
@@ -26,6 +27,7 @@
 @property (nonatomic) NSInteger backFLag;
 @property (nonatomic,strong) UIActivityIndicatorView *userPicSpinner;
 @property (nonatomic,strong) UIActivityIndicatorView *scrollSpinner;
+@property (nonatomic,strong) EventsDataSource *customEvent;
 
 @end
 
@@ -85,24 +87,24 @@
     }
 }
 
-- (void)insertRowAtBottomWithArray:(NSArray *)arr {
-    if (arr) {
-        __weak SecEventsViewController *weakSelf = self;
-        
-        int64_t delayInSeconds = 2.0;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [weakSelf.tableView beginUpdates];
-            [self.allEvents addObjectsFromArray:arr];
-            [weakSelf.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:weakSelf.allEvents.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-            [weakSelf.tableView endUpdates];
-            [weakSelf.tableView.infiniteScrollingView stopAnimating];
-
-        });
-
-    }
-    
-}
+//- (void)insertRowAtBottomWithArray:(NSArray *)arr {
+//    if (arr) {
+//        __weak SecEventsViewController *weakSelf = self;
+//        
+//        int64_t delayInSeconds = 2.0;
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//            [weakSelf.tableView beginUpdates];
+//            [self.allEvents addObjectsFromArray:arr];
+//            [weakSelf.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:weakSelf.allEvents.count-1 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+//            [weakSelf.tableView endUpdates];
+//            [weakSelf.tableView.infiniteScrollingView stopAnimating];
+//
+//        });
+//
+//    }
+//    
+//}
 
 -(NSString *)GenerateArabicDateWithDate:(NSString *)englishDate{
     
@@ -118,58 +120,58 @@
 }
 #pragma mark - TableView DataSource Methods
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-    
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.allEvents.count;
-}
-
--(SecEventTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"Cell";
-    
-    SecEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    if (cell==nil) {
-        cell=[[SecEventTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    NSDictionary *event = self.allEvents[indexPath.row];
-    cell.eventSubject.text = event[@"subject"];
-    cell.eventCreator.text = event[@"CreatorName"];
-    cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]] ;
-    
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
-    NSURL *imgURL = [NSURL URLWithString:imgURLString];
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        spinner.center = cell.eventPicture.center;
-        spinner.hidesWhenStopped = YES;
-        [cell addSubview:spinner];
-        [spinner startAnimating];
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        cell.eventPicture.image = image;
-        [spinner stopAnimating];
-//        NSLog(@"Cache Type %ld",(long)cacheType);
-    }];
-
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell ;
-}
-
-#pragma mark - Delegate Methods
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedEvent = self.allEvents[indexPath.row];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self performSegueWithIdentifier:@"enterEvent" sender:self];
-
-}
+//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+//    return 1;
+//    
+//}
+//
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    return self.allEvents.count;
+//}
+//
+//-(SecEventTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    static NSString *cellIdentifier = @"Cell";
+//    
+//    SecEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+//    if (cell==nil) {
+//        cell=[[SecEventTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//    }
+//    
+//    NSDictionary *event = self.allEvents[indexPath.row];
+//    cell.eventSubject.text = event[@"subject"];
+//    cell.eventCreator.text = event[@"CreatorName"];
+//    cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]] ;
+//    
+//    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
+//    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+//    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//        spinner.center = cell.eventPicture.center;
+//        spinner.hidesWhenStopped = YES;
+//        [cell addSubview:spinner];
+//        [spinner startAnimating];
+//    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        cell.eventPicture.image = image;
+//        [spinner stopAnimating];
+////        NSLog(@"Cache Type %ld",(long)cacheType);
+//    }];
+//
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    return cell ;
+//}
+//
+//#pragma mark - Delegate Methods
+//
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    self.selectedEvent = self.allEvents[indexPath.row];
+//    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    [self performSegueWithIdentifier:@"enterEvent" sender:self];
+//
+//}
 
 #pragma mark - Segue Method 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"enterEvent"]) {
+    if ([segue.identifier isEqualToString:@"event"]) {
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
     }
@@ -224,6 +226,9 @@
     NSData *responseData = [request responseData];
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
+
+    
+    
     if ([key isEqualToString:@"sectionEvents"]&& array && (self.populate == 0)) {
         
         if (self.allEvents.count && array.count > 0) {
@@ -236,26 +241,29 @@
                     }else{
                         //[self.allEvents addObjectsFromArray:array];
                         [self.allEvents addObject:array[j]];
-                        [self.tableView reloadData];
+//                        [self.tableView reloadData];
+                        [self initCollectionView];
                     }
                 }
             }
         }else if (array.count > 0){
             [self.allEvents addObjectsFromArray:array];
-            [self.tableView reloadData];
+            [self initCollectionView];
+           // [self.tableView reloadData];
         }
     
     }else{
          //[self insertRowAtBottomWithArray:self.receivedArray];
         [self.allEvents addObjectsFromArray:array];
-        [self.tableView reloadData];
-        [self.tableView.infiniteScrollingView stopAnimating];
+//        [self.tableView reloadData];
+        [self initCollectionView];
+        [self.eventsCollectionView.infiniteScrollingView stopAnimating];
     }
     [self.userPicSpinner stopAnimating];
     [self.scrollSpinner stopAnimating];
 //    NSLog(@"%@",self.allEvents);
    
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
+    [self.eventsCollectionView addInfiniteScrollingWithActionHandler:^{
         self.populate = 1;
         self.start = self.allEvents.count;
         self.userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -274,6 +282,14 @@
 {
     NSError *error = [request error];
 //    NSLog(@"%@",error);
+}
+
+-(void)initCollectionView{
+    self.customEvent = [[EventsDataSource alloc]initWithEvents:self.allEvents withHeightConstraint:nil andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
+        self.selectedEvent = selectedEvent;
+    }];
+    [self.eventsCollectionView setDelegate:self.customEvent];
+    [self.eventsCollectionView setDataSource:self.customEvent];
 }
 
 

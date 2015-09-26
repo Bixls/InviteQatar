@@ -121,6 +121,7 @@
 		188B4B461BB3A07B0046689E /* backButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 188B4B451BB3A07A0046689E /* backButton.xib */; settings = {ASSET_TAGS = (); }; };
 		188B4B491BB3A3BC0046689E /* header_b2up.png in Resources */ = {isa = PBXBuildFile; fileRef = 188B4B481BB3A3BC0046689E /* header_b2up.png */; settings = {ASSET_TAGS = (); }; };
 		188B4B4B1BB3A7840046689E /* backButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 188B4B4A1BB3A7840046689E /* backButton.png */; settings = {ASSET_TAGS = (); }; };
+		1894D7271BB61DBC00F0E5F0 /* EventsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1894D7261BB61DBC00F0E5F0 /* EventsDataSource.m */; settings = {ASSET_TAGS = (); }; };
 		189E0E181B7CD136009DF99B /* backwithoutframe.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E0E161B7CD136009DF99B /* backwithoutframe.png */; };
 		189E0E1D1B7CD762009DF99B /* newFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E0E1C1B7CD762009DF99B /* newFrame.png */; };
 		189E45BC1B660DF2000A7066 /* calendars12.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E45BB1B660DF2000A7066 /* calendars12.png */; };
@@ -334,6 +335,8 @@
 		188B4B451BB3A07A0046689E /* backButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = backButton.xib; sourceTree = "<group>"; };
 		188B4B481BB3A3BC0046689E /* header_b2up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header_b2up.png; sourceTree = "<group>"; };
 		188B4B4A1BB3A7840046689E /* backButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backButton.png; sourceTree = "<group>"; };
+		1894D7251BB61DBC00F0E5F0 /* EventsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventsDataSource.h; path = ../EventsDataSource.h; sourceTree = "<group>"; };
+		1894D7261BB61DBC00F0E5F0 /* EventsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventsDataSource.m; path = ../EventsDataSource.m; sourceTree = "<group>"; };
 		189E0E161B7CD136009DF99B /* backwithoutframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backwithoutframe.png; sourceTree = "<group>"; };
 		189E0E1C1B7CD762009DF99B /* newFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newFrame.png; sourceTree = "<group>"; };
 		189E45BB1B660DF2000A7066 /* calendars12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendars12.png; sourceTree = "<group>"; };
@@ -495,6 +498,8 @@
 				183956F91B4515A900B47FC2 /* Authentication */,
 				184B65991B411A0A00B1483C /* HomePageViewController.h */,
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
+				1894D7251BB61DBC00F0E5F0 /* EventsDataSource.h */,
+				1894D7261BB61DBC00F0E5F0 /* EventsDataSource.m */,
 				18651CDA1BAE7DCF00978969 /* ServiceViewController.h */,
 				18651CDB1BAE7DCF00978969 /* ServiceViewController.m */,
 				18514B641BA3B92A00DF2C94 /* MyProfileViewController.h */,
@@ -972,6 +977,7 @@
 				184B656D1B407DB700B1483C /* Reachability.m in Sources */,
 				184B65761B40802500B1483C /* ASIAuthenticationDialog.m in Sources */,
 				18D831751B4CE6E9003F5A86 /* HomeEventsTableViewCell.m in Sources */,
+				1894D7271BB61DBC00F0E5F0 /* EventsDataSource.m in Sources */,
 				184B65661B407CCE00B1483C /* ASIHTTPRequest.m in Sources */,
 				189E45BF1B669FA8000A7066 /* MyLatestEventsTableViewCell.m in Sources */,
 				1813C2FA1B50F1400044CDDB /* OfflinePicturesViewController.m in Sources */,

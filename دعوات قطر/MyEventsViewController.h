@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyEventsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface MyEventsViewController : UIViewController 
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UICollectionView *eventsCollectionView;
 
 @end

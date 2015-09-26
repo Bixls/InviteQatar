@@ -20,6 +20,7 @@
 #import "UserViewController.h"
 #import "Reachability.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "EventsDataSource.h"
 
 @interface GroupViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
@@ -37,6 +38,7 @@
 @property (nonatomic,strong) NSString *eventOwner;
 @property (nonatomic,strong) NSString *eventTime;
 @property (nonatomic,strong) NSDictionary *selectedUser;
+@property (nonatomic,strong) EventsDataSource *customEvents;
 @property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger start;
 @property (nonatomic) NSInteger limit;
@@ -131,7 +133,7 @@
     
     NSDictionary *getEventsDict = @{@"FunctionName":@"getEvents" , @"inputs":@[@{@"groupID":[NSString stringWithFormat:@"%ld",(long)self.groupID],
                                                                                  @"catID":@"-1",
-                                                                                 @"start":@"0",@"limit":@"3"}]};
+                                                                                 @"start":@"0",@"limit":@"4"}]};
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
     [self postRequest:getEventsDict withTag:getEventsTag];
     
@@ -378,7 +380,7 @@
     if ([segue.identifier isEqualToString:@"showSections"]) {
         AllSectionsViewController *allSectionsController = segue.destinationViewController;
         allSectionsController.groupID = self.groupID;
-    }else if ([segue.identifier isEqualToString:@"showEvent"]){
+    }else if ([segue.identifier isEqualToString:@"event"]){
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
     }else if ([segue.identifier isEqualToString:@"showNews"]){
@@ -453,6 +455,11 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getEvents"]) {
         self.events = array;
+        self.customEvents = [[EventsDataSource alloc]initWithEvents:self.events withHeightConstraint:self.eventsCollectionViewHeight andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
+            self.selectedEvent = selectedEvent;
+        }];
+        [self.eventsCollectionView setDelegate:self.customEvents];
+        [self.eventsCollectionView setDataSource:self.customEvents];
         if (self.events.count > 0) {
             [self.lblLatestEvents setHidden:NO];
             [self.collectionView reloadData];

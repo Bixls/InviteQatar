@@ -14,7 +14,7 @@
 #import "SecEventsViewController.h"
 #import "EventViewController.h"
 #import <SVPullToRefresh/SVPullToRefresh.h>
-
+#import "customEventCollectionViewCell.h"
 
 @interface AllSectionsViewController ()
 
@@ -112,40 +112,91 @@
      return self.sectionContent.count;
 }
 
--(AllSectionsCellCollectionView *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cellIdentifier = @"Cell";
+-(customEventCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    static NSString *cellIdentifier = @"eventCell";
+//    
+//    AllSectionsCellCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+//    
+//    if (self.allSections.count) {
+//        NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+//        if (content) {
+////            NSLog(@"%@",self.sectionContent);
+////            NSLog(@"%@",content);
+//            if (content.count>0) {
+//                NSDictionary *event = content[indexPath.row];
+//                cell.eventName.text = event[@"subject"];
+//                cell.eventCreator.text = event[@"CreatorName"];
+//                cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]];
+//                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
+//                NSURL *imgURL = [NSURL URLWithString:imgURLString];
+//                UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//                [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//                    spinner.center = cell.eventPicture.center;
+//                    spinner.hidesWhenStopped = YES;
+//                    [cell addSubview:spinner];
+//                    [spinner startAnimating];
+//                } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                    cell.eventPicture.image = image;
+//                    [spinner stopAnimating];
+////                    NSLog(@"Cache Type %ld",(long)cacheType);
+//                }];
+//
+//            }
+//        }
+//
+//        // NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
+//    }
+//    return cell;
     
-    AllSectionsCellCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    customEventCollectionViewCell *cell = (customEventCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"eventCell" forIndexPath:indexPath];
     
     if (self.allSections.count) {
         NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
-        if (content) {
-//            NSLog(@"%@",self.sectionContent);
-//            NSLog(@"%@",content);
-            if (content.count>0) {
-                NSDictionary *event = content[indexPath.row];
-                cell.eventName.text = event[@"subject"];
-                cell.eventCreator.text = event[@"CreatorName"];
-                cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]];
-                NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",event[@"EventPic"]];
-                NSURL *imgURL = [NSURL URLWithString:imgURLString];
-                UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-                [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                    spinner.center = cell.eventPicture.center;
-                    spinner.hidesWhenStopped = YES;
-                    [cell addSubview:spinner];
-                    [spinner startAnimating];
-                } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    cell.eventPicture.image = image;
-                    [spinner stopAnimating];
-//                    NSLog(@"Cache Type %ld",(long)cacheType);
-                }];
-
-            }
+        if (content.count > 0) {
+            
+            NSDictionary *tempEvent = content[indexPath.row];
+            
+            cell.eventName.text =tempEvent[@"subject"];
+            cell.eventCreator.text = tempEvent[@"CreatorName"];
+            
+            cell.likesNumber.text = [self arabicNumberFromEnglish:[tempEvent[@"Likes"]integerValue]];
+            cell.viewsNumber.text = [self arabicNumberFromEnglish:[tempEvent[@"views"]integerValue]];
+            
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            NSLocale *qatarLocale = [[NSLocale alloc]initWithLocaleIdentifier:@"ar_QA"];
+            [formatter setLocale:qatarLocale];
+            [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSDate *dateString = [formatter dateFromString:[NSString stringWithFormat:@"%@",tempEvent[@"TimeEnded"]]];
+            NSString *date = [formatter stringFromDate:dateString];
+            NSString *dateWithoutSeconds = [date substringToIndex:16];
+            cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+            
+            cell.eventPic.layer.masksToBounds = YES;
+            cell.eventPic.layer.cornerRadius = cell.eventPic.bounds.size.width/2;
+            
+            NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+            NSURL *imgURL = [NSURL URLWithString:imgURLString];
+            UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                eventsSpinner.center = cell.eventPic.center;
+                eventsSpinner.hidesWhenStopped = YES;
+                [cell addSubview:eventsSpinner];
+                [eventsSpinner startAnimating];
+                
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                cell.eventPic.image = image;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [eventsSpinner stopAnimating];
+                });
+                
+            }];
+            
+            UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
+            [aFlowLayout setSectionInset:UIEdgeInsetsMake(5, 0, 5, 0)];
         }
-
-        // NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
     }
+    
     return cell;
 
 }
@@ -183,6 +234,15 @@
     self.selectedEvent = content[indexPath.row];
     [self performSegueWithIdentifier:@"enterEvent" sender:self];
 }
+
+-(NSString *)arabicNumberFromEnglish:(NSInteger)num {
+    NSNumber *someNumber = [NSNumber numberWithInteger:num];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSLocale *gbLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"ar"];
+    [formatter setLocale:gbLocale];
+    return [formatter stringFromNumber:someNumber];
+}
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"enterSection"]) {
