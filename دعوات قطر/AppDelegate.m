@@ -11,6 +11,13 @@
 
 @interface AppDelegate ()
 
+@property (nonatomic,strong)NetworkConnection *inAppPurchase;
+@property (nonatomic,strong)NSUserDefaults *userDefaults;
+@property (nonatomic)NSInteger memberID;
+@property (nonatomic)NSInteger invitationID;
+@property (nonatomic)NSInteger requestSuccess;
+
+
 @end
 
 @implementation AppDelegate
@@ -54,12 +61,14 @@
 #pragma mark - StoreKit Methods
 
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions{
+    
     for (SKPaymentTransaction *transaction in transactions) {
         switch (transaction.transactionState) {
+                
             case SKPaymentTransactionStatePurchased: {
-                //Finish the transaction
-                [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
-                [self saveReceipts];
+                //Add user vip points
+                [self addUserPointsWithTransaction:transaction];
+
                 break;
             }
             case SKPaymentTransactionStatePurchasing:{
@@ -82,6 +91,38 @@
 }
 
 #pragma mark - Store Methods
+
+-(void)addUserPointsWithTransaction:(SKPaymentTransaction *)transaction{
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.memberID = [self.userDefaults integerForKey:@"memberID"];
+    self.invitationID = [self.userDefaults integerForKey:@"invitationID"];
+    self.requestSuccess = [self.userDefaults integerForKey:@"requestSuccess"];
+    
+    self.inAppPurchase = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        if ([dict[@"success"]boolValue] == true) {
+            [self.userDefaults setInteger:1 forKey:@"requestSuccess"];
+            [self.userDefaults synchronize];
+            
+            [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
+            [self saveReceipts];
+            
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تمت عملية الدفع بنجاح" delegate:nil cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }else if ([dict[@"success"]boolValue] == false){
+            [self.userDefaults setInteger:0 forKey:@"requestSuccess"];
+            [self.userDefaults synchronize];
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"لم تتم عملية الشراء بنجاح" delegate:nil cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            [alertView show];
+        }
+    }];
+    
+    [self.inAppPurchase addInvitationPointsWithMemberID:self.memberID andInvitationID:self.invitationID];
+    
+    
+    
+    NSLog(@"Add User Points Called");
+}
 
 -(void)saveReceipts{
     

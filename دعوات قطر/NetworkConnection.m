@@ -229,5 +229,16 @@
     [self postRequest:getService  withTag:getServiceTag];
 }
 
+-(void)addInvitationPointsWithMemberID:(NSInteger)memberID andInvitationID:(NSInteger)invitationID{
+    NSDictionary *getService = @{@"FunctionName":@"addInvPoints" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",(long)memberID],
+                                                                        
+                                                                             @"invitationID":[NSString stringWithFormat:@"%ld",(long)invitationID]
+                                                                             
+                                                                             }]};
+    NSMutableDictionary *getServiceTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"addInvitationPoints",@"key", nil];
+    
+    [self postRequest:getService  withTag:getServiceTag];
+}
+
 
 @end

@@ -67,11 +67,13 @@
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
      UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        eventsSpinner.center = cell.eventPic.center;
-        eventsSpinner.hidesWhenStopped = YES;
-        [cell addSubview:eventsSpinner];
-        [eventsSpinner startAnimating];
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            eventsSpinner.center = cell.eventPic.center;
+            eventsSpinner.hidesWhenStopped = YES;
+            [cell addSubview:eventsSpinner];
+            [eventsSpinner startAnimating];
+        });
+       
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         cell.eventPic.image = image;
         dispatch_async(dispatch_get_main_queue(), ^{

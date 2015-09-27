@@ -54,7 +54,7 @@
     }
     
     
-    [self getUSer];
+    //[self getUSer];
     [self getUserEvents];
     
 }
@@ -126,18 +126,28 @@
     
     self.userName.text = user[@"name"];
     self.userGroup.text = user[@"GName"];
-    [self showOrHideUserType:[user[@"Type"]integerValue]];
+    if (user[@"Type"] != [NSNull null]) {
+        self.userTypeFlag = 1;
+        [self showOrHideUserType:[user[@"Type"]integerValue]];
+    }
     NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.userPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        spinner.center = self.userPicture.center;
-        spinner.hidesWhenStopped = YES;
-        [self.view addSubview:spinner];
-        [spinner startAnimating];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            spinner.center = self.userPicture.center;
+            spinner.hidesWhenStopped = YES;
+            [self.view addSubview:spinner];
+            [spinner startAnimating];
+        });
+
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         self.userPicture.image = image;
-        [spinner stopAnimating];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [spinner stopAnimating];
+        });
+        
     }];
     
 

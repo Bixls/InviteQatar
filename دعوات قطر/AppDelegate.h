@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "NetworkConnection.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,SKPaymentTransactionObserver>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,SKPaymentTransactionObserver >
 
 @property (strong, nonatomic) UIWindow *window;
 

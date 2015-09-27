@@ -24,7 +24,8 @@
 @property (nonatomic,strong) NSArray *VIPPackages;
 @property (nonatomic) NSInteger cellPressed;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
-@property (nonatomic) int userID;
+@property (nonatomic) NSInteger userID;
+@property (nonatomic) NSInteger invitationID;
 
 @end
 
@@ -43,6 +44,9 @@
    
     [self.navigationItem setHidesBackButton:YES];
     self.productsIdentifiers = [[NSMutableArray alloc]init];
+    [self hideLabels];
+    
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -65,6 +69,18 @@
     }
 }
 
+-(void)hideLabels{
+    [self.InvitationsNum setHidden:YES];
+    [self.invitationsPrice setHidden:YES];
+    [self.invitationsType setHidden:YES];
+}
+
+
+-(void)showLabels{
+    [self.InvitationsNum setHidden:NO];
+    [self.invitationsPrice setHidden:NO];
+    [self.invitationsType setHidden:NO];
+}
 #pragma mark -Shop Methods
 
 //-(NSArray *)productsIdentifiers{
@@ -75,10 +91,8 @@
 //}
 
 -(void)validateProductIdentifiers{
-//    NSArray *test = @[@"com.bixls.inviteQatar.normalPlanTest"];
     
     SKProductsRequest *request = [[SKProductsRequest alloc]initWithProductIdentifiers:[NSSet setWithArray:self.productsIdentifiers]];
-//    NSLog(@"%@",self.productsIdentifiers);
     request.delegate = self;
     [request start];
     
@@ -94,8 +108,8 @@
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
     
     self.selectedProduct = response.products.firstObject;
-//    NSLog(@"%@",response.products);
-//     NSLog(@"%@",response.invalidProductIdentifiers);
+    NSLog(@"%@",response.products);
+     NSLog(@"%@",response.invalidProductIdentifiers);
     if ([SKPaymentQueue canMakePayments]) {
         //can make payments
         [self displayStoreUIwithProduct:self.selectedProduct];
@@ -123,16 +137,39 @@
     
     // a UIAlertView brings up the purchase option
     UIAlertView *storeUI = [[UIAlertView alloc]initWithTitle:product.localizedTitle message:product.localizedDescription delegate:self cancelButtonTitle:@"Close" otherButtonTitles:price, nil];
-   // [storeUI show];
+    storeUI.tag = 1;
+    [storeUI show];
     
 }
 
 -(void)cantBuyAnything{
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"عفواً تأكد من فتح الشراء من داخل التطبيقات من داخل الإعدادات" delegate:nil cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"عفواً تأكد من فتح الشراء من داخل التطبيقات في الإعدادات" delegate:nil cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
     [alertView show];
 }
 
 
+#pragma mark - Alert View Delegate 
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0:{
+            NSLog(@"Cancel button");
+            break;
+        }
+        case 1:{
+            NSLog(@"Buy button");
+            
+            [self.userDefaults setInteger:self.userID forKey:@"memberID"];
+            [self.userDefaults setInteger:self.invitationID forKey:@"invitationID"];
+            [self.userDefaults setInteger:0 forKey:@"requestSuccess"];
+            [self makeThePurchase];
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
 
 #pragma mark - Table view Methods 
 
@@ -145,39 +182,30 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
-//    if (tableView.tag == 0) {
-//        CellInvitationTableView *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-//        if (cell==nil) {
-//            cell=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//        }
-//        NSDictionary *tempDict = self.normalPackages[indexPath.row];
-//        cell.label0.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
-//        cell.label1.text = tempDict[@"packageName"];
-//        cell.label2.text = tempDict[@"number"];
-//        cell.backgroundColor = [UIColor clearColor];
-//       
-//        return cell;
+    CellInvitationTableView *cell2 = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
+    
+    if (cell2==nil) {
+        cell2=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    NSDictionary *tempDict = self.VIPPackages[indexPath.row];
+    cell2.label00.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
+    cell2.label11.text = tempDict[@"packageName"];
+    cell2.label22.text = tempDict[@"number"];
+    cell2.backgroundColor = [UIColor clearColor];
+    cell2.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell2;
 //    }
-//    if (tableView.tag == 1){
-        CellInvitationTableView *cell2 = [tableView dequeueReusableCellWithIdentifier:@"Cell2" forIndexPath:indexPath];
-        if (cell2==nil) {
-            cell2=[[CellInvitationTableView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        }
-        
-        NSDictionary *tempDict = self.VIPPackages[indexPath.row];
-        cell2.label00.text = [NSString stringWithFormat:@"$ %@",tempDict[@"price"]];
-        cell2.label11.text = tempDict[@"packageName"];
-        cell2.label22.text = tempDict[@"number"];
-        cell2.backgroundColor = [UIColor clearColor];
-        return cell2;
-//    }
-    return nil;
+//    return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *nowPressed = [[NSDictionary alloc]init];
-
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     nowPressed = self.VIPPackages[indexPath.row];
+    self.invitationID = [nowPressed[@"id"]integerValue];
    // self.selectedProduct = self.allProducts[indexPath.row];
     if ([self.selectedItem isEqual:nowPressed]) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -193,7 +221,7 @@
     }
     else{
         
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+     
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفوا" message:@"تم إختيار باقه بالفعل" delegate:self cancelButtonTitle:@"اغلاق" otherButtonTitles:nil, nil];
         [alertView show];
         [tableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
@@ -245,6 +273,7 @@
     request.userInfo = dict;
     [request setPostBody:[NSMutableData dataWithData:[NSJSONSerialization dataWithJSONObject:postDict options:kNilOptions error:nil]]];
     [request startAsynchronous];
+
     
     
 }
@@ -264,7 +293,7 @@
 
         }
         
-       
+        [self showLabels];
         [self.vipTableView reloadData];
     }else if ([key isEqualToString:@"buyNow"]){
         NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];

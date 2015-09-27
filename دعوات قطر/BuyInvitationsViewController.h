@@ -9,10 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 
-@interface BuyInvitationsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,SKProductsRequestDelegate>
+@interface BuyInvitationsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,SKProductsRequestDelegate,UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *vipTableView;
 - (IBAction)btnBuyNowPressed:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UILabel *InvitationsNum;
+
+@property (weak, nonatomic) IBOutlet UILabel *invitationsType;
+@property (weak, nonatomic) IBOutlet UILabel *invitationsPrice;
+
 
 @property (nonatomic,strong) NSMutableArray *productsIdentifiers;
 @property (nonatomic,strong) NSArray *products;

@@ -270,11 +270,14 @@ static void *getAllLikesContext = &getAllLikesContext;
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
                                      progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                         
-                                         self.eventPicSPinner.center = self.eventPicture.center;
-                                         self.eventPicSPinner.hidesWhenStopped = YES;
-                                         [self.innerView addSubview:self.eventPicSPinner];
-                                         [self.eventPicSPinner startAnimating];
+
+                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                             
+                                             self.eventPicSPinner.center = self.eventPicture.center;
+                                             self.eventPicSPinner.hidesWhenStopped = YES;
+                                             [self.innerView addSubview:self.eventPicSPinner];
+                                             [self.eventPicSPinner startAnimating];
+                                         });
                                          
                                      }
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
