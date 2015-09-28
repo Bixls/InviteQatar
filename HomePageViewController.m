@@ -139,6 +139,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [self.userDefaults removeObjectForKey:@"invitees"];
+    [self emptyMarkedGroups];
     [self.userDefaults synchronize];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
@@ -1153,4 +1154,9 @@
     
     
 }
+-(void)emptyMarkedGroups{
+    [self.userDefaults removeObjectForKey:@"markedGroups"];
+    [self.userDefaults synchronize];
+}
+
 @end

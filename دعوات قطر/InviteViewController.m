@@ -33,6 +33,10 @@
 @property (nonatomic,strong) NSString *userPassword;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property(nonatomic,strong)NSMutableArray *inviteesMutable;
+@property (nonatomic,strong) NSMutableArray *mutableMarkedGroups;
+@property (nonatomic,strong) NSMutableArray *nonMutbaleMarkedGroups;
+@property (nonatomic) NSInteger selectedUsersCount;
+
 @end
 
 @implementation InviteViewController
@@ -47,6 +51,9 @@
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
     self.VIPPoints = [self.userDefaults integerForKey:@"VIPPoints"];
+    
+    [self.btnMarkAll setEnabled:NO];
+    
     if (self.normORVIP == 1) {
 //        self.VIPPoints = self.VIPPoints - 1 ; //1 VIP point for event Creation
     }else if (self.normORVIP == 0){
@@ -69,8 +76,20 @@
     self.deletedRows = [[NSMutableArray alloc]init];
     self.usersIDs = [[NSMutableArray alloc]init];
     self.choosenUsers = [[NSMutableDictionary alloc]init];
+    //self.choosenUsers = [self.userDefaults objectForKey:@"invitees"];
+    self.mutableMarkedGroups = [[NSMutableArray alloc]init];
+    self.nonMutbaleMarkedGroups = [self.userDefaults objectForKey:@"markedGroups"];
+    self.mutableMarkedGroups = [NSMutableArray arrayWithArray:self.nonMutbaleMarkedGroups];
+    for (NSNumber *number in self.nonMutbaleMarkedGroups) {
+        NSInteger markedGroupID = number.integerValue;
+        if (markedGroupID == self.groupID) {
+            self.flag = 1 ;
+            [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة \u2713" forState:UIControlStateNormal];
+        }
+    }
 //    NSLog(@"%ld",(long)self.createMsgFlag);
     [self updateInvitesStatus];
+    
     
 }
 
@@ -225,6 +244,7 @@
             }
             [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
             self.flag = 0;
+            [self removeGroupFromMarkedGroups];
         }else{
             //cell.checkmark.text = @"\u2713";
             [self.selectedUsers addObject:self.users[indexPath.row]];
@@ -248,6 +268,7 @@
             }
             [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
             self.flag = 0;
+            [self removeGroupFromMarkedGroups];
         }else{
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً"
                                                                message:@" لا يمكنك إختيار المزيد من أفراد القبيلة لعدم توافر نقاط VIP كافية "
@@ -269,12 +290,12 @@
             }
             [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
             self.flag = 0;
+            [self removeGroupFromMarkedGroups];
         }else{
             //cell.checkmark.text = @"\u2713";
             [self.selectedUsers addObject:self.users[indexPath.row]];
             [self.selectedRows addObject:indexPath];
-            
-//            NSLog(@"%lu",(unsigned long)self.selectedUsers.count);
+        
         }
         [self updateInvitesStatus];
         [self.tableView reloadData];
@@ -323,6 +344,7 @@
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getUsers"]) {
         self.users = array;
+        [self.btnMarkAll setEnabled:YES];
         [self.tableView reloadData];
     }else if ([key isEqualToString:@"invNum"]){
         
@@ -345,6 +367,7 @@
         }
     }else if ([key isEqualToString:@"getUninvited"]){
         self.users = array;
+        [self.btnMarkAll setEnabled:YES];
         [self.tableView reloadData];
     }
     
@@ -391,6 +414,18 @@
     
 }
 
+-(void)removeGroupFromMarkedGroups{
+    for (int i = 0; i < self.mutableMarkedGroups.count; i++) {
+        NSNumber *number = self.mutableMarkedGroups[i];
+        NSInteger selectedID = number.integerValue;
+        if (selectedID == self.groupID) {
+            [self.mutableMarkedGroups removeObjectAtIndex:i];
+            [self.userDefaults setObject:self.mutableMarkedGroups forKey:@"markedGroups"];
+            [self.userDefaults synchronize];
+        }
+    }
+}
+
 - (IBAction)btnMarkAllPressed:(id)sender {
     
 //    for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
@@ -408,26 +443,30 @@
             [self.selectedRows removeAllObjects];
             [self updateInvitesStatus];
         }else{
-            [self.selectedUsers removeAllObjects];
+            //[self.selectedUsers removeAllObjects];
+            [self removeCurrentGroupUsersFromSelectedUsers];
             [self.selectedRows removeAllObjects];
+            //self.selectedUsers = [[NSMutableArray alloc]initWithArray:self.invitees];
+        
+            
         }
-
-//        [self.selectedUsers addObjectsFromArray:self.users];
+        
+        //        [self.selectedUsers addObjectsFromArray:self.users];
         if (self.normORVIP == 1){
             for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++) {
-            
+                
                 NSUInteger ints[2] = {0,i};
                 NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
-//                NSLog(@"Selected users Count %lu",(unsigned long)self.selectedUsers.count);
-//                NSLog(@"VIP Points Count %ld" , (long)self.VIPPoints);
+                //                NSLog(@"Selected users Count %lu",(unsigned long)self.selectedUsers.count);
+                //                NSLog(@"VIP Points Count %ld" , (long)self.VIPPoints);
                 if (self.VIPPoints != 0) {
-//                    [self.selectedUsers addObjectsFromArray:self.users[indexPath.row]];
+                    //                    [self.selectedUsers addObjectsFromArray:self.users[indexPath.row]];
                     [self.selectedUsers addObject:self.users[indexPath.row]];
                     [self.selectedRows addObject:indexPath];
                     self.VIPPoints -= 1 ;
                     [self updateInvitesStatus];
                 }else{
-//                    NSLog(@"%@",self.selectedUsers);
+                    //                    NSLog(@"%@",self.selectedUsers);
                     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"لا يمكن إضافة أشخاص أخري لعدم توافر دعوات VIP كافية" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
                     [alertView show];
                     [self updateInvitesStatus];
@@ -438,13 +477,13 @@
             for (int i = 0; i < [self.tableView numberOfRowsInSection:0]; i++){
                 NSUInteger ints[2] = {0,i};
                 NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:ints length:2];
-//                [self.selectedUsers addObjectsFromArray:self.users[indexPath.row]];
+                //                [self.selectedUsers addObjectsFromArray:self.users[indexPath.row]];
                 [self.selectedUsers addObject:self.users[indexPath.row]];
                 [self.selectedRows addObject:indexPath];
                 [self updateInvitesStatus];
             }
         }else{
-//            NSLog(@"%@",self.selectedUsers);
+            //            NSLog(@"%@",self.selectedUsers);
             [self.btnMarkAll setTitle:@"دعوة لكافة القبيلة" forState:UIControlStateNormal];
             UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"لا يمكن إضافة أشخاص أخري لعدم توافر دعوات VIP كافية" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
@@ -456,14 +495,83 @@
         if (self.normORVIP == 1) {
             self.VIPPoints = self.VIPPoints + self.selectedUsers.count;
         }
-        [self.selectedUsers removeAllObjects];
+       // [self.selectedUsers removeAllObjects];
+        [self removeCurrentGroupUsersFromSelectedUsers];
         [self.selectedRows removeAllObjects];
+        [self.inviteesMutable removeAllObjects];
+       // self.selectedUsers = [[NSMutableArray alloc]initWithArray:self.invitees];
+        
+        [self removeGroupFromMarkedGroups];
+ 
         [self updateInvitesStatus];
     }
     
-//    NSLog(@"%ld",(long)self.flag);
+    //    NSLog(@"%ld",(long)self.flag);
     [self.tableView reloadData];
 }
+
+-(void)removeCurrentGroupUsersFromSelectedUsers{
+    for (NSDictionary *user in self.users) {
+        NSInteger userID = [user[@"id"]integerValue];
+        for (int i = 0; i < self.selectedUsers.count; i++) {
+            NSDictionary *selectedUser = self.selectedUsers[i];
+            NSInteger selectedUserID = [selectedUser[@"id"]integerValue];
+            if (userID == selectedUserID) {
+                [self.selectedUsers removeObjectAtIndex:i];
+                break;
+            }
+            
+        }
+    }
+}
+
+-(BOOL)checkIfAllUsersAreSelected{
+    for (NSDictionary *user in self.users) {
+        NSInteger userID = [user[@"id"]integerValue];
+        for (int i = 0; i < self.selectedUsers.count; i++) {
+            NSDictionary *selectedUser = self.selectedUsers[i];
+            NSInteger selectedUserID = [selectedUser[@"id"]integerValue];
+            if (userID == selectedUserID) {
+                self.selectedUsersCount ++;
+                if (self.selectedUsersCount == self.users.count) {
+                    return YES;
+                }
+            }
+            
+        }
+    }
+    return NO;
+}
+
+-(void)addGroupIDToMarkedGroups:(NSNumber *)number{
+    
+    if (self.mutableMarkedGroups.count > 0) {
+        for (int i = 0 ; i < self.mutableMarkedGroups.count ; i ++) {
+            NSNumber *tempNumber = self.mutableMarkedGroups[i];
+            if (tempNumber == number) {
+                //do nothing
+            }else{
+                [self.mutableMarkedGroups addObject:number];
+                [self.userDefaults setObject:self.mutableMarkedGroups forKey:@"markedGroups"];
+                [self.userDefaults synchronize];
+            }
+        }
+    }else{
+        [self.mutableMarkedGroups addObject:number];
+        [self.userDefaults setObject:self.mutableMarkedGroups forKey:@"markedGroups"];
+        [self.userDefaults synchronize];
+    }
+
+}
+
+-(void)removeGroupIDToMarkedGroups:(NSNumber *)number{
+    [self.mutableMarkedGroups removeObject:number];
+    [self.userDefaults setObject:self.mutableMarkedGroups forKey:@"markedGroups"];
+    [self.userDefaults synchronize];
+
+    
+}
+
 
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -472,8 +580,9 @@
 }
 
 - (IBAction)btnInvitePressed:(id)sender {
+
     self.choosenUsers = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:self.normORVIP],@"type",self.selectedUsers,@"data",nil];
-//    NSLog(@"%@",self.choosenUsers);
+
     [self.userDefaults setObject:self.choosenUsers forKey:@"invitees"];
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
     [self.userDefaults synchronize];
@@ -489,6 +598,19 @@
         [self sendInvitationsWithArray:self.UsersToInvite];
 
     }else{
+        //NSArray *choosenUsersArray = self.choosenUsers[@"data"];
+        if ([self checkIfAllUsersAreSelected]) {
+            
+            [self addGroupIDToMarkedGroups:[NSNumber numberWithInteger:self.groupID]];
+            
+        }else{
+            
+        }
+//        if ((choosenUsersArray.count - self.invitees.count) == self.users.count) {
+//            [self.mutableMarkedGroups addObject:[NSNumber numberWithInteger:self.groupID]];
+//            [self.userDefaults setObject:self.mutableMarkedGroups forKey:@"markedGroups"];
+//            [self.userDefaults synchronize];
+//        }
         [self jumpToRootViewController];
     }
     

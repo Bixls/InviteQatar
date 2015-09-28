@@ -458,6 +458,7 @@ static void *adminMsgContext = &adminMsgContext;
             self.isEventCreated = YES;
             if (self.isEventCreated == YES && self.isUsersInvited == YES) {
                 [self showAlertWithMsg:@"تم تعديل المناسبه بنجاح" alertTag:0];
+                [self emptyMarkedGroups];
                 [self.navigationController popViewControllerAnimated:YES];
                 [self.btnSave setEnabled:YES];
 
@@ -483,6 +484,7 @@ static void *adminMsgContext = &adminMsgContext;
         if (self.isEventCreated && self.isUsersInvited) {
             [self.creatingEvent stopAnimating];
             [self showAlertWithMsg:@"تم إنشاء الدعوه بنجاح" alertTag:1];
+            [self emptyMarkedGroups];
             [self.navigationController popViewControllerAnimated:YES];
             [self.btnSave setEnabled:YES];
 
@@ -866,13 +868,18 @@ static void *adminMsgContext = &adminMsgContext;
 - (IBAction)btnBackPressed:(id)sender {
     [self.userDefaults setObject:nil forKey:@"invitees"];
     [self.userDefaults synchronize];
+    [self emptyMarkedGroups];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 
-
 -(void)updateStoredVIPPointsNumber{
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
+    [self.userDefaults synchronize];
+}
+
+-(void)emptyMarkedGroups{
+    [self.userDefaults removeObjectForKey:@"markedGroups"];
     [self.userDefaults synchronize];
 }
 

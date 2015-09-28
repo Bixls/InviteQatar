@@ -7589,7 +7589,7 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSd-Mj-In2">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSd-Mj-In2">
                                                 <rect key="frame" x="32" y="225" width="256" height="41"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="256" id="BfI-dV-Psf"/>
@@ -7729,11 +7729,14 @@
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bEr-wV-ghS">
                                                 <rect key="frame" x="0.0" y="86" width="320" height="67"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="67" id="TzY-3P-qTG"/>
                                                 </constraints>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="btnBackPressed:" destination="qjf-CL-7yd" eventType="touchUpInside" id="AQe-85-j0J"/>
@@ -9655,16 +9658,16 @@
         <image name="vip_icon.png" width="86" height="85"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="De6-P3-Poq"/>
+        <segue reference="4yJ-AY-O7T"/>
+        <segue reference="8AK-s1-iMG"/>
+        <segue reference="ZIm-fH-sIf"/>
         <segue reference="1o2-k6-8rD"/>
         <segue reference="Ms0-5r-99t"/>
-        <segue reference="h7R-wi-9TB"/>
-        <segue reference="ZIm-fH-sIf"/>
-        <segue reference="8AK-s1-iMG"/>
-        <segue reference="4yJ-AY-O7T"/>
-        <segue reference="De6-P3-Poq"/>
-        <segue reference="mYb-7K-k86"/>
+        <segue reference="zCe-j8-46Z"/>
         <segue reference="hWi-sg-g8m"/>
+        <segue reference="GMF-2B-wF9"/>
+        <segue reference="lRH-x1-LZj"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="hTI-TE-OlE"/>
     </inferredMetricsTieBreakers>
 </document>

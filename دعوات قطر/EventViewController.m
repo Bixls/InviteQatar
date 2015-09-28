@@ -194,11 +194,14 @@ static void *getAllLikesContext = &getAllLikesContext;
         }else{
             [self getEvent];
             
-            self.descriptionSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-            self.descriptionSpinner.hidesWhenStopped = YES;
-            self.descriptionSpinner.center = self.descriptionLabel.center;
-            [self.innerView addSubview:self.descriptionSpinner];
-            [self.descriptionSpinner startAnimating];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.descriptionSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+                self.descriptionSpinner.hidesWhenStopped = YES;
+                self.descriptionSpinner.center = self.descriptionLabel.center;
+                [self.innerView addSubview:self.descriptionSpinner];
+                [self.descriptionSpinner startAnimating];
+            });
+
         }
         [self getInvited];
         [self getJoined];
@@ -298,10 +301,13 @@ static void *getAllLikesContext = &getAllLikesContext;
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
                                      progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                         userPicSpinner.center = self.creatorPicture.center;
-                                         userPicSpinner.hidesWhenStopped = YES;
-                                         [self.innerView addSubview:userPicSpinner];
-                                         [userPicSpinner startAnimating];
+                                         
+                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                             userPicSpinner.center = self.creatorPicture.center;
+                                             userPicSpinner.hidesWhenStopped = YES;
+                                             [self.innerView addSubview:userPicSpinner];
+                                             [userPicSpinner startAnimating];
+                                         });
                                          
                                      }
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
