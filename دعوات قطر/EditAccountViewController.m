@@ -539,7 +539,7 @@
             imagePicker.delegate = self;
             imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-            imagePicker.allowsEditing = NO;
+            imagePicker.allowsEditing = YES;
             [self presentViewController:imagePicker animated:YES completion:nil];
         }
         

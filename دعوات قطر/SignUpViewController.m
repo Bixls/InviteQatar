@@ -15,6 +15,7 @@
 #import "NetworkConnection.h"
 #import <URBNAlert/URBNAlert.h>
 
+
 static void *signUpContext = &signUpContext;
 static void *uploadImageContext = &uploadImageContext;
 
@@ -46,6 +47,7 @@ static void *uploadImageContext = &uploadImageContext;
 
 @property (nonatomic,strong) NetworkConnection *uploadImageConn;
 @property (nonatomic,strong) NetworkConnection *signUpConn;
+@property (nonatomic,strong) UIImage *selectedPicture;
 @property (nonatomic) NSInteger alertTag;
 
 @end
@@ -202,15 +204,19 @@ static void *uploadImageContext = &uploadImageContext;
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    //Segue to Full picture
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        
+        self.selectedPicture = image;
+        
+        //[self performSegueWithIdentifier:@"selectedPicture" sender:picker];
 
         self.profilePicture.image = [self resizeImageWithImage:image];
-        
         [self.btnChooseImage setImage:nil forState:UIControlStateNormal];
-
-        
         [self initiateUploadImage];
         NSMutableDictionary *pictureTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"pictureTag",@"key", nil];
         [self.uploadImageConn postPicturewithTag:pictureTag uploadImage:self.profilePicture.image];
@@ -249,9 +255,10 @@ static void *uploadImageContext = &uploadImageContext;
             imagePicker.delegate = self;
             imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             imagePicker.mediaTypes = [NSArray arrayWithObjects:(NSString *)kUTTypeImage, nil];
-            imagePicker.allowsEditing = NO;
+            imagePicker.allowsEditing = YES;
             [self presentViewController:imagePicker animated:YES completion:nil];
         }
+       // [self performSegueWithIdentifier:@"selectedPicture" sender:self];
     }else if(buttonIndex == 1){
         [self performSegueWithIdentifier:@"offlinePic" sender:self];
     }
