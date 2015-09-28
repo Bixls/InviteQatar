@@ -985,11 +985,15 @@
             [self.userDefaults setObject:self.groups forKey:@"groups"];
             
             self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
+            NSLog(@"First Section %@ ", self.firstSection);
             self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
+            NSLog(@"Second Section %@ ", self.secondSection);
             self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
+            NSLog(@"third Section %@ ", self.thirdSection);
             self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(76,self.groups.count - 76)];
-            
+            NSLog(@"fourth Section %@ ", self.fourthSection);
+            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
+            NSLog(@"Fifth Section %@ ", self.fifthSection);
             self.groupSections = [[NSMutableArray alloc]init];
             [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
             
