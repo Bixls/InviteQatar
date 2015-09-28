@@ -1066,6 +1066,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 - (IBAction)btnSendCommentPressed:(id)sender {
     self.userInput = self.CommentsTextField.text;
+    self.CommentsTextField.text = nil;
     [self addComment];
     
 }

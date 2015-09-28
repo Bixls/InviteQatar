@@ -380,6 +380,7 @@
 }
 - (IBAction)btnSendComment:(id)sender {
     self.userInput = self.commentsTextField.text;
+    self.commentsTextField.text = nil;
     [self addComment];
 }
 
