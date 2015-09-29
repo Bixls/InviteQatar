@@ -186,6 +186,9 @@ static void *uploadImageContext = &uploadImageContext;
     }else if ([segue.identifier isEqualToString:@"activateAccount"]){
         ConfirmationViewController *confirmController = segue.destinationViewController;
         
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 
 }
@@ -270,6 +273,13 @@ static void *uploadImageContext = &uploadImageContext;
      [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
+#pragma mark - Header Delegate
+
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 
 #pragma mark - Buttons
 
@@ -320,9 +330,7 @@ static void *uploadImageContext = &uploadImageContext;
     }
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 @end
 
 

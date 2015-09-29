@@ -163,6 +163,9 @@
         welcomeUserController.imageID = self.imageID;
         welcomeUserController.groupName = self.groupName;
         //add group name
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -172,6 +175,13 @@
     [textField resignFirstResponder];
     return YES;
 }
+
+#pragma mark - Header Delegate
+
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark - Buttons
 
@@ -187,8 +197,5 @@
     [self.connection postRequest:postDict withTag:nil];
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 @end

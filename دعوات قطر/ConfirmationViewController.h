@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "customAlertView.h"
-@interface ConfirmationViewController : UIViewController <UITextFieldDelegate,customAlertViewDelegate>
+#import "HeaderContainerViewController.h"
+@interface ConfirmationViewController : UIViewController <UITextFieldDelegate,customAlertViewDelegate,headerContainerDelegate>
 
 
 @property (nonatomic) NSInteger userID;

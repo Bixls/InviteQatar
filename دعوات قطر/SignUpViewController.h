@@ -10,8 +10,9 @@
 #import "chooseGroupViewController.h"
 #import "OfflinePicturesViewController.h"
 #import "customAlertView.h"
+#import "HeaderContainerViewController.h"
 
-@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,chooseGroupViewControllerDelegate,UIActionSheetDelegate , UIAlertViewDelegate,offlinePicturesViewControllerDelegate,customAlertViewDelegate>
+@interface SignUpViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,chooseGroupViewControllerDelegate,UIActionSheetDelegate , UIAlertViewDelegate,offlinePicturesViewControllerDelegate,customAlertViewDelegate,headerContainerDelegate>
 
 
 

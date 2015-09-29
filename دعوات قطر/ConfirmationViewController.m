@@ -107,6 +107,9 @@
         welcomeUserController.groupName = self.user[@"Gname"];
         welcomeUserController.imageID = [self.user[@"ProfilePic"]integerValue];
 
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -117,6 +120,17 @@
     [textField resignFirstResponder];
     return YES;
 }
+
+#pragma mark - Header Delegate
+
+-(void)backBtnPressed{
+    if (self.activateFlag == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if (self.activateFlag == 1){
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
 
 #pragma mark Buttons 
 
@@ -132,13 +146,6 @@
     [self.confirmField resignFirstResponder];
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    if (self.activateFlag == 0) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }else if (self.activateFlag == 1){
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    
-}
+
 
 @end
