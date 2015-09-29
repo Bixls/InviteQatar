@@ -40,6 +40,7 @@
 - (IBAction)btnChooseImagePressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePic;
 @property (weak, nonatomic) IBOutlet UIButton *btnChooseImage;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
 @property (weak, nonatomic) IBOutlet UIButton *btnSelectedGroup;
 
 @property (strong, nonatomic) UIActivityIndicatorView *editingAccount;
@@ -136,7 +137,7 @@
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    self.tableViewHeight.constant = tableView.contentSize.height;
 
         cell.leftLabel.text = @"";
         
@@ -149,7 +150,7 @@
             }
         }
 
-
+    
 
     return cell ;
 }
@@ -525,6 +526,9 @@
         chooseGroupViewController *chooseGroupController = segue.destinationViewController;
         chooseGroupController.delegate = self;
         self.chooseFlag = 1;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
     
 }
@@ -611,13 +615,16 @@
     self.name = self.editNameField.text;
     return YES;
 }
-- (IBAction)btnHome:(id)sender {
+
+#pragma mark - Header Delegate
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
-- (IBAction)btnBackPressed:(id)sender {
+-(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
 //- (IBAction)btnChecklistPressed:(id)sender {
 //
 //    NSMutableString *maskInbox = [[NSMutableString alloc]init];

@@ -224,6 +224,9 @@ static void *userContext = &userContext;
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
         
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -341,11 +344,12 @@ static void *userContext = &userContext;
     //[self performSegueWithIdentifier:@"welcome" sender:self];
 }
 
-- (IBAction)btnHome:(id)sender {
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
-- (IBAction)btnBackPressed:(id)sender {
+-(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
 

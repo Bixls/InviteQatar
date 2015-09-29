@@ -54,7 +54,7 @@
     self.userID = [self.userDefaults integerForKey:@"userID"];
     self.messages = [[NSMutableArray alloc]init];
     self.start = 0;
-    self.limit = 10;
+    self.limit = 15;
     [self.navigationItem setHidesBackButton:YES];
    
 }

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "customAlertView.h"
+#import "HeaderContainerViewController.h"
 
-@interface SupportViewController : UIViewController <UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,customAlertViewDelegate>
+@interface SupportViewController : UIViewController <UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UINavigationControllerDelegate,customAlertViewDelegate,headerContainerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 

@@ -10,8 +10,9 @@
 #import "OfflinePicturesViewController.h"
 #import "chooseGroupViewController.h"
 #import "customAlertView.h"
+#import "HeaderContainerViewController.h"
 
-@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate,chooseGroupViewControllerDelegate,customAlertViewDelegate>
+@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate,chooseGroupViewControllerDelegate,customAlertViewDelegate,headerContainerDelegate>
 
 @property (nonatomic,strong)NSString *userName;
 @property (nonatomic,strong)NSString *groupName;

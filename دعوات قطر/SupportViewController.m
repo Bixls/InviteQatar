@@ -200,16 +200,29 @@
 //    NSLog(@"%@",error);
 }
 
+#pragma mark - Segue 
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
+    }
+}
 
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - Buttons
 - (IBAction)btnChooseTypePressed:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:@"نوع الرساله" delegate:self cancelButtonTitle:@"إلغاء" destructiveButtonTitle:nil otherButtonTitles:@"شكوي",@"إقتراح", nil];
     [actionSheet showInView:self.view];
 }
-- (IBAction)btnHome:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
+
 
 - (IBAction)btnSendPressed:(id)sender {
     if (self.nameField.text.length > 0 && self.msgField.text.length > 0 && (self.feedbackType == 0 || self.feedbackType==1) ) {
@@ -244,8 +257,6 @@
 
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 
 @end

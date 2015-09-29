@@ -28,6 +28,7 @@
 @property (nonatomic,strong) UIActivityIndicatorView *userPicSpinner;
 @property (nonatomic,strong) UIActivityIndicatorView *scrollSpinner;
 @property (nonatomic,strong) EventsDataSource *customEvent;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -260,13 +261,13 @@
         [self.allEvents addObjectsFromArray:array];
 //        [self.tableView reloadData];
         [self initCollectionView];
-        [self.eventsCollectionView.infiniteScrollingView stopAnimating];
+        [self.scrollView.infiniteScrollingView stopAnimating];
     }
     [self.userPicSpinner stopAnimating];
     [self.scrollSpinner stopAnimating];
 //    NSLog(@"%@",self.allEvents);
    
-    [self.eventsCollectionView addInfiniteScrollingWithActionHandler:^{
+    [self.scrollView addInfiniteScrollingWithActionHandler:^{
         self.populate = 1;
         self.start = self.allEvents.count;
         self.userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];

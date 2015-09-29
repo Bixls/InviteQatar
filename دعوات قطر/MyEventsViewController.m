@@ -24,6 +24,7 @@
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) EventsDataSource *customEvent;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -43,7 +44,7 @@
 //    NSLog(@"%ld",self.userID);
 
     self.start = 0 ;
-    self.limit = 10 ;
+    self.limit = 15 ;
     self.allEvents = [[NSMutableArray alloc]init];
     
     [self.navigationItem setHidesBackButton:YES];
@@ -51,7 +52,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
+    [self.scrollView addInfiniteScrollingWithActionHandler:^{
         self.populate = 1 ;
         self.start = self.allEvents.count ;
         //self.limit = 10;
@@ -143,6 +144,9 @@
     if ([segue.identifier isEqualToString:@"event"]) {
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -199,8 +203,8 @@
         //[self insertRowAtBottomWithArray:self.receivedArray];
         [self.allEvents addObjectsFromArray:array];
         [self initCollectionView];
-        [self.tableView reloadData];
-        [self.tableView.infiniteScrollingView stopAnimating];
+        //[self.tableView reloadData];
+        [self.scrollView.infiniteScrollingView stopAnimating];
     }
 //    NSLog(@"%@",self.allEvents);
 }
@@ -212,20 +216,21 @@
 }
 
 -(void)initCollectionView{
-    self.customEvent = [[EventsDataSource alloc]initWithEvents:self.allEvents withHeightConstraint:nil andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
+    self.customEvent = [[EventsDataSource alloc]initWithEvents:self.allEvents withHeightConstraint:self.eventsCollectionViewHeight andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
         self.selectedEvent = selectedEvent;
     }];
     [self.eventsCollectionView setDelegate:self.customEvent];
     [self.eventsCollectionView setDataSource:self.customEvent];
 }
 
+#pragma mark - Header Delegate
 
-- (IBAction)btnHome:(id)sender {
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
-- (IBAction)btnBackPressed:(id)sender {
+-(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end
