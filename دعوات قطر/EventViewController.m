@@ -547,6 +547,9 @@ static void *getAllLikesContext = &getAllLikesContext;
     }else if ([segue.identifier isEqualToString:@"chooseDate"]){
         ChooseDateViewController *chooseDateController = segue.destinationViewController;
         chooseDateController.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -1044,7 +1047,14 @@ static void *getAllLikesContext = &getAllLikesContext;
     }
 }
 
+#pragma mark - Header Delegate
 
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - Buttons
 
@@ -1052,10 +1062,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self.likeConnection likePostWithMemberID:self.userID EventsOrService:@"Events" postID:self.eventID];
 }
 
-- (IBAction)btnHome:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
 
-}
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
@@ -1075,9 +1082,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self performSegueWithIdentifier:@"showAttendees" sender:self];
 }
 
-- (IBAction)btnShowCommentsPressed:(id)sender {
-    [self performSegueWithIdentifier:@"showComments" sender:self];
-}
+
 
 - (IBAction)btnGoingPressed:(id)sender {
     if (self.isInvited == 1 && self.isJoined == 1) {
@@ -1115,7 +1120,4 @@ static void *getAllLikesContext = &getAllLikesContext;
 }
 
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 @end

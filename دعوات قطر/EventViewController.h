@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ChooseDateViewController.h"
 #import "NetworkConnection.h"
+#import "HeaderContainerViewController.h"
 
-@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate , UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITextFieldDelegate>
+@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate , UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITextFieldDelegate,headerContainerDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentsHeightLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *commentsTableView;

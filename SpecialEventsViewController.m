@@ -174,9 +174,20 @@
         ServiceViewController *serviceViewController = segue.destinationViewController;
         serviceViewController.service = self.selectedService;
         serviceViewController.serviceImage = self.selectedServiceImage;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 #pragma mark - Buttons

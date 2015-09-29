@@ -192,6 +192,7 @@
                 
             }];
             
+            self.collectionViewHeight.constant = collectionView.contentSize.height;
             UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
             [aFlowLayout setSectionInset:UIEdgeInsetsMake(5, 0, 5, 0)];
         }
@@ -243,6 +244,7 @@
     return [formatter stringFromNumber:someNumber];
 }
 
+#pragma mark - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"enterSection"]) {
@@ -253,6 +255,9 @@
     }else if ([segue.identifier isEqualToString:@"enterEvent"]){
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -346,10 +351,14 @@
     //NSLog(@"%@",error);
 }
 
-- (IBAction)btnHome:(id)sender {
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (IBAction)btnSeeMorePressed:(id)sender {
     UIButton *pressedBtn = (UIButton *)sender;
@@ -368,7 +377,5 @@
     
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 @end

@@ -409,6 +409,9 @@
         userController.user = self.selectedUser;
         userController.defaultGroup = self.group[@"name"];
         userController.userCurrentGroup = YES;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
     
 }
@@ -565,6 +568,17 @@
     }
     
 }
+
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 
 - (IBAction)btnHome:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];

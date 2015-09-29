@@ -114,15 +114,31 @@ static void *getAllLikesContext = &getAllLikesContext;
     }
 }
 
+#pragma mark - Segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"header"]) {
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
+    }
+}
+
+#pragma mark - Header Delegate 
+
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Buttons
 
 - (IBAction)LikesButton:(id)sender {
     [self.likeConnection likePostWithMemberID:self.memberID EventsOrService:@"Service" postID:self.serviceID];
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 
 
 @end

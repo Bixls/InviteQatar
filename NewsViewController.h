@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface NewsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+#import "HeaderContainerViewController.h"
+@interface NewsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,headerContainerDelegate>
 
 @property(nonatomic,strong) NSDictionary *news;
 

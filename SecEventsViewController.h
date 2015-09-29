@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HeaderContainerViewController.h"
 
-@interface SecEventsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface SecEventsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate>
 
 @property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger selectedSection;
@@ -16,5 +17,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *sectionNameLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *eventsCollectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventsCollectionViewHeight;
 
 @end

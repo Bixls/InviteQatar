@@ -174,6 +174,9 @@
     if ([segue.identifier isEqualToString:@"event"]) {
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -285,7 +288,7 @@
 }
 
 -(void)initCollectionView{
-    self.customEvent = [[EventsDataSource alloc]initWithEvents:self.allEvents withHeightConstraint:nil andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
+    self.customEvent = [[EventsDataSource alloc]initWithEvents:self.allEvents withHeightConstraint:self.eventsCollectionViewHeight andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
         self.selectedEvent = selectedEvent;
     }];
     [self.eventsCollectionView setDelegate:self.customEvent];
@@ -293,12 +296,15 @@
 }
 
 
-- (IBAction)btnHome:(id)sender {
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
-- (IBAction)btnBackPressed:(id)sender {
+-(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
 
 @end

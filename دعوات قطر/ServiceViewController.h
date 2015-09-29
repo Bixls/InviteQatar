@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HeaderContainerViewController.h"
 
-@interface ServiceViewController : UIViewController
+@interface ServiceViewController : UIViewController <headerContainerDelegate>
 
 @property (nonatomic,strong) NSDictionary *service;
 @property (nonatomic,strong) UIImage *serviceImage;

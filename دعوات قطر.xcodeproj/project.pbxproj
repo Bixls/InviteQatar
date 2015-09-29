@@ -132,6 +132,7 @@
 		189E45C41B671852000A7066 /* GroupFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E45C31B671852000A7066 /* GroupFrame.png */; };
 		189E45C61B6718CD000A7066 /* groupFrame2.png in Resources */ = {isa = PBXBuildFile; fileRef = 189E45C51B6718CD000A7066 /* groupFrame2.png */; };
 		18A202DE1B424D94005BD875 /* SearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A202DD1B424D94005BD875 /* SearchTableViewController.m */; };
+		18B3288D1BB9F09300B8EBC5 /* HeaderContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B3288C1BB9F09300B8EBC5 /* HeaderContainerViewController.m */; settings = {ASSET_TAGS = (); }; };
 		18B589C51B674242009F8B90 /* UserGroup.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B589C41B674242009F8B90 /* UserGroup.png */; };
 		18B589C71B6749E3009F8B90 /* royal.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B589C61B6749E3009F8B90 /* royal.png */; };
 		18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1CBA51B4465D800B8B787 /* CreateEventViewController.m */; };
@@ -352,6 +353,8 @@
 		189E45C51B6718CD000A7066 /* groupFrame2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groupFrame2.png; sourceTree = "<group>"; };
 		18A202DC1B424D94005BD875 /* SearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchTableViewController.h; path = "دعوات قطر/SearchTableViewController.h"; sourceTree = "<group>"; };
 		18A202DD1B424D94005BD875 /* SearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchTableViewController.m; path = "دعوات قطر/SearchTableViewController.m"; sourceTree = "<group>"; };
+		18B3288B1BB9F09300B8EBC5 /* HeaderContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderContainerViewController.h; sourceTree = "<group>"; };
+		18B3288C1BB9F09300B8EBC5 /* HeaderContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderContainerViewController.m; sourceTree = "<group>"; };
 		18B589C41B674242009F8B90 /* UserGroup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserGroup.png; sourceTree = "<group>"; };
 		18B589C61B6749E3009F8B90 /* royal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = royal.png; sourceTree = "<group>"; };
 		18D1CBA41B4465D800B8B787 /* CreateEventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateEventViewController.h; path = ../CreateEventViewController.h; sourceTree = "<group>"; };
@@ -504,6 +507,8 @@
 				184B659A1B411A0A00B1483C /* HomePageViewController.m */,
 				1894D7251BB61DBC00F0E5F0 /* EventsDataSource.h */,
 				1894D7261BB61DBC00F0E5F0 /* EventsDataSource.m */,
+				18B3288B1BB9F09300B8EBC5 /* HeaderContainerViewController.h */,
+				18B3288C1BB9F09300B8EBC5 /* HeaderContainerViewController.m */,
 				18651CDA1BAE7DCF00978969 /* ServiceViewController.h */,
 				18651CDB1BAE7DCF00978969 /* ServiceViewController.m */,
 				18514B641BA3B92A00DF2C94 /* MyProfileViewController.h */,
@@ -960,6 +965,7 @@
 				1873C2341B4E4C360026C905 /* MessagesViewController.m in Sources */,
 				182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */,
 				184B659E1B41E9F400B1483C /* EditAccountViewController.m in Sources */,
+				18B3288D1BB9F09300B8EBC5 /* HeaderContainerViewController.m in Sources */,
 				18651CDC1BAE7DCF00978969 /* ServiceViewController.m in Sources */,
 				1873C2371B4E540B0026C905 /* MessagesFirstTableViewCell.m in Sources */,
 				18D1CBA61B4465D800B8B787 /* CreateEventViewController.m in Sources */,

@@ -28,7 +28,7 @@
                        action:@selector(textFieldDidChange)
              forControlEvents:UIControlEventEditingChanged];
     
-    self.viewHeight.constant = self.view.bounds.size.height - 35;
+   // self.viewHeight.constant = self.view.bounds.size.height - 35;
     
 }
 
@@ -74,6 +74,9 @@
         UserViewController *userController = segue.destinationViewController;
         userController.user = self.selectedUser;
         
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -98,6 +101,7 @@
     NSDictionary *user = self.filteredNames[indexPath.row];
     cell.detailTextLabel.text = user[@"name"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.tableViewHeight.constant = tableView.contentSize.height;
     return cell ;
 }
 
@@ -110,14 +114,17 @@
     [self performSegueWithIdentifier:@"user" sender:self];
 }
 
+#pragma mark - Header Delegate
 
-#pragma mark - Buttons
-
-- (IBAction)btnBackPressed:(id)sender {
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)btnHomePressed:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
+
+#pragma mark - Buttons
+
+
 @end

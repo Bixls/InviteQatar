@@ -27,6 +27,9 @@
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger invitationID;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewLayoutConstraint;
+
+
 @end
 
 @implementation BuyInvitationsViewController
@@ -195,9 +198,10 @@
     cell2.backgroundColor = [UIColor clearColor];
     cell2.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    self.tableViewLayoutConstraint.constant = tableView.contentSize.height;
+    
     return cell2;
-//    }
-//    return nil;
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -316,9 +320,29 @@
 //    NSLog(@"%@",error);
 }
 
-- (IBAction)btnHome:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+
+
+#pragma mark - Segue
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"header"]) {
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
+    }
 }
+
+#pragma mark - Delegate Methods 
+
+-(void)homePageBtnPressed{
+     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(void)backBtnPressed{
+     [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark - Buttons
 
 
 - (IBAction)btnBuyNowPressed:(id)sender {
@@ -340,7 +364,4 @@
     
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 @end

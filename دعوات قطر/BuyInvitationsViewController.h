@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
+#import "HeaderContainerViewController.h"
 
-@interface BuyInvitationsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,SKProductsRequestDelegate,UIAlertViewDelegate>
+@interface BuyInvitationsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,SKProductsRequestDelegate,UIAlertViewDelegate , headerContainerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *vipTableView;
 - (IBAction)btnBuyNowPressed:(id)sender;

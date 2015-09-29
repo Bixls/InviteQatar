@@ -172,6 +172,9 @@
         commentsController.postDescription = self.newsDescription.text;
         commentsController.postID = self.newsID;
         commentsController.postType = 1;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -371,13 +374,16 @@
 //    NSLog(@"%@",error);
 }
 
-- (IBAction)btnHome:(id)sender {
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
-
-- (IBAction)btnBackPressed:(id)sender {
+-(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
 - (IBAction)btnSendComment:(id)sender {
     self.userInput = self.commentsTextField.text;
     self.commentsTextField.text = nil;

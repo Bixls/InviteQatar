@@ -7,19 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HeaderContainerViewController.h"
 
-@interface SearchPageViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@interface SearchPageViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,headerContainerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
+
 
 @property (nonatomic,strong) NSMutableArray *filteredNames;
 
 
-- (IBAction)btnBackPressed:(id)sender;
-- (IBAction)btnHomePressed:(id)sender;
+
 
 
 @end

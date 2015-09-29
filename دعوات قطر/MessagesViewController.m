@@ -230,6 +230,9 @@
         ChooseDateViewController *chooseDateController = segue.destinationViewController;
         chooseDateController.delegate = self;
 //        chooseGroupController.createMsgFlag = 1;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -374,6 +377,17 @@
     self.messageDate = [date stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     
 }
+
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Buttons
 
 - (IBAction)btnRemindMePressed:(id)sender {
     if ([sender isMemberOfClass:[UIButton class]])

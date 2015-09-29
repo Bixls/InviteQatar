@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HeaderContainerViewController.h"
 
-@interface AllSectionsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>
+@interface AllSectionsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,headerContainerDelegate>
 
 @property (nonatomic) NSInteger groupID;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewHeight;
 
 - (IBAction)btnSeeMorePressed:(id)sender;
 
