@@ -130,7 +130,7 @@
     }
     
 
-    
+    self.VIPPointsNumber.text = @"";
     
 
 
@@ -302,8 +302,8 @@
         [self postRequest:getGroups withTag:getGroupsTag];
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
-        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-         [self postRequest:getInvNum withTag:getInvNumTag];
+//        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+//         [self postRequest:getInvNum withTag:getInvNumTag];
         
         @try {
             [self postRequest:getUserPoints withTag:getUserPointsTag];
@@ -332,8 +332,10 @@
             //[self postRequest:getGroups withTag:getGroupsTag];
             [self postRequest:getNews withTag:getNewsTag];
             [self postRequest:getEvents withTag:getEventsTag];
-            [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-            [self postRequest:getUserPointsTag withTag:getUserPointsTag];
+            [self postRequest:getUserPoints withTag:getUserPointsTag];
+            
+//            [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
+//            [self postRequest:getUserPointsTag withTag:getUserPointsTag];
         }
         else {
             self.offline = true;

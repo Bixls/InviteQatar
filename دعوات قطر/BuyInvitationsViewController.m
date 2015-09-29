@@ -26,6 +26,7 @@
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger invitationID;
+@property (nonatomic,strong) UIActivityIndicatorView *spinner;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewLayoutConstraint;
 
@@ -109,6 +110,7 @@
 #pragma mark - SKProductsRequest Delegate
 
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response{
+    [self.spinner stopAnimating];
     
     self.selectedProduct = response.products.firstObject;
     NSLog(@"%@",response.products);
@@ -205,50 +207,35 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *nowPressed = [[NSDictionary alloc]init];
+//    NSDictionary *nowPressed = [[NSDictionary alloc]init];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    nowPressed = self.VIPPackages[indexPath.row];
-    self.invitationID = [nowPressed[@"id"]integerValue];
-   // self.selectedProduct = self.allProducts[indexPath.row];
-    if ([self.selectedItem isEqual:nowPressed]) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        self.selectedItemType = nil;
-        self.selectedItem = nil;
-        self.selectedIndexPath = nil;
-        self.selectedTableView = nil;
-    }else if (self.selectedItem == nil){
-        self.selectedItem = self.VIPPackages[indexPath.row];
-        self.selectedItemType = @"vip";
-        self.selectedIndexPath = indexPath;
-        self.selectedTableView = tableView;
-    }
-    else{
-        
-     
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفوا" message:@"تم إختيار باقه بالفعل" delegate:self cancelButtonTitle:@"اغلاق" otherButtonTitles:nil, nil];
-        [alertView show];
-        [tableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
-        
-    }
     
-    switch ([nowPressed[@"id"]integerValue]) {
-        case 1:{
-            [self.productsIdentifiers addObject:@"com.bixls.inviteQatar.normalPlanTest"];
-            break;
-        }
-        case 2:{
-            [self.productsIdentifiers addObject:@"com.bixls.inviteQatar.mediumPlan"];
-            break;
-        }
-            
-        default:{
-            break;
-        }
-            
-    }
+//    self.invitationID = [nowPressed[@"id"]integerValue];
+//
+//    if ([self.selectedItem isEqual:nowPressed]) {
+//        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//        self.selectedItemType = nil;
+//        self.selectedItem = nil;
+//        self.selectedIndexPath = nil;
+//        self.selectedTableView = nil;
+//    }else if (self.selectedItem == nil){
+//        self.selectedItem = self.VIPPackages[indexPath.row];
+//        self.selectedItemType = @"vip";
+//        self.selectedIndexPath = indexPath;
+//        self.selectedTableView = tableView;
+//    }
+//    else{
+//        
+//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفوا" message:@"تم إختيار باقه بالفعل" delegate:self cancelButtonTitle:@"اغلاق" otherButtonTitles:nil, nil];
+//        [alertView show];
+//        [tableView selectRowAtIndexPath:self.selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+//        
+//    }
     
-    [self validateProductIdentifiers];
+
+    
+
     
     
 }
@@ -288,7 +275,6 @@
     NSData *responseData = [request responseData];
     
     self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//    NSLog(@"%@",self.responseArray);
     
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"invitations"]) {
@@ -342,26 +328,57 @@
 }
 
 
+
 #pragma mark - Buttons
 
 
 - (IBAction)btnBuyNowPressed:(id)sender {
     
-    
-    int id = [self.selectedItem[@"id"]integerValue] ;
-    
-    self.postDict = @{
-                      @"FunctionName":@"addInvPoints" ,
-                      @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%d",self.userID],@"invitationID":[NSNumber numberWithInt:id]}]};
-//    if (self.cellPressed==1) {
-//        [self postRequest:self.postDict];
-//    }
-    NSMutableDictionary *buyNowTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"buyNow",@"key", nil];
-    
-    if (self.selectedIndexPath) {
-        [self postRequest:self.postDict withTag:buyNowTag];
-    }
+    [self generateSpinner];
+    [self choosePackageThenValidate];
     
 }
+
+#pragma mark - Methods
+
+-(void)choosePackageThenValidate{
+    NSDictionary *package = [[NSDictionary alloc]init];
+    package = self.VIPPackages[0];
+    
+    switch ([package[@"id"]integerValue]) {
+        case 1:{
+            [self.productsIdentifiers addObject:@"com.bixls.inviteQatar.normalPlanTest"];
+            break;
+        }
+            
+        default:{
+            break;
+        }
+            
+    }
+    [self validateProductIdentifiers];
+}
+
+-(void)generateSpinner{
+    self.spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.spinner.center = self.view.center;
+    self.spinner.hidesWhenStopped = YES;
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+}
+
+/*
+ int id = [self.selectedItem[@"id"]integerValue] ;
+ 
+ self.postDict = @{
+ @"FunctionName":@"addInvPoints" ,
+ @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",(long)self.userID],@"invitationID":[NSNumber numberWithInt:id]}]};
+ 
+ NSMutableDictionary *buyNowTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"buyNow",@"key", nil];
+ 
+ if (self.selectedIndexPath) {
+ [self postRequest:self.postDict withTag:buyNowTag];
+ }
+ */
 
 @end

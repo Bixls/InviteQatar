@@ -34,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblEventsError;
 @property (weak, nonatomic) IBOutlet UILabel *lblMembersError;
 
+@property (weak, nonatomic) IBOutlet UILabel *lblShowAllEvents;
+@property (weak, nonatomic) IBOutlet UIButton *btnShowAllEvents;
 
 
 @end

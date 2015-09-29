@@ -81,11 +81,13 @@
     //Hide all UI elements
     //[self.groupFrame setHidden:YES];
    // [self.groupPic setHidden:YES];
-    [self.lblLatestEvents setHidden:YES];
-    [self.lblLatestNews setHidden:YES];
-    [self.lblUsers setHidden:YES];
+    //[self.lblLatestEvents setHidden:YES];
+   // [self.lblLatestNews setHidden:YES];
+    //[self.lblUsers setHidden:YES];
+    
     [self.btnSeeMoreUsers setHidden:YES];
     [self.imgSeeMoreUsers setHidden:YES];
+    
     [self.lblNewsError setHidden:YES];
     [self.lblEventsError setHidden:YES];
     [self.lblMembersError setHidden:YES];
@@ -158,14 +160,14 @@
 
 -(void)disableUserInteraction {
     self.newsCollectionView.allowsSelection = NO;
-    self.collectionView.userInteractionEnabled = NO;
+    self.eventsCollectionView.userInteractionEnabled = NO;
     self.usersTableView.userInteractionEnabled = NO;
     //[self.btnSeeMoreUsers setEnabled:NO];
 }
 
 -(void)enableUserInteraction {
     self.newsCollectionView.allowsSelection = YES;
-    self.collectionView.allowsSelection = YES;
+    self.eventsCollectionView.allowsSelection = YES;
     self.usersTableView.userInteractionEnabled = YES;
     //[self.btnSeeMoreUsers setEnabled:YES];
 }
@@ -475,15 +477,16 @@
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
     NSString *key = [request.userInfo objectForKey:@"key"];
     if ([key isEqualToString:@"getEvents"]) {
-        self.events = array;
-        self.customEvents = [[EventsDataSource alloc]initWithEvents:self.events withHeightConstraint:self.eventsCollectionViewHeight andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
-            self.selectedEvent = selectedEvent;
-        }];
-        [self.eventsCollectionView setDelegate:self.customEvents];
-        [self.eventsCollectionView setDataSource:self.customEvents];
-        if (self.events.count > 0) {
+
+        if (array.count > 0) {
+            self.events = array;
+            self.customEvents = [[EventsDataSource alloc]initWithEvents:self.events withHeightConstraint:self.eventsCollectionViewHeight andViewController:self withSelectedEvent:^(NSDictionary *selectedEvent) {
+                self.selectedEvent = selectedEvent;
+            }];
+            [self.eventsCollectionView setDelegate:self.customEvents];
+            [self.eventsCollectionView setDataSource:self.customEvents];
             [self.lblLatestEvents setHidden:NO];
-            [self.collectionView reloadData];
+ 
         }else{
             // Atala3 label
 //            NSLog(@"No Events!");
@@ -493,7 +496,9 @@
             //[self.lblLatestEvents removeFromSuperview];
             [self.lblEventsError setHidden:NO];
             [self.lblLatestEvents setHidden:NO];
-            [self.collectionView removeFromSuperview];
+            [self.eventsCollectionView removeFromSuperview];
+            [self.lblShowAllEvents removeFromSuperview];
+            [self.btnShowAllEvents removeFromSuperview];
             
         }
        
@@ -540,14 +545,15 @@
 //        NSLog(@"%@",self.users);
         self.start = self.users.count;
         if (self.users.count > 0) {
-            [self.lblUsers setHidden:NO];
+            //[self.lblUsers setHidden:NO];
             [self.btnSeeMoreUsers setHidden:NO];
             [self.imgSeeMoreUsers setHidden:NO];
             self.userTypeFlag = 1;
             [self.usersTableView reloadData];
         }else{
 //            NSLog(@"NO Users!");
-            //[self.lblMembersError setHidden:NO];
+            [self.lblMembersError setHidden:NO];
+            [self.usersTableView removeFromSuperview];
             
         }
         
@@ -579,18 +585,12 @@
 }
 
 
-
-- (IBAction)btnHome:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (IBAction)seeMoreBtnPresed:(id)sender {
     self.start = self.users.count;
     [self getUsers];
+}
+- (IBAction)showAllEventsBtnPressed:(id)sender {
+    [self performSegueWithIdentifier:@"showSections" sender:self];
 }
 
 
