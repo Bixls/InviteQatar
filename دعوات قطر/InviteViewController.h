@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HeaderContainerViewController.h"
 
-@interface InviteViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface InviteViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate>
 
 
 @property(nonatomic)NSInteger createMsgFlag;
@@ -21,6 +22,7 @@
 @property(nonatomic)BOOL editingMode;
 @property(nonatomic,strong)NSArray *previousInvitees;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnMarkAll;
 @property (weak, nonatomic) IBOutlet UILabel *inviteesNumberLabel;

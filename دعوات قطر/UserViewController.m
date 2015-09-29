@@ -189,20 +189,29 @@
     }else if ([segue.identifier isEqualToString:@"event"]){
         EventViewController *eventController = segue.destinationViewController;
         eventController.event = self.selectedEvent;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
+}
+
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Buttons
 
-- (IBAction)btnHome:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
 
 - (IBAction)btnSendMessagePressed:(id)sender {
     [self performSegueWithIdentifier:@"sendMessage" sender:self];
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
+
+
 @end

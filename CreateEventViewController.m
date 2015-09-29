@@ -230,6 +230,9 @@ static void *adminMsgContext = &adminMsgContext;
             chooseGroupController.invitees = self.selectedUsers;
             chooseGroupController.previousInvitees = self.previousInvitees;
         }
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -616,6 +619,18 @@ static void *adminMsgContext = &adminMsgContext;
 }
 
 
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+-(void)backBtnPressed{
+    [self.userDefaults setObject:nil forKey:@"invitees"];
+    [self.userDefaults synchronize];
+    [self emptyMarkedGroups];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Buttons
 
 - (IBAction)btnChooseInviteesPressed:(id)sender {
@@ -859,17 +874,6 @@ static void *adminMsgContext = &adminMsgContext;
 
 - (IBAction)datePickerAction:(id)sender {
     [self performSegueWithIdentifier:@"chooseDate" sender:self];
-}
-
-- (IBAction)btnHome:(id)sender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (IBAction)btnBackPressed:(id)sender {
-    [self.userDefaults setObject:nil forKey:@"invitees"];
-    [self.userDefaults synchronize];
-    [self emptyMarkedGroups];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

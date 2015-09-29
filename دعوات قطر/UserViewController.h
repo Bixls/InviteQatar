@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "NetworkConnection.h"
+#import "HeaderContainerViewController.h"
 
-@interface UserViewController : UIViewController 
+@interface UserViewController : UIViewController <headerContainerDelegate>
 
 @property (nonatomic,strong)NSDictionary *user;
 @property(nonatomic) NSInteger otherUserID;

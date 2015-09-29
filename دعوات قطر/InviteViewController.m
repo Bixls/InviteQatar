@@ -211,6 +211,7 @@
         }
     }
     
+    self.tableViewHeight.constant = tableView.contentSize.height;
     return cell ;
 }
 -(void)searchAndDeleteItemWithKey:(NSDictionary *)user{
@@ -571,13 +572,33 @@
 
     
 }
+#pragma mark - Segue 
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
+    }
+}
 
 
-- (IBAction)btnHome:(id)sender {
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
     [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
     [self.userDefaults synchronize];
 }
+-(void)backBtnPressed{
+    [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
+    [self.userDefaults synchronize];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Buttons
+
 
 - (IBAction)btnInvitePressed:(id)sender {
 
@@ -616,14 +637,6 @@
     
 }
 
-
-- (IBAction)btnBackPressed:(id)sender {
-    [self.userDefaults setInteger:self.VIPPoints forKey:@"VIPPoints"];
-    [self.userDefaults synchronize];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 -(void)jumpToRootViewController {
     for (UIViewController* viewController in self.navigationController.viewControllers) {

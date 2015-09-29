@@ -102,7 +102,7 @@
 
 -(AttendeeTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
+    self.tableViewHeight.constant = tableView.contentSize.height;
     if(indexPath.row<(self.allUsers.count)){
         AttendeeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
         if (cell==nil) {
@@ -134,6 +134,7 @@
         if (cell1==nil) {
             cell1=[[AttendeeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
         }
+        
         cell1.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell1;
     }
@@ -160,6 +161,9 @@
         UserViewController *userController = segue.destinationViewController;
         userController.user = self.selectedUser;
         self.populate = NO;
+    }else if ([segue.identifier isEqualToString:@"header"]){
+        HeaderContainerViewController *header = segue.destinationViewController;
+        header.delegate = self;
     }
 }
 
@@ -225,16 +229,23 @@
     NSError *error = [request error];
 //    NSLog(@"%@",error);
 }
-- (IBAction)btnHome:(id)sender {
+
+#pragma mark - Header Delegate
+
+-(void)homePageBtnPressed{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+-(void)backBtnPressed{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Buttons
+
 
 - (IBAction)btnSeeMorePressed:(id)sender {
     self.start = self.allUsers.count;
     [self getAttendees];
 }
 
-- (IBAction)btnBackPressed:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 @end

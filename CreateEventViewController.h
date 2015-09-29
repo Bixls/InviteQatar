@@ -11,7 +11,9 @@
 #import "ChooseDateViewController.h"
 #import "NetworkConnection.h"
 #import "customAlertView.h"
-@interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate,UIAlertViewDelegate,customAlertViewDelegate>
+#import "HeaderContainerViewController.h"
+
+@interface CreateEventViewController : UIViewController <UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIActionSheetDelegate,chooseTypeViewControllerDelegate,chooseDateViewControllerDelegate,UIAlertViewDelegate,customAlertViewDelegate,headerContainerDelegate>
 
 @property (nonatomic) NSInteger createOrEdit;
 @property (nonatomic) NSInteger eventID;

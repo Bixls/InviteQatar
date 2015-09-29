@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HeaderContainerViewController.h"
 
-@interface EventAttendeesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface EventAttendeesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate>
 
 @property (nonatomic)NSInteger eventID;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewHeight;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)btnSeeMorePressed:(id)sender;
 
