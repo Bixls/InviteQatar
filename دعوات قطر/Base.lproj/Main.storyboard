@@ -1686,6 +1686,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="492" id="4LJ-oG-dH6"/>
                                                 </constraints>
+                                                <connections>
+                                                    <segue destination="T9v-HC-jqX" kind="embed" identifier="footer" id="dIn-8A-ufv"/>
+                                                </connections>
                                             </containerView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1771,7 +1774,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wTP-pX-OvQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2531" y="3610"/>
+            <point key="canvasLocation" x="-2672" y="3433"/>
         </scene>
         <!--Special Events View Controller-->
         <scene sceneID="6Tg-rV-4Sh">
@@ -1826,6 +1829,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="492" id="usU-Ae-mqc"/>
                                                 </constraints>
+                                                <connections>
+                                                    <segue destination="T9v-HC-jqX" kind="embed" identifier="footer" id="14r-M2-y73"/>
+                                                </connections>
                                             </containerView>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TFr-hN-Zp9">
                                                 <rect key="frame" x="15" y="329" width="290" height="231"/>
@@ -2004,7 +2010,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o0e-b9-Zxw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1649" y="3640"/>
+            <point key="canvasLocation" x="-2186" y="3409"/>
         </scene>
         <!--Home Page View Controller-->
         <scene sceneID="NFn-nI-Zmy">
@@ -9872,12 +9878,12 @@
         <segue reference="hTI-TE-OlE"/>
         <segue reference="mYb-7K-k86"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="KiB-OF-MYT"/>
         <segue reference="fSe-Jm-Ttd"/>
-        <segue reference="vLp-5z-Rj9"/>
         <segue reference="1o2-k6-8rD"/>
         <segue reference="ZIm-fH-sIf"/>
         <segue reference="8AK-s1-iMG"/>
         <segue reference="Eoi-6P-6lF"/>
+        <segue reference="SlK-z6-YQU"/>
+        <segue reference="14r-M2-y73"/>
     </inferredMetricsTieBreakers>
 </document>
