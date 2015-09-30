@@ -45,7 +45,7 @@
         
     }else if (self.eventOrMsg == 1){
         self.getUserConnection = [[NetworkConnection alloc]init];
-        
+        [self getUSer];
        
         
     }
@@ -54,7 +54,7 @@
     }
     
     
-    //[self getUSer];
+    
     [self getUserEvents];
     
 }

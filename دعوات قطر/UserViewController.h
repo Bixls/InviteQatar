@@ -14,7 +14,7 @@
 
 @property (nonatomic,strong)NSDictionary *user;
 @property(nonatomic) NSInteger otherUserID;
-@property(nonatomic) NSInteger eventOrMsg;
+@property(nonatomic) NSInteger eventOrMsg; //comment
 @property(nonatomic) BOOL userCurrentGroup;
 @property(nonatomic,strong) NSString *defaultGroup;
 

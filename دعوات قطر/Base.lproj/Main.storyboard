@@ -4081,11 +4081,12 @@
                         <outlet property="newsImage" destination="7rD-vi-Cr7" id="Gij-T2-Xly"/>
                         <outlet property="newsSubject" destination="MNE-Ym-8wJ" id="18x-Sh-fk2"/>
                         <outlet property="newsTime" destination="f9s-Gh-WLZ" id="3dQ-K7-HTt"/>
+                        <segue destination="pdv-Sh-Heh" kind="push" identifier="showUser" id="sPA-Rg-hzz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LbP-Za-MwM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="807" y="3066"/>
+            <point key="canvasLocation" x="3471" y="8026"/>
         </scene>
         <!--Comments View Controller-->
         <scene sceneID="5bt-bm-fMo">
@@ -5666,8 +5667,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cAQ-sA-jkI">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9EC-oA-HGn">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1682"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9EC-oA-HGn">
+                                        <rect key="frame" x="0.0" y="-200" width="320" height="1682"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hce-RL-849">
                                                 <rect key="frame" x="8" y="9" width="303" height="213"/>
@@ -6109,6 +6110,15 @@
                                                     <segue destination="T9v-HC-jqX" kind="embed" identifier="footer" id="eTO-GU-BSU"/>
                                                 </connections>
                                             </containerView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IbJ-P1-7xi">
+                                                <rect key="frame" x="73" y="591" width="177" height="63.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="63.5" id="QK1-7Q-eMm"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="btnShowUserPressed:" destination="Pnj-oQ-lDE" eventType="touchUpInside" id="1RY-ko-bTv"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -6120,6 +6130,7 @@
                                             <constraint firstItem="9ic-Kt-WfW" firstAttribute="top" secondItem="PHx-r5-rLT" secondAttribute="bottom" constant="39" id="3jC-g2-Q6g"/>
                                             <constraint firstItem="lLl-hQ-7zQ" firstAttribute="top" secondItem="uLx-9U-T2m" secondAttribute="bottom" constant="7" id="3mw-J7-0xy"/>
                                             <constraint firstItem="NYa-A9-OdJ" firstAttribute="centerY" secondItem="J5a-Ke-02a" secondAttribute="centerY" constant="-1" id="4GK-EA-urn"/>
+                                            <constraint firstItem="IbJ-P1-7xi" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" constant="3" id="4ds-Qc-mRB"/>
                                             <constraint firstItem="fun-b2-BhN" firstAttribute="top" secondItem="5bT-ae-SxU" secondAttribute="bottom" constant="-18" id="4kf-1E-cEW"/>
                                             <constraint firstItem="2Sx-Xf-N38" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" constant="18" id="5Bz-aO-ctv"/>
                                             <constraint firstAttribute="centerX" secondItem="azo-YN-Hct" secondAttribute="centerX" id="5pt-Lo-0IO"/>
@@ -6163,6 +6174,7 @@
                                             <constraint firstItem="6hh-rS-t7B" firstAttribute="top" secondItem="J5a-Ke-02a" secondAttribute="bottom" constant="8" id="adf-yV-MpV"/>
                                             <constraint firstItem="TXe-jS-k1C" firstAttribute="top" secondItem="Uy5-EU-uQp" secondAttribute="bottom" priority="700" constant="30" id="bUV-eI-Ebh"/>
                                             <constraint firstItem="XPz-EX-ptz" firstAttribute="top" secondItem="xjf-wM-TB4" secondAttribute="bottom" constant="12" id="bUh-o4-ajc"/>
+                                            <constraint firstAttribute="trailing" secondItem="IbJ-P1-7xi" secondAttribute="trailing" constant="70" id="boc-5Y-hFc"/>
                                             <constraint firstItem="XPz-EX-ptz" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="10" id="c5s-Cz-fVC"/>
                                             <constraint firstItem="nbO-aH-ZAK" firstAttribute="centerY" secondItem="fun-b2-BhN" secondAttribute="centerY" constant="-0.5" id="cSw-f7-YtB"/>
                                             <constraint firstItem="J5a-Ke-02a" firstAttribute="top" secondItem="SdN-rK-1Pr" secondAttribute="bottom" priority="600" constant="30" id="cXE-Fo-7Pj"/>
@@ -6201,6 +6213,7 @@
                                             <constraint firstAttribute="centerX" secondItem="o5b-PZ-AHU" secondAttribute="centerX" priority="800" id="tQr-ZM-RZv"/>
                                             <constraint firstItem="TXe-jS-k1C" firstAttribute="top" secondItem="XPz-EX-ptz" secondAttribute="bottom" constant="34" id="taG-ed-ee1"/>
                                             <constraint firstItem="4SG-8n-xdg" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="14" id="tlQ-ht-ZeN"/>
+                                            <constraint firstItem="IbJ-P1-7xi" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="73" id="vVH-eX-3Ku"/>
                                             <constraint firstItem="lLl-hQ-7zQ" firstAttribute="leading" secondItem="Qmn-ep-qaI" secondAttribute="trailing" id="vlb-Cv-gIo"/>
                                             <constraint firstItem="nbO-aH-ZAK" firstAttribute="leading" secondItem="9EC-oA-HGn" secondAttribute="leading" constant="73" id="wAg-La-8uH"/>
                                             <constraint firstItem="5Gt-5D-oKH" firstAttribute="leading" secondItem="UgR-ez-duK" secondAttribute="trailing" constant="18" id="wWu-XI-Z1F"/>
@@ -6287,7 +6300,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qZJ-5n-s9k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2510" y="4122"/>
+            <point key="canvasLocation" x="3063" y="7291"/>
         </scene>
         <!--Invite View Controller-->
         <scene sceneID="XtK-En-o4D">
@@ -7132,7 +7145,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yky-sq-Ugz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3615" y="3742"/>
+            <point key="canvasLocation" x="3917" y="7399"/>
         </scene>
         <!--Send Message View Controller-->
         <scene sceneID="ToO-0F-Jsq">
@@ -9370,7 +9383,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zqr-dR-zKi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="487" y="4893"/>
+            <point key="canvasLocation" x="3102" y="6092"/>
         </scene>
         <!--Item-->
         <scene sceneID="pUr-aY-fdJ">
@@ -9947,6 +9960,10 @@
         <scene sceneID="USb-IF-s6I">
             <objects>
                 <viewController id="wGT-GA-tVz" customClass="MiddleContainerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="J1O-Vq-Yfy"/>
+                        <viewControllerLayoutGuide type="bottom" id="tAO-OL-zzx"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="zET-GU-be0">
                         <rect key="frame" x="0.0" y="0.0" width="294" height="150"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -10080,20 +10097,20 @@
         <image name="vip_icon.png" width="86" height="85"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ff3-m5-J1l"/>
-        <segue reference="Q1U-zT-bIh"/>
+        <segue reference="Eoi-6P-6lF"/>
         <segue reference="ehv-QV-wmo"/>
-        <segue reference="7J1-Rt-qJs"/>
         <segue reference="FzJ-6b-ZNA"/>
         <segue reference="Jgt-me-3nt"/>
+        <segue reference="Gqh-wF-NhR"/>
+        <segue reference="sPA-Rg-hzz"/>
+        <segue reference="ss1-ww-ryM"/>
+        <segue reference="psK-ic-p6d"/>
+        <segue reference="1o2-k6-8rD"/>
         <segue reference="hTI-TE-OlE"/>
         <segue reference="mYb-7K-k86"/>
+        <segue reference="hWi-sg-g8m"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="Jab-Vj-B1C"/>
-        <segue reference="fSe-Jm-Ttd"/>
-        <segue reference="1o2-k6-8rD"/>
         <segue reference="ZIm-fH-sIf"/>
         <segue reference="8AK-s1-iMG"/>
-        <segue reference="Eoi-6P-6lF"/>
     </inferredMetricsTieBreakers>
 </document>

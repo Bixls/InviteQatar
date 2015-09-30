@@ -190,7 +190,7 @@ static void *getAllLikesContext = &getAllLikesContext;
         [self getInvited];
        
         if (self.selectedType == 2 || self.selectedType == 3) {
-            [self readMessage];
+//            [self readMessage];
         }else{
             [self getEvent];
             
@@ -522,7 +522,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     }else if ([segue.identifier isEqualToString:@"showUser"]){
         if (self.selectedType == 2 || self.selectedType == 3) {
             UserViewController *userController = segue.destinationViewController;
-            userController.otherUserID = self.userID;
+            userController.otherUserID = self.selectedUserID;
             userController.eventOrMsg = 1;
         }else{
             UserViewController *userController = segue.destinationViewController;
@@ -999,11 +999,13 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        NSDictionary *comment =self.comments[indexPath.row];
-        self.selectedUserID = [comment[@"id"]integerValue];
-        [self getUSerWithID:self.selectedUserID];
-
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *comment =self.comments[indexPath.row];
+    self.selectedUserID = [comment[@"id"]integerValue];
+    self.selectedType = 2;
+    [self performSegueWithIdentifier:@"showUser" sender:self];
+        //[self getUSerWithID:self.selectedUserID];
+    
     
 }
 
@@ -1097,6 +1099,8 @@ static void *getAllLikesContext = &getAllLikesContext;
 }
 
 - (IBAction)btnShowUserPressed:(id)sender {
+    self.selectedType = 2;
+    self.selectedUserID = self.creatorID;
     [self performSegueWithIdentifier:@"showUser" sender:self];
 }
 

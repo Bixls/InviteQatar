@@ -13,7 +13,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <UIScrollView+SVInfiniteScrolling.h>
 #import "CommentsSecondTableViewCell.h"
-
+#import "UserViewController.h"
 @interface NewsViewController ()
 
 @property (nonatomic,strong) NSMutableArray *comments;
@@ -25,7 +25,8 @@
 
 @property (nonatomic) NSInteger userTypeFlag;
 @property(nonatomic)NSInteger newsID;
-@property(nonatomic)NSInteger newsType;
+@property(nonatomic)NSInteger type;
+@property(nonatomic)NSInteger selectedUserID;
 @property(nonatomic,strong)UIActivityIndicatorView *newsPicSpinner;
 @end
 
@@ -43,7 +44,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.navigationItem.backBarButtonItem = backbutton;
     self.newsID = [self.news[@"NewsID"]integerValue];
-    self.newsType = 1;
+    self.type = 1;
     [self.btnComments setHidden:YES];
     [self.imgComments setHidden:YES];
     self.newsSubject.text = self.news[@"Subject"];
@@ -168,14 +169,21 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showComments"]) {
         CommentsViewController *commentsController = segue.destinationViewController;
-        commentsController.postImage = self.newsImage.image;
-        commentsController.postDescription = self.newsDescription.text;
-        commentsController.postID = self.newsID;
-        commentsController.postType = 1;
+//        commentsController.postImage = self.newsImage.image;
+//        commentsController.postDescription = self.newsDescription.text;
+//        commentsController.postID = self.newsID;
+//        commentsController.postType = 1;
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"showUser"]){
+
+            UserViewController *userController = segue.destinationViewController;
+            userController.otherUserID = self.selectedUserID;
+            userController.eventOrMsg = 1;
+
     }
+    
 }
 
 #pragma mark - Comments 
@@ -230,7 +238,9 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *comment =self.comments[indexPath.row];
-//    self.selectedUserID = [comment[@"id"]integerValue];
+    self.selectedUserID = [comment[@"id"]integerValue];
+    self.type = 2;
+    [self performSegueWithIdentifier:@"showUser" sender:self];
 //    [self getUSerWithID:self.selectedUserID];
     
     
