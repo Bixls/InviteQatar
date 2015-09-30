@@ -344,6 +344,7 @@
 -(void)choosePackageThenValidate{
     NSDictionary *package = [[NSDictionary alloc]init];
     package = self.VIPPackages[0];
+    self.invitationID = [package[@"id"]integerValue];
     
     switch ([package[@"id"]integerValue]) {
         case 1:{

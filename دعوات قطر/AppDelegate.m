@@ -107,7 +107,7 @@
             [[SKPaymentQueue defaultQueue]finishTransaction:transaction];
             [self saveReceipts];
             
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تمت عملية الدفع بنجاح" delegate:nil cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"تمت عملية الشراء بنجاح" delegate:nil cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
             [alertView show];
         }else if ([dict[@"success"]boolValue] == false){
             [self.userDefaults setInteger:0 forKey:@"requestSuccess"];
@@ -118,7 +118,6 @@
     }];
     
     [self.inAppPurchase addInvitationPointsWithMemberID:self.memberID andInvitationID:self.invitationID];
-    
     
     
     NSLog(@"Add User Points Called");

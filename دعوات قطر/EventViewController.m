@@ -1101,11 +1101,12 @@ static void *getAllLikesContext = &getAllLikesContext;
 }
 
 - (IBAction)btnInviteOthersPressed:(id)sender {
-    if (self.isVIP == 0) {
-        [self performSegueWithIdentifier:@"invite" sender:self];
-    }else if (self.isVIP == 1){
-        [self performSegueWithIdentifier:@"inviteAll" sender:self];
-    }
+     [self performSegueWithIdentifier:@"inviteAll" sender:self];
+//    if (self.isVIP == 0) {
+//        [self performSegueWithIdentifier:@"invite" sender:self];
+//    }else if (self.isVIP == 1){
+//       
+//    }
     
 }
 
