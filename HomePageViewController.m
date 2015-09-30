@@ -23,6 +23,7 @@
 #import "customEventCollectionViewCell.h"
 #import "customGroupFooter.h"
 #import "SpecialEventsViewController.h"
+#import "MiddleContainerViewController.h"
 
 @interface HomePageViewController ()
 
@@ -66,6 +67,14 @@
 @property (nonatomic) BOOL loadCache;
 @property (nonatomic,strong) ASINetworkQueue *queue;
 @property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) NetworkConnection *adsConnection;
+@property (nonatomic,strong) NSMutableArray *footerAds;
+@property (nonatomic,strong) NSArray *allAds;
+@property (nonatomic) NSInteger counter;
+@property (nonatomic,strong) NetworkConnection *footerImgConnection;
+
+@property (weak, nonatomic) IBOutlet UIView *msgsNotificationView;
+@property (weak, nonatomic) IBOutlet UIView *invitationsNotificationsView;
 
 //@property (nonatomic,strong) UIActivityIndicatorView *eventsSpinner;
 //@property (nonatomic,strong) UIActivityIndicatorView *groupsSpinner;
@@ -79,7 +88,7 @@
     [super viewDidLoad];
     //[self viewDidLoadClone];
     self.offlineNewsFlag = 1;
-    
+    self.counter = 0;
 
     self.groupImages = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
@@ -131,7 +140,8 @@
     
 
     self.VIPPointsNumber.text = @"";
-    
+    [self.msgsNotificationView setHidden:YES];
+    [self.invitationsNotificationsView setHidden:YES];
 
 
 }
@@ -143,7 +153,7 @@
     [self.userDefaults synchronize];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
-
+    
     
     NSDictionary *getInvNum = [[NSDictionary alloc]init];
     NSDictionary *getInvNumTag = [[NSDictionary alloc]init];
@@ -227,8 +237,8 @@
         self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
         self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
         self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
-         self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-         self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(76,self.groups.count - 76)];
+        self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
+        self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(76,self.groups.count - 76)];
         self.groupSections = [[NSMutableArray alloc]init];
         [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
 //
@@ -245,6 +255,8 @@
 //        self.news = news;
 //        [self.newsCollectionView reloadData];
 //    }
+    
+    [self initAds];
     NSDictionary *getUserPoints = @{
                                 @"FunctionName":@"getUserPoints" ,
                                 @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.userID]}]};
@@ -302,6 +314,8 @@
         [self postRequest:getGroups withTag:getGroupsTag];
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
+        //[self.adsConnection getAdsWithStart:0 andLimit:1000];
+        
 //        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
 //         [self postRequest:getInvNum withTag:getInvNumTag];
         
@@ -333,7 +347,7 @@
             [self postRequest:getNews withTag:getNewsTag];
             [self postRequest:getEvents withTag:getEventsTag];
             [self postRequest:getUserPoints withTag:getUserPointsTag];
-            
+            //[self.adsConnection getAdsWithStart:0 andLimit:1000];
 //            [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
 //            [self postRequest:getUserPointsTag withTag:getUserPointsTag];
         }
@@ -349,6 +363,17 @@
     }];
     
 }
+
+-(void)initAds{
+    self.adsConnection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        self.allAds = responseArray;
+        [self.groupsCollectionView reloadData];
+        
+    }];
+    [self.adsConnection getAdsWithStart:10 andLimit:100];
+}
+
 
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -384,6 +409,8 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     if (collectionView.tag == 0) {
+        NSLog(@"%lu",(unsigned long)self.groups.count);
+        NSLog(@"%f",ceil(self.groups.count/20));
         return 5;
     }else{
         return 1;
@@ -437,7 +464,7 @@
 - (CGSize)collectionView:(customGroupFooter *)collectionView layout:(customGroupFooter*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
     if (collectionView.tag == 0) {
-        return CGSizeMake((self.groupsCollectionView.bounds.size.width), 130);
+        return CGSizeMake((self.groupsCollectionView.bounds.size.width), 150);
     }else{
         return CGSizeZero;
     }
@@ -745,11 +772,64 @@
     UICollectionReusableView *reusableview = nil;
     
     if (kind== UICollectionElementKindSectionFooter && collectionView.tag == 0) {
+        
         customGroupFooter *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"adFooter" forIndexPath:indexPath];
+
+
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
-        [footer.adView setTransform:CGAffineTransformMakeScale(-1, 1)];
-    
+        //[footer.adView setTransform:CGAffineTransformMakeScale(-1, 1)];
+        [footer setTransform:CGAffineTransformMakeScale(-1, 1)];
+        
+        
+//        footer.btn1.tag = indexPath.section;
+//        footer.btn2.tag = indexPath.section;
+//        footer.btn3.tag = indexPath.section;
+        
+        while (self.counter < self.allAds.count) {
+
+            NSLog(@"%@",self.allAds);
+            NSMutableArray *threeAds = [[NSMutableArray alloc]init];
+            
+            for (int i = 0; i<3 ; i++) {
+                if ((self.counter + i) < self.allAds.count){
+                    [threeAds addObject:self.allAds[self.counter + i]];
+                }
+                
+            }
+            self.counter += 3 ;
+            for (int i = 0; i < threeAds.count; i++) {
+                NSDictionary *tempAd = threeAds[i];
+                NSInteger picID = [tempAd[@"adsImage"]integerValue];
+                NSInteger adID = [tempAd[@"id"]integerValue];
+                self.footerImgConnection = [[NetworkConnection alloc]init];
+                switch (i) {
+                    case 0:{
+                        NSLog(@"%ld",(long)picID);
+                        footer.btn1.tag = adID;
+                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
+                        break;
+                    }case 1:{
+                        NSLog(@"%ld",(long)picID);
+                        footer.btn2.tag = adID;
+                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
+                        break;
+                    }case 2:{
+                        
+                        NSLog(@"%ld",(long)picID);
+                        footer.btn3.tag = adID;
+                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+            break;
+            
+        }
+        
         reusableview = footer;
+    
     }else{
 
     }
@@ -922,7 +1002,17 @@
     }else if ([segue.identifier isEqualToString:@"specialEvent"]){
         SpecialEventsViewController *specialEvent = segue.destinationViewController;
         specialEvent.eventType = self.selectedSpecialEventType;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.footerAds = self.footerAds;
+    }else if ([segue.identifier isEqualToString:@"middle0"]){
+        MiddleContainerViewController *middleController = segue.destinationViewController;
+        middleController.containerID = 0;
+    }else if ([segue.identifier isEqualToString:@"middle1"]){
+        MiddleContainerViewController *middleContainer = segue.destinationViewController;
+        middleContainer.containerID = 1;
     }
+    
 }
 
 #pragma mark - Connection setup
@@ -1064,6 +1154,9 @@
         if (responseDictionary[@"unRead"]) {
             
             NSInteger unread = [responseDictionary[@"unRead"]integerValue];
+            if (unread > 0) {
+                [self.msgsNotificationView setHidden:NO];
+            }
             [self.btnUnReadMsgs setHidden:NO];
 //            NSString *unread = [responseDictionary[@"unRead"]stringValue];
 //            NSLog(@"%@",unread);
@@ -1078,6 +1171,9 @@
         if (responseDictionary[@"VIP"]!= [NSNull null]) {
             [responseDictionary[@"VIP"]integerValue];
             NSInteger VIP = [responseDictionary[@"VIP"]integerValue];
+            if (VIP > 0) {
+                [self.invitationsNotificationsView setHidden:NO];
+            }
             self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
            // [s setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];
             
@@ -1160,9 +1256,45 @@
     
     
 }
+
+- (IBAction)btn1FooterPressed:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    [self openWebPageWithBtnTag:button.tag];
+    
+}
+
+- (IBAction)btn2FooterPressed:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    [self openWebPageWithBtnTag:button.tag];
+    NSLog(@"%ld",(long)button.tag);
+}
+
+- (IBAction)btn3FooterPressed:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    [self openWebPageWithBtnTag:button.tag];
+    NSLog(@"%ld",(long)button.tag);
+}
+
 -(void)emptyMarkedGroups{
     [self.userDefaults removeObjectForKey:@"markedGroups"];
     [self.userDefaults synchronize];
+}
+
+#pragma mark - Open Safari
+
+-(void)openWebPageWithBtnTag:(NSInteger)tag {
+    NSString *webPage = [self searchAllAdsAndGetWebPageWithID:tag];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:webPage]];
+}
+
+-(NSString *)searchAllAdsAndGetWebPageWithID:(NSInteger)adID{
+    for (NSDictionary *tempAd in self.allAds) {
+        NSInteger tempID = [tempAd[@"id"]integerValue];
+        if (tempID == adID) {
+            return tempAd[@"adsURL"];
+        }
+    }
+    return nil;
 }
 
 @end

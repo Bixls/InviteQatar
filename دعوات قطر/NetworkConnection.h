@@ -26,11 +26,14 @@
 
 -(void)postRequest:(NSDictionary *)postDict withTag:(NSMutableDictionary *)dict;
 -(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image;
+-(void)downloadImageWithID:(NSInteger)imageID andImageView:(UIImageView *)imageView;
 
 -(void)searchDataBaseWithText:(NSString*)text;
 -(void)signUpWithName:(NSString *)name mobile:(NSString *)mobile password:(NSString *)password groupID:(NSString *)groupID imageURL:(NSString*)imageURL;
 -(void)downloadImageWithID:(NSInteger)imageID;
+
 -(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key withWidth:(NSInteger)width andHeight:(NSInteger)height;
+
 -(void)getUserWithID:(NSInteger)userID;
 -(void)getInvitationsNumberWithMobile:(NSString *)userMobile password:(NSString *)userPassword;
 -(void)getUserEventsWithUserID:(NSInteger)userID startValue:(NSInteger)start limitValue:(NSInteger)limit;
@@ -40,5 +43,7 @@
 -(void)likePostWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID;
 -(void)getAllLikesWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID;
 -(void)addInvitationPointsWithMemberID:(NSInteger)memberID andInvitationID:(NSInteger)invitationID;
+-(void)getAdsWithStart:(NSInteger)start andLimit:(NSInteger)limit;
+
 
 @end

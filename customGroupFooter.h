@@ -13,4 +13,12 @@
 
 @property (weak, nonatomic) IBOutlet adSpace *adView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *img1;
+@property (weak, nonatomic) IBOutlet UIImageView *img2;
+@property (weak, nonatomic) IBOutlet UIImageView *img3;
+@property (weak, nonatomic) IBOutlet UIButton *btn1;
+@property (weak, nonatomic) IBOutlet UIButton *btn2;
+@property (weak, nonatomic) IBOutlet UIButton *btn3;
+
+
 @end

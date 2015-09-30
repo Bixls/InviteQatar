@@ -61,6 +61,17 @@
         });
     
 }
+-(void)downloadImageWithID:(NSInteger)imageID andImageView:(UIImageView *)imageView{
+    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)imageID];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+    [imageView sd_setImageWithURL:imgURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            imageView.image = image;
+        });
+       
+    }];
+    
+}
 
 -(void)postPicturewithTag:(NSMutableDictionary *)dict uploadImage:(UIImage *)image {
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
@@ -240,5 +251,15 @@
     [self postRequest:getService  withTag:getServiceTag];
 }
 
+-(void)getAdsWithStart:(NSInteger)start andLimit:(NSInteger)limit{
+    NSDictionary *getAds = @{@"FunctionName":@"getAds" , @"inputs":@[@{@"start":[NSString stringWithFormat:@"%ld",(long)start],
+                                                                                 
+                                                                                 @"limit":[NSString stringWithFormat:@"%ld",(long)limit]
+                                                                                 
+                                                                                 }]};
+    NSMutableDictionary *getAdsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getAdsTag",@"key", nil];
+    
+    [self postRequest:getAds  withTag:getAdsTag];
+}
 
 @end

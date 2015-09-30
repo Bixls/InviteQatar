@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="adSpace">
             <connections>
-                <outlet property="adSpaceSC" destination="SFr-ma-aZk" id="N75-Q1-cBs"/>
                 <outlet property="largeAd" destination="DHS-jW-v8v" id="xJP-Vt-K4Q"/>
                 <outlet property="leftAd" destination="Qgp-pd-nLW" id="9cG-6b-rqM"/>
                 <outlet property="rightAd" destination="UQp-HH-gsW" id="m8n-jh-0cu"/>
@@ -16,73 +15,60 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="299" height="136"/>
+            <rect key="frame" x="0.0" y="0.0" width="299" height="150"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHS-jW-v8v">
-                    <rect key="frame" x="8" y="8" width="283" height="60"/>
+                    <rect key="frame" x="3" y="0.0" width="294" height="74"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="283" id="hHE-qB-dNy"/>
-                        <constraint firstAttribute="height" constant="60" id="wHy-I5-VPU"/>
+                        <constraint firstAttribute="height" constant="74" id="ulb-OI-PN0"/>
+                    </constraints>
+                    <state key="normal" image="topAd.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qgp-pd-nLW">
+                    <rect key="frame" x="0.0" y="82" width="145" height="68"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="68" id="x21-f1-iN9"/>
                     </constraints>
                     <state key="normal" image="golden_button.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UQp-HH-gsW">
-                    <rect key="frame" x="154" y="78" width="135" height="50"/>
+                    <rect key="frame" x="154" y="82" width="145" height="68"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="Xua-z6-KH7"/>
-                        <constraint firstAttribute="width" constant="135" id="Xwp-eS-3ee"/>
+                        <constraint firstAttribute="height" constant="68" id="F7T-di-qE5"/>
                     </constraints>
                     <state key="normal" image="golden_button.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qgp-pd-nLW">
-                    <rect key="frame" x="10" y="78" width="135" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="7qB-5Q-bYh"/>
-                        <constraint firstAttribute="width" constant="135" id="AXN-Nj-a46"/>
-                    </constraints>
-                    <state key="normal" image="golden_button.png">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adSpaceSC.png" translatesAutoresizingMaskIntoConstraints="NO" id="SFr-ma-aZk">
-                    <rect key="frame" x="8" y="8" width="283" height="120"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="SFr-ma-aZk" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="0Ui-8F-5OZ"/>
-                <constraint firstItem="Qgp-pd-nLW" firstAttribute="top" secondItem="DHS-jW-v8v" secondAttribute="bottom" constant="10" id="20e-xo-Fj0"/>
-                <constraint firstItem="SFr-ma-aZk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="3PY-h9-Ufo"/>
-                <constraint firstItem="Qgp-pd-nLW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="5aH-rX-b0a"/>
-                <constraint firstAttribute="bottom" secondItem="Qgp-pd-nLW" secondAttribute="bottom" constant="8" id="6WD-1o-dPh"/>
-                <constraint firstAttribute="bottom" secondItem="SFr-ma-aZk" secondAttribute="bottom" constant="8" id="9Fw-B6-E9v"/>
-                <constraint firstItem="DHS-jW-v8v" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="9Hq-7A-gA1"/>
-                <constraint firstAttribute="trailing" secondItem="SFr-ma-aZk" secondAttribute="trailing" constant="8" id="9Qe-mt-JzO"/>
-                <constraint firstItem="DHS-jW-v8v" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="CBG-SP-tsh"/>
-                <constraint firstAttribute="bottom" secondItem="UQp-HH-gsW" secondAttribute="bottom" constant="8" id="Eog-KG-U9v"/>
-                <constraint firstAttribute="trailing" secondItem="DHS-jW-v8v" secondAttribute="trailing" constant="8" id="MfN-sf-UYV"/>
-                <constraint firstAttribute="trailing" secondItem="UQp-HH-gsW" secondAttribute="trailing" constant="10" id="NRg-2Y-ygF"/>
-                <constraint firstItem="UQp-HH-gsW" firstAttribute="leading" secondItem="Qgp-pd-nLW" secondAttribute="trailing" constant="9" id="Tcn-sP-C1k"/>
-                <constraint firstItem="Qgp-pd-nLW" firstAttribute="top" secondItem="DHS-jW-v8v" secondAttribute="bottom" constant="10" id="hRp-79-Xbp"/>
-                <constraint firstItem="UQp-HH-gsW" firstAttribute="leading" secondItem="Qgp-pd-nLW" secondAttribute="trailing" constant="9" id="sjy-ag-9ya"/>
-                <constraint firstItem="UQp-HH-gsW" firstAttribute="top" secondItem="DHS-jW-v8v" secondAttribute="bottom" constant="10" id="zMm-C1-X3f"/>
+                <constraint firstAttribute="trailing" secondItem="DHS-jW-v8v" secondAttribute="trailing" constant="2" id="5yk-iK-Uf2"/>
+                <constraint firstItem="Qgp-pd-nLW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="C6V-qJ-x0F"/>
+                <constraint firstItem="Qgp-pd-nLW" firstAttribute="top" secondItem="DHS-jW-v8v" secondAttribute="bottom" constant="8" id="LYn-BP-iEd"/>
+                <constraint firstItem="UQp-HH-gsW" firstAttribute="top" secondItem="DHS-jW-v8v" secondAttribute="bottom" constant="8" id="Tcw-rg-LwN"/>
+                <constraint firstItem="DHS-jW-v8v" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="3" id="YLz-66-LN0"/>
+                <constraint firstItem="DHS-jW-v8v" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="a0K-DW-cwv"/>
+                <constraint firstItem="UQp-HH-gsW" firstAttribute="leading" secondItem="Qgp-pd-nLW" secondAttribute="trailing" constant="9" id="gFY-Vp-Gat"/>
+                <constraint firstItem="UQp-HH-gsW" firstAttribute="width" secondItem="Qgp-pd-nLW" secondAttribute="width" id="hdR-9V-TeG"/>
+                <constraint firstAttribute="trailing" secondItem="UQp-HH-gsW" secondAttribute="trailing" id="tph-2h-0iO"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="413.5" y="169"/>
+            <point key="canvasLocation" x="413.5" y="177"/>
         </view>
     </objects>
     <resources>
-        <image name="adSpaceSC.png" width="598" height="230"/>
         <image name="golden_button.png" width="400" height="86"/>
+        <image name="topAd.png" width="1088" height="192"/>
     </resources>
 </document>

@@ -24,6 +24,8 @@
 		182629161B4F72FB002E784F /* EditAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629151B4F72FB002E784F /* EditAccountTableViewCell.m */; };
 		182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629181B4F7CBC002E784F /* ChooseTypeViewController.m */; };
 		1826291C1B4F7F92002E784F /* ChooseTypeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */; };
+		182ED0D41BBB427300557998 /* FooterContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182ED0D31BBB427300557998 /* FooterContainerViewController.m */; settings = {ASSET_TAGS = (); }; };
+		182ED0D71BBB51DE00557998 /* MiddleContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182ED0D61BBB51DE00557998 /* MiddleContainerViewController.m */; settings = {ASSET_TAGS = (); }; };
 		1831583F1BAC62B6000708A2 /* topAd.png in Resources */ = {isa = PBXBuildFile; fileRef = 1831583E1BAC62B6000708A2 /* topAd.png */; };
 		183158411BAC638B000708A2 /* credits.png in Resources */ = {isa = PBXBuildFile; fileRef = 183158401BAC638B000708A2 /* credits.png */; };
 		183957021B45382300B47FC2 /* cellGroupsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183957011B45382300B47FC2 /* cellGroupsCollectionView.m */; };
@@ -191,6 +193,10 @@
 		182629181B4F7CBC002E784F /* ChooseTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseTypeViewController.m; sourceTree = "<group>"; };
 		1826291A1B4F7F92002E784F /* ChooseTypeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseTypeTableViewCell.h; sourceTree = "<group>"; };
 		1826291B1B4F7F92002E784F /* ChooseTypeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseTypeTableViewCell.m; sourceTree = "<group>"; };
+		182ED0D21BBB427300557998 /* FooterContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FooterContainerViewController.h; sourceTree = "<group>"; };
+		182ED0D31BBB427300557998 /* FooterContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FooterContainerViewController.m; sourceTree = "<group>"; };
+		182ED0D51BBB51DE00557998 /* MiddleContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiddleContainerViewController.h; sourceTree = "<group>"; };
+		182ED0D61BBB51DE00557998 /* MiddleContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MiddleContainerViewController.m; sourceTree = "<group>"; };
 		1831583E1BAC62B6000708A2 /* topAd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topAd.png; sourceTree = "<group>"; };
 		183158401BAC638B000708A2 /* credits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = credits.png; sourceTree = "<group>"; };
 		183957001B45382300B47FC2 /* cellGroupsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cellGroupsCollectionView.h; path = "دعوات قطر/cellGroupsCollectionView.h"; sourceTree = "<group>"; };
@@ -422,6 +428,8 @@
 				184B65541B3F84A700B1483C /* WelcomePageViewController.m */,
 				184B65561B3F944D00B1483C /* SignUpViewController.h */,
 				184B65571B3F944D00B1483C /* SignUpViewController.m */,
+				182ED0D21BBB427300557998 /* FooterContainerViewController.h */,
+				182ED0D31BBB427300557998 /* FooterContainerViewController.m */,
 				184B655B1B3FBD9900B1483C /* SignInViewController.h */,
 				184B655C1B3FBD9900B1483C /* SignInViewController.m */,
 				184083911BA6DCA30075DE36 /* WelcomeUserViewController.h */,
@@ -437,6 +445,8 @@
 		184B65211B3F60AC00B1483C = {
 			isa = PBXGroup;
 			children = (
+				182ED0D51BBB51DE00557998 /* MiddleContainerViewController.h */,
+				182ED0D61BBB51DE00557998 /* MiddleContainerViewController.m */,
 				18651CD41BAE67D100978969 /* SpecialEventsCollectionViewCell.h */,
 				18651CD51BAE67D100978969 /* SpecialEventsCollectionViewCell.m */,
 				18651CD71BAE685800978969 /* SpecialEventsViewController.h */,
@@ -956,6 +966,7 @@
 				1873C22E1B4DFDEA0026C905 /* CommentsFirstTableViewCell.m in Sources */,
 				184B658C1B4081B300B1483C /* ASIDownloadCache.m in Sources */,
 				1859E8C31B84F21E00091D25 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				182ED0D41BBB427300557998 /* FooterContainerViewController.m in Sources */,
 				18EA682C1B4B57C800F482FB /* AttendeeTableViewCell.m in Sources */,
 				184B65721B407F6B00B1483C /* ASIProgressDelegate.h in Sources */,
 				182629191B4F7CBC002E784F /* ChooseTypeViewController.m in Sources */,
@@ -995,6 +1006,7 @@
 				184B65661B407CCE00B1483C /* ASIHTTPRequest.m in Sources */,
 				189E45BF1B669FA8000A7066 /* MyLatestEventsTableViewCell.m in Sources */,
 				1813C2FA1B50F1400044CDDB /* OfflinePicturesViewController.m in Sources */,
+				182ED0D71BBB51DE00557998 /* MiddleContainerViewController.m in Sources */,
 				184B655D1B3FBD9900B1483C /* SignInViewController.m in Sources */,
 				184B65601B3FC52900B1483C /* ConfirmationViewController.m in Sources */,
 				184B65551B3F84A700B1483C /* WelcomePageViewController.m in Sources */,
