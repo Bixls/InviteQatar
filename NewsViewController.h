@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
-@interface NewsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,headerContainerDelegate>
+#import "customAlertView.h"
+@interface NewsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,headerContainerDelegate,customAlertViewDelegate>
 
 @property(nonatomic,strong) NSDictionary *news;
 

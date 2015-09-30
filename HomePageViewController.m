@@ -185,7 +185,9 @@
         //        [self.btnMyAccount setEnabled:NO];
         self.segueFlag = 1;
         [self.btnMyProfile setTitle:@"خروج" forState:UIControlStateNormal];
+        
         [self.btnMyProfile setEnabled:YES];
+        
         [self.btnMyMessages setEnabled:NO];
         [self.btnSupport setEnabled:NO];
         [self.btnInvitationsBuy setEnabled:NO];
@@ -193,8 +195,8 @@
         [self.btnCreateNewInvitation setEnabled:NO];
         
 //        self.eventsTableView.allowsSelection = NO;
-        self.eventCollectionView.allowsSelection = NO;
-        self.newsCollectionView.allowsSelection = NO;
+//        self.eventCollectionView.allowsSelection = NO;
+//        self.newsCollectionView.allowsSelection = NO;
 //        self.groupsCollectionView.allowsSelection = NO;
 
         
@@ -379,7 +381,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
 //    [self.groupsSpinner stopAnimating];
 //    [self.eventsSpinner stopAnimating];
-    
+    self.segueFlag = 0;
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
         if(![request isCancelled])

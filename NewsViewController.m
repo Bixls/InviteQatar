@@ -26,8 +26,15 @@
 @property (nonatomic) NSInteger userTypeFlag;
 @property(nonatomic)NSInteger newsID;
 @property(nonatomic)NSInteger type;
+@property(nonatomic)BOOL visitor;
 @property(nonatomic)NSInteger selectedUserID;
 @property(nonatomic,strong)UIActivityIndicatorView *newsPicSpinner;
+
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+@property (weak, nonatomic) IBOutlet UIButton *btnAddComment;
+
+
 @end
 
 @implementation NewsViewController
@@ -70,6 +77,12 @@
     self.start = 0;
     self.limit = 5000;
     
+    //Custom Alert
+    self.customAlert.delegate = self;
+    [self.customAlertView setHidden:YES];
+    //Disable or enable interaction
+    [self checkIfVisitor];
+    
     [self.navigationItem setHidesBackButton:YES];
     
 }
@@ -98,6 +111,15 @@
             [request cancel];
             [request setDelegate:nil];
         }
+    }
+}
+
+-(void)checkIfVisitor{
+    if ([self.userDefaults integerForKey:@"Visitor"] == 1){
+        
+        self.visitor = 1;
+    }else{
+        self.visitor = 0;
     }
 }
 
@@ -139,6 +161,20 @@
     self.newsDescription.text = self.news[@"Description"];
     
 }
+#pragma mark - Alert View Methods
+
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
+    
+    [self.customAlertView setHidden:NO];
+    self.customAlert.viewLabel.text = msg ;
+    self.customAlert.tag = tag;
+}
+-(void)customAlertCancelBtnPressed{
+    [self.customAlertView setHidden:YES];
+    
+}
+
+
 
 -(void)GenerateArabicDateWithDate:(NSString *)englishDate{
     
@@ -395,9 +431,13 @@
 
 
 - (IBAction)btnSendComment:(id)sender {
-    self.userInput = self.commentsTextField.text;
-    self.commentsTextField.text = nil;
-    [self addComment];
+    if (self.visitor) {
+        [self showAlertWithMsg:@"عفواً لا يمكنك إضافة تعليقات إلا بعد تفعيل الحساب" alertTag:0];
+    }else{
+        self.userInput = self.commentsTextField.text;
+        self.commentsTextField.text = nil;
+        [self addComment];
+    }
 }
 
 @end

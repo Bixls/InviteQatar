@@ -4051,6 +4051,36 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="wP8-Am-zSn">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E9L-Yz-Y4j">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ejj-1t-1Dz" customClass="customAlertView">
+                                        <rect key="frame" x="45" y="219" width="230" height="110"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="110" id="rzL-rc-Zko"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.80392156859999997" blue="0.80784313730000001" alpha="0.10000000000000001" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ejj-1t-1Dz" secondAttribute="trailing" constant="45" id="A08-32-loT"/>
+                                    <constraint firstItem="ejj-1t-1Dz" firstAttribute="leading" secondItem="E9L-Yz-Y4j" secondAttribute="leading" constant="45" id="n14-4o-Ize"/>
+                                    <constraint firstAttribute="centerY" secondItem="ejj-1t-1Dz" secondAttribute="centerY" id="y1C-l2-UOL"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -4058,22 +4088,29 @@
                             <constraint firstItem="dan-wn-xq5" firstAttribute="top" secondItem="MMp-Gt-bXe" secondAttribute="top" constant="20" id="4dK-7c-e69"/>
                             <constraint firstItem="i5j-kH-UPb" firstAttribute="leading" secondItem="MMp-Gt-bXe" secondAttribute="leading" id="5Yw-hn-SLX"/>
                             <constraint firstAttribute="trailing" secondItem="i5j-kH-UPb" secondAttribute="trailing" id="8F1-ek-ugr"/>
+                            <constraint firstItem="E9L-Yz-Y4j" firstAttribute="leading" secondItem="MMp-Gt-bXe" secondAttribute="leading" id="8I7-qQ-yWH"/>
                             <constraint firstItem="wP8-Am-zSn" firstAttribute="leading" secondItem="i5j-kH-UPb" secondAttribute="leading" id="MJr-xF-xUT"/>
                             <constraint firstItem="2En-5s-42E" firstAttribute="top" secondItem="dan-wn-xq5" secondAttribute="bottom" id="NOO-tG-Pda"/>
                             <constraint firstItem="dan-wn-xq5" firstAttribute="leading" secondItem="MMp-Gt-bXe" secondAttribute="leading" id="Np1-cC-pUA"/>
                             <constraint firstItem="wP8-Am-zSn" firstAttribute="trailing" secondItem="i5j-kH-UPb" secondAttribute="trailing" id="VSa-MF-hQs"/>
+                            <constraint firstItem="E9L-Yz-Y4j" firstAttribute="top" secondItem="EgW-kq-LfQ" secondAttribute="bottom" id="aHs-Tn-lJE"/>
+                            <constraint firstAttribute="trailing" secondItem="E9L-Yz-Y4j" secondAttribute="trailing" id="fpy-8Z-eiN"/>
                             <constraint firstItem="2En-5s-42E" firstAttribute="top" secondItem="i5j-kH-UPb" secondAttribute="bottom" id="klz-Wq-eu3"/>
                             <constraint firstAttribute="trailing" secondItem="dan-wn-xq5" secondAttribute="trailing" id="qPE-Ma-JUo"/>
                             <constraint firstItem="wP8-Am-zSn" firstAttribute="top" secondItem="i5j-kH-UPb" secondAttribute="top" id="r6C-vo-fwk"/>
+                            <constraint firstItem="2En-5s-42E" firstAttribute="top" secondItem="E9L-Yz-Y4j" secondAttribute="bottom" id="uiB-8u-VhK"/>
                             <constraint firstItem="wP8-Am-zSn" firstAttribute="bottom" secondItem="i5j-kH-UPb" secondAttribute="bottom" id="vha-CW-CYT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Rp7-w1-zyB"/>
                     <connections>
+                        <outlet property="btnAddComment" destination="Zyt-Ti-t1N" id="aI2-S3-coS"/>
                         <outlet property="btnComments" destination="YMC-MH-TNi" id="uqu-4V-f4R"/>
                         <outlet property="commentsHeightLayoutConstraint" destination="he5-BW-vx4" id="4UT-cw-lkd"/>
                         <outlet property="commentsTableView" destination="ka9-lQ-xMZ" id="HvF-p9-di0"/>
                         <outlet property="commentsTextField" destination="h6F-p7-uje" id="wNu-b0-Tov"/>
+                        <outlet property="customAlert" destination="ejj-1t-1Dz" id="Y4a-xo-B3s"/>
+                        <outlet property="customAlertView" destination="E9L-Yz-Y4j" id="qoq-aL-1Ek"/>
                         <outlet property="imgComments" destination="ZnU-6R-xck" id="k4d-KY-dx6"/>
                         <outlet property="innerView" destination="SBu-LF-1g3" id="u8C-oV-nHo"/>
                         <outlet property="newsDate" destination="RJV-a5-jiR" id="Un3-u7-6Lw"/>

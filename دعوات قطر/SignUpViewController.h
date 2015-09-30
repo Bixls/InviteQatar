@@ -18,6 +18,6 @@
 
 - (IBAction)btnSignUpPressed:(id)sender;
 - (IBAction)btnBackgroundPressed:(id)sender;
-- (IBAction)btnBackPressed:(id)sender;
+
 
 @end
