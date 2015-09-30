@@ -49,6 +49,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (nonatomic)NSInteger approved;
 @property (nonatomic)NSInteger approvedFlag;
 @property (nonatomic) NSInteger userTypeFlag;
+@property (nonatomic) BOOL visitor;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong)NSString *userInput;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
@@ -61,6 +62,8 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (nonatomic,strong) UIActivityIndicatorView *eventPicSPinner;
 @property (nonatomic,strong) NetworkConnection *likeConnection;
 @property (nonatomic,strong) NetworkConnection *getAllLikesConnection;
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
 
 @end
 
@@ -153,6 +156,11 @@ static void *getAllLikesContext = &getAllLikesContext;
     self.start = 0;
     self.limit = 5000;
     
+    //Custom Alert
+    self.customAlert.delegate = self;
+    [self.customAlertView setHidden:YES];
+    //Disable or enable interaction
+    [self checkIfVisitor];
     
 }
 
@@ -226,6 +234,28 @@ static void *getAllLikesContext = &getAllLikesContext;
             [request cancel];
             [request setDelegate:nil];
         }
+    }
+}
+
+#pragma mark - Alert View Methods
+
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
+    
+    [self.customAlertView setHidden:NO];
+    self.customAlert.viewLabel.text = msg ;
+    self.customAlert.tag = tag;
+}
+-(void)customAlertCancelBtnPressed{
+    [self.customAlertView setHidden:YES];
+    
+}
+
+-(void)checkIfVisitor{
+    if ([self.userDefaults integerForKey:@"Visitor"] == 1){
+        
+        self.visitor = 1;
+    }else{
+        self.visitor = 0;
     }
 }
 
@@ -1061,7 +1091,12 @@ static void *getAllLikesContext = &getAllLikesContext;
 #pragma mark - Buttons
 
 - (IBAction)btnLikePressed:(id)sender {
-    [self.likeConnection likePostWithMemberID:self.userID EventsOrService:@"Events" postID:self.eventID];
+    if (self.visitor) {
+        [self showAlertWithMsg:@"عفواً لا يمكنك إضافة إعجاب إلا بعد تفعيل الحساب" alertTag:0];
+    }else{
+        [self.likeConnection likePostWithMemberID:self.userID EventsOrService:@"Events" postID:self.eventID];
+    }
+
 }
 
 
@@ -1074,9 +1109,14 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 
 - (IBAction)btnSendCommentPressed:(id)sender {
-    self.userInput = self.CommentsTextField.text;
-    self.CommentsTextField.text = nil;
-    [self addComment];
+    if (self.visitor) {
+        [self showAlertWithMsg:@"عفواً لا يمكنك إضافة تعليقات إلا بعد تفعيل الحساب" alertTag:0];
+    }else{
+        self.userInput = self.CommentsTextField.text;
+        self.CommentsTextField.text = nil;
+        [self addComment];
+    }
+
     
 }
 

@@ -10,8 +10,9 @@
 #import "ChooseDateViewController.h"
 #import "NetworkConnection.h"
 #import "HeaderContainerViewController.h"
+#import "customAlertView.h"
 
-@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate , UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITextFieldDelegate,headerContainerDelegate>
+@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate , UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITextFieldDelegate,headerContainerDelegate,customAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentsHeightLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *commentsTableView;

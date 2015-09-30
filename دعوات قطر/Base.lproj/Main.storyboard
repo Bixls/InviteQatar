@@ -6272,20 +6272,54 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="newFrame.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qp3-0X-fsq">
                                 <rect key="frame" x="0.0" y="-510" width="320" height="548"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E52-Ij-YAh">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UXB-AZ-Hxa" customClass="customAlertView">
+                                        <rect key="frame" x="45" y="219" width="230" height="110"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="110" id="6Kh-aw-fNi"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.80392156859999997" blue="0.80784313730000001" alpha="0.10000000000000001" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="UXB-AZ-Hxa" secondAttribute="centerY" id="5sy-N5-81w"/>
+                                    <constraint firstItem="UXB-AZ-Hxa" firstAttribute="leading" secondItem="E52-Ij-YAh" secondAttribute="leading" constant="45" id="HS9-B7-XdA"/>
+                                    <constraint firstAttribute="trailing" secondItem="UXB-AZ-Hxa" secondAttribute="trailing" constant="45" id="qOp-mV-gcf"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="cAQ-sA-jkI" secondAttribute="trailing" id="1Au-yf-B7y"/>
                             <constraint firstItem="l2X-ci-Zdr" firstAttribute="top" secondItem="cAQ-sA-jkI" secondAttribute="bottom" id="AbA-tC-7R5"/>
+                            <constraint firstItem="E52-Ij-YAh" firstAttribute="top" secondItem="Ezk-z5-3DP" secondAttribute="bottom" id="DcH-kV-w7N"/>
+                            <constraint firstItem="E52-Ij-YAh" firstAttribute="leading" secondItem="Iy7-EV-v1n" secondAttribute="leading" id="IPp-5x-qj0"/>
                             <constraint firstItem="ruA-KK-O5L" firstAttribute="top" secondItem="Iy7-EV-v1n" secondAttribute="top" constant="20" id="M0i-Ut-zKm"/>
                             <constraint firstItem="cAQ-sA-jkI" firstAttribute="leading" secondItem="Iy7-EV-v1n" secondAttribute="leading" id="Tw0-LX-b3v"/>
                             <constraint firstItem="cAQ-sA-jkI" firstAttribute="top" secondItem="Iy7-EV-v1n" secondAttribute="top" constant="20" id="UB8-n7-dRj"/>
+                            <constraint firstItem="l2X-ci-Zdr" firstAttribute="top" secondItem="E52-Ij-YAh" secondAttribute="bottom" id="aVu-Gc-lZX"/>
                             <constraint firstItem="Qp3-0X-fsq" firstAttribute="leading" secondItem="ruA-KK-O5L" secondAttribute="leading" id="hwB-9f-rp2"/>
                             <constraint firstItem="Qp3-0X-fsq" firstAttribute="bottom" secondItem="ruA-KK-O5L" secondAttribute="bottom" id="jfa-GT-QHI"/>
                             <constraint firstItem="ruA-KK-O5L" firstAttribute="leading" secondItem="Iy7-EV-v1n" secondAttribute="leading" id="lCn-pn-Sjh"/>
                             <constraint firstAttribute="trailing" secondItem="ruA-KK-O5L" secondAttribute="trailing" id="mWo-e7-5YV"/>
                             <constraint firstItem="l2X-ci-Zdr" firstAttribute="top" secondItem="ruA-KK-O5L" secondAttribute="bottom" id="p36-Hv-yoG"/>
                             <constraint firstItem="Qp3-0X-fsq" firstAttribute="top" secondItem="ruA-KK-O5L" secondAttribute="top" id="tPR-oQ-Ndu"/>
+                            <constraint firstAttribute="trailing" secondItem="E52-Ij-YAh" secondAttribute="trailing" id="vHJ-b0-0Fi"/>
                             <constraint firstItem="Qp3-0X-fsq" firstAttribute="trailing" secondItem="ruA-KK-O5L" secondAttribute="trailing" id="xzo-ze-l04"/>
                         </constraints>
                     </view>
@@ -6305,6 +6339,8 @@
                         <outlet property="commentsTableView" destination="XPz-EX-ptz" id="bgf-aq-gST"/>
                         <outlet property="creatorName" destination="SIB-CG-Ee7" id="XN4-2A-l5c"/>
                         <outlet property="creatorPicture" destination="TEG-kW-8Fi" id="kFu-FN-Q98"/>
+                        <outlet property="customAlert" destination="UXB-AZ-Hxa" id="lza-2T-hzJ"/>
+                        <outlet property="customAlertView" destination="E52-Ij-YAh" id="MIe-FE-Cil"/>
                         <outlet property="descriptionLabel" destination="SdN-rK-1Pr" id="lAV-X0-NpO"/>
                         <outlet property="eventDate" destination="9ic-Kt-WfW" id="xbs-1O-S9s"/>
                         <outlet property="eventLikes" destination="p5B-Xm-jCX" id="B5H-Ry-Dku"/>
@@ -10138,16 +10174,16 @@
         <segue reference="ehv-QV-wmo"/>
         <segue reference="FzJ-6b-ZNA"/>
         <segue reference="Jgt-me-3nt"/>
-        <segue reference="Gqh-wF-NhR"/>
-        <segue reference="sPA-Rg-hzz"/>
-        <segue reference="ss1-ww-ryM"/>
+        <segue reference="ZIm-fH-sIf"/>
+        <segue reference="8AK-s1-iMG"/>
+        <segue reference="hWi-sg-g8m"/>
         <segue reference="psK-ic-p6d"/>
+        <segue reference="Ms0-5r-99t"/>
         <segue reference="1o2-k6-8rD"/>
         <segue reference="hTI-TE-OlE"/>
         <segue reference="mYb-7K-k86"/>
-        <segue reference="hWi-sg-g8m"/>
+        <segue reference="eTO-GU-BSU"/>
+        <segue reference="4OK-YO-KNn"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="ZIm-fH-sIf"/>
-        <segue reference="8AK-s1-iMG"/>
     </inferredMetricsTieBreakers>
 </document>
