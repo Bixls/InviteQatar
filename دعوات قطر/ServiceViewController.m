@@ -8,7 +8,7 @@
 
 #import "ServiceViewController.h"
 #import "NetworkConnection.h"
-
+#import "FullImageViewController.h"
 static void *fullServiceContext = &fullServiceContext;
 static void *likeContext = &likeContext;
 static void *getAllLikesContext = &getAllLikesContext;
@@ -21,7 +21,11 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (nonatomic) NSInteger serviceID;
 @property (nonatomic,strong) NSDictionary *fullService;
 @property (nonatomic) NSInteger memberID;
+@property (nonatomic) BOOL visitor;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (weak, nonatomic) IBOutlet UIView *customAlertView;
+@property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+
 
 @end
 
@@ -42,7 +46,10 @@ static void *getAllLikesContext = &getAllLikesContext;
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.memberID = [self.userDefaults integerForKey:@"userID"];
-
+    
+    self.customAlert.delegate = self;
+    [self.customAlertView setHidden:YES];
+    [self checkIfVisitor];
     
 }
 
@@ -83,6 +90,13 @@ static void *getAllLikesContext = &getAllLikesContext;
     return [formatter stringFromNumber:someNumber];
 }
 
+-(void)checkIfVisitor{
+    if ([self.userDefaults integerForKey:@"Visitor"] == 1){
+        self.visitor = 1;
+    }else{
+        self.visitor = 0;
+    }
+}
 
 #pragma mark - KVO
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -120,6 +134,9 @@ static void *getAllLikesContext = &getAllLikesContext;
     if ([segue.identifier isEqualToString:@"header"]) {
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"fullImage"]){
+        FullImageViewController *controller = segue.destinationViewController;
+        controller.image = self.serviceImageView.image;
     }
 }
 
@@ -132,12 +149,36 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - Alert View Methods
+
+-(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
+    
+    [self.customAlertView setHidden:NO];
+    self.customAlert.viewLabel.text = msg ;
+    self.customAlert.tag = tag;
+}
+-(void)customAlertCancelBtnPressed{
+    [self.customAlertView setHidden:YES];
+    
+}
+
 #pragma mark - Buttons
 
 - (IBAction)LikesButton:(id)sender {
-    [self.likeConnection likePostWithMemberID:self.memberID EventsOrService:@"Service" postID:self.serviceID];
+
+    
+    if (self.visitor) {
+        [self showAlertWithMsg:@"عفواً لا يمكنك إضافة إعجاب إلا بعد تفعيل الحساب" alertTag:0];
+    }else{
+        [self.likeConnection likePostWithMemberID:self.memberID EventsOrService:@"Service" postID:self.serviceID];
+    }
+
 }
 
+- (IBAction)showFullImage:(id)sender {
+    [self performSegueWithIdentifier:@"fullImage" sender:self];
+    
+}
 
 
 

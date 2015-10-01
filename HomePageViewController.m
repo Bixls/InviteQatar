@@ -240,8 +240,10 @@
         self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
         self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
         self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-        self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(76,self.groups.count - 76)];
+        self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
+        
         self.groupSections = [[NSMutableArray alloc]init];
+        
         [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
 //
 //        
@@ -345,10 +347,11 @@
         if (internetStatus != NotReachable) {
             self.offline = false;
             [self downloadNewsImages];
-            //[self postRequest:getGroups withTag:getGroupsTag];
+            [self postRequest:getGroups withTag:getGroupsTag];
             [self postRequest:getNews withTag:getNewsTag];
             [self postRequest:getEvents withTag:getEventsTag];
             [self postRequest:getUserPoints withTag:getUserPointsTag];
+            [self initAds];
             //[self.adsConnection getAdsWithStart:0 andLimit:1000];
 //            [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
 //            [self postRequest:getUserPointsTag withTag:getUserPointsTag];
@@ -1102,7 +1105,7 @@
             self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
             self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
             self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(76,self.groups.count - 76)];
+            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
             
             self.groupSections = [[NSMutableArray alloc]init];
             [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];

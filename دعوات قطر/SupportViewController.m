@@ -256,6 +256,9 @@
     
 
 }
+- (IBAction)btnCallNumPressed:(id)sender {
+     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel:+97450003609"]];
+}
 
 
 

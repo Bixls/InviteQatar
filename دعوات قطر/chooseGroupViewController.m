@@ -15,6 +15,7 @@
 @interface chooseGroupViewController ()
 
 @property (nonatomic , strong) NSArray *responseArray;
+@property (nonatomic , strong) NSMutableArray *mutableResponse;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *selectedGroup;
 @property (nonatomic,strong) NetworkConnection *getAllGroupsConn;
@@ -30,7 +31,7 @@
     self.navigationController.navigationBar.hidden = YES;
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.getAllGroupsConn = [[NetworkConnection alloc]init];
-    
+    self.mutableResponse = [[NSMutableArray alloc]init];
 //    NSLog(@"EVENT ID %ld" , (long)self.eventID );
     
 }
@@ -65,11 +66,20 @@
         
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.responseArray =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
+        for (int i = 0; i < self.responseArray.count ; i++) {
+            if (i == 1) {
+                [self.mutableResponse insertObject:self.responseArray[i] atIndex:0];
+            }else{
+                [self.mutableResponse addObject:self.responseArray[i]];
+            }
+        }
+        
+        
 //        NSLog(@"%@", self.responseArray );
         if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
             //do nothing
         }else{
-            [self.userDefaults setObject:self.responseArray forKey:@"groupArray"];
+            [self.userDefaults setObject:self.mutableResponse forKey:@"groupArray"];
             [self.userDefaults synchronize];
             [self.tableView reloadData];
         }

@@ -124,11 +124,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     
-    if ([self.userDefaults integerForKey:@"Visitor"] == 1) {
-        [self disableUserInteraction];
-    }else{
-        [self enableUserInteraction];
-    }
+
     
     NSDictionary *getGroupInfo = @{@"FunctionName":@"getGroupbyID" , @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)self.groupID],}]};
     NSMutableDictionary *getGroupInfoTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getGroupInfo",@"key", nil];

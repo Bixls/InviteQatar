@@ -20,7 +20,7 @@
 #import <UIScrollView+SVInfiniteScrolling.h>
 #import "CommentsSecondTableViewCell.h"
 #import "NetworkConnection.h"
-
+#import "FullImageViewController.h"
 
 
 
@@ -49,6 +49,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (nonatomic)NSInteger approved;
 @property (nonatomic)NSInteger approvedFlag;
 @property (nonatomic) NSInteger userTypeFlag;
+@property (nonatomic) BOOL isLike;
 @property (nonatomic) BOOL visitor;
 @property (nonatomic,strong)NSString *eventDescription;
 @property (nonatomic,strong)NSString *userInput;
@@ -62,6 +63,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (nonatomic,strong) UIActivityIndicatorView *eventPicSPinner;
 @property (nonatomic,strong) NetworkConnection *likeConnection;
 @property (nonatomic,strong) NetworkConnection *getAllLikesConnection;
+@property (nonatomic,strong) NetworkConnection *checkIsLikeConnection;
 @property (weak, nonatomic) IBOutlet UIView *customAlertView;
 @property (weak, nonatomic) IBOutlet customAlertView *customAlert;
 
@@ -109,10 +111,13 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self.sendComments setHidden:YES];
     [self.imgSendComments setHidden:YES];
     
+
+    
 //    [self.imgUserProfile setHidden:YES];
 //    [self.imgPicFrame setHidden:YES];
 //    [self.lblUsername setEnabled:NO];
     [self.btnUser setEnabled:NO];
+
 //    [self.btnUser setHidden:YES];
 //    [self.creatorPicture setHidden:YES];
     
@@ -168,7 +173,10 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)viewDidAppear:(BOOL)animated{
     
-    
+    if (self.visitor == NO) {
+        [self.btnLike setEnabled:NO];
+        [self checkIsLike];
+    }
     self.likeConnection = [[NetworkConnection alloc]init];
     [self.likeConnection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:likeContext];
     
@@ -560,7 +568,6 @@ static void *getAllLikesContext = &getAllLikesContext;
             userController.eventOrMsg = 0;
 
         }
-
         
     }else if ([segue.identifier isEqualToString:@"invite"]){
         InviteViewController *inviteController = segue.destinationViewController;
@@ -580,6 +587,9 @@ static void *getAllLikesContext = &getAllLikesContext;
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"fullImage"]){
+        FullImageViewController *controller = segue.destinationViewController;
+        controller.image = self.eventPicture.image;
     }
 }
 
@@ -918,6 +928,27 @@ static void *getAllLikesContext = &getAllLikesContext;
     
 }
 
+-(void)checkIsLike{
+    self.checkIsLikeConnection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        if (responseDictionary) {
+            [self.btnLike setEnabled:YES];
+            BOOL isLike = [responseDictionary[@"like"]boolValue];
+            if (isLike == YES) {
+                self.isLike = YES;
+                [self.imgLike setImage:[UIImage imageNamed:@"b2down.png"]];
+                //self.btnLike.titleLabel.textColor = [UIColor orangeColor];
+                //[UIColor colorWithRed:227 green:197 blue:100 alpha:1];
+                //[self.view setNeedsDisplay];
+            }else if (isLike == NO){
+                self.isLike = NO;
+                [self.btnLike setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
+        }
+    }];
+    [self.checkIsLikeConnection isLikeWithMemberID:self.userID EventsOrService:@"Events" postID:self.eventID];
+}
+
 -(void)downloadMsgPicture:(NSDictionary*)msg {
     NSInteger eventPic = [msg[@"picture"]integerValue];
     
@@ -1063,6 +1094,12 @@ static void *getAllLikesContext = &getAllLikesContext;
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         if ([responseDictionary[@"sucess"]boolValue] == YES) {
             [self.getAllLikesConnection getAllLikesWithMemberID:self.userID EventsOrService:@"EventsLikes" postID:self.eventID];
+            
+            if ([responseDictionary[@"status"] isEqualToString:@"deleted"]) {
+                [self.imgLike setImage:[UIImage imageNamed:@"b2up.png"]];
+            }else{
+                [self.imgLike setImage:[UIImage imageNamed:@"b2down.png"]];
+            }
         }else{
             //Like is unSuccessful
         }
@@ -1164,5 +1201,8 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self performSegueWithIdentifier:@"chooseDate" sender:self];
 }
 
+- (IBAction)showFullImage:(id)sender {
+    [self performSegueWithIdentifier:@"fullImage" sender:self];
+}
 
 @end

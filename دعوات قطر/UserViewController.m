@@ -10,6 +10,7 @@
 #import "SendMessageViewController.h"
 #import "EventViewController.h"
 #import "EventsDataSource.h"
+#import "FullImageViewController.h"
 
 @interface UserViewController ()
 
@@ -192,6 +193,9 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"fullImage"]){
+        FullImageViewController *controller = segue.destinationViewController;
+        controller.image = self.userPicture.image;
     }
 }
 
@@ -211,6 +215,9 @@
     [self performSegueWithIdentifier:@"sendMessage" sender:self];
 }
 
+- (IBAction)showFullImage:(id)sender {
+    [self performSegueWithIdentifier:@"fullImage" sender:self];
+}
 
 
 

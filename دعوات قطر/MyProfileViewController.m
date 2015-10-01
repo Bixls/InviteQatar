@@ -15,6 +15,7 @@
 #import "ASIDownloadCache.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "EventsDataSource.h"
+#import "FullImageViewController.h"
 
 static void *invitationsNumberContext = &invitationsNumberContext;
 static void *eventsContext = &eventsContext;
@@ -227,6 +228,9 @@ static void *userContext = &userContext;
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"fullImage"]){
+        FullImageViewController *controller = segue.destinationViewController;
+        controller.image = self.myProfilePicture.image;
     }
 }
 
@@ -362,4 +366,11 @@ static void *userContext = &userContext;
     
     [actionSheet showInView:self.view];
 }
+
+- (IBAction)openFullImage:(id)sender {
+    [self performSegueWithIdentifier:@"fullImage" sender:self];
+}
+
+
+
 @end

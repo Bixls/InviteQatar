@@ -14,6 +14,7 @@
 #import <UIScrollView+SVInfiniteScrolling.h>
 #import "CommentsSecondTableViewCell.h"
 #import "UserViewController.h"
+#import "FullImageViewController.h"
 @interface NewsViewController ()
 
 @property (nonatomic,strong) NSMutableArray *comments;
@@ -217,7 +218,9 @@
             UserViewController *userController = segue.destinationViewController;
             userController.otherUserID = self.selectedUserID;
             userController.eventOrMsg = 1;
-
+    }else if ([segue.identifier isEqualToString:@"fullImage"]){
+        FullImageViewController *controller = segue.destinationViewController;
+        controller.image = self.newsImage.image;
     }
     
 }
@@ -438,6 +441,9 @@
         self.commentsTextField.text = nil;
         [self addComment];
     }
+}
+- (IBAction)fullImagePressed:(id)sender {
+        [self performSegueWithIdentifier:@"fullImage" sender:self];
 }
 
 @end

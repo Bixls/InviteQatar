@@ -228,6 +228,17 @@
     
     [self postRequest:getService  withTag:getServiceTag];
 }
+-(void)isLikeWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID{
+    NSDictionary *getService = @{@"FunctionName":@"isLike" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",(long)memberID],
+                                                                         @"table":table,
+                                                                         @"PostID":[NSString stringWithFormat:@"%ld",(long)postID]
+                                                                         
+                                                                         }]};
+    NSMutableDictionary *getServiceTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"GetServices",@"key", nil];
+    
+    [self postRequest:getService  withTag:getServiceTag];
+}
+
 
 -(void)getAllLikesWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID{
     NSDictionary *getService = @{@"FunctionName":@"getLikes" , @"inputs":@[@{@"memberID":[NSString stringWithFormat:@"%ld",(long)memberID],
