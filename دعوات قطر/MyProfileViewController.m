@@ -195,7 +195,7 @@ static void *userContext = &userContext;
             
             [self.btnSeeMore removeFromSuperview];
             [self.imgSeeMore removeFromSuperview];
-            [self.tableView removeFromSuperview];
+            [self.eventsCollectionView removeFromSuperview];
             [self.activateLabel setHidden:NO];
             [self.activateLabel2 setHidden:NO];
             

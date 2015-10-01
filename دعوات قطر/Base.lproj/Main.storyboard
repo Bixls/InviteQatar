@@ -9133,8 +9133,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QRV-Z4-tiv">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pd-bA-dXJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1491"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8pd-bA-dXJ">
+                                        <rect key="frame" x="0.0" y="-600" width="320" height="1491"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PQz-By-c1p">
                                                 <rect key="frame" x="8" y="8" width="303" height="213"/>
@@ -9577,14 +9577,14 @@
                                             <constraint firstItem="gPd-1S-a42" firstAttribute="top" secondItem="hHK-Dq-O6R" secondAttribute="bottom" constant="14" id="RCK-In-pGS"/>
                                             <constraint firstAttribute="trailing" secondItem="Ajg-hB-JWu" secondAttribute="trailing" constant="10" id="RHP-HF-XGT"/>
                                             <constraint firstAttribute="width" constant="320" id="RVX-iG-6hJ"/>
-                                            <constraint firstItem="9qz-Ap-wb5" firstAttribute="top" secondItem="rkI-eB-YZR" secondAttribute="bottom" priority="750" constant="228" id="SID-ec-3hh"/>
+                                            <constraint firstItem="9qz-Ap-wb5" firstAttribute="top" secondItem="rkI-eB-YZR" secondAttribute="bottom" priority="750" constant="34" id="SID-ec-3hh"/>
                                             <constraint firstItem="GpQ-jH-ULt" firstAttribute="top" secondItem="Ajg-hB-JWu" secondAttribute="bottom" constant="5" id="Sjc-XU-1w2"/>
                                             <constraint firstItem="hHK-Dq-O6R" firstAttribute="top" secondItem="r5Z-2b-PEa" secondAttribute="bottom" constant="1" id="SvW-8a-uUz"/>
                                             <constraint firstItem="nMX-gA-VOz" firstAttribute="leading" secondItem="txY-ry-s0D" secondAttribute="trailing" constant="1" id="TNI-j3-WcQ"/>
                                             <constraint firstItem="Ajg-hB-JWu" firstAttribute="top" secondItem="LKc-v3-SYj" secondAttribute="bottom" constant="2" id="TYM-0S-dCC"/>
                                             <constraint firstItem="9qz-Ap-wb5" firstAttribute="top" secondItem="GpQ-jH-ULt" secondAttribute="bottom" constant="22" id="TvI-Hz-kar"/>
                                             <constraint firstItem="nMX-gA-VOz" firstAttribute="top" secondItem="8pd-bA-dXJ" secondAttribute="top" constant="30" id="UBO-iL-2DK"/>
-                                            <constraint firstItem="2wv-Zg-Sig" firstAttribute="top" secondItem="rkI-eB-YZR" secondAttribute="bottom" priority="750" constant="214" id="URI-VF-duR"/>
+                                            <constraint firstItem="2wv-Zg-Sig" firstAttribute="top" secondItem="rkI-eB-YZR" secondAttribute="bottom" priority="750" constant="20" id="URI-VF-duR"/>
                                             <constraint firstAttribute="centerX" secondItem="9qz-Ap-wb5" secondAttribute="centerX" id="VyE-aL-T2c"/>
                                             <constraint firstItem="2wv-Zg-Sig" firstAttribute="top" secondItem="GpQ-jH-ULt" secondAttribute="bottom" constant="8" id="ZAT-Nc-7Le"/>
                                             <constraint firstItem="Ajg-hB-JWu" firstAttribute="leading" secondItem="8pd-bA-dXJ" secondAttribute="leading" constant="10" id="ZSM-NA-D4t"/>
@@ -10052,7 +10052,7 @@
                                     <action selector="homePageBtnPressed:" destination="IvC-fh-Z3A" eventType="touchUpInside" id="mYA-yD-BR8"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backButton.png" translatesAutoresizingMaskIntoConstraints="NO" id="pWH-gG-rBf">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backButton2.png" translatesAutoresizingMaskIntoConstraints="NO" id="pWH-gG-rBf">
                                 <rect key="frame" x="2" y="162" width="299" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="1zo-uM-weX"/>
@@ -10385,7 +10385,7 @@
         <image name="ads_decorations_up.jpg" width="453" height="73"/>
         <image name="b2up" width="506" height="167"/>
         <image name="back" width="375" height="667"/>
-        <image name="backButton.png" width="569" height="90"/>
+        <image name="backButton2.png" width="569" height="90"/>
         <image name="backwithoutframe.png" width="1125" height="2001"/>
         <image name="bottomCredits.png" width="1086" height="80"/>
         <image name="button@1x" width="328" height="115"/>
@@ -10422,15 +10422,15 @@
         <segue reference="FzJ-6b-ZNA"/>
         <segue reference="Jgt-me-3nt"/>
         <segue reference="sPA-Rg-hzz"/>
-        <segue reference="psK-ic-p6d"/>
         <segue reference="1o2-k6-8rD"/>
+        <segue reference="eUh-Aj-ld9"/>
+        <segue reference="7US-Az-ATb"/>
+        <segue reference="BJl-PR-J5c"/>
+        <segue reference="jvb-dA-fkZ"/>
         <segue reference="hTI-TE-OlE"/>
         <segue reference="mYb-7K-k86"/>
         <segue reference="hWi-sg-g8m"/>
         <segue reference="kMD-e6-iDp"/>
-        <segue reference="IME-9C-HWl"/>
-        <segue reference="f5z-u1-iRU"/>
-        <segue reference="dIn-8A-ufv"/>
         <segue reference="ZEi-bg-v0b"/>
         <segue reference="ZIm-fH-sIf"/>
     </inferredMetricsTieBreakers>
