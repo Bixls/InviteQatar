@@ -52,6 +52,10 @@ static void *adminMsgContext = &adminMsgContext;
 @property (strong, nonatomic) UIActivityIndicatorView *gettingInvitees;
 @property (strong, nonatomic) UIActivityIndicatorView *uploadingPicture;
 @property (strong, nonatomic) UIActivityIndicatorView *creatingEvent;
+
+
+
+
 @end
 
 @implementation CreateEventViewController
@@ -114,6 +118,10 @@ static void *adminMsgContext = &adminMsgContext;
     
 //    [self.navigationItem setHidesBackButton:YES];
     self.adminMgsConnection = [[NetworkConnection alloc]init];
+    
+    if (self.createOrEdit == 1) {
+        self.pageTitle.text = @"تعديل المناسبة";
+    }
     
 }
 -(void)refreshInvitees{

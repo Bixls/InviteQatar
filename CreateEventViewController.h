@@ -42,6 +42,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *VIPRadioButton;
 @property (weak, nonatomic) IBOutlet UILabel *inviteesLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imgChoosePic;
+@property (weak, nonatomic) IBOutlet UILabel *pageTitle;
 
 //@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 
