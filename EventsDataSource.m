@@ -63,7 +63,7 @@
     cell.eventPic.layer.masksToBounds = YES;
     cell.eventPic.layer.cornerRadius = cell.eventPic.bounds.size.width/2;
     
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
      UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {

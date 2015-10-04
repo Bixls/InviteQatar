@@ -100,7 +100,7 @@
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
             
-//            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
 //                if (error) {
 //                    NSLog(@"Error downloading images");
 //                }else{
@@ -115,7 +115,7 @@
             
 //            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
 //                //Background Thread
-//                NSString *imageURL = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]];
+//                NSString *imageURL = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",comment[@"ProfilePic"]];
 //                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
 //                UIImage *img = [[UIImage alloc]initWithData:data];
 //                dispatch_async(dispatch_get_main_queue(), ^(void){
@@ -277,7 +277,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://bixls.com/Qatar/" ;
+    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];

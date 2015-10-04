@@ -129,7 +129,7 @@
         cell.eventViews.text = views;
         cell.eventTitle.text = event[@"title"];
         
-        NSURL *imgURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",event[@"image"]]];
+        NSURL *imgURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",event[@"image"]]];
         
         [cell.eventImage sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             

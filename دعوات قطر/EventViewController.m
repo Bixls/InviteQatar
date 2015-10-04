@@ -306,7 +306,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)downloadEventPicture {
     self.eventPicSPinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)self.eventImageID];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)self.eventImageID];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -334,7 +334,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)downloadUserPicture {
     UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",self.event[@"CreatorPic"]];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",self.event[@"CreatorPic"]];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -760,7 +760,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://bixls.com/Qatar/" ;
+    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -953,7 +953,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     NSInteger eventPic = [msg[@"picture"]integerValue];
     
     UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)eventPic];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)eventPic];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -976,7 +976,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     
     NSInteger creatorPic = [msg[@"ProfilePic"]integerValue];
     UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%ld",(long)creatorPic];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)creatorPic];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -1041,7 +1041,7 @@ static void *getAllLikesContext = &getAllLikesContext;
             NSInteger userType = [comment[@"Type"]integerValue];
             [self showOrHideUserType:userType andCell:cell2];
             
-            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 if (error) {
                     NSLog(@"Error downloading images");
                 }else{

@@ -237,7 +237,8 @@ static void *userContext = &userContext;
 #pragma mark - Methods
 
 -(void)downloadProfilePicture {
-    [self.downloadProfilePicConnection downloadImageWithID:[self.user[@"ProfilePic"]integerValue] withCacheNameSpace:@"profile" withKey:@"profilePic" withWidth:150 andHeight:150];
+    [self.downloadProfilePicConnection downloadImageWithID:[self.user[@"ProfilePic"]integerValue] withCacheNameSpace:@"profile" withKey:@"profilePic"];
+   // [self.downloadProfilePicConnection downloadImageWithID:[self.user[@"ProfilePic"]integerValue] withCacheNameSpace:@"profile" withKey:@"profilePic" withWidth:150 andHeight:150];
 }
 
 -(void)updateUI {

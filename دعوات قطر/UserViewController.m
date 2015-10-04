@@ -131,7 +131,7 @@
         self.userTypeFlag = 1;
         [self showOrHideUserType:[user[@"Type"]integerValue]];
     }
-    NSString *imgURLString = [NSString stringWithFormat:@"http://bixls.com/Qatar/image.php?id=%@",user[@"ProfilePic"]];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",user[@"ProfilePic"]];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.userPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {

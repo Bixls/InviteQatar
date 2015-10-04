@@ -362,7 +362,7 @@ static void *adminMsgContext = &adminMsgContext;
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://bixls.com/Qatar/" ;
+    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -392,7 +392,7 @@ static void *adminMsgContext = &adminMsgContext;
     
     
     
-    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://bixls.com/Qatar/upload.php"]];
+    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://da3wat-qatar.com/api/upload.php"]];
     [self.imageRequest setUseKeychainPersistence:YES];
     self.imageRequest.delegate = self;
     self.imageRequest.username = @"admin";

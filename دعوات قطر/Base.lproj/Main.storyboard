@@ -10816,6 +10816,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="303" height="213"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="header_docrations_up.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="iNa-gu-afs">
+                                <rect key="frame" x="45" y="153" width="217" height="23"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="ddO-tP-J0v"/>
+                                    <constraint firstAttribute="width" constant="217" id="y5c-nj-cLt"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nZV-R6-oef">
                                 <rect key="frame" x="19" y="0.0" width="265" height="175"/>
                                 <animations/>
@@ -10830,11 +10838,11 @@
                                     <action selector="homePageBtnPressed:" destination="IvC-fh-Z3A" eventType="touchUpInside" id="mYA-yD-BR8"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backButton2.png" translatesAutoresizingMaskIntoConstraints="NO" id="pWH-gG-rBf">
-                                <rect key="frame" x="3" y="162" width="290" height="42"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="withoutdecorations.png" translatesAutoresizingMaskIntoConstraints="NO" id="pWH-gG-rBf">
+                                <rect key="frame" x="-4" y="159" width="310" height="50"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="1zo-uM-weX"/>
+                                    <constraint firstAttribute="height" constant="50" id="1zo-uM-weX"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nR8-fU-RBB">
@@ -10858,10 +10866,12 @@
                             <constraint firstItem="nR8-fU-RBB" firstAttribute="top" secondItem="5SM-AF-W8b" secondAttribute="top" constant="150" id="BxG-47-blT"/>
                             <constraint firstItem="nR8-fU-RBB" firstAttribute="leading" secondItem="5SM-AF-W8b" secondAttribute="leading" constant="-13" id="DXi-bq-qpH"/>
                             <constraint firstItem="nZV-R6-oef" firstAttribute="centerX" secondItem="5SM-AF-W8b" secondAttribute="centerX" id="IHz-p0-iIl"/>
-                            <constraint firstItem="pWH-gG-rBf" firstAttribute="top" secondItem="5SM-AF-W8b" secondAttribute="top" constant="162" id="XNG-fY-ssq"/>
+                            <constraint firstItem="pWH-gG-rBf" firstAttribute="top" secondItem="5SM-AF-W8b" secondAttribute="top" constant="159" id="XNG-fY-ssq"/>
+                            <constraint firstItem="pWH-gG-rBf" firstAttribute="top" secondItem="iNa-gu-afs" secondAttribute="bottom" constant="-17" id="fL0-Bm-Kfz"/>
                             <constraint firstAttribute="trailing" secondItem="nR8-fU-RBB" secondAttribute="trailing" constant="-13" id="glx-pr-oxB"/>
-                            <constraint firstAttribute="trailing" secondItem="pWH-gG-rBf" secondAttribute="trailing" constant="10" id="nQO-AO-WcR"/>
-                            <constraint firstItem="pWH-gG-rBf" firstAttribute="leading" secondItem="5SM-AF-W8b" secondAttribute="leading" constant="3" id="zK9-Y2-Dwx"/>
+                            <constraint firstAttribute="trailing" secondItem="pWH-gG-rBf" secondAttribute="trailing" constant="-3" id="nQO-AO-WcR"/>
+                            <constraint firstItem="iNa-gu-afs" firstAttribute="centerX" secondItem="5SM-AF-W8b" secondAttribute="centerX" constant="2" id="vdA-GT-IgD"/>
+                            <constraint firstItem="pWH-gG-rBf" firstAttribute="leading" secondItem="5SM-AF-W8b" secondAttribute="leading" constant="-4" id="zK9-Y2-Dwx"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -10875,7 +10885,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZTU-Zp-Wxs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-929.5" y="1213.5"/>
+            <point key="canvasLocation" x="-814.5" y="763.5"/>
         </scene>
         <!--Footer Container View Controller-->
         <scene sceneID="ob6-xi-kGI">
@@ -11187,7 +11197,6 @@
         <image name="ads_decorations_up.jpg" width="453" height="73"/>
         <image name="b2up" width="506" height="167"/>
         <image name="back" width="375" height="667"/>
-        <image name="backButton2.png" width="569" height="90"/>
         <image name="backwithoutframe.png" width="1125" height="2001"/>
         <image name="bottomCredits.png" width="1086" height="80"/>
         <image name="button@1x" width="328" height="115"/>
@@ -11217,23 +11226,24 @@
         <image name="viewsButton.png" width="205" height="60"/>
         <image name="vipUser.png" width="120" height="48"/>
         <image name="vip_icon.png" width="86" height="85"/>
+        <image name="withoutdecorations.png" width="640" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="GMF-2B-wF9"/>
-        <segue reference="hWi-sg-g8m"/>
-        <segue reference="zCe-j8-46Z"/>
-        <segue reference="fPj-P0-xuP"/>
-        <segue reference="kMD-e6-iDp"/>
-        <segue reference="xQe-3E-MFf"/>
-        <segue reference="lRH-x1-LZj"/>
-        <segue reference="APR-qt-KjC"/>
-        <segue reference="FzJ-6b-ZNA"/>
-        <segue reference="Jgt-me-3nt"/>
+        <segue reference="ZIm-fH-sIf"/>
         <segue reference="ehv-QV-wmo"/>
+        <segue reference="Jgt-me-3nt"/>
+        <segue reference="FzJ-6b-ZNA"/>
         <segue reference="APb-xc-Ka8"/>
         <segue reference="1o2-k6-8rD"/>
-        <segue reference="ZEi-bg-v0b"/>
-        <segue reference="ZIm-fH-sIf"/>
         <segue reference="Eoi-6P-6lF"/>
+        <segue reference="ZEi-bg-v0b"/>
+        <segue reference="zCe-j8-46Z"/>
+        <segue reference="hWi-sg-g8m"/>
+        <segue reference="lRH-x1-LZj"/>
+        <segue reference="xQe-3E-MFf"/>
+        <segue reference="APR-qt-KjC"/>
+        <segue reference="GMF-2B-wF9"/>
+        <segue reference="kMD-e6-iDp"/>
+        <segue reference="fPj-P0-xuP"/>
     </inferredMetricsTieBreakers>
 </document>

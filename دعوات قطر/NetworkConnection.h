@@ -33,6 +33,7 @@
 -(void)downloadImageWithID:(NSInteger)imageID;
 
 -(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key withWidth:(NSInteger)width andHeight:(NSInteger)height;
+-(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key;
 
 -(void)getUserWithID:(NSInteger)userID;
 -(void)getInvitationsNumberWithMobile:(NSString *)userMobile password:(NSString *)userPassword;
