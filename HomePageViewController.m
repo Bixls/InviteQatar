@@ -103,7 +103,10 @@
     self.myView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
     UIViewAutoresizingFlexibleRightMargin;
     
-
+    [self.noEventsLabel setHidden:YES];
+    [self.showAllEventsLabel setHidden:YES];
+    [self.showAllEventsBtn setHidden:YES];
+    [self.noNewsLabel setHidden:YES];
     
     self.navigationController.navigationBar.hidden = YES;
     
@@ -124,6 +127,10 @@
         self.news = [self.userDefaults objectForKey:@"news"];
         [self.newsCollectionView reloadData];
         self.events = [self.userDefaults objectForKey:@"events"];
+        if (self.events.count > 0) {
+            [self.showAllEventsBtn setHidden:NO];
+            [self.showAllEventsLabel setHidden:NO];
+        }
     
     }
     else {
@@ -133,7 +140,10 @@
         self.news = [self.userDefaults objectForKey:@"news"];
         [self.newsCollectionView reloadData];
         self.events = [self.userDefaults objectForKey:@"events"];
-       
+        if (self.events.count > 0) {
+            [self.showAllEventsBtn setHidden:NO];
+            [self.showAllEventsLabel setHidden:NO];
+        }
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
     }
@@ -664,7 +674,7 @@
             }
         }
 
-        
+       
         return cell;
     }else if (collectionView.tag == 2){
         
@@ -1120,20 +1130,57 @@
         
     }else if([key isEqualToString:@"getNews"]){
         
-        self.pullToRefreshFlag ++;
-        //self.offlineNewsFlag = 0;
-        self.news = responseArray;
-       // [self.newsCollectionView reloadData];
-        [self downloadNewsImages];
-        [self.userDefaults setObject:self.news forKey:@"news"];
-        [self.userDefaults synchronize];
+        if (responseArray.count > 0) {
+            self.pullToRefreshFlag ++;
+            //self.offlineNewsFlag = 0;
+            self.news = responseArray;
+            [self.noNewsLabel setHidden:YES];
+            //self.newsCollectionViewHeight.constant = 142;
+            [self downloadNewsImages];
+            [self.userDefaults setObject:self.news forKey:@"news"];
+            [self.userDefaults synchronize];
+            [self.newsCollectionView reloadData];
+        }else{
+            self.news = responseArray;
+            [self.noNewsLabel setHidden:NO];
+            [self.userDefaults removeObjectForKey:@"news"];
+            [self.userDefaults synchronize];
+            self.newsCollectionView.scrollEnabled = NO;
+
+//            self.newsCollectionView.frame = CGRectMake(self.newsCollectionView.frame.origin.x, self.newsCollectionView.frame.origin.y, self.newsCollectionView.frame.size.width, 500);
+//            [self.newsCollectionView setNeedsDisplay];
+//            [self.newsCollectionView setNeedsLayout];
+//            [self.view setNeedsDisplay];
+            //self.newsCollectionViewHeight.constant = 0;
+            [self.newsCollectionView reloadData];
+            self.pullToRefreshFlag ++;
+        }
+
 
     }else if ([key isEqualToString:@"getEvents"]){
-        self.events = responseArray;
-        [self.userDefaults setObject:self.events forKey:@"events"];
-        [self.userDefaults synchronize];
-        [self.eventCollectionView reloadData];
-        self.pullToRefreshFlag ++;
+        if (responseArray.count > 0) {
+            self.events = responseArray;
+            [self.noEventsLabel setHidden:YES];
+            if (self.events.count > 0) {
+                [self.showAllEventsBtn setHidden:NO];
+                [self.showAllEventsLabel setHidden:NO];
+            }
+            [self.userDefaults setObject:self.events forKey:@"events"];
+            [self.userDefaults synchronize];
+            [self.eventCollectionView reloadData];
+            self.pullToRefreshFlag ++;
+        }else{
+            self.events = responseArray;
+            [self.noEventsLabel setHidden:NO];
+            [self.showAllEventsBtn setHidden:YES];
+            [self.showAllEventsLabel setHidden:YES];
+            [self.userDefaults removeObjectForKey:@"events"];
+            [self.userDefaults synchronize];
+            self.eventCollectionViewConstraint.constant = 0;
+            [self.eventCollectionView reloadData];
+            NSLog(@"No events");
+        }
+
 
     }
 //    else if ([key isEqualToString:@"unReadInbox"]){

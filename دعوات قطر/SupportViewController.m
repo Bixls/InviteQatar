@@ -249,9 +249,12 @@
         [self postRequest:sendFeedback withTag:sendFeedbackTag];
 
     }else{
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"من فضلك تأكد من استكمال جميع البيانات" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
-        [self.btnSendFeedback setEnabled:YES];
-        [alertView show];
+        self.customAlert.viewLabel.text = @"من فضلك تأكد من استكمال جميع البيانات";
+        [self.customAlertView setHidden:NO];
+
+//        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
+//        [self.btnSendFeedback setEnabled:YES];
+//        [alertView show];
     }
     
 

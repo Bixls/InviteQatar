@@ -35,6 +35,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnUnReadMsgs;
 @property (weak, nonatomic) IBOutlet UICollectionView *eventCollectionView;
 @property (weak, nonatomic) IBOutlet UIButton *btnInvitationNum;
+@property (weak, nonatomic) IBOutlet UILabel *noEventsLabel;
+@property (weak, nonatomic) IBOutlet UIButton *showAllEventsBtn;
+@property (weak, nonatomic) IBOutlet UILabel *showAllEventsLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *newsCollectionViewHeight;
+@property (weak, nonatomic) IBOutlet UILabel *noNewsLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *myProfileLabel;
 
