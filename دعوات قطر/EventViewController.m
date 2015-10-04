@@ -206,7 +206,7 @@ static void *getAllLikesContext = &getAllLikesContext;
         [self getInvited];
        
         if (self.selectedType == 2 || self.selectedType == 3) {
-//            [self readMessage];
+            [self readMessage];
         }else{
             [self getEvent];
             
