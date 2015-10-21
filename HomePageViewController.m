@@ -821,18 +821,21 @@
                     case 0:{
                         NSLog(@"%ld",(long)picID);
                         footer.btn1.tag = adID;
-                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
+                        //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
+                        [self removeIfDisabled:tempAd imageView:footer.img1 andButton:footer.btn1];
                         break;
                     }case 1:{
                         NSLog(@"%ld",(long)picID);
                         footer.btn2.tag = adID;
-                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
+                        //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
+                        [self removeIfDisabled:tempAd imageView:footer.img2 andButton:footer.btn2];
                         break;
                     }case 2:{
                         
                         NSLog(@"%ld",(long)picID);
                         footer.btn3.tag = adID;
-                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
+                        //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
+                        [self removeIfDisabled:tempAd imageView:footer.img3 andButton:footer.btn3];
                         break;
                     }
                     default:
@@ -849,6 +852,17 @@
 
     }
     return reusableview;
+}
+
+-(void)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
+    NSInteger picNumber = [ad[@"adsImage"]integerValue];
+    NSInteger status = [ad[@"Enable"]integerValue];
+    if (status == 0) {
+        [imageV removeFromSuperview];
+        [btn removeFromSuperview];
+    }else if (status == 1){
+        [self.footerImgConnection downloadImageWithID:picNumber andImageView:imageV];
+    }
 }
 
 
