@@ -67,7 +67,7 @@
     self.connection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
         
         self.user = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
-        
+        NSLog(@"%@",self.user);
         if ([self.user[@"Verified"]boolValue] == true) {
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
             [self.userDefaults synchronize];

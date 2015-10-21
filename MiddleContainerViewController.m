@@ -31,8 +31,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
     self.allAds = [[NSMutableArray alloc]init];
+    for (NSInteger i = 0; i < 3; i++ )
+    {
+        [self.allAds addObject:[NSNull null]];
+    }
+
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -55,31 +60,37 @@
 -(void)initAds{
     self.adsConnection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
-        if (self.containerID == 0) {
-            [self getFirstThreeAds:responseArray];
-
-        }else if (self.containerID == 1){
-            [self getLastThreeAds:responseArray];
+        if (responseArray.count > 0) {
+            if (self.containerID == 0) {
+                [self getFirstThreeAds:responseArray];
+                
+            }else if (self.containerID == 1){
+                [self getLastThreeAds:responseArray];
+            }
+            [self setAds];
+            [self showAds];
         }
-        [self setAds];
-        [self showAds];
-        
-//        [self setAds];
-//        [self showAds];
-        
     }];
     [self.adsConnection getAdsWithStart:4 andLimit:6];
 }
 
 -(void)getFirstThreeAds:(NSArray *)response{
-    for (int i = 0; i < 3; i ++) {
-        [self.allAds addObject:response[i]];
-    }
+
+        for (int i = 0; i < 3; i ++) {
+            [self.allAds replaceObjectAtIndex:i withObject:response[i]];
+
+        }
+
+
 }
 -(void)getLastThreeAds:(NSArray *)response{
+
     for (int i = 3; i < 6; i ++) {
-        [self.allAds addObject:response[i]];
+        [self.allAds replaceObjectAtIndex:(i-3) withObject:response[i]];
+
     }
+
+
 }
 
 -(void)setAds{
@@ -107,20 +118,34 @@
         NSDictionary *temp  = self.allAds[i];
         switch (i) {
             case 0:{
-                NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self.imgConnection downloadImageWithID:picNumber andImageView:self.topAdImg];
+                //NSInteger picNumber = [temp[@"adsImage"]integerValue];
+                [self removeIfDisabled:temp imageView:self.topAdImg andButton:self.topAdBtn];
+               // [self.imgConnection downloadImageWithID:picNumber andImageView:self.topAdImg];
                 break;
             }case 1:{
-                NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self.imgConnection downloadImageWithID:picNumber andImageView:self.rightAdImg];
+                //NSInteger picNumber = [temp[@"adsImage"]integerValue];
+                //[self.imgConnection downloadImageWithID:picNumber andImageView:self.rightAdImg];
+                [self removeIfDisabled:temp imageView:self.rightAdImg andButton:self.rightAdBtn];
                 break;
             }case 2:{
-                NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self.imgConnection downloadImageWithID:picNumber andImageView:self.leftAdImg];
+               // NSInteger picNumber = [temp[@"adsImage"]integerValue];
+               // [self.imgConnection downloadImageWithID:picNumber andImageView:self.leftAdImg];
+                [self removeIfDisabled:temp imageView:self.leftAdImg andButton:self.leftAdBtn];
                 break;
             }default:
                 break;
         }
+    }
+}
+
+-(void)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
+    NSInteger picNumber = [ad[@"adsImage"]integerValue];
+    NSInteger status = [ad[@"Enable"]integerValue];
+    if (status == 0) {
+        [imageV removeFromSuperview];
+        [btn removeFromSuperview];
+    }else if (status == 1){
+        [self.imgConnection downloadImageWithID:picNumber andImageView:imageV];
     }
 }
 

@@ -23,6 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *ad2Btn;
 @property (weak, nonatomic) IBOutlet UIButton *ad3Btn;
 @property (weak, nonatomic) IBOutlet UIButton *bigAdBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *bigAdTopFrame;
+@property (weak, nonatomic) IBOutlet UIImageView *bigAdBottomFrame;
 
 @property (weak, nonatomic) IBOutlet UIImageView *ad1Img;
 @property (weak, nonatomic) IBOutlet UIImageView *ad2Img;
@@ -96,24 +98,45 @@
         NSDictionary *temp  = self.allAds[i];
         switch (i) {
             case 0:{
-                NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self.imgConnection downloadImageWithID:picNumber andImageView:self.bigAdImg];
+               // NSInteger picNumber = [temp[@"adsImage"]integerValue];
+                //[self.imgConnection downloadImageWithID:picNumber andImageView:self.bigAdImg];
+                [self removeIfDisabled:temp imageView:self.bigAdImg andButton:self.bigAdBtn];
                 break;
             }case 1:{
-                NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self.imgConnection downloadImageWithID:picNumber andImageView:self.ad1Img];
+               // NSInteger picNumber = [temp[@"adsImage"]integerValue];
+                //[self.imgConnection downloadImageWithID:picNumber andImageView:self.ad1Img];
+                [self removeIfDisabled:temp imageView:self.ad1Img andButton:self.ad1Btn];
                 break;
             }case 2:{
-                NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self.imgConnection downloadImageWithID:picNumber andImageView:self.ad2Img];
+                //NSInteger picNumber = [temp[@"adsImage"]integerValue];
+                //[self.imgConnection downloadImageWithID:picNumber andImageView:self.ad2Img];
+                [self removeIfDisabled:temp imageView:self.ad2Img andButton:self.ad2Btn];
                 break;
             }case 3:{
-                NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self.imgConnection downloadImageWithID:picNumber andImageView:self.ad3Img];
+               // NSInteger picNumber = [temp[@"adsImage"]integerValue];
+               // [self.imgConnection downloadImageWithID:picNumber andImageView:self.ad3Img];
+                [self removeIfDisabled:temp imageView:self.ad3Img andButton:self.ad3Btn];
                 break;
             }default:
                 break;
         }
+    }
+}
+
+-(void)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
+    NSInteger picNumber = [ad[@"adsImage"]integerValue];
+    NSInteger status = [ad[@"Enable"]integerValue];
+    NSInteger adID = [ad[@"id"]integerValue];
+    if (status == 0 && adID == 1) {
+        [imageV removeFromSuperview];
+        [btn removeFromSuperview];
+        [self.bigAdTopFrame removeFromSuperview];
+        [self.bigAdBottomFrame removeFromSuperview];
+    }else if (status == 0) {
+        [imageV removeFromSuperview];
+        [btn removeFromSuperview];
+    }else if (status == 1){
+        [self.imgConnection downloadImageWithID:picNumber andImageView:imageV];
     }
 }
 
