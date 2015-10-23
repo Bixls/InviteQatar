@@ -23,7 +23,7 @@
 #import "customEventCollectionViewCell.h"
 #import "customGroupFooter.h"
 #import "SpecialEventsViewController.h"
-#import "MiddleContainerViewController.h"
+
 
 @interface HomePageViewController ()
 
@@ -72,9 +72,14 @@
 @property (nonatomic,strong) NSArray *allAds;
 @property (nonatomic) NSInteger counter;
 @property (nonatomic,strong) NetworkConnection *footerImgConnection;
-
+@property (nonatomic) NSInteger footerContentHeight;
+@property (nonatomic) BOOL enableReloading;
 @property (weak, nonatomic) IBOutlet UIView *msgsNotificationView;
 @property (weak, nonatomic) IBOutlet UIView *invitationsNotificationsView;
+@property (weak, nonatomic) IBOutlet UIView *container0;
+@property (weak, nonatomic) IBOutlet UIView *container1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *container0Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *container1Height;
 
 //@property (nonatomic,strong) UIActivityIndicatorView *eventsSpinner;
 //@property (nonatomic,strong) UIActivityIndicatorView *groupsSpinner;
@@ -89,7 +94,8 @@
     //[self viewDidLoadClone];
     self.offlineNewsFlag = 1;
     self.counter = 0;
-
+    self.footerContentHeight = 10;
+    self.enableReloading = YES;
     self.groupImages = [[NSMutableArray alloc]init];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.userID = [self.userDefaults integerForKey:@"userID"];
@@ -420,6 +426,18 @@
 //    [imageCache clearDisk];
 //}
 
+#pragma mark - Middle container Delegate 
+-(void)removeContainerIfEmpty:(BOOL)isEmpty withContainerID:(NSInteger)containerID {
+    if (isEmpty == YES) {
+        if (containerID == 0) {
+            self.container0Height.constant = 0;
+        
+        }else if (containerID == 1){
+            self.container1Height.constant = 0;
+        }
+    }
+}
+
 #pragma mark - Collection View methods
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -476,14 +494,18 @@
     }
 }
 
-- (CGSize)collectionView:(customGroupFooter *)collectionView layout:(customGroupFooter*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(customGroupFooter*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
+    
+    
     if (collectionView.tag == 0) {
+
         return CGSizeMake((self.groupsCollectionView.bounds.size.width), 150);
+    
     }else{
         return CGSizeZero;
     }
-  
+    
 }
 
 
@@ -789,13 +811,13 @@
     if (kind== UICollectionElementKindSectionFooter && collectionView.tag == 0) {
         
         customGroupFooter *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"adFooter" forIndexPath:indexPath];
-
+        
 
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
         //[footer.adView setTransform:CGAffineTransformMakeScale(-1, 1)];
         [footer setTransform:CGAffineTransformMakeScale(-1, 1)];
         
-        
+       
 //        footer.btn1.tag = indexPath.section;
 //        footer.btn2.tag = indexPath.section;
 //        footer.btn3.tag = indexPath.section;
@@ -841,11 +863,14 @@
                     default:
                         break;
                 }
+
             }
+            
             break;
             
         }
         
+
         reusableview = footer;
     
     }else{
@@ -1037,9 +1062,11 @@
     }else if ([segue.identifier isEqualToString:@"middle0"]){
         MiddleContainerViewController *middleController = segue.destinationViewController;
         middleController.containerID = 0;
+        middleController.delegate = self;
     }else if ([segue.identifier isEqualToString:@"middle1"]){
         MiddleContainerViewController *middleContainer = segue.destinationViewController;
         middleContainer.containerID = 1;
+        middleContainer.delegate = self;
     }
     
 }

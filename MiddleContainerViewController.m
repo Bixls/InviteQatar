@@ -15,7 +15,7 @@
 @property (nonatomic,strong) NSDictionary *ad1;
 @property (nonatomic,strong) NSDictionary *ad2;
 @property (nonatomic,strong) NSDictionary *ad3;
-
+@property (nonatomic) NSInteger allAdsRemoved;
 @property (weak, nonatomic) IBOutlet UIImageView *topAdImg;
 @property (weak, nonatomic) IBOutlet UIImageView *rightAdImg;
 @property (weak, nonatomic) IBOutlet UIImageView *leftAdImg;
@@ -119,18 +119,32 @@
         switch (i) {
             case 0:{
                 //NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                [self removeIfDisabled:temp imageView:self.topAdImg andButton:self.topAdBtn];
+                BOOL removed =[self removeIfDisabled:temp imageView:self.topAdImg andButton:self.topAdBtn];
+                if (removed) {
+                    self.allAdsRemoved ++ ;
+                }
                // [self.imgConnection downloadImageWithID:picNumber andImageView:self.topAdImg];
                 break;
             }case 1:{
                 //NSInteger picNumber = [temp[@"adsImage"]integerValue];
                 //[self.imgConnection downloadImageWithID:picNumber andImageView:self.rightAdImg];
-                [self removeIfDisabled:temp imageView:self.rightAdImg andButton:self.rightAdBtn];
+                BOOL removed = [self removeIfDisabled:temp imageView:self.rightAdImg andButton:self.rightAdBtn];
+                if (removed) {
+                    self.allAdsRemoved ++ ;
+                }
                 break;
             }case 2:{
                // NSInteger picNumber = [temp[@"adsImage"]integerValue];
                // [self.imgConnection downloadImageWithID:picNumber andImageView:self.leftAdImg];
-                [self removeIfDisabled:temp imageView:self.leftAdImg andButton:self.leftAdBtn];
+                BOOL removed = [self removeIfDisabled:temp imageView:self.leftAdImg andButton:self.leftAdBtn];
+                if (removed) {
+                    self.allAdsRemoved ++ ;
+                }
+                if ([self isAllRemoved] == YES) {
+                    //call delegate
+                    [self.delegate removeContainerIfEmpty:YES withContainerID:self.containerID];
+                    self.allAdsRemoved = 0;
+                }
                 break;
             }default:
                 break;
@@ -138,15 +152,27 @@
     }
 }
 
--(void)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
+-(BOOL)isAllRemoved {
+    if (self.allAdsRemoved == 3) {
+       
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+-(BOOL)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
     NSInteger picNumber = [ad[@"adsImage"]integerValue];
     NSInteger status = [ad[@"Enable"]integerValue];
     if (status == 0) {
         [imageV removeFromSuperview];
         [btn removeFromSuperview];
+        return YES;
     }else if (status == 1){
         [self.imgConnection downloadImageWithID:picNumber andImageView:imageV];
+        return NO;
     }
+    else return NO;
 }
 
 -(void)openWebPageWithBtnTag:(NSInteger)tag {

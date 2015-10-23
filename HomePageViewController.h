@@ -10,9 +10,9 @@
 #import <UICollectionViewRightAlignedLayout.h>
 #import "ASINetworkQueue.h"
 #import "FooterContainerViewController.h"
+#import "MiddleContainerViewController.h"
 
-
-@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout>
+@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout , MiddleContainerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *myView;
 
