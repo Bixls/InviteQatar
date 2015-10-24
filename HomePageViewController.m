@@ -54,11 +54,13 @@
 @property (nonatomic)NSInteger pullToRefreshFlag;
 @property (nonatomic)NSInteger userID;
 @property (nonatomic)NSInteger unReadMsgs;
+@property (nonatomic)BOOL reloadFlag;
 @property (nonatomic,strong) NSString *userMobile;
 @property (nonatomic,strong) NSString *userPassword;
 @property (nonatomic) NSInteger segueFlag;
 @property (nonatomic,strong) NSMutableArray *groupImages;
 @property (nonatomic,strong) NSMutableArray *groupSections;
+@property (nonatomic,strong) NSMutableArray *sectionsToHide;
 @property (nonatomic) NSInteger offlineGroupsFlag;
 @property (nonatomic) NSInteger offlineNewsFlag;
 @property (nonatomic) NSInteger newsFlag;
@@ -72,6 +74,7 @@
 @property (nonatomic,strong) NSArray *allAds;
 @property (nonatomic) NSInteger counter;
 @property (nonatomic,strong) NetworkConnection *footerImgConnection;
+@property (nonatomic,strong) NSMutableDictionary *sectionAds;
 @property (nonatomic) NSInteger footerContentHeight;
 @property (nonatomic) BOOL enableReloading;
 @property (weak, nonatomic) IBOutlet UIView *msgsNotificationView;
@@ -94,6 +97,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //[self viewDidLoadClone];
+    self.reloadFlag = YES;
     self.offlineNewsFlag = 1;
     self.counter = 0;
     self.footerContentHeight = 10;
@@ -108,6 +112,7 @@
     self.newsFlag = 0;
     self.offline = 0;
     
+    self.sectionsToHide = [[NSMutableArray alloc]init];
     self.myView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
     UIViewAutoresizingFlexibleRightMargin;
     
@@ -117,7 +122,7 @@
     [self.noNewsLabel setHidden:YES];
     
     self.navigationController.navigationBar.hidden = YES;
-    
+    self.sectionAds = [[NSMutableDictionary alloc]init];
 
     self.view.backgroundColor = [UIColor blackColor];
 
@@ -162,12 +167,23 @@
     [self.invitationsNotificationsView setHidden:YES];
 
     [self addOrRemoveFooter];
+    [self.groupsCollectionView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:NULL];
 }
 
 -(void)addOrRemoveFooter {
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary  *)change context:(void *)context
+{
+    if (self.sectionsToHide.count > 0 && self.reloadFlag == YES) {
+        self.counter = 0 ;
+        self.reloadFlag = NO;
+        [self.groupsCollectionView reloadData];
+        
+    }
 }
 
 
@@ -397,6 +413,10 @@
     self.adsConnection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
         self.allAds = responseArray;
+        if (self.allAds.count > 0) {
+            [self distributeAds];
+        }
+        
         [self.groupsCollectionView reloadData];
         
     }];
@@ -408,6 +428,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
 //    [self.groupsSpinner stopAnimating];
 //    [self.eventsSpinner stopAnimating];
+     [self.groupsCollectionView removeObserver:self forKeyPath:@"groupCollectionView" context:NULL];
     self.segueFlag = 0;
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
@@ -516,18 +537,26 @@
     }
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(customGroupFooter*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
     
-    
     if (collectionView.tag == 0) {
-
-        return CGSizeMake((self.groupsCollectionView.bounds.size.width), 150);
-    
+        if (self.sectionsToHide.count > 0) {
+            for (int i = 0 ; i < self.sectionsToHide.count; i++) {
+                NSInteger sectionNumber = [self.sectionsToHide[i]integerValue];
+                if (sectionNumber == section) {
+                    return CGSizeZero;
+                }
+            }
+            return CGSizeMake((self.groupsCollectionView.bounds.size.width), 150);
+        }else{
+            return CGSizeMake((self.groupsCollectionView.bounds.size.width), 150);
+        }
+        
     }else{
         return CGSizeZero;
     }
-    
+    return CGSizeZero;
 }
 
 
@@ -834,28 +863,19 @@
         
         customGroupFooter *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"adFooter" forIndexPath:indexPath];
         
-
+        NSLog(@"%ld",(long)indexPath.section);
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
-        //[footer.adView setTransform:CGAffineTransformMakeScale(-1, 1)];
+
         [footer setTransform:CGAffineTransformMakeScale(-1, 1)];
         
-       
-//        footer.btn1.tag = indexPath.section;
-//        footer.btn2.tag = indexPath.section;
-//        footer.btn3.tag = indexPath.section;
         
-        while (self.counter < self.allAds.count) {
+      
 
-            NSLog(@"%@",self.allAds);
-            NSMutableArray *threeAds = [[NSMutableArray alloc]init];
-            
-            for (int i = 0; i<3 ; i++) {
-                if ((self.counter + i) < self.allAds.count){
-                    [threeAds addObject:self.allAds[self.counter + i]];
-                }
-                
-            }
-            self.counter += 3 ;
+            //NSMutableArray *threeAds = [[NSMutableArray alloc]init];
+        
+        NSMutableArray *threeAds = [self.sectionAds objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        NSLog(@"%@",self.sectionAds);
+            NSInteger numberOfDeletedAds = 0 ;
             for (int i = 0; i < threeAds.count; i++) {
                 NSDictionary *tempAd = threeAds[i];
                 NSInteger picID = [tempAd[@"adsImage"]integerValue];
@@ -866,20 +886,34 @@
                         NSLog(@"%ld",(long)picID);
                         footer.btn1.tag = adID;
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
-                        [self removeIfDisabled:tempAd imageView:footer.img1 andButton:footer.btn1];
+                        BOOL remove =  [self removeIfDisabled:tempAd imageView:footer.img1 andButton:footer.btn1];
+                        if (remove == YES) {
+                            numberOfDeletedAds ++ ;
+                        }
                         break;
                     }case 1:{
                         NSLog(@"%ld",(long)picID);
                         footer.btn2.tag = adID;
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
-                        [self removeIfDisabled:tempAd imageView:footer.img2 andButton:footer.btn2];
+                        BOOL remove = [self removeIfDisabled:tempAd imageView:footer.img2 andButton:footer.btn2];
+                        if (remove == YES) {
+                            numberOfDeletedAds ++ ;
+                        }
                         break;
                     }case 2:{
                         
                         NSLog(@"%ld",(long)picID);
                         footer.btn3.tag = adID;
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
-                        [self removeIfDisabled:tempAd imageView:footer.img3 andButton:footer.btn3];
+                        BOOL remove = [self removeIfDisabled:tempAd imageView:footer.img3 andButton:footer.btn3];
+                        if (remove == YES) {
+                            numberOfDeletedAds ++ ;
+                            if (numberOfDeletedAds == 3) {
+                                [self.sectionsToHide addObject:[NSNumber numberWithInteger:indexPath.section]];
+                                
+                                
+                            }
+                        }
                         break;
                     }
                     default:
@@ -888,9 +922,7 @@
 
             }
             
-            break;
-            
-        }
+
         
 
         reusableview = footer;
@@ -901,15 +933,40 @@
     return reusableview;
 }
 
--(void)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
+-(void)distributeAds{
+    
+    NSInteger section = 0 ;
+    NSMutableArray *tempAds = [[NSMutableArray alloc]init];
+    int counter = 0 ;
+    
+    while (section < 5) {
+        for (int i = counter ; i < counter + 3 ; i ++) {
+            [tempAds addObject:self.allAds[i]];
+            if (i == counter+2) {
+                [self.sectionAds setValue:[tempAds copy] forKey:[NSString stringWithFormat:@"%ld", (long)section]];
+                [tempAds removeAllObjects];
+            }
+            
+        }
+        counter = counter + 3 ;
+        section++ ;
+    }
+
+
+}
+
+-(BOOL)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
     NSInteger picNumber = [ad[@"adsImage"]integerValue];
     NSInteger status = [ad[@"Enable"]integerValue];
     if (status == 0) {
         [imageV removeFromSuperview];
         [btn removeFromSuperview];
+        return  YES;
     }else if (status == 1){
         [self.footerImgConnection downloadImageWithID:picNumber andImageView:imageV];
+        return NO;
     }
+    return NO;
 }
 
 
