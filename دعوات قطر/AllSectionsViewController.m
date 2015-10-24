@@ -26,9 +26,12 @@
 @property (nonatomic) NSInteger secCount;
 @property (nonatomic) NSInteger backFLag;
 @property (nonatomic) NSInteger selectedSection;
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (nonatomic,strong) NSDictionary *selectedEvent;
 @property (nonatomic,strong) NSString *selectedSectionName;
 @property (nonatomic,strong) UIActivityIndicatorView *userPicSpinner;
+@property (weak, nonatomic) IBOutlet UIView *footerContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 
 @end
 
@@ -36,6 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -60,6 +64,24 @@
     self.userPicSpinner.center = self.view.center;
     [self.view addSubview:self.userPicSpinner];
     [self.userPicSpinner startAnimating];
+    [self addOrRemoveFooter];
+}
+
+-(void)addOrRemoveFooter {
+    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
+    [self removeFooter:remove];
+    
+}
+
+-(void)removeFooter:(BOOL)remove{
+    self.footerContainer.clipsToBounds = YES;
+    if (remove == YES) {
+        self.footerHeight.constant = 0;
+    }else if (remove == NO){
+        self.footerHeight.constant = 492;
+    }
+    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
+    [self.userDefaults synchronize];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

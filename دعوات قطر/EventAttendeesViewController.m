@@ -19,12 +19,16 @@
 @property (nonatomic) NSInteger limit;
 @property (nonatomic) BOOL populate;
 @property (nonatomic,strong)NSDictionary *selectedUser;
+@property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (weak, nonatomic) IBOutlet UIView *footerContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 @end
 
 @implementation EventAttendeesViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -50,6 +54,24 @@
     self.allUsers = [[NSMutableArray alloc]init];
     
     [self.navigationItem setHidesBackButton:YES];
+    [self addOrRemoveFooter];
+}
+
+-(void)addOrRemoveFooter {
+    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
+    [self removeFooter:remove];
+    
+}
+
+-(void)removeFooter:(BOOL)remove{
+    self.footerContainer.clipsToBounds = YES;
+    if (remove == YES) {
+        self.footerHeight.constant = 0;
+    }else if (remove == NO){
+        self.footerHeight.constant = 492;
+    }
+    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
+    [self.userDefaults synchronize];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

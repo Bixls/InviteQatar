@@ -2085,6 +2085,8 @@
                     <connections>
                         <outlet property="customAlert" destination="pzT-Ji-M7J" id="bgv-fG-Xw6"/>
                         <outlet property="customAlertView" destination="DxU-S2-V9K" id="Lyv-Jt-d2p"/>
+                        <outlet property="footerContainer" destination="5ID-LR-b1y" id="zCw-b0-Byr"/>
+                        <outlet property="footerHeight" destination="4LJ-oG-dH6" id="TRL-wB-d8c"/>
                         <outlet property="serviceDescription" destination="IbT-d0-Omo" id="2yE-Tg-E7H"/>
                         <outlet property="serviceImageView" destination="jIx-Zl-aD5" id="iTx-Es-CGX"/>
                         <outlet property="serviceLikes" destination="wVP-ya-6ET" id="Mnw-ch-cFZ"/>
@@ -2345,6 +2347,8 @@
                     <connections>
                         <outlet property="collectionView" destination="TFr-hN-Zp9" id="VQy-66-vbV"/>
                         <outlet property="collectionViewHeightConstraint" destination="812-6C-Ehe" id="bJD-3l-dze"/>
+                        <outlet property="footerContainer" destination="3Wc-Td-waE" id="d3m-TL-rAF"/>
+                        <outlet property="footerHeight" destination="usU-Ae-mqc" id="jjz-QN-l04"/>
                         <outlet property="mainTitle" destination="XYL-Md-8Ch" id="1hm-dU-kC4"/>
                         <segue destination="yEO-A8-rjM" kind="push" identifier="showService" id="v97-MY-h1G"/>
                     </connections>
@@ -2374,7 +2378,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="540"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UA6-uW-Bpc">
-                                        <rect key="frame" x="0.0" y="-800" width="320" height="2485"/>
+                                        <rect key="frame" x="0.0" y="-1500" width="320" height="2485"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Tk-ZX-kE3">
                                                 <rect key="frame" x="209" y="113" width="106" height="56"/>
@@ -3534,6 +3538,7 @@
                                             <constraint firstItem="rfL-Yf-E2a" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="31" id="por-JL-b89"/>
                                             <constraint firstAttribute="trailing" secondItem="tCa-x3-GAF" secondAttribute="trailing" constant="11" id="prG-M8-wBb"/>
                                             <constraint firstItem="tCa-x3-GAF" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="11" id="pxM-Ir-WQC"/>
+                                            <constraint firstAttribute="bottom" secondItem="8Vx-VF-vUN" secondAttribute="bottom" priority="750" constant="35" id="qJg-ph-HzP"/>
                                             <constraint firstItem="zjk-AV-CZv" firstAttribute="top" secondItem="8Vx-VF-vUN" secondAttribute="bottom" constant="50" id="sBp-NT-ksQ"/>
                                             <constraint firstAttribute="centerX" secondItem="ij5-Gs-HFO" secondAttribute="centerX" id="sgR-uD-byl"/>
                                             <constraint firstItem="zCI-OT-3JT" firstAttribute="top" secondItem="xIl-wC-jLL" secondAttribute="bottom" constant="-20" id="tfm-lv-Ias"/>
@@ -3596,6 +3601,8 @@
                         <outlet property="container1Height" destination="mtR-dJ-SrA" id="NbY-GG-Anf"/>
                         <outlet property="eventCollectionView" destination="zCB-GU-NHK" id="bIY-cA-2Rf"/>
                         <outlet property="eventCollectionViewConstraint" destination="5cX-U6-X88" id="aFq-ou-5kC"/>
+                        <outlet property="footerContainer" destination="zjk-AV-CZv" id="GOj-ci-Fgc"/>
+                        <outlet property="footerHeight" destination="684-T3-sbG" id="q8V-sI-i6e"/>
                         <outlet property="groupsCollectionView" destination="8Vx-VF-vUN" id="Qn0-Kc-1Oz"/>
                         <outlet property="invitationsNotificationsView" destination="jcz-Bg-yg2" id="J38-vO-4m7"/>
                         <outlet property="msgsNotificationView" destination="1ly-jm-OWG" id="wzp-YT-Moc"/>
@@ -4030,6 +4037,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="vGW-Am-sUE"/>
                     <connections>
+                        <outlet property="footerContainer" destination="x57-lm-JCF" id="Bwx-OV-uDU"/>
+                        <outlet property="footerHeight" destination="gkc-pc-IEY" id="4zv-eq-mkN"/>
                         <outlet property="innerView" destination="srk-wp-dSN" id="41A-yW-Mgs"/>
                         <outlet property="scrollView" destination="ynQ-QA-3k8" id="Hkw-Bw-syU"/>
                         <outlet property="tableVerticalLayoutConstraint" destination="X4j-n6-m0r" id="KcN-kl-VSS"/>
@@ -4222,6 +4231,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="vyj-Fv-Est"/>
                     <connections>
+                        <outlet property="footerContainer" destination="aUa-Pm-cK2" id="Lxr-aE-GCK"/>
+                        <outlet property="footerHeight" destination="ppg-2y-Ehe" id="lhP-og-OKo"/>
                         <outlet property="tableView" destination="oL7-2Y-MpI" id="wKa-Ej-3J7"/>
                         <outlet property="tableViewHeight" destination="OYu-wW-Gzg" id="hsL-Nh-zVy"/>
                         <outlet property="textField" destination="DRh-gE-GWV" id="6gi-46-BiT"/>
@@ -4632,6 +4643,8 @@
                         <outlet property="commentsTextField" destination="h6F-p7-uje" id="wNu-b0-Tov"/>
                         <outlet property="customAlert" destination="ejj-1t-1Dz" id="Y4a-xo-B3s"/>
                         <outlet property="customAlertView" destination="E9L-Yz-Y4j" id="qoq-aL-1Ek"/>
+                        <outlet property="footerContainer" destination="fVo-V5-Dzh" id="Jai-U2-sOA"/>
+                        <outlet property="footerHeight" destination="jIo-yi-w6B" id="TpI-da-VKn"/>
                         <outlet property="imgComments" destination="ZnU-6R-xck" id="k4d-KY-dx6"/>
                         <outlet property="innerView" destination="SBu-LF-1g3" id="u8C-oV-nHo"/>
                         <outlet property="newsDate" destination="RJV-a5-jiR" id="Un3-u7-6Lw"/>
@@ -5622,6 +5635,8 @@
                         <outlet property="btnShowAllEvents" destination="idx-dZ-kyS" id="Tq3-s8-HcZ"/>
                         <outlet property="eventsCollectionView" destination="7Ho-Vt-SEw" id="7tp-xf-XE1"/>
                         <outlet property="eventsCollectionViewHeight" destination="8Am-LV-ojc" id="Vco-kd-JkM"/>
+                        <outlet property="footerContainer" destination="iI6-de-sZ2" id="6MF-m9-Yw4"/>
+                        <outlet property="footerHeight" destination="9td-t2-xHc" id="fn2-pY-Q4x"/>
                         <outlet property="groupFrame" destination="rsX-op-40P" id="w3m-am-CU7"/>
                         <outlet property="groupPic" destination="WW6-t8-SHv" id="Y2X-Y1-XjL"/>
                         <outlet property="imgSeeMoreUsers" destination="brd-kR-UKX" id="9zN-I4-5E4"/>
@@ -6005,6 +6020,8 @@
                     <connections>
                         <outlet property="collectionView" destination="77I-BQ-Pyd" id="UuG-6k-Rr1"/>
                         <outlet property="collectionViewHeight" destination="Rjd-mV-YQH" id="4Rh-iO-3UE"/>
+                        <outlet property="footerContainer" destination="PDd-xz-0FL" id="qOb-QM-C9j"/>
+                        <outlet property="footerHeight" destination="Doz-YK-LgD" id="YLw-en-dg6"/>
                         <segue destination="Pnj-oQ-lDE" kind="push" identifier="enterEvent" id="7b2-VU-GhD"/>
                     </connections>
                 </viewController>
@@ -6317,6 +6334,8 @@
                     <connections>
                         <outlet property="eventsCollectionView" destination="FeN-uX-pXR" id="l2y-MR-i2Z"/>
                         <outlet property="eventsCollectionViewHeight" destination="O3e-ZC-6eK" id="vEk-4i-xhP"/>
+                        <outlet property="footerContainer" destination="kdI-40-6kq" id="LTy-bV-vX0"/>
+                        <outlet property="footerHeight" destination="rZA-HT-nJc" id="PrF-ze-red"/>
                         <outlet property="scrollView" destination="Y56-43-fHO" id="Vs6-Nu-Fqr"/>
                         <outlet property="sectionNameLabel" destination="b2l-5V-9p0" id="Odi-c8-Gsp"/>
                         <segue destination="Pnj-oQ-lDE" kind="push" identifier="event" id="blW-Gs-6i2"/>
@@ -7057,6 +7076,8 @@
                         <outlet property="eventSubject" destination="gz0-kO-q3q" id="6Ji-rG-86w"/>
                         <outlet property="eventTime" destination="i6m-dJ-4Gf" id="bSZ-t8-grH"/>
                         <outlet property="eventViews" destination="lLl-hQ-7zQ" id="BIg-IO-C19"/>
+                        <outlet property="footerContainer" destination="TXe-jS-k1C" id="OKE-Cx-4Nk"/>
+                        <outlet property="footerHeight" destination="WvG-qN-xmK" id="W11-pm-pcn"/>
                         <outlet property="imgComments" destination="orw-20-OXL" id="MCj-zb-zF4"/>
                         <outlet property="imgEditEvent" destination="J5a-Ke-02a" id="PdI-Gv-lN1"/>
                         <outlet property="imgGoing" destination="UgR-ez-duK" id="VBg-gi-wo4"/>
@@ -7391,6 +7412,8 @@
                         <outlet property="VIPNumberLabel" destination="Wkd-u9-1lN" id="pXA-Zs-sWJ"/>
                         <outlet property="VIPlbl" destination="cAO-Rs-IBd" id="SmI-AE-mQB"/>
                         <outlet property="btnMarkAll" destination="lma-YC-6z8" id="F4h-J0-eHt"/>
+                        <outlet property="footerContainer" destination="viz-FC-K0p" id="L2n-FR-JJ4"/>
+                        <outlet property="footerHeight" destination="SCu-NS-IzS" id="7id-C8-xHR"/>
                         <outlet property="inviteesNumberLabel" destination="05u-pY-eyw" id="xhO-ca-l5I"/>
                         <outlet property="tableView" destination="EI7-K9-hN0" id="sq4-ZY-aMZ"/>
                         <outlet property="tableViewHeight" destination="lB9-KL-0fO" id="uoT-Of-FMf"/>
@@ -7646,6 +7669,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="lI4-Ta-GeF"/>
                     <connections>
+                        <outlet property="footerContainer" destination="tG9-QD-fws" id="Ij1-UW-EII"/>
+                        <outlet property="footerHeight" destination="kV0-qR-Ekf" id="015-2l-iBr"/>
                         <outlet property="tableView" destination="BUC-YS-cDS" id="PAj-Ir-9i5"/>
                         <outlet property="tableViewHeight" destination="XuQ-fG-fGG" id="YRH-aQ-HoV"/>
                         <segue destination="pdv-Sh-Heh" kind="push" identifier="showUser" id="hQx-Cj-f0Z"/>
@@ -8000,6 +8025,8 @@
                     <connections>
                         <outlet property="eventsCollectionView" destination="GC7-4o-1V0" id="Pyv-R6-vcX"/>
                         <outlet property="eventsCollectionViewHeight" destination="neJ-Cb-Vvr" id="9kZ-3v-ZIH"/>
+                        <outlet property="footerContainer" destination="L6i-4e-atX" id="ufk-WC-xbq"/>
+                        <outlet property="footerHeight" destination="Gh9-gF-et5" id="M3N-Pv-rMD"/>
                         <outlet property="userGroup" destination="6dh-5e-2Ww" id="L1f-OO-Pr8"/>
                         <outlet property="userName" destination="WlK-pD-Tyk" id="K54-Ud-azz"/>
                         <outlet property="userPicture" destination="0yd-HA-mPW" id="thk-u0-Jt9"/>
@@ -8494,6 +8521,8 @@
                     <navigationItem key="navigationItem" id="1nH-dP-3vh"/>
                     <connections>
                         <outlet property="InvitationsNum" destination="ZXu-d2-km1" id="D8p-m6-cKD"/>
+                        <outlet property="footerContainer" destination="4uy-B3-jP6" id="x9P-da-5Jr"/>
+                        <outlet property="footerHeight" destination="HM8-es-gCJ" id="tza-aT-ova"/>
                         <outlet property="invitationsPrice" destination="oEo-zF-WCe" id="eQq-oO-noU"/>
                         <outlet property="invitationsType" destination="b2v-5C-Rz1" id="5Km-EZ-7lY"/>
                         <outlet property="tableViewLayoutConstraint" destination="9JO-d2-l4Z" id="h1g-BE-jz6"/>
@@ -9007,6 +9036,8 @@
                         <outlet property="btnSave" destination="NOU-km-VfK" id="FWy-0Q-utf"/>
                         <outlet property="customAlert" destination="FVp-FN-vhA" id="aXk-F4-kCU"/>
                         <outlet property="customAlertView" destination="xNK-rk-eeU" id="zqR-h4-qnN"/>
+                        <outlet property="footerContainer" destination="DHM-gU-D5D" id="wU6-ZW-hUj"/>
+                        <outlet property="footerHeight" destination="1ye-wW-rdc" id="yap-WX-eba"/>
                         <outlet property="imgChoosePic" destination="3Vt-3S-4yX" id="GAG-iT-tXe"/>
                         <outlet property="innerView" destination="MOX-aI-gOP" id="COj-Ym-ioo"/>
                         <outlet property="inviteesLabel" destination="dKD-WK-ud2" id="Z7a-0T-pAi"/>
@@ -9475,6 +9506,8 @@
                     <connections>
                         <outlet property="eventsCollectionView" destination="8Xq-Yc-TON" id="7jO-qj-sOJ"/>
                         <outlet property="eventsCollectionViewHeight" destination="ms1-PN-6Rh" id="Pys-dq-Als"/>
+                        <outlet property="footerContainer" destination="lIz-ah-90B" id="UlW-m3-k6b"/>
+                        <outlet property="footerHeight" destination="AEg-da-YQ7" id="EUb-Ac-Its"/>
                         <outlet property="scrollView" destination="Fto-JJ-YVI" id="zCr-WL-fRs"/>
                         <segue destination="Pnj-oQ-lDE" kind="push" identifier="event" id="h7R-wi-9TB"/>
                     </connections>
@@ -9821,6 +9854,8 @@
                         <outlet property="customAlert" destination="Gbj-Lq-7sa" id="gnR-5f-Grq"/>
                         <outlet property="customAlertView" destination="tR6-cV-peL" id="yRm-GR-XH5"/>
                         <outlet property="editNameField" destination="Lbb-g0-8Ce" id="jiG-k5-uK3"/>
+                        <outlet property="footerContainer" destination="b18-zY-WQh" id="iuR-C9-lP7"/>
+                        <outlet property="footerHeight" destination="eyW-HL-lom" id="SLw-CL-Wck"/>
                         <outlet property="profilePic" destination="Mcx-Fc-Rh4" id="G6s-ia-vUs"/>
                         <outlet property="tableView" destination="yVI-s6-bB3" id="onV-aK-i6E"/>
                         <outlet property="tableViewHeight" destination="5ho-t1-1TR" id="shw-Ft-qkv"/>
@@ -10440,6 +10475,8 @@
                         <outlet property="btnVIPNum" destination="LAC-bt-iFF" id="WIL-dW-2W3"/>
                         <outlet property="eventsCollectionView" destination="Ajg-hB-JWu" id="kBQ-Qm-G6U"/>
                         <outlet property="eventsCollectionViewHeight" destination="P2s-sp-JnN" id="WiD-3J-5oB"/>
+                        <outlet property="footerContainer" destination="9dK-6t-Yws" id="kr3-Oi-oQr"/>
+                        <outlet property="footerHeight" destination="ZX7-1c-mp1" id="BAM-JK-GSL"/>
                         <outlet property="imgActivateAccount" destination="2wv-Zg-Sig" id="b5e-FD-fir"/>
                         <outlet property="imgSeeMore" destination="GpQ-jH-ULt" id="IWI-Fs-9Q2"/>
                         <outlet property="innerView" destination="8pd-bA-dXJ" id="oxv-VJ-wS3"/>
@@ -10804,6 +10841,8 @@
                         <outlet property="btnSendFeedback" destination="Gq5-Wk-Irp" id="exD-Vx-PDD"/>
                         <outlet property="customAlert" destination="I1a-qf-aTb" id="q7d-DZ-Xb2"/>
                         <outlet property="customAlertView" destination="wS9-VE-9Bx" id="Nd5-t3-DlC"/>
+                        <outlet property="footerContainer" destination="0Vi-cN-kK4" id="krU-Uk-fqu"/>
+                        <outlet property="footerHeight" destination="FlZ-RN-423" id="xJf-9f-2tT"/>
                         <outlet property="msgField" destination="iGf-be-L03" id="A8m-Be-TZ5"/>
                         <outlet property="nameField" destination="VI3-1x-VGC" id="XVX-R4-2kJ"/>
                     </connections>
@@ -11273,21 +11312,21 @@
         <image name="withoutdecorations.png" width="640" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ms0-5r-99t"/>
-        <segue reference="7J1-Rt-qJs"/>
-        <segue reference="Ff3-m5-J1l"/>
-        <segue reference="Q1U-zT-bIh"/>
-        <segue reference="ehv-QV-wmo"/>
-        <segue reference="FzJ-6b-ZNA"/>
         <segue reference="39c-t6-VV5"/>
-        <segue reference="GMF-2B-wF9"/>
-        <segue reference="7YD-cm-usr"/>
-        <segue reference="De6-P3-Poq"/>
+        <segue reference="Ff3-m5-J1l"/>
         <segue reference="ZIm-fH-sIf"/>
-        <segue reference="8AK-s1-iMG"/>
-        <segue reference="vLp-5z-Rj9"/>
-        <segue reference="fPj-P0-xuP"/>
-        <segue reference="kMD-e6-iDp"/>
+        <segue reference="8UZ-rJ-Viu"/>
+        <segue reference="fAB-BI-gYH"/>
+        <segue reference="xKg-Ee-w2s"/>
+        <segue reference="Jab-Vj-B1C"/>
+        <segue reference="0b7-7B-MY1"/>
+        <segue reference="fSe-Jm-Ttd"/>
+        <segue reference="LhE-XE-Aon"/>
+        <segue reference="4yJ-AY-O7T"/>
         <segue reference="1o2-k6-8rD"/>
+        <segue reference="blW-Gs-6i2"/>
+        <segue reference="kMD-e6-iDp"/>
+        <segue reference="7C9-XO-WFa"/>
+        <segue reference="De6-P3-Poq"/>
     </inferredMetricsTieBreakers>
 </document>

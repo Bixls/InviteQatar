@@ -12,7 +12,7 @@
 #import "FooterContainerViewController.h"
 #import "MiddleContainerViewController.h"
 
-@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout , MiddleContainerDelegate>
+@interface HomePageViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDelegateRightAlignedLayout , MiddleContainerDelegate , FooterContainerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *myView;
 

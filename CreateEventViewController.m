@@ -55,6 +55,8 @@ static void *adminMsgContext = &adminMsgContext;
 
 
 
+@property (weak, nonatomic) IBOutlet UIView *footerContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 
 @end
 
@@ -123,7 +125,26 @@ static void *adminMsgContext = &adminMsgContext;
         self.pageTitle.text = @"تعديل المناسبة";
     }
     
+    [self addOrRemoveFooter];
 }
+
+-(void)addOrRemoveFooter {
+    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
+    [self removeFooter:remove];
+    
+}
+
+-(void)removeFooter:(BOOL)remove{
+    self.footerContainer.clipsToBounds = YES;
+    if (remove == YES) {
+        self.footerHeight.constant = 0;
+    }else if (remove == NO){
+        self.footerHeight.constant = 492;
+    }
+    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
+    [self.userDefaults synchronize];
+}
+
 -(void)refreshInvitees{
     if (self.eventID && self.createOrEdit == 1) {
         NSInteger temp = self.invitees.count + self.previousInvitees.count;

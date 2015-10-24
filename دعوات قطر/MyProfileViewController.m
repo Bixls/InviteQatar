@@ -49,6 +49,8 @@ static void *userContext = &userContext;
 @property (strong) UIActivityIndicatorView *tableViewSpinner;
 @property (strong,nonatomic) SDImageCache *imageCache;
 @property (nonatomic,strong) EventsDataSource *customEventsDataSource;
+@property (weak, nonatomic) IBOutlet UIView *footerContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 
 @end
 
@@ -90,6 +92,24 @@ static void *userContext = &userContext;
 //    [self.innerView addSubview:self.tableViewSpinner];
 //    
 //    [self.tableViewSpinner startAnimating];
+    [self addOrRemoveFooter];
+}
+
+-(void)addOrRemoveFooter {
+    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
+    [self removeFooter:remove];
+    
+}
+
+-(void)removeFooter:(BOOL)remove{
+    self.footerContainer.clipsToBounds = YES;
+    if (remove == YES) {
+        self.footerHeight.constant = 0;
+    }else if (remove == NO){
+        self.footerHeight.constant = 492;
+    }
+    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
+    [self.userDefaults synchronize];
 }
 
 -(void)initializeConnections{

@@ -26,6 +26,8 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (weak, nonatomic) IBOutlet UIView *customAlertView;
 @property (weak, nonatomic) IBOutlet customAlertView *customAlert;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
+@property (weak, nonatomic) IBOutlet UIView *footerContainer;
 
 @end
 
@@ -50,7 +52,25 @@ static void *getAllLikesContext = &getAllLikesContext;
     self.customAlert.delegate = self;
     [self.customAlertView setHidden:YES];
     [self checkIfVisitor];
+    [self addOrRemoveFooter];
     
+}
+
+-(void)addOrRemoveFooter {
+    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
+    [self removeFooter:remove];
+    
+}
+
+-(void)removeFooter:(BOOL)remove{
+    self.footerContainer.clipsToBounds = YES;
+    if (remove == YES) {
+        self.footerHeight.constant = 0;
+    }else if (remove == NO){
+        self.footerHeight.constant = 492;
+    }
+    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
+    [self.userDefaults synchronize];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

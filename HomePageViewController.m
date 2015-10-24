@@ -80,6 +80,8 @@
 @property (weak, nonatomic) IBOutlet UIView *container1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *container0Height;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *container1Height;
+@property (weak, nonatomic) IBOutlet UIView *footerContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 
 //@property (nonatomic,strong) UIActivityIndicatorView *eventsSpinner;
 //@property (nonatomic,strong) UIActivityIndicatorView *groupsSpinner;
@@ -159,7 +161,13 @@
     [self.msgsNotificationView setHidden:YES];
     [self.invitationsNotificationsView setHidden:YES];
 
+    [self addOrRemoveFooter];
+}
 
+-(void)addOrRemoveFooter {
+    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
+    [self removeFooter:remove];
+    
 }
 
 
@@ -437,6 +445,20 @@
         }
     }
 }
+
+#pragma mark - Footer Container Delegate 
+
+-(void)removeFooter:(BOOL)remove{
+    self.footerContainer.clipsToBounds = YES;
+    if (remove == YES) {
+        self.footerHeight.constant = 0;
+    }else if (remove == NO){
+        self.footerHeight.constant = 492;
+    }
+    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
+    [self.userDefaults synchronize];
+}
+
 
 #pragma mark - Collection View methods
 
@@ -1059,6 +1081,7 @@
     }else if ([segue.identifier isEqualToString:@"footer"]){
         FooterContainerViewController *footerController = segue.destinationViewController;
         footerController.footerAds = self.footerAds;
+        footerController.delegate = self;
     }else if ([segue.identifier isEqualToString:@"middle0"]){
         MiddleContainerViewController *middleController = segue.destinationViewController;
         middleController.containerID = 0;

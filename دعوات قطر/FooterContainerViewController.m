@@ -128,17 +128,21 @@
     NSInteger status = [ad[@"Enable"]integerValue];
     NSInteger adID = [ad[@"id"]integerValue];
     if (status == 0 && adID == 1) {
-        [imageV removeFromSuperview];
-        [btn removeFromSuperview];
-        [self.bigAdTopFrame removeFromSuperview];
-        [self.bigAdBottomFrame removeFromSuperview];
+        [self.delegate removeFooter:YES];
+
     }else if (status == 0) {
         [imageV removeFromSuperview];
         [btn removeFromSuperview];
+    }else if (status == 1 && adID == 1){
+        [self.imgConnection downloadImageWithID:picNumber andImageView:imageV];
+        [self.delegate removeFooter:NO];
+        
     }else if (status == 1){
         [self.imgConnection downloadImageWithID:picNumber andImageView:imageV];
     }
 }
+
+
 
 -(void)openWebPageWithBtnTag:(NSInteger)tag {
     NSString *webPage = [self searchAllAdsAndGetWebPageWithID:tag];
