@@ -75,6 +75,7 @@
 @property (nonatomic) NSInteger counter;
 @property (nonatomic,strong) NetworkConnection *footerImgConnection;
 @property (nonatomic,strong) NSMutableDictionary *sectionAds;
+@property (nonatomic,strong) NSMutableDictionary *sectionGroups;
 @property (nonatomic) NSInteger footerContentHeight;
 @property (nonatomic) BOOL enableReloading;
 @property (weak, nonatomic) IBOutlet UIView *msgsNotificationView;
@@ -123,7 +124,7 @@
     
     self.navigationController.navigationBar.hidden = YES;
     self.sectionAds = [[NSMutableDictionary alloc]init];
-
+    self.sectionGroups = [[NSMutableDictionary alloc]init];
     self.view.backgroundColor = [UIColor blackColor];
 
    //self.groupsCollectionView.collectionViewLayout = [[UICollectionViewRightAlignedLayout alloc] init];
@@ -167,7 +168,7 @@
     [self.invitationsNotificationsView setHidden:YES];
 
     [self addOrRemoveFooter];
-    [self.groupsCollectionView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:NULL];
+    //[self.groupsCollectionView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:NULL];
 }
 
 -(void)addOrRemoveFooter {
@@ -176,15 +177,15 @@
     
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary  *)change context:(void *)context
-{
-    if (self.sectionsToHide.count > 0 && self.reloadFlag == YES) {
-        self.counter = 0 ;
-        self.reloadFlag = NO;
-        [self.groupsCollectionView reloadData];
-        
-    }
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary  *)change context:(void *)context
+//{
+//    if (self.sectionsToHide.count > 0 && self.reloadFlag == YES) {
+//        self.counter = 0 ;
+//        self.reloadFlag = NO;
+//        [self.groupsCollectionView reloadData];
+//        
+//    }
+//}
 
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -276,16 +277,7 @@
 //        self.offlineGroupsFlag = 1 ;
         self.groups = groups;
     
-        self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
-        self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
-        self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
-        self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-        self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
-        
-        self.groupSections = [[NSMutableArray alloc]init];
-        
-        [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
-//
+        [self assignGroupsToSections];
 //        
       //  [self.groupsCollectionView reloadData];
     }
@@ -367,7 +359,7 @@
             [self postRequest:getUserPoints withTag:getUserPointsTag];
         }
         @catch (NSException *exception) {
-            NSLog(@"ERROOOR");
+            //NSLog(@"ERROOOR");
         }
 
         
@@ -414,21 +406,65 @@
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
         self.allAds = responseArray;
         if (self.allAds.count > 0) {
-            [self distributeAds];
+           // [self distributeAds];
+            [self numberOfSectionsFromEnabledAds];
+            [self assignGroupsToSections];
+            [self.groupsCollectionView reloadData];
         }
         
         [self.groupsCollectionView reloadData];
         
     }];
-    [self.adsConnection getAdsWithStart:10 andLimit:100];
+    [self.adsConnection getAdsWithStart:10 andLimit:1000];
 }
+
+-(NSInteger)numberOfSectionsFromEnabledAds {
+    NSInteger section = 0 ;
+    NSMutableArray *tempAds = [[NSMutableArray alloc]init];
+    for (int i = 0 ; i < self.allAds.count; i++) {
+        NSDictionary *ad = self.allAds[i];
+        NSInteger isEnabled = [ad[@"Enable"]integerValue];
+        if (isEnabled == 1) {
+            [tempAds addObject:ad];
+            [self.sectionAds setValue:[tempAds copy] forKey:[NSString stringWithFormat:@"%ld",(long)section]];
+            if ((i+1) %3 == 0 && i+1 < self.allAds.count) {
+                section++;
+                [tempAds removeAllObjects];
+            }
+        }
+    }
+    return self.sectionAds.count;
+}
+
+-(void)distributeAds{
+    
+    NSInteger section = 0 ;
+    NSMutableArray *tempAds = [[NSMutableArray alloc]init];
+    int counter = 0 ;
+    
+    while (section < 5) {
+        for (int i = counter ; i < counter + 3 ; i ++) {
+            [tempAds addObject:self.allAds[i]];
+            if (i == counter+2) {
+                [self.sectionAds setValue:[tempAds copy] forKey:[NSString stringWithFormat:@"%ld", (long)section]];
+                [tempAds removeAllObjects];
+            }
+            
+        }
+        counter = counter + 3 ;
+        section++ ;
+    }
+    
+    
+}
+
 
 
 
 -(void)viewWillDisappear:(BOOL)animated{
 //    [self.groupsSpinner stopAnimating];
 //    [self.eventsSpinner stopAnimating];
-     [self.groupsCollectionView removeObserver:self forKeyPath:@"groupCollectionView" context:NULL];
+     //[self.groupsCollectionView removeObserver:self forKeyPath:@"contentSize" context:NULL];
     self.segueFlag = 0;
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
@@ -485,9 +521,8 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     if (collectionView.tag == 0) {
-        NSLog(@"%lu",(unsigned long)self.groups.count);
-        NSLog(@"%f",ceil(self.groups.count/20));
-        return 5;
+
+        return self.sectionAds.count;
     }else{
         return 1;
     }
@@ -498,36 +533,38 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     if (collectionView.tag == 0 && self.groups.count > 0) {
-        switch (section) {
-            case 0:
-            {
-                return self.firstSection.count;
-                break;
-            }
-            case 1:
-            {
-                return self.secondSection.count;
-                break;
-            }
-            case 2:
-            {
-                return self.thirdSection.count;
-                break;
-            }
-            case 3:
-            {
-                return self.fourthSection.count;
-                break;
-            }
-            case 4:
-            {
-                return self.fifthSection.count;
-                break;
-            }
-            default:
-                return 0;
-                break;
-        }
+        NSArray *sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)section]];
+        return sectionGroups.count;
+//        switch (section) {
+//            case 0:
+//            {
+//                return self.firstSection.count;
+//                break;
+//            }
+//            case 1:
+//            {
+//                return self.secondSection.count;
+//                break;
+//            }
+//            case 2:
+//            {
+//                return self.thirdSection.count;
+//                break;
+//            }
+//            case 3:
+//            {
+//                return self.fourthSection.count;
+//                break;
+//            }
+//            case 4:
+//            {
+//                return self.fifthSection.count;
+//                break;
+//            }
+//            default:
+//                return 0;
+//                break;
+//        }
     }else if (collectionView.tag == 1){
         return self.news.count;
     }else if (collectionView.tag == 2){
@@ -566,64 +603,85 @@
      cellGroupsCollectionView *cell = [[cellGroupsCollectionView alloc]init];
     
     if (collectionView.tag == 0 ) {
+        
         NSDictionary *tempGroup = [[NSDictionary alloc]init];
-        //self.groups[indexPath.item];
-        switch (indexPath.section) {
-            case 0:{
-                tempGroup = self.firstSection[indexPath.row];
-                
-                if (indexPath.item == 1  ) {
-                    for (int i = 0 ; i < self.groups.count; i++) {
-                        tempGroup = self.groups[i];
-                        if ([tempGroup[@"Royal"]integerValue] == 1) {
-                            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"royal" forIndexPath:indexPath];
-                            break;
-                        }
-                    }
-                }
-                else {
-                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-                }
-                break;
-            }
-                
-            case 1:{
-                
-                tempGroup = self.secondSection[indexPath.row];
-//                tempGroup = tempArray[indexPath.row];
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-                
-                break;
-            }
-                
-            case 2:{
-                
-               tempGroup = self.thirdSection[indexPath.row];
-//                tempGroup = tempArray[indexPath.row];
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-                break;
-            }
-                
-            case 3:{
-                tempGroup = self.fourthSection[indexPath.row];
-//                tempGroup = tempArray[indexPath.row];
-                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-                break;
-            }
-                
-            case 4:{
-//                if (indexPath.item + 79 < self.groups.count) {
-                    tempGroup = self.fifthSection[indexPath.row];
-//                    tempGroup = tempArray[indexPath.row];
-                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-//                }
-              
-                break;
-            }
-                
-            default:
-                break;
+        NSArray *sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        if (sectionGroups.count > 19 ) {
+           // NSLog(@"%lu",(unsigned long)sectionGroups.count);
         }
+        //self.groups[indexPath.item];
+        
+        tempGroup = sectionGroups[indexPath.row];
+        
+        if (indexPath.item == 1 && indexPath.section == 0 ) {
+            for (int i = 0 ; i < self.groups.count; i++) {
+                tempGroup = self.groups[i];
+                if ([tempGroup[@"Royal"]integerValue] == 1) {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"royal" forIndexPath:indexPath];
+                    break;
+                }
+            }
+        }
+        else {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+        }
+        
+//        switch (indexPath.section) {
+//            case 0:{
+//                tempGroup = sectionGroups[indexPath.row];
+//                
+//                if (indexPath.item == 1  ) {
+//                    for (int i = 0 ; i < self.groups.count; i++) {
+//                        tempGroup = self.groups[i];
+//                        if ([tempGroup[@"Royal"]integerValue] == 1) {
+//                            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"royal" forIndexPath:indexPath];
+//                            break;
+//                        }
+//                    }
+//                }
+//                else {
+//                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+//                }
+//                break;
+//            }
+//                
+//            case 1:{
+//                
+//                tempGroup = sectionGroups[indexPath.row];
+////                tempGroup = tempArray[indexPath.row];
+//                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+//                
+//                break;
+//            }
+//                
+//            case 2:{
+//                
+//               tempGroup = sectionGroups[indexPath.row];
+////                tempGroup = tempArray[indexPath.row];
+//                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+//                break;
+//            }
+//                
+//            case 3:{
+//                tempGroup = sectionGroups[indexPath.row];
+////                tempGroup = tempArray[indexPath.row];
+//                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+//                break;
+//            }
+//                
+//            case 4:{
+////                if (indexPath.item + 79 < self.groups.count) {
+//                    tempGroup = sectionGroups[indexPath.row];
+////                    tempGroup = tempArray[indexPath.row];
+//                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+////                }
+//              
+//                break;
+//            }
+//                
+//            default:
+//                break;
+//        }
         
 
         if ([tempGroup[@"Royal"]integerValue] == 1) {
@@ -863,7 +921,7 @@
         
         customGroupFooter *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"adFooter" forIndexPath:indexPath];
         
-        NSLog(@"%ld",(long)indexPath.section);
+       // NSLog(@"%ld",(long)indexPath.section);
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
 
         [footer setTransform:CGAffineTransformMakeScale(-1, 1)];
@@ -874,7 +932,7 @@
             //NSMutableArray *threeAds = [[NSMutableArray alloc]init];
         
         NSMutableArray *threeAds = [self.sectionAds objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
-        NSLog(@"%@",self.sectionAds);
+       // NSLog(@"%@",self.sectionAds);
             NSInteger numberOfDeletedAds = 0 ;
             for (int i = 0; i < threeAds.count; i++) {
                 NSDictionary *tempAd = threeAds[i];
@@ -883,7 +941,7 @@
                 self.footerImgConnection = [[NetworkConnection alloc]init];
                 switch (i) {
                     case 0:{
-                        NSLog(@"%ld",(long)picID);
+                       // NSLog(@"%ld",(long)picID);
                         footer.btn1.tag = adID;
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
                         BOOL remove =  [self removeIfDisabled:tempAd imageView:footer.img1 andButton:footer.btn1];
@@ -892,7 +950,7 @@
                         }
                         break;
                     }case 1:{
-                        NSLog(@"%ld",(long)picID);
+                       // NSLog(@"%ld",(long)picID);
                         footer.btn2.tag = adID;
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
                         BOOL remove = [self removeIfDisabled:tempAd imageView:footer.img2 andButton:footer.btn2];
@@ -902,7 +960,7 @@
                         break;
                     }case 2:{
                         
-                        NSLog(@"%ld",(long)picID);
+                       // NSLog(@"%ld",(long)picID);
                         footer.btn3.tag = adID;
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
                         BOOL remove = [self removeIfDisabled:tempAd imageView:footer.img3 andButton:footer.btn3];
@@ -933,27 +991,6 @@
     return reusableview;
 }
 
--(void)distributeAds{
-    
-    NSInteger section = 0 ;
-    NSMutableArray *tempAds = [[NSMutableArray alloc]init];
-    int counter = 0 ;
-    
-    while (section < 5) {
-        for (int i = counter ; i < counter + 3 ; i ++) {
-            [tempAds addObject:self.allAds[i]];
-            if (i == counter+2) {
-                [self.sectionAds setValue:[tempAds copy] forKey:[NSString stringWithFormat:@"%ld", (long)section]];
-                [tempAds removeAllObjects];
-            }
-            
-        }
-        counter = counter + 3 ;
-        section++ ;
-    }
-
-
-}
 
 -(BOOL)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
     NSInteger picNumber = [ad[@"adsImage"]integerValue];
@@ -972,41 +1009,43 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView.tag == 0) {
+        NSArray *sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        self.selectedGroup = sectionGroups[indexPath.row];
 //        self.selectedGroup = self.groups[indexPath.item];
-        switch (indexPath.section) {
-            case 0:{
-                self.selectedGroup = self.firstSection[indexPath.row];
-                break;
-            }
-                
-            case 1:{
-                
-                self.selectedGroup = self.secondSection[indexPath.row];
-                
-                break;
-            }
-                
-            case 2:{
-                
-                self.selectedGroup = self.thirdSection[indexPath.row];
-                break;
-            }
-                
-            case 3:{
-                self.selectedGroup = self.fourthSection[indexPath.row];
-
-                break;
-            }
-                
-            case 4:{
-
-                self.selectedGroup = self.fifthSection[indexPath.row];
-                break;
-            }
-                
-            default:
-                break;
-        }
+//        switch (indexPath.section) {
+//            case 0:{
+//                self.selectedGroup = self.firstSection[indexPath.row];
+//                break;
+//            }
+//                
+//            case 1:{
+//                
+//                self.selectedGroup = self.secondSection[indexPath.row];
+//                
+//                break;
+//            }
+//                
+//            case 2:{
+//                
+//                self.selectedGroup = self.thirdSection[indexPath.row];
+//                break;
+//            }
+//                
+//            case 3:{
+//                self.selectedGroup = self.fourthSection[indexPath.row];
+//
+//                break;
+//            }
+//                
+//            case 4:{
+//
+//                self.selectedGroup = self.fifthSection[indexPath.row];
+//                break;
+//            }
+//                
+//            default:
+//                break;
+//        }
 
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"group" sender:self];
@@ -1211,19 +1250,24 @@
         
         if ([self arraysContainSameObjects:responseArray andOtherArray:[self.userDefaults objectForKey:@"groups"]]) {
             [self.userDefaults setObject:self.groups forKey:@"groups"];
+            [self assignGroupsToSections];
+//            
+//            NSLog(@"%lu",(unsigned long)self.sectionGroups.count);
+//            NSLog(@"%@",self.sectionGroups);
             
-            self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
-            NSLog(@"First Section %@ ", self.firstSection);
-            self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
-            NSLog(@"Second Section %@ ", self.secondSection);
-            self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
-            NSLog(@"third Section %@ ", self.thirdSection);
-            self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-            NSLog(@"fourth Section %@ ", self.fourthSection);
-            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
-            NSLog(@"Fifth Section %@ ", self.fifthSection);
-            self.groupSections = [[NSMutableArray alloc]init];
-            [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
+//            
+//            self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
+//            NSLog(@"First Section %@ ", self.firstSection);
+//            self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
+//            NSLog(@"Second Section %@ ", self.secondSection);
+//            self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
+//            NSLog(@"third Section %@ ", self.thirdSection);
+//            self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
+//            NSLog(@"fourth Section %@ ", self.fourthSection);
+//            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
+//            NSLog(@"Fifth Section %@ ", self.fifthSection);
+//            self.groupSections = [[NSMutableArray alloc]init];
+//            [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
             
             [self.userDefaults synchronize];
             
@@ -1231,15 +1275,16 @@
         }else{
 
             [self.userDefaults setObject:self.groups forKey:@"groups"];
+            [self assignGroupsToSections];
             
-            self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
-            self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
-            self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
-            self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
-            
-            self.groupSections = [[NSMutableArray alloc]init];
-            [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
+//            self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
+//            self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
+//            self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
+//            self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
+//            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
+//            
+//            self.groupSections = [[NSMutableArray alloc]init];
+//            [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
 
             [self.userDefaults synchronize];
             
@@ -1299,7 +1344,7 @@
             [self.userDefaults synchronize];
             self.eventCollectionViewConstraint.constant = 0;
             [self.eventCollectionView reloadData];
-            NSLog(@"No events");
+            //NSLog(@"No events");
         }
 
 
@@ -1367,6 +1412,71 @@
     
 //invNum
 
+}
+
+-(void)assignGroupsToSections{
+    
+    NSMutableArray *tempGroups = [[NSMutableArray alloc]init];
+    NSInteger counter = 19 ;
+    for (int i = 0 ; i < self.sectionAds.count; i++) {
+        if (i == 0 ) {
+            [self populateFirstSection];
+        }else{
+            
+            NSInteger numberOfRemainingSections = self.sectionAds.count-1;
+            NSInteger max = (self.groups.count-19) / numberOfRemainingSections;
+            max = max + 1 ;
+            //NSLog(@"%ld",max);
+            for (NSInteger k = counter ; k < counter + max; k++) {
+                if (k < self.groups.count) {
+                    [tempGroups addObject:self.groups[k]];
+                    NSArray *temp = [tempGroups copy];
+                    [self.sectionGroups setValue:temp forKey:[NSString stringWithFormat:@"%d",i]];
+                    if (k+1 == counter+max ) {
+                        counter = counter + max;
+                        [tempGroups removeAllObjects];
+                        break;
+                    }
+                }else{
+                    break;
+                }
+              
+            }
+            
+            
+        }
+    }
+}
+
+/*
+ 
+ -(NSInteger)numberOfSectionsFromEnabledAds {
+ NSInteger section = 0 ;
+ NSMutableArray *tempAds = [[NSMutableArray alloc]init];
+ for (int i = 0 ; i < self.allAds.count; i++) {
+ NSDictionary *ad = self.allAds[i];
+ NSInteger isEnabled = [ad[@"Enable"]integerValue];
+ if (isEnabled == 1) {
+ [tempAds addObject:ad];
+ [self.sectionAds setValue:[tempAds copy] forKey:[NSString stringWithFormat:@"%ld",(long)section]];
+ if ((i+1) %3 == 0 && i+1 < self.allAds.count) {
+ section++;
+ [tempAds removeAllObjects];
+ }
+ }
+ }
+ return self.sectionAds.count;
+ }
+ 
+ */
+
+-(void)populateFirstSection {
+    NSMutableArray *tempGroups = [[NSMutableArray alloc]init];
+    for (int j = 0; j < 19; j++) {
+        [tempGroups addObject:self.groups[j]];
+    }
+    [self.sectionGroups setValue:[tempGroups copy] forKey:[NSString stringWithFormat:@"%d",0]];
+    [tempGroups removeAllObjects];
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -1439,13 +1549,13 @@
 - (IBAction)btn2FooterPressed:(id)sender {
     UIButton *button = (UIButton *)sender;
     [self openWebPageWithBtnTag:button.tag];
-    NSLog(@"%ld",(long)button.tag);
+   // NSLog(@"%ld",(long)button.tag);
 }
 
 - (IBAction)btn3FooterPressed:(id)sender {
     UIButton *button = (UIButton *)sender;
     [self openWebPageWithBtnTag:button.tag];
-    NSLog(@"%ld",(long)button.tag);
+    //NSLog(@"%ld",(long)button.tag);
 }
 
 -(void)emptyMarkedGroups{
