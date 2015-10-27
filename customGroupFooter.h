@@ -20,5 +20,19 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn2;
 @property (weak, nonatomic) IBOutlet UIButton *btn3;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img1Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img2Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img3Height;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn1Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn2Height;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn3Height;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img2Width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img3Width;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn2Width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn3Width;
 
 @end

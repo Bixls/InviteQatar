@@ -2553,22 +2553,27 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="golden_button.png" translatesAutoresizingMaskIntoConstraints="NO" id="tY3-js-3J2">
-                                                            <rect key="frame" x="2" y="81" width="139" height="68"/>
+                                                            <rect key="frame" x="2" y="81" width="141" height="68"/>
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="68" id="8XG-zk-MXG"/>
+                                                                <constraint firstAttribute="width" constant="141" id="geB-HS-Gbo"/>
                                                             </constraints>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="golden_button.png" translatesAutoresizingMaskIntoConstraints="NO" id="xKN-YE-JIw">
-                                                            <rect key="frame" x="149" y="82" width="139" height="68"/>
+                                                            <rect key="frame" x="146" y="82" width="142" height="68"/>
                                                             <animations/>
                                                             <constraints>
+                                                                <constraint firstAttribute="width" constant="142" id="HnJ-ya-iww"/>
                                                                 <constraint firstAttribute="height" constant="68" id="M6i-HB-Fxm"/>
                                                             </constraints>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topAd.png" translatesAutoresizingMaskIntoConstraints="NO" id="heL-aH-x2M">
-                                                            <rect key="frame" x="2" y="0.0" width="286" height="74"/>
+                                                            <rect key="frame" x="3" y="0.0" width="285" height="74"/>
                                                             <animations/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="74" id="12Q-Sa-j27"/>
+                                                            </constraints>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAu-Nm-aGU">
                                                             <rect key="frame" x="2" y="0.0" width="290" height="74"/>
@@ -2585,6 +2590,7 @@
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="68" id="LcW-uM-pqb"/>
+                                                                <constraint firstAttribute="width" constant="142" id="rMt-zw-ywh"/>
                                                             </constraints>
                                                             <connections>
                                                                 <action selector="btn2FooterPressed:" destination="6y6-Qu-Fbo" eventType="touchUpInside" id="qIu-Mv-wmw"/>
@@ -2595,6 +2601,7 @@
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="68" id="5jq-9K-kLk"/>
+                                                                <constraint firstAttribute="width" constant="142" id="WIU-1e-N3g"/>
                                                             </constraints>
                                                             <connections>
                                                                 <action selector="btn3FooterPressed:" destination="6y6-Qu-Fbo" eventType="touchUpInside" id="V7n-bz-A3a"/>
@@ -2608,9 +2615,9 @@
                                                         <constraint firstAttribute="trailing" secondItem="rPn-7o-4DX" secondAttribute="trailing" constant="-2" id="2VO-MG-td7"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="heL-aH-x2M" secondAttribute="bottom" priority="900" constant="10" id="5mm-mk-1tX"/>
                                                         <constraint firstItem="WAu-Nm-aGU" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" constant="2" id="6H0-3R-3Rf"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="tY3-js-3J2" secondAttribute="trailing" priority="750" constant="-5" id="7E3-lE-rSO"/>
+                                                        <constraint firstItem="xKN-YE-JIw" firstAttribute="leading" secondItem="tY3-js-3J2" secondAttribute="trailing" constant="3" id="6WJ-sC-Ead"/>
                                                         <constraint firstAttribute="trailing" secondItem="heL-aH-x2M" secondAttribute="trailing" constant="2" id="8FM-NQ-iKO"/>
-                                                        <constraint firstItem="heL-aH-x2M" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" constant="2" id="AXp-gx-cqB"/>
+                                                        <constraint firstItem="heL-aH-x2M" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" constant="3" id="AXp-gx-cqB"/>
                                                         <constraint firstItem="rPn-7o-4DX" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leadingMargin" priority="800" constant="-5" id="CAh-p8-GjB"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="7JL-x4-PME" secondAttribute="bottom" constant="-8" id="Eml-jn-WP8"/>
                                                         <constraint firstItem="tY3-js-3J2" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" constant="2" id="GF5-mv-cIq"/>
@@ -2618,15 +2625,12 @@
                                                         <constraint firstAttribute="bottom" secondItem="tY3-js-3J2" secondAttribute="bottom" constant="1" id="Kip-5T-p3K"/>
                                                         <constraint firstItem="7JL-x4-PME" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" id="Kn6-Ay-bsd"/>
                                                         <constraint firstItem="tY3-js-3J2" firstAttribute="top" secondItem="WAu-Nm-aGU" secondAttribute="bottom" constant="7" id="LCO-B7-Wjx"/>
-                                                        <constraint firstItem="xKN-YE-JIw" firstAttribute="leading" secondItem="tY3-js-3J2" secondAttribute="trailing" constant="8" id="LEH-CZ-0TN"/>
                                                         <constraint firstItem="heL-aH-x2M" firstAttribute="top" secondItem="T26-a7-2S8" secondAttribute="top" id="Qf0-EG-iVu"/>
                                                         <constraint firstAttribute="trailing" secondItem="WAu-Nm-aGU" secondAttribute="trailing" constant="-2" id="Qv8-hk-ijZ"/>
                                                         <constraint firstItem="rPn-7o-4DX" firstAttribute="leading" secondItem="7JL-x4-PME" secondAttribute="trailing" constant="8" id="VLJ-yw-rvn"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="WAu-Nm-aGU" secondAttribute="bottom" priority="750" constant="10" id="WyV-uq-eAw"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="WAu-Nm-aGU" secondAttribute="bottom" priority="900" constant="10" id="WyV-uq-eAw"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="7JL-x4-PME" secondAttribute="trailing" priority="750" constant="-5" id="b9f-pT-8Fg"/>
                                                         <constraint firstItem="tY3-js-3J2" firstAttribute="top" secondItem="heL-aH-x2M" secondAttribute="bottom" constant="7" id="gWa-jj-RoT"/>
-                                                        <constraint firstItem="tY3-js-3J2" firstAttribute="width" secondItem="xKN-YE-JIw" secondAttribute="width" id="gfR-sM-kdq"/>
-                                                        <constraint firstItem="7JL-x4-PME" firstAttribute="width" secondItem="rPn-7o-4DX" secondAttribute="width" id="mGE-Dl-e6q"/>
                                                         <constraint firstAttribute="trailing" secondItem="xKN-YE-JIw" secondAttribute="trailing" constant="2" id="pgb-Gf-hRQ"/>
                                                         <constraint firstAttribute="bottom" secondItem="xKN-YE-JIw" secondAttribute="bottom" id="qW9-p6-Q2I"/>
                                                         <constraint firstItem="xKN-YE-JIw" firstAttribute="top" secondItem="WAu-Nm-aGU" secondAttribute="bottom" constant="8" id="tZM-ke-hiL"/>
@@ -2634,15 +2638,24 @@
                                                         <constraint firstItem="7JL-x4-PME" firstAttribute="top" secondItem="WAu-Nm-aGU" secondAttribute="bottom" constant="8" id="vsb-Tz-lPT"/>
                                                         <constraint firstItem="WAu-Nm-aGU" firstAttribute="top" secondItem="T26-a7-2S8" secondAttribute="top" id="wvU-X9-iYd"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="rPn-7o-4DX" secondAttribute="bottom" constant="-8" id="ygh-nn-g0m"/>
-                                                        <constraint firstItem="xKN-YE-JIw" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leadingMargin" priority="800" constant="-5" id="zfo-ls-YvL"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="btn1" destination="WAu-Nm-aGU" id="ki7-Qs-PnO"/>
+                                                        <outlet property="btn1Height" destination="gk2-Xt-sd9" id="Ixv-tg-41o"/>
                                                         <outlet property="btn2" destination="rPn-7o-4DX" id="Gct-7A-HUx"/>
+                                                        <outlet property="btn2Height" destination="LcW-uM-pqb" id="vSD-n1-QYV"/>
+                                                        <outlet property="btn2Width" destination="rMt-zw-ywh" id="P7u-Qm-lL4"/>
                                                         <outlet property="btn3" destination="7JL-x4-PME" id="Uif-8F-r9P"/>
+                                                        <outlet property="btn3Height" destination="5jq-9K-kLk" id="irI-14-2ue"/>
+                                                        <outlet property="btn3Width" destination="WIU-1e-N3g" id="xIa-ew-bGp"/>
                                                         <outlet property="img1" destination="heL-aH-x2M" id="37S-6m-eBC"/>
+                                                        <outlet property="img1Height" destination="12Q-Sa-j27" id="gEY-0L-BVl"/>
                                                         <outlet property="img2" destination="xKN-YE-JIw" id="7x5-oR-2G1"/>
+                                                        <outlet property="img2Height" destination="M6i-HB-Fxm" id="eMJ-zR-aHj"/>
+                                                        <outlet property="img2Width" destination="HnJ-ya-iww" id="VKD-pO-dd9"/>
                                                         <outlet property="img3" destination="tY3-js-3J2" id="17S-DF-lSx"/>
+                                                        <outlet property="img3Height" destination="8XG-zk-MXG" id="fXd-Rr-e80"/>
+                                                        <outlet property="img3Width" destination="geB-HS-Gbo" id="OXv-y2-QPy"/>
                                                     </connections>
                                                 </collectionReusableView>
                                                 <connections>
@@ -11312,21 +11325,21 @@
         <image name="withoutdecorations.png" width="640" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="39c-t6-VV5"/>
         <segue reference="Ff3-m5-J1l"/>
+        <segue reference="Q1U-zT-bIh"/>
+        <segue reference="39c-t6-VV5"/>
+        <segue reference="7J1-Rt-qJs"/>
+        <segue reference="ehv-QV-wmo"/>
+        <segue reference="FzJ-6b-ZNA"/>
+        <segue reference="xKg-Ee-w2s"/>
         <segue reference="ZIm-fH-sIf"/>
+        <segue reference="Jab-Vj-B1C"/>
+        <segue reference="fSe-Jm-Ttd"/>
+        <segue reference="1o2-k6-8rD"/>
+        <segue reference="De6-P3-Poq"/>
         <segue reference="8UZ-rJ-Viu"/>
         <segue reference="fAB-BI-gYH"/>
-        <segue reference="xKg-Ee-w2s"/>
-        <segue reference="Jab-Vj-B1C"/>
-        <segue reference="0b7-7B-MY1"/>
-        <segue reference="fSe-Jm-Ttd"/>
-        <segue reference="LhE-XE-Aon"/>
-        <segue reference="4yJ-AY-O7T"/>
-        <segue reference="1o2-k6-8rD"/>
-        <segue reference="blW-Gs-6i2"/>
         <segue reference="kMD-e6-iDp"/>
         <segue reference="7C9-XO-WFa"/>
-        <segue reference="De6-P3-Poq"/>
     </inferredMetricsTieBreakers>
 </document>

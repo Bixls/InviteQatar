@@ -87,6 +87,7 @@
 @property (weak, nonatomic) IBOutlet UIView *footerContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 
+
 //@property (nonatomic,strong) UIActivityIndicatorView *eventsSpinner;
 //@property (nonatomic,strong) UIActivityIndicatorView *groupsSpinner;
 
@@ -521,8 +522,12 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     if (collectionView.tag == 0) {
-
-        return self.sectionAds.count;
+        if (self.sectionAds.count > 0) {
+             return self.sectionAds.count;
+        }else{
+            return 1;
+        }
+       
     }else{
         return 1;
     }
@@ -534,37 +539,14 @@
     
     if (collectionView.tag == 0 && self.groups.count > 0) {
         NSArray *sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)section]];
-        return sectionGroups.count;
-//        switch (section) {
-//            case 0:
-//            {
-//                return self.firstSection.count;
-//                break;
-//            }
-//            case 1:
-//            {
-//                return self.secondSection.count;
-//                break;
-//            }
-//            case 2:
-//            {
-//                return self.thirdSection.count;
-//                break;
-//            }
-//            case 3:
-//            {
-//                return self.fourthSection.count;
-//                break;
-//            }
-//            case 4:
-//            {
-//                return self.fifthSection.count;
-//                break;
-//            }
-//            default:
-//                return 0;
-//                break;
-//        }
+        if (sectionGroups.count > 0) {
+             return sectionGroups.count;
+        }else{
+            return self.groups.count;
+        }
+       
+
+
     }else if (collectionView.tag == 1){
         return self.news.count;
     }else if (collectionView.tag == 2){
@@ -578,17 +560,12 @@
 {
     
     if (collectionView.tag == 0) {
-        if (self.sectionsToHide.count > 0) {
-            for (int i = 0 ; i < self.sectionsToHide.count; i++) {
-                NSInteger sectionNumber = [self.sectionsToHide[i]integerValue];
-                if (sectionNumber == section) {
-                    return CGSizeZero;
-                }
-            }
+        if (self.sectionAds.count > 0) {
             return CGSizeMake((self.groupsCollectionView.bounds.size.width), 150);
         }else{
-            return CGSizeMake((self.groupsCollectionView.bounds.size.width), 150);
+             return CGSizeMake((self.groupsCollectionView.bounds.size.width), 1);
         }
+        
         
     }else{
         return CGSizeZero;
@@ -605,7 +582,13 @@
     if (collectionView.tag == 0 ) {
         
         NSDictionary *tempGroup = [[NSDictionary alloc]init];
-        NSArray *sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        NSArray *sectionGroups = [[NSArray alloc]init];
+        if (self.sectionGroups.count > 0) {
+            sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        }else{
+            sectionGroups = self.groups;
+        }
+        
         if (sectionGroups.count > 19 ) {
            // NSLog(@"%lu",(unsigned long)sectionGroups.count);
         }
@@ -626,62 +609,7 @@
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
         }
         
-//        switch (indexPath.section) {
-//            case 0:{
-//                tempGroup = sectionGroups[indexPath.row];
-//                
-//                if (indexPath.item == 1  ) {
-//                    for (int i = 0 ; i < self.groups.count; i++) {
-//                        tempGroup = self.groups[i];
-//                        if ([tempGroup[@"Royal"]integerValue] == 1) {
-//                            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"royal" forIndexPath:indexPath];
-//                            break;
-//                        }
-//                    }
-//                }
-//                else {
-//                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-//                }
-//                break;
-//            }
-//                
-//            case 1:{
-//                
-//                tempGroup = sectionGroups[indexPath.row];
-////                tempGroup = tempArray[indexPath.row];
-//                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-//                
-//                break;
-//            }
-//                
-//            case 2:{
-//                
-//               tempGroup = sectionGroups[indexPath.row];
-////                tempGroup = tempArray[indexPath.row];
-//                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-//                break;
-//            }
-//                
-//            case 3:{
-//                tempGroup = sectionGroups[indexPath.row];
-////                tempGroup = tempArray[indexPath.row];
-//                cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-//                break;
-//            }
-//                
-//            case 4:{
-////                if (indexPath.item + 79 < self.groups.count) {
-//                    tempGroup = sectionGroups[indexPath.row];
-////                    tempGroup = tempArray[indexPath.row];
-//                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-////                }
-//              
-//                break;
-//            }
-//                
-//            default:
-//                break;
-//        }
+
         
 
         if ([tempGroup[@"Royal"]integerValue] == 1) {
@@ -926,14 +854,15 @@
 
         [footer setTransform:CGAffineTransformMakeScale(-1, 1)];
         
-        
+        NSLog(@"%@",self.sectionAds);
       
 
             //NSMutableArray *threeAds = [[NSMutableArray alloc]init];
         
         NSMutableArray *threeAds = [self.sectionAds objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
-       // NSLog(@"%@",self.sectionAds);
-            NSInteger numberOfDeletedAds = 0 ;
+        //NSLog(@"%ld",(long)indexPath.section);
+        NSLog(@"%@",self.sectionAds);
+            //NSInteger numberOfDeletedAds = 0 ;
             for (int i = 0; i < threeAds.count; i++) {
                 NSDictionary *tempAd = threeAds[i];
                 NSInteger picID = [tempAd[@"adsImage"]integerValue];
@@ -943,35 +872,71 @@
                     case 0:{
                        // NSLog(@"%ld",(long)picID);
                         footer.btn1.tag = adID;
+                        [self removeIfDisabled:tempAd imageView:footer.img1 imageHeight:footer.img1Height imgWidth:nil andButtonHeight:footer.img1Height buttonWidth:nil];
+                       // [self removeIfDisabled:tempAd imageView:footer.img1 imageHeight:footer.img1Height andButtonHeight:footer.btn1Height];
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
-                        BOOL remove =  [self removeIfDisabled:tempAd imageView:footer.img1 andButton:footer.btn1];
-                        if (remove == YES) {
-                            numberOfDeletedAds ++ ;
+//                        [self removeIfDisabled:tempAd imageView:footer.img1 andButton:footer.btn1];
+                        if (threeAds.count == 1) {
+                            
+                            footer.btn2Height.constant = 0;
+                            footer.img2Height.constant = 0;
+                            footer.btn2Width.constant = 0;
+                            footer.img2Width.constant = 0;
+                            
+                            footer.btn3Height.constant = 0;
+                            footer.img3Height.constant = 0;
+                            footer.btn3Width.constant =0;
+                            footer.img3Width.constant = 0;
+                            
+//                            [footer.img2 removeFromSuperview];
+//                            [footer.btn2 removeFromSuperview];
+//                            
+//                            [footer.img3 removeFromSuperview];
+//                            [footer.btn3 removeFromSuperview];
                         }
+//                        if (remove == YES) {
+//                            numberOfDeletedAds ++ ;
+//                        }
                         break;
                     }case 1:{
-                       // NSLog(@"%ld",(long)picID);
+
                         footer.btn2.tag = adID;
+                        [self removeIfDisabled:tempAd imageView:footer.img2 imageHeight:footer.img2Height imgWidth:footer.img2Width andButtonHeight:footer.btn2Height buttonWidth:footer.btn2Width];
+                        //[self removeIfDisabled:tempAd imageView:footer.img2 imageHeight:footer.img2Height andButtonHeight:footer.btn2Height];
+                        
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
-                        BOOL remove = [self removeIfDisabled:tempAd imageView:footer.img2 andButton:footer.btn2];
-                        if (remove == YES) {
-                            numberOfDeletedAds ++ ;
+                        //[self removeIfDisabled:tempAd imageView:footer.img2 andButton:footer.btn2];
+//                        if (remove == YES) {
+//                            numberOfDeletedAds ++ ;
+//                        }
+                        
+                        footer.img2Width.constant = (footer.frame.size.width/2) - 5;
+                        footer.btn2Width.constant = (footer.frame.size.width/2) - 5;
+                        if (threeAds.count == 2) {
+                            //footer.btn3Height.constant = 0;
+                            footer.btn3Width.constant = 0 ;
+                            
+                            //footer.img3Height.constant = 0;
+                            footer.img3Width.constant = 0;
+                            
+                            //[footer.img3 removeFromSuperview];
+                            //[footer.btn3 removeFromSuperview];
+                            
+                            
+//                            [footer.img3 removeFromSuperview];
+//                            [footer.btn3 removeFromSuperview];
                         }
                         break;
                     }case 2:{
                         
                        // NSLog(@"%ld",(long)picID);
                         footer.btn3.tag = adID;
+                        footer.img3Width.constant = (footer.frame.size.width/2) - 5;
+                        footer.btn3Width.constant = (footer.frame.size.width/2) - 5;
                         //[self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
-                        BOOL remove = [self removeIfDisabled:tempAd imageView:footer.img3 andButton:footer.btn3];
-                        if (remove == YES) {
-                            numberOfDeletedAds ++ ;
-                            if (numberOfDeletedAds == 3) {
-                                [self.sectionsToHide addObject:[NSNumber numberWithInteger:indexPath.section]];
-                                
-                                
-                            }
-                        }
+                        //[self removeIfDisabled:tempAd imageView:footer.img3 imageHeight:footer.img3Height andButton:footer.btn3Height];
+                        [self removeIfDisabled:tempAd imageView:footer.img3 imageHeight:footer.img3Height imgWidth:footer.img3Width andButtonHeight:footer.btn3Height buttonWidth:footer.btn3Width];
+                        //[self removeIfDisabled:tempAd imageView:footer.img3 imageHeight:footer.img3Height andButtonHeight:footer.btn3Height];
                         break;
                     }
                     default:
@@ -992,18 +957,27 @@
 }
 
 
--(BOOL)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV andButton:(UIButton *)btn {
+-(void)removeIfDisabled:(NSDictionary *)ad imageView:(UIImageView *)imageV imageHeight:(NSLayoutConstraint* )imgHeight imgWidth:(NSLayoutConstraint *)imgWidth andButtonHeight:(NSLayoutConstraint *)btnHeight buttonWidth:(NSLayoutConstraint *)btnWidth {
     NSInteger picNumber = [ad[@"adsImage"]integerValue];
     NSInteger status = [ad[@"Enable"]integerValue];
     if (status == 0) {
-        [imageV removeFromSuperview];
-        [btn removeFromSuperview];
-        return  YES;
+        //[imageV removeFromSuperview];
+        //[btn removeFromSuperview];
+        imgHeight.constant = 0;
+        btnHeight.constant = 0;
+        
+
     }else if (status == 1){
+        imgHeight.constant = 68;
+        btnHeight.constant = 68;
+        if (imgWidth != nil && btnWidth != nil) {
+           //imgWidth.constant = 30;
+            //btnWidth.constant = 142;
+        }
         [self.footerImgConnection downloadImageWithID:picNumber andImageView:imageV];
-        return NO;
+
     }
-    return NO;
+
 }
 
 
@@ -1471,12 +1445,24 @@
  */
 
 -(void)populateFirstSection {
-    NSMutableArray *tempGroups = [[NSMutableArray alloc]init];
-    for (int j = 0; j < 19; j++) {
-        [tempGroups addObject:self.groups[j]];
+    if (self.sectionAds.count > 1) {
+        NSMutableArray *tempGroups = [[NSMutableArray alloc]init];
+        for (int j = 0; j < 19; j++) {
+            [tempGroups addObject:self.groups[j]];
+        }
+        [self.sectionGroups setValue:[tempGroups copy] forKey:[NSString stringWithFormat:@"%d",0]];
+        [tempGroups removeAllObjects];
+    }else {
+     
+            NSMutableArray *tempGroups = [[NSMutableArray alloc]init];
+            for (int j = 0; j < self.groups.count; j++) {
+                [tempGroups addObject:self.groups[j]];
+            }
+            [self.sectionGroups setValue:[tempGroups copy] forKey:[NSString stringWithFormat:@"%d",0]];
+            [tempGroups removeAllObjects];
+    
     }
-    [self.sectionGroups setValue:[tempGroups copy] forKey:[NSString stringWithFormat:@"%d",0]];
-    [tempGroups removeAllObjects];
+
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
