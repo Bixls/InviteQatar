@@ -16,6 +16,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "EventsDataSource.h"
 #import "FullImageViewController.h"
+#import "WelcomePageViewController.h"
+#import "HomePageViewController.h"
 
 static void *invitationsNumberContext = &invitationsNumberContext;
 static void *eventsContext = &eventsContext;
@@ -29,6 +31,8 @@ static void *userContext = &userContext;
 @property (weak, nonatomic) IBOutlet UICollectionView *eventsCollectionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventsCollectionViewHeight;
 @property (weak, nonatomic) IBOutlet UIImageView *userType;
+@property (weak, nonatomic) IBOutlet UIView *userPoints;
+@property (weak, nonatomic) IBOutlet UILabel *vipLabel;
 
 @property (nonatomic) NSInteger userID;
 @property (nonatomic) NSInteger groupID;
@@ -92,13 +96,20 @@ static void *userContext = &userContext;
 //    [self.innerView addSubview:self.tableViewSpinner];
 //    
 //    [self.tableViewSpinner startAnimating];
+    
+    [self hideUserPoints];
     [self addOrRemoveFooter];
+    [self.eventsCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
 }
 
 -(void)addOrRemoveFooter {
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -119,6 +130,16 @@ static void *userContext = &userContext;
     self.downloadProfilePicConnection = [[NetworkConnection alloc]init];
     self.downloadProfilePicConnection.delegate = self;
 }
+
+-(void)hideUserPoints{
+    [self.userPoints setHidden:YES];
+    [self.vipLabel setHidden:YES];
+}
+-(void)showUserPoints{
+    [self.userPoints setHidden:NO];
+    [self.vipLabel setHidden:NO];
+}
+
 
 -(void)viewDidAppear:(BOOL)animated{
     
@@ -146,8 +167,8 @@ static void *userContext = &userContext;
     }
     
     if (self.userMobile && self.userPassword) {
-        [self.getInvitationsNumConnection getInvitationsNumberWithMobile:self.userMobile password:self.userPassword];
-        
+       
+        [self.getInvitationsNumConnection getUserPoints:self.userID];
     }
     
     [self.getUserEventsConnection getUserEventsWithUserID:self.userID startValue:0 limitValue:4];
@@ -171,6 +192,10 @@ static void *userContext = &userContext;
         }
     }
 }
+
+#pragma mark - Methods
+
+
 
 #pragma mark - KVO Method
 
@@ -196,8 +221,13 @@ static void *userContext = &userContext;
         //[self.tableViewSpinner stopAnimating];
         //[self.tableView reloadData];
     }else if (context == invitationsNumberContext && [keyPath isEqualToString:@"response"]){
-        NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
+        NSInteger VIP  = [responseDictionary[@"VIP"]integerValue];
         //[self.btnInvitationNum setTitle:normal forState:UIControlStateNormal];
+        if (VIP > 0 ) {
+            [self showUserPoints];
+        }else{
+            [self hideUserPoints];
+        }
         [self.btnVIPNum setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];
         [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
         [self.userDefaults synchronize];
@@ -251,6 +281,9 @@ static void *userContext = &userContext;
     }else if ([segue.identifier isEqualToString:@"fullImage"]){
         FullImageViewController *controller = segue.destinationViewController;
         controller.image = self.myProfilePicture.image;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
@@ -363,8 +396,11 @@ static void *userContext = &userContext;
     [imageCache removeImageForKey:@"profilePic" fromDisk:YES];
     
     
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    //[self.navigationController popToRootViewControllerAnimated:NO];
 
+    WelcomePageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"welcome"];
+    [self.navigationController pushViewController:vc animated:NO];
+    
     
     //[self performSegueWithIdentifier:@"welcome" sender:self];
 }
@@ -372,7 +408,8 @@ static void *userContext = &userContext;
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];

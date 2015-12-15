@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
 #import "customAlertView.h"
+#import "FooterContainerViewController.h"
 
-@interface ServiceViewController : UIViewController <headerContainerDelegate,customAlertViewDelegate>
+@interface ServiceViewController : UIViewController <headerContainerDelegate,customAlertViewDelegate,FooterContainerDelegate>
 
 @property (nonatomic,strong) NSDictionary *service;
 @property (nonatomic,strong) UIImage *serviceImage;

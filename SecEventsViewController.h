@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface SecEventsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate>
+
+@interface SecEventsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate,FooterContainerDelegate>
 
 @property (nonatomic) NSInteger groupID;
 @property (nonatomic) NSInteger selectedSection;

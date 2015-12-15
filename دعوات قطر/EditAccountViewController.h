@@ -11,8 +11,9 @@
 #import "chooseGroupViewController.h"
 #import "customAlertView.h"
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate,chooseGroupViewControllerDelegate,customAlertViewDelegate,headerContainerDelegate>
+@interface EditAccountViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,offlinePicturesViewControllerDelegate,UIActionSheetDelegate,chooseGroupViewControllerDelegate,customAlertViewDelegate,headerContainerDelegate,FooterContainerDelegate>
 
 @property (nonatomic,strong)NSString *userName;
 @property (nonatomic,strong)NSString *groupName;

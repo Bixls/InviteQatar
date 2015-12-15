@@ -32,7 +32,7 @@
 #pragma mark - Images
 -(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key withWidth:(NSInteger)width andHeight:(NSInteger)height{
     
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld&t=%ldx%ld",(long)imageID,(long)width,(long)height];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld&t=%ldx%ld",(long)imageID,(long)width,(long)height];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     
     [[SDWebImageDownloader sharedDownloader]downloadImageWithURL:imgURL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -50,7 +50,7 @@
 }
 -(void)downloadImageWithID:(NSInteger)imageID withCacheNameSpace:(NSString *)nameSpace withKey:(NSString *)key{
     
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)imageID];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld",(long)imageID];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     
     [[SDWebImageDownloader sharedDownloader]downloadImageWithURL:imgURL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -70,7 +70,7 @@
 
 -(void)downloadImageWithID:(NSInteger)imageID{
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)imageID];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld",(long)imageID];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
@@ -84,7 +84,7 @@
 
 
 -(void)downloadImageWithID:(NSInteger)imageID andImageView:(UIImageView *)imageView{
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)imageID];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld",(long)imageID];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     [imageView sd_setImageWithURL:imgURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -100,7 +100,7 @@
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     
-    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://da3wat-qatar.com/api/upload.php"]];
+    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://Bixls.com/api/upload.php"]];
     [self.imageRequest setUseKeychainPersistence:YES];
     self.imageRequest.delegate = self;
     self.imageRequest.username = @"admin";
@@ -124,7 +124,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -294,5 +294,24 @@
     
     [self postRequest:getAds  withTag:getAdsTag];
 }
+
+-(void)getUserPoints:(NSInteger)userID {
+    NSDictionary *getUserPoints = @{
+                                    @"FunctionName":@"getUserPoints" ,
+                                    @"inputs":@[@{@"id":[NSString stringWithFormat:@"%ld",(long)userID]}]};
+    
+    NSMutableDictionary *getUserPointsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getUserPoints",@"key", nil];
+    [self postRequest:getUserPoints withTag:getUserPointsTag];
+}
+
+-(void)forgetMyPassword:(NSString *)mobile{
+    NSDictionary *forgetPassword = @{
+                                    @"FunctionName":@"ForgetPassword" ,
+                                    @"inputs":@[@{@"Mobile":mobile}]};
+    
+    NSMutableDictionary *forgetPasswordTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"forgetPassword",@"key", nil];
+    [self postRequest:forgetPassword withTag:forgetPasswordTag];
+}
+
 
 @end

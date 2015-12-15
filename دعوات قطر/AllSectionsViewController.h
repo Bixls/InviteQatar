@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface AllSectionsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,headerContainerDelegate>
+@interface AllSectionsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,headerContainerDelegate,FooterContainerDelegate>
 
 @property (nonatomic) NSInteger groupID;
 

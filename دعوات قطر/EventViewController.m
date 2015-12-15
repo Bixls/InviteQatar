@@ -21,7 +21,7 @@
 #import "CommentsSecondTableViewCell.h"
 #import "NetworkConnection.h"
 #import "FullImageViewController.h"
-
+#import "HomePageViewController.h"
 
 
 static void *likeContext = &likeContext;
@@ -49,6 +49,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (nonatomic)NSInteger approved;
 @property (nonatomic)NSInteger approvedFlag;
 @property (nonatomic) NSInteger userTypeFlag;
+@property (nonatomic) BOOL isNotification;
 @property (nonatomic) BOOL isLike;
 @property (nonatomic) BOOL visitor;
 @property (nonatomic,strong)NSString *eventDescription;
@@ -113,15 +114,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self.sendComments setHidden:YES];
     [self.imgSendComments setHidden:YES];
     
-
-    
-//    [self.imgUserProfile setHidden:YES];
-//    [self.imgPicFrame setHidden:YES];
-//    [self.lblUsername setEnabled:NO];
     [self.btnUser setEnabled:NO];
-
-//    [self.btnUser setHidden:YES];
-//    [self.creatorPicture setHidden:YES];
     
     [self.userType setHidden:YES];
     self.userTypeFlag = -1;
@@ -136,11 +129,42 @@ static void *getAllLikesContext = &getAllLikesContext;
     self.eventImageID = [self.event[@"EventPic"]integerValue]
     ;
     
+    //Check notification type
+    if ([self.userDefaults integerForKey:@"notification"] == 0) {
+        //do nothing
+
+    }else if([self.userDefaults integerForKey:@"notification"] == 1 && [self.userDefaults boolForKey:@"showNotification"]== YES) {
+        //Event
+        [self.userDefaults setBool:NO forKey:@"showNotification"];
+        self.isNotification = true;
+        [self.userDefaults setInteger:0 forKey:@"notification"];
+        self.eventID = [self.userDefaults integerForKey:@"notificationID"];
+        [self.userDefaults synchronize];
+    }else if ([self.userDefaults integerForKey:@"notification"] == 2 && [self.userDefaults boolForKey:@"showNotification"] == YES) {
+        // Message
+        [self.userDefaults setBool:NO forKey:@"showNotification"];
+        self.isNotification = true;
+        [self.userDefaults setInteger:0 forKey:@"notification"];
+        self.eventID = [self.userDefaults integerForKey:@"notificationID"];
+        self.selectedType = 3 ;
+        self.selectedMessageID = [self.userDefaults integerForKey:@"selectedMessageID"];
+        self.eventID = [self.userDefaults integerForKey:@"notificationID"];
+        self.isVIP = [self.userDefaults integerForKey:@"isVIP"];
+        
+        // empty notification flag
+        [self.userDefaults setInteger:0 forKey:@"notification"];
+        [self.userDefaults synchronize];
+    }
+    
     if ((self.selectedType==2 || self.selectedType == 3)) {
         //donothing
     }else{
-        self.isVIP = [self.event[@"VIP"]integerValue];
-        self.eventID = [self.event[@"Eventid"]integerValue];
+        if (self.event != nil) {
+            self.isVIP = [self.event[@"VIP"]integerValue];
+            self.eventID = [self.event[@"Eventid"]integerValue];
+        }else{
+            self.event = [self.userDefaults objectForKey:@"event"];
+        }
     }
     
     self.eventType = 0;
@@ -168,27 +192,12 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self.customAlertView setHidden:YES];
     //Disable or enable interaction
     [self checkIfVisitor];
-    
     [self addOrRemoveFooter];
-}
-
--(void)addOrRemoveFooter {
-    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
-    [self removeFooter:remove];
+    if (self.visitor == 1) {
+        [self removeAbilityToComment];
+    }
     
 }
-
--(void)removeFooter:(BOOL)remove{
-    self.footerContainer.clipsToBounds = YES;
-    if (remove == YES) {
-        self.footerHeight.constant = 0;
-    }else if (remove == NO){
-        self.footerHeight.constant = 492;
-    }
-    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
-    [self.userDefaults synchronize];
-}
-
 
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -215,15 +224,13 @@ static void *getAllLikesContext = &getAllLikesContext;
     
     //--//
     
-    
-    
     [self.userDefaults removeObjectForKey:@"invitees"];
     [self.userDefaults synchronize];
 
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
-        [self getInvited];
+        //[self getInvited];
        
         if (self.selectedType == 2 || self.selectedType == 3) {
             [self readMessage];
@@ -265,6 +272,53 @@ static void *getAllLikesContext = &getAllLikesContext;
     }
 }
 
+#pragma mark - Methods
+
+-(void)removeAbilityToComment{
+    [self.imgSendComments removeFromSuperview];
+    [self.sendComments removeFromSuperview];
+    [self.CommentsTextField removeFromSuperview];
+}
+
+
+-(void)addOrRemoveFooter {
+    BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
+    [self removeFooter:remove];
+    
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
+}
+
+-(void)removeFooter:(BOOL)remove{
+    self.footerContainer.clipsToBounds = YES;
+    if (remove == YES) {
+        self.footerHeight.constant = 0;
+    }else if (remove == NO){
+        self.footerHeight.constant = 492;
+    }
+    [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
+    [self.userDefaults synchronize];
+}
+
+-(void)storeEventID:(NSInteger)eventID {
+    
+    if (self.selectedType == 2 || self.selectedType == 3) {
+        [self.userDefaults setInteger:2 forKey:@"notification"];
+    }else{
+        [self.userDefaults setInteger:1 forKey:@"notification"];
+    }
+    
+    [self.userDefaults setInteger:eventID forKey:@"notificationID"];
+    [self.userDefaults setObject:self.event forKey:@"event"];
+    
+    [self.userDefaults synchronize];
+    
+    
+}
+
+
 #pragma mark - Alert View Methods
 
 -(void)showAlertWithMsg:(NSString *)msg alertTag:(NSInteger )tag {
@@ -280,7 +334,6 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)checkIfVisitor{
     if ([self.userDefaults integerForKey:@"Visitor"] == 1){
-        
         self.visitor = 1;
     }else{
         self.visitor = 0;
@@ -326,7 +379,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)downloadEventPicture {
     self.eventPicSPinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)self.eventImageID];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld",(long)self.eventImageID];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -354,7 +407,9 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)downloadUserPicture {
     UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",self.event[@"CreatorPic"]];
+    
+
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",self.event[@"CreatorPic"]];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -578,16 +633,19 @@ static void *getAllLikesContext = &getAllLikesContext;
         createEventController.event  = self.fullEvent;
         
     }else if ([segue.identifier isEqualToString:@"showUser"]){
-        if (self.selectedType == 2 || self.selectedType == 3) {
-            UserViewController *userController = segue.destinationViewController;
-            userController.otherUserID = self.selectedUserID;
-            userController.eventOrMsg = 1;
-        }else{
-            UserViewController *userController = segue.destinationViewController;
-            userController.user = self.user;
-            userController.eventOrMsg = 0;
-
-        }
+        UserViewController *userController = segue.destinationViewController;
+        userController.otherUserID = self.selectedUserID;
+        userController.eventOrMsg = 1;
+//        if (self.selectedType == 2 || self.selectedType == 3) {
+//            UserViewController *userController = segue.destinationViewController;
+//            userController.otherUserID = self.selectedUserID;
+//            userController.eventOrMsg = 1;
+//        }else{
+//            UserViewController *userController = segue.destinationViewController;
+//            userController.user = self.user;
+//            userController.eventOrMsg = 0;
+//
+//        }
         
     }else if ([segue.identifier isEqualToString:@"invite"]){
         InviteViewController *inviteController = segue.destinationViewController;
@@ -610,6 +668,9 @@ static void *getAllLikesContext = &getAllLikesContext;
     }else if ([segue.identifier isEqualToString:@"fullImage"]){
         FullImageViewController *controller = segue.destinationViewController;
         controller.image = self.eventPicture.image;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
@@ -617,11 +678,9 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)selectedDate:(NSString *)date {
     self.selectedDate = date;
-//    NSLog(@"%@",self.selectedDate);
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *dateFromString = [formatter dateFromString:self.selectedDate];
-//    NSLog(@"%@",dateFromString);
    
     UIApplication *app = [UIApplication sharedApplication];
     UILocalNotification *notifyAlarm = [[UILocalNotification alloc]init];
@@ -631,9 +690,9 @@ static void *getAllLikesContext = &getAllLikesContext;
         notifyAlarm.repeatInterval = 0;
         notifyAlarm.soundName = UILocalNotificationDefaultSoundName;
 
-        NSLog(@"%@",self.event);
-        notifyAlarm.alertBody = [NSString stringWithFormat:@"لا تنسي %@ بتاريخ %@ الساعة %@",self.event[@"subject"],self.eventDate.text,self.eventTime.text ];
-//        NSLog(@"%@",notifyAlarm.alertBody);
+
+        notifyAlarm.alertBody = [NSString stringWithFormat:@"لا تنسي %@ بتاريخ %@ الساعة %@",self.eventSubject.text,self.eventDate.text,self.eventTime.text ];
+        [self storeEventID:self.eventID];
         [app scheduleLocalNotification:notifyAlarm];
     }
 
@@ -657,9 +716,21 @@ static void *getAllLikesContext = &getAllLikesContext;
 
 -(void)getEvent {
     
-    NSDictionary *getEvent = @{@"FunctionName":@"getEventbyID" , @"inputs":@[@{
-                                                                                 @"Eventid":[NSString stringWithFormat:@"%@",self.event[@"Eventid"]]
-                                                                                 }]};
+    NSDictionary *getEvent = [[NSDictionary alloc]init];
+    if (self.event == nil) {
+        self.eventID = [self.userDefaults integerForKey:@"notificationID"];
+        
+        getEvent = @{@"FunctionName":@"getEventbyID" , @"inputs":@[@{
+                                                                                     @"Eventid":[NSString stringWithFormat:@"%ld",(long)self.eventID]
+                                                                                     }]};
+        
+    }else {
+        getEvent = @{@"FunctionName":@"getEventbyID" , @"inputs":@[@{
+                                                                                     @"Eventid":[NSString stringWithFormat:@"%@",self.event[@"Eventid"]]
+                                                                                     }]};
+    }
+    
+   
     
 //    NSLog(@"%@",getEvent);
     NSMutableDictionary *getEventTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvent",@"key", nil];
@@ -780,7 +851,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -908,7 +979,8 @@ static void *getAllLikesContext = &getAllLikesContext;
         //        [self.btnUser setHidden:NO];
         [self.btnUser setEnabled:YES];
         [self.creatorPicture setHidden:NO];
-        self.creatorName.text = self.event[@"CreatorName"];
+        self.creatorName.text = self.user[@"name"];
+        //self.creatorName.text = self.event[@"CreatorName"];
         self.userTypeFlag = 1;
         [self showOrHideUserType:[self.user[@"Type"]integerValue]];
         
@@ -941,7 +1013,8 @@ static void *getAllLikesContext = &getAllLikesContext;
         [self.userType setHidden:NO];
         self.userType.image = [UIImage imageNamed:@"vipUser.png"];
     }else if (userType == 0 && self.userTypeFlag == 1){
-        [self.userType removeFromSuperview];
+       // [self.userType removeFromSuperview];
+        [self.userType setHidden:YES];
     }else{
         [self.userType setHidden:YES];
     }
@@ -973,7 +1046,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     NSInteger eventPic = [msg[@"picture"]integerValue];
     
     UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)eventPic];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld",(long)eventPic];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -996,7 +1069,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     
     NSInteger creatorPic = [msg[@"ProfilePic"]integerValue];
     UIActivityIndicatorView *userPicSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld",(long)creatorPic];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld",(long)creatorPic];
     SDWebImageManager *eventProfileManager = [SDWebImageManager sharedManager];
     [eventProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -1061,7 +1134,7 @@ static void *getAllLikesContext = &getAllLikesContext;
             NSInteger userType = [comment[@"Type"]integerValue];
             [self showOrHideUserType:userType andCell:cell2];
             
-            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 if (error) {
                     NSLog(@"Error downloading images");
                 }else{
@@ -1083,9 +1156,9 @@ static void *getAllLikesContext = &getAllLikesContext;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *comment =self.comments[indexPath.row];
     self.selectedUserID = [comment[@"id"]integerValue];
-    self.selectedType = 2;
+    //self.selectedType = 2;
     [self performSegueWithIdentifier:@"showUser" sender:self];
-        //[self getUSerWithID:self.selectedUserID];
+    
     
     
 }
@@ -1139,10 +1212,20 @@ static void *getAllLikesContext = &getAllLikesContext;
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
 -(void)backBtnPressed{
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.isNotification == YES) {
+//        HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+//        [self.navigationController pushViewController:homeVC animated:NO];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 #pragma mark - Buttons
@@ -1169,9 +1252,11 @@ static void *getAllLikesContext = &getAllLikesContext;
     if (self.visitor) {
         [self showAlertWithMsg:@"عفواً لا يمكنك إضافة تعليقات إلا بعد تفعيل الحساب" alertTag:0];
     }else{
-        self.userInput = self.CommentsTextField.text;
-        self.CommentsTextField.text = nil;
-        [self addComment];
+        if (self.CommentsTextField.text.length > 0) {
+            self.userInput = self.CommentsTextField.text;
+            self.CommentsTextField.text = nil;
+            [self addComment];
+        }
     }
 
     
@@ -1196,7 +1281,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 }
 
 - (IBAction)btnShowUserPressed:(id)sender {
-    self.selectedType = 2;
+    //self.selectedType = 2;
     self.selectedUserID = self.creatorID;
     [self performSegueWithIdentifier:@"showUser" sender:self];
 }

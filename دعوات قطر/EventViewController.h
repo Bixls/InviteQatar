@@ -11,8 +11,9 @@
 #import "NetworkConnection.h"
 #import "HeaderContainerViewController.h"
 #import "customAlertView.h"
+#import "FooterContainerViewController.h"
 
-@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate , UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITextFieldDelegate,headerContainerDelegate,customAlertViewDelegate>
+@interface EventViewController : UIViewController <chooseDateViewControllerDelegate , NetworkConnectionDelegate , UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITextFieldDelegate,headerContainerDelegate,customAlertViewDelegate,FooterContainerDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentsHeightLayoutConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *commentsTableView;
@@ -22,8 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgSendComments;
 @property (weak, nonatomic) IBOutlet UILabel *eventLikes;
 @property (weak, nonatomic) IBOutlet UILabel *eventViews;
-
-
 
 @property (nonatomic)NSInteger isVIP;
 @property (nonatomic)NSInteger eventID;

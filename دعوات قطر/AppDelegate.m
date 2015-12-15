@@ -8,10 +8,12 @@
 
 #import "AppDelegate.h"
 #import <URBNAlert/URBNAlert.h>
-
+#import "EventViewController.h"
+#import "HomePageViewController.h"
 @interface AppDelegate ()
 
 @property (nonatomic,strong)NetworkConnection *inAppPurchase;
+@property (nonatomic,strong) NetworkConnection *adsConnection;
 @property (nonatomic,strong)NSUserDefaults *userDefaults;
 @property (nonatomic)NSInteger memberID;
 @property (nonatomic)NSInteger invitationID;
@@ -32,6 +34,11 @@
     }
     
     [[SKPaymentQueue defaultQueue]addTransactionObserver:self];
+    self.userDefaults  = [NSUserDefaults standardUserDefaults];
+    [self.userDefaults setBool:YES forKey:@"refreshFooter"];
+    [self.userDefaults synchronize];
+   // [self initAds];
+   // [self.userDefaults setBool:false forKey:@"removeFrames"];
     
     return YES;
 }
@@ -56,6 +63,36 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    [self.userDefaults setBool:YES forKey:@"showNotification"];
+    UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+    
+    //self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"home"]];
+    
+    
+    EventViewController *eventVC = [storyboard instantiateViewControllerWithIdentifier:@"event"];
+    UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:eventVC];
+    [navCtrl setNavigationBarHidden:YES];
+    [self.window.rootViewController presentViewController:navCtrl animated:NO completion:nil];
+//    [self.window.rootViewController.navigationController pushViewController:eventVC animated:NO];
+    
+  
+    
+    
+    
+    //[self.window setRootViewController:eventVC];
+    
+//    UIStoryboard *mainstoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    HomePageViewController *homeVC = [mainstoryboard instantiateViewControllerWithIdentifier:@"home"];
+//    UINavigationController *homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
+//    
+//    
+//    [homeNav pushViewController:eventVC animated:NO];
+    
+    
 }
 
 #pragma mark - StoreKit Methods

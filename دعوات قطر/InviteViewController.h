@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface InviteViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate>
+@interface InviteViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate,FooterContainerDelegate>
 
 
 @property(nonatomic)NSInteger createMsgFlag;

@@ -17,9 +17,7 @@
 
 
 @property (weak, nonatomic) IBOutlet UITextField *mobileField;
-
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
-
 - (IBAction)btnSignInPressed:(id)sender;
 
 

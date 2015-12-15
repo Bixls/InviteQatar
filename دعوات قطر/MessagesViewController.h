@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ChooseDateViewController.h"
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface MessagesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate ,chooseDateViewControllerDelegate ,headerContainerDelegate>
+@interface MessagesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate ,chooseDateViewControllerDelegate ,headerContainerDelegate,FooterContainerDelegate>
  
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

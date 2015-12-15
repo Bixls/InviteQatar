@@ -13,6 +13,7 @@
 #import "EventViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "EventsDataSource.h"
+#import "HomePageViewController.h"
 
 @interface MyEventsViewController ()
 
@@ -52,12 +53,17 @@
     [self.navigationItem setHidesBackButton:YES];
     
     [self addOrRemoveFooter];
+    [self.eventsCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
 }
 
 -(void)addOrRemoveFooter {
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -125,7 +131,7 @@
 
 //    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
 //        //Background Thread
-//        NSString *imageURL = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]] ;
+//        NSString *imageURL = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]] ;
 //        //[NSString stringWithFormat:@"http://www.bixls.com/Qatar/%@",user[@"ProfilePic"]]
 //        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
 //        UIImage *img = [[UIImage alloc]initWithData:data];
@@ -134,7 +140,7 @@
 //            cell.eventPicture.image = img;
 //        });
 //    });
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -167,6 +173,9 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
@@ -186,7 +195,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -246,8 +255,10 @@
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }

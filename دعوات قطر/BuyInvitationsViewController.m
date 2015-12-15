@@ -61,6 +61,10 @@
     
 }
 
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
+}
+
 -(void)removeFooter:(BOOL)remove{
     self.footerContainer.clipsToBounds = YES;
     if (remove == YES) {
@@ -266,7 +270,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -333,6 +337,9 @@
     if ([segue.identifier isEqualToString:@"header"]) {
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 

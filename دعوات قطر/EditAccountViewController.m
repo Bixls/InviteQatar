@@ -11,6 +11,7 @@
 #import "ASIFormDataRequest.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "EditAccountTableViewCell.h"
+#import "HomePageViewController.h"
 
 @interface EditAccountViewController ()
 
@@ -79,6 +80,10 @@
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -323,7 +328,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -350,7 +355,7 @@
     
     
     
-    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://da3wat-qatar.com/api/upload.php"]];
+    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://Bixls.com/api/upload.php"]];
     [self.imageRequest setUseKeychainPersistence:YES];
     self.imageRequest.delegate = self;
     self.imageRequest.username = @"admin";
@@ -419,7 +424,7 @@
         NSDictionary *responseDict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
         self.user = responseDict;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",self.user[@"ProfilePic"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",self.user[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
@@ -549,6 +554,9 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
     
 }
@@ -638,7 +646,8 @@
 
 #pragma mark - Header Delegate
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];

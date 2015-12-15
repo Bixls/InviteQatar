@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface SpecialEventsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,headerContainerDelegate>
+@interface SpecialEventsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,headerContainerDelegate,FooterContainerDelegate>
 
 @property (nonatomic) NSInteger eventType;
 

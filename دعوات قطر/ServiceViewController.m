@@ -9,6 +9,8 @@
 #import "ServiceViewController.h"
 #import "NetworkConnection.h"
 #import "FullImageViewController.h"
+#import "HomePageViewController.h"
+
 static void *fullServiceContext = &fullServiceContext;
 static void *likeContext = &likeContext;
 static void *getAllLikesContext = &getAllLikesContext;
@@ -60,6 +62,10 @@ static void *getAllLikesContext = &getAllLikesContext;
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -157,14 +163,19 @@ static void *getAllLikesContext = &getAllLikesContext;
     }else if ([segue.identifier isEqualToString:@"fullImage"]){
         FullImageViewController *controller = segue.destinationViewController;
         controller.image = self.serviceImageView.image;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
 #pragma mark - Header Delegate 
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }

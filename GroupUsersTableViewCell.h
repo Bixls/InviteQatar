@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *userPic;
 @property (weak, nonatomic) IBOutlet UILabel *userName;
 @property (weak, nonatomic) IBOutlet UIImageView *userType;
+@property (weak, nonatomic) IBOutlet UIImageView *specialUser;
 
 
 

@@ -295,7 +295,7 @@ static void *uploadImageContext = &uploadImageContext;
     
     NSString *groupID = (NSString *)self.selectedGroup[@"id"];
     
-    if ((self.nameField.text.length != 0) && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length != 0) && (groupID.length > 0)) {
+    if ((self.nameField.text.length != 0) && (self.mobileField.text.length != 0 )&& (self.passwordField.text.length >= 5) && (groupID.length > 0)) {
         if (self.flag == 1 && self.uploaded == 1 ) {
             
             [self.signUpConn signUpWithName:self.nameField.text mobile:self.mobileField.text password:self.passwordField.text groupID:(NSString *)self.selectedGroup[@"id"] imageURL:self.imageURL];
@@ -309,7 +309,9 @@ static void *uploadImageContext = &uploadImageContext;
             [self showAlertWithMsg:@"من فضلك تأكد من اختيار صورة شخصيه او رمزيه" alertTag:0];
         }
         
-    } else{
+    }else if (self.passwordField.text.length < 5 ){
+          [self showAlertWithMsg:@"الرقم السري خمسة أرقام علي الأقل" alertTag:0];
+    }else{
 
         [self showAlertWithMsg:@"من فضلك تأكد من تكمله جميع البيانات" alertTag:0];
     }

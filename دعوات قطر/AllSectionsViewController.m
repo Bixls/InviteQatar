@@ -15,6 +15,7 @@
 #import "EventViewController.h"
 #import <SVPullToRefresh/SVPullToRefresh.h>
 #import "customEventCollectionViewCell.h"
+#import "HomePageViewController.h"
 
 @interface AllSectionsViewController ()
 
@@ -65,12 +66,17 @@
     [self.view addSubview:self.userPicSpinner];
     [self.userPicSpinner startAnimating];
     [self addOrRemoveFooter];
+    [self.collectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
 }
 
 -(void)addOrRemoveFooter {
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -149,7 +155,7 @@
 //                cell.eventName.text = event[@"subject"];
 //                cell.eventCreator.text = event[@"CreatorName"];
 //                cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]];
-//                NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]];
+//                NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]];
 //                NSURL *imgURL = [NSURL URLWithString:imgURLString];
 //                UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 //                [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -197,7 +203,7 @@
             cell.eventPic.layer.masksToBounds = YES;
             cell.eventPic.layer.cornerRadius = cell.eventPic.bounds.size.width/2;
             
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -214,6 +220,7 @@
                 
             }];
             
+            [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
             self.collectionViewHeight.constant = collectionView.contentSize.height;
             UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
             [aFlowLayout setSectionInset:UIEdgeInsetsMake(5, 0, 5, 0)];
@@ -240,12 +247,14 @@
                 }
             }
         }
+        [header setTransform:CGAffineTransformMakeScale(-1, 1)];
         reusableview = header;
     }
     
     if (kind== UICollectionElementKindSectionFooter) {
         AllSectionFooterCollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer" forIndexPath:indexPath];
         footer.btnSeeMore.tag = indexPath.section;
+        [footer setTransform:CGAffineTransformMakeScale(-1, 1)];
         reusableview = footer;
     }
     return reusableview;
@@ -280,6 +289,9 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
@@ -308,7 +320,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -340,7 +352,6 @@
     
     if ([key isEqualToString:@"getSections"]) {
         self.allSections = array ;
-//        NSLog(@"%@",array);
         [self getEvents];
         
     }
@@ -350,7 +361,7 @@
         if ([key isEqualToString:section[@"catID"]]) {
             if (array.count>0) {
                 self.skeletonSections = 1;
-//                NSLog(@"arraay %@",array);
+
                 [self.sectionContent setObject:array forKey:[NSString stringWithFormat:@"%ld",(long)self.secCount]];
                 self.secCount++;
                 [self.collectionView reloadData];
@@ -376,7 +387,8 @@
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];

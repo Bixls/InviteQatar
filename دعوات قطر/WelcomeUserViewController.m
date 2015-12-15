@@ -7,6 +7,7 @@
 //
 
 #import "WelcomeUserViewController.h"
+#import "HomePageViewController.h"
 
 @interface WelcomeUserViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
@@ -15,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *groupNameLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageActivityIndicator;
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 
 @property (strong,nonatomic) NetworkConnection *downloadImageConnection;
 
@@ -34,7 +36,8 @@
     self.downloadImageConnection = [[NetworkConnection alloc]init];
     self.downloadImageConnection.delegate = self;
 
-
+    self.viewHeight.constant = self.view.bounds.size.height - 10;
+    self.welcomeLabel.text = @"مرحبا بك" ;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -56,7 +59,13 @@
 }
 
 - (IBAction)closeBtnPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+   // [self dismissViewControllerAnimated:YES completion:nil];
+    
+
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; // 
+    [self.navigationController pushViewController:homeVC animated:NO];
+ 
+    
 }
 
 

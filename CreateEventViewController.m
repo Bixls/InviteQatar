@@ -12,6 +12,7 @@
 #import "ASIFormDataRequest.h"
 #import "EventViewController.h"
 #import "chooseGroupViewController.h"
+#import "HomePageViewController.h"
 
 static void *adminMsgContext = &adminMsgContext;
 
@@ -132,6 +133,10 @@ static void *adminMsgContext = &adminMsgContext;
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -262,6 +267,9 @@ static void *adminMsgContext = &adminMsgContext;
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
@@ -383,7 +391,7 @@ static void *adminMsgContext = &adminMsgContext;
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -413,7 +421,7 @@ static void *adminMsgContext = &adminMsgContext;
     
     
     
-    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://da3wat-qatar.com/api/upload.php"]];
+    self.imageRequest = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@"http://Bixls.com/api/upload.php"]];
     [self.imageRequest setUseKeychainPersistence:YES];
     self.imageRequest.delegate = self;
     self.imageRequest.username = @"admin";
@@ -651,7 +659,8 @@ static void *adminMsgContext = &adminMsgContext;
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
 -(void)backBtnPressed{
     [self.userDefaults setObject:nil forKey:@"invitees"];

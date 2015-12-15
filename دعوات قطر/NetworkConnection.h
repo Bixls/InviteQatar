@@ -37,6 +37,7 @@
 
 -(void)getUserWithID:(NSInteger)userID;
 -(void)getInvitationsNumberWithMobile:(NSString *)userMobile password:(NSString *)userPassword;
+-(void)getUserPoints:(NSInteger)userID;
 -(void)getUserEventsWithUserID:(NSInteger)userID startValue:(NSInteger)start limitValue:(NSInteger)limit;
 -(void)getCreateEventAdminMsg ;
 -(void)getSpecialEventWithType:(NSInteger)type startFrom:(NSInteger)start limit:(NSInteger)limit ;
@@ -46,6 +47,6 @@
 -(void)getAllLikesWithMemberID:(NSInteger)memberID EventsOrService:(NSString *)table postID:(NSInteger)postID;
 -(void)addInvitationPointsWithMemberID:(NSInteger)memberID andInvitationID:(NSInteger)invitationID;
 -(void)getAdsWithStart:(NSInteger)start andLimit:(NSInteger)limit;
-
+-(void)forgetMyPassword:(NSString *)mobile;
 
 @end

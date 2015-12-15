@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "NetworkConnection.h"
 #import "WelcomeUserViewController.h"
+#import "WelcomePageViewController.h"
 
 @interface ConfirmationViewController ()
 
@@ -77,20 +78,22 @@
     if ([keyPath isEqualToString:@"response"]) {
         NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
         self.responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        NSLog(@"%@",self.responseDictionary);
+
         if ([self.responseDictionary[@"success"]boolValue] == false) {
             
             [self.customAlert showAlertWithMsg:@"عفواً كود التفعيل خطأ" alertTag:0 customAlertView:self.customAlertView customAlert:self.customAlert];
+            
         }else if ([self.responseDictionary[@"success"]boolValue] == true){
+            
             self.user = self.responseDictionary[@"data"];
             [self.customAlert showAlertWithMsg:@"شكراً لك تم تفعيل حسابك" alertTag:1 customAlertView:self.customAlertView customAlert:self.customAlert];
-//            NSLog(@"%@",self.responseDictionary);
+
             [self.userDefaults setInteger:0 forKey:@"Guest"];
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
             [self.userDefaults synchronize];
             self.activateFlag = 0;
             [self.userDefaults setInteger:self.activateFlag forKey:@"activateFlag"];
-
+            [self.userDefaults synchronize];
             
         }
 //        NSLog(@"%@",self.responseDictionary);
@@ -127,7 +130,9 @@
     if (self.activateFlag == 0) {
         [self.navigationController popViewControllerAnimated:YES];
     }else if (self.activateFlag == 1){
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.userDefaults setInteger:0 forKey:@"activateFlag"];
+        [self.navigationController popViewControllerAnimated:YES];
+
     }
 }
 

@@ -13,6 +13,7 @@
 @protocol FooterContainerDelegate <NSObject>
 
 -(void)removeFooter:(BOOL)remove ;
+-(void)adjustFooterHeight:(NSInteger)height;
 
 @end
 

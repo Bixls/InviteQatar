@@ -15,11 +15,15 @@
 
 @property (weak, nonatomic) IBOutlet UIView *customAlertView;
 @property (weak, nonatomic) IBOutlet customAlertView *customAlert;
+@property (weak, nonatomic) IBOutlet UIButton *btnForgetMyPass;
+
+
 
 @property (strong,nonatomic) NSUserDefaults *userDefaults;
 @property (nonatomic) NSInteger savedID;
 @property (nonatomic,strong) NSDictionary *user;
 @property (nonatomic,strong) NetworkConnection *connection;
+@property (nonatomic,strong) NetworkConnection *forgetPasswordConn;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *groupName;
@@ -42,15 +46,13 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-//    self.connection = [[NetworkConnection alloc]init];
-//    [self.connection addObserver:self forKeyPath:@"response" options:NSKeyValueObservingOptionNew context:nil];
+
     [self initiateSignIn];
-    
+    [self initiateForgetPassword];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     
-//    [self.connection removeObserver:self forKeyPath:@"response"];
     
     for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
     {
@@ -67,8 +69,7 @@
     self.connection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
         
         self.user = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
-        NSLog(@"%@",self.user);
-        if ([self.user[@"Verified"]boolValue] == true) {
+        if ([self.user[@"Verified"]integerValue] == 1) {
             [self.userDefaults setInteger:1 forKey:@"signedIn"];
             [self.userDefaults synchronize];
             self.userName = self.user[@"name"];
@@ -77,12 +78,11 @@
             [self saveUserData];
             [self performSegueWithIdentifier:@"welcomeUser" sender:self];
             
-            
         }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
             
             [self showAlertWithMsg:@"من فضلك تأكد من إدخال بياناتك الصحيحة" alertTag:0];
             
-        }else if ([self.user[@"Verified"]boolValue] == false && self.user[@"Verified"] != nil ){
+        }else if ([self.user[@"Verified"]integerValue] != 1 && self.user[@"Verified"] != nil ){
             [self saveUserData];
             [self performSegueWithIdentifier:@"activate" sender:self];
         }else if (self.user == nil){
@@ -90,6 +90,18 @@
         }
 
         
+    }];
+}
+
+-(void)initiateForgetPassword{
+    self.forgetPasswordConn = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
+        NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
+        NSLog(@"%@",responseDict);
+        if ([responseDict[@"sucess"]boolValue] == true) {
+            [self showAlertWithMsg:@"تم ارسال رسالة نصية بها كلمة السر الخاصة بك" alertTag:0];
+        }else{
+            [self showAlertWithMsg:@"لم يتم العثور على حساب بهذا الرقم" alertTag:0];
+        }
     }];
 }
 
@@ -106,39 +118,6 @@
     [self.customAlertView setHidden:YES];
 }
 
-#pragma mark - KVO Methods
-
-//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-//    if ([keyPath isEqualToString:@"response"]) {
-//        
-//        NSData *responseData = [change valueForKey:NSKeyValueChangeNewKey];
-//        self.user = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        
-////        NSLog(@"%@",self.user);
-//
-//        if ([self.user[@"Verified"]boolValue] == true) {
-//            [self.userDefaults setInteger:1 forKey:@"signedIn"];
-//            [self.userDefaults synchronize];
-//            self.userName = self.user[@"name"];
-//            self.groupName = self.user[@"Gname"];
-//            self.imageID = [self.user[@"ProfilePic"]integerValue];
-//            [self saveUserData];
-//            [self performSegueWithIdentifier:@"welcomeUser" sender:self];
-//
-//            
-//        }else if (self.user[@"success"]!= nil && [self.user[@"success"]boolValue] == false ){
-//            
-//            [self showAlertWithMsg:@"من فضلك تأكد من إدخال بياناتك الصحيحة" alertTag:0];
-//            
-//        }else if ([self.user[@"Verified"]boolValue] == false && self.user[@"Verified"] != nil ){
-//            [self saveUserData];
-//            [self performSegueWithIdentifier:@"activate" sender:self];
-//        }else if (self.user == nil){
-//            [self showAlertWithMsg:@"هناك خطأ في الإتصال من فضلك حاول مرة أخري" alertTag:0];
-//        }
-//
-//    }
-//}
 
 #pragma mark - Methods
 
@@ -197,5 +176,12 @@
     [self.connection postRequest:postDict withTag:nil];
 }
 
+- (IBAction)btnForgetMyPassPressed:(id)sender {
+    if (self.mobileField.text.length == 0) {
+         [self showAlertWithMsg:@"من فضلك أدخل رقم الهاتف" alertTag:0];
+    }else{
+        [self.forgetPasswordConn forgetMyPassword:self.mobileField.text];
+    }
+}
 
 @end

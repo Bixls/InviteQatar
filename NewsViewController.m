@@ -15,6 +15,8 @@
 #import "CommentsSecondTableViewCell.h"
 #import "UserViewController.h"
 #import "FullImageViewController.h"
+#import "HomePageViewController.h"
+
 @interface NewsViewController ()
 
 @property (nonatomic,strong) NSMutableArray *comments;
@@ -36,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnAddComment;
 @property (weak, nonatomic) IBOutlet UIView *footerContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *imageAddComment;
 
 
 @end
@@ -89,12 +92,37 @@
     [self.navigationItem setHidesBackButton:YES];
     [self addOrRemoveFooter];
     
+    //Remove Ability to comment if visitor
+    if ([self.userDefaults integerForKey:@"Visitor"] == 1) {
+        [self removeAbilityToComment];
+    }
+    
+}
+
+-(void)removeAbilityToComment{
+    [self.btnAddComment removeFromSuperview];
+    [self.imageAddComment removeFromSuperview];
+    [self.commentsTextField removeFromSuperview];
+    
+}
+
+-(void)removeComments{
+    [self.btnComments removeFromSuperview];
+    [self.imgComments removeFromSuperview];
+    [self.btnAddComment removeFromSuperview];
+    [self.imageAddComment removeFromSuperview];
+    [self.commentsTextField removeFromSuperview];
+    [self.commentsTableView removeFromSuperview];
 }
 
 -(void)addOrRemoveFooter {
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -146,7 +174,7 @@
 
 -(void)downloadNewsPicture {
     UIActivityIndicatorView *newsPicSPinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",self.news[@"Image"]];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",self.news[@"Image"]];
     SDWebImageManager *newsProfileManager = [SDWebImageManager sharedManager];
     [newsProfileManager downloadImageWithURL:[NSURL URLWithString:imgURLString]
                                       options:0
@@ -169,13 +197,12 @@
 -(void)updateUI {
     
 //    NSLog(@"EVEENT %@",self.news);
-    if ([self.news[@"AllowComments"]boolValue]) {
+    if ([self.news[@"AllowComments"]boolValue] == true) {
 
         [self.btnComments setHidden:NO];
         [self.imgComments setHidden:NO];
     }else{
-        [self.imgComments setHidden:YES];
-        [self.btnComments setHidden:YES];
+        [self removeComments];
     }
     
     [self GenerateArabicDateWithDate:self.news[@"timeCreated"]];
@@ -241,6 +268,9 @@
     }else if ([segue.identifier isEqualToString:@"fullImage"]){
         FullImageViewController *controller = segue.destinationViewController;
         controller.image = self.newsImage.image;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
     
 }
@@ -275,7 +305,7 @@
         NSInteger userType = [comment[@"Type"]integerValue];
         [self showOrHideUserType:userType andCell:cell2];
         
-        [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error) {
                 NSLog(@"Error downloading images");
             }else{
@@ -377,7 +407,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -446,8 +476,11 @@
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -458,8 +491,11 @@
         [self showAlertWithMsg:@"عفواً لا يمكنك إضافة تعليقات إلا بعد تفعيل الحساب" alertTag:0];
     }else{
         self.userInput = self.commentsTextField.text;
-        self.commentsTextField.text = nil;
-        [self addComment];
+        if (self.userInput.length > 0) {
+            self.commentsTextField.text = nil;
+            [self addComment];
+        }
+        
     }
 }
 - (IBAction)fullImagePressed:(id)sender {

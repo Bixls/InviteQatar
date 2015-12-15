@@ -21,6 +21,7 @@
 #import "Reachability.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "EventsDataSource.h"
+#import "HomePageViewController.h"
 
 @interface GroupViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalLayoutConstraint;
@@ -45,6 +46,9 @@
 @property (nonatomic) NSInteger userTypeFlag;
 @property (weak, nonatomic) IBOutlet UIView *footerContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *normalGroupImg;
+
+
 
 @end
 
@@ -100,13 +104,19 @@
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",self.group[@"ProfilePic"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",self.group[@"ProfilePic"]];
 //            NSLog(@"%@",imgURLString);
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.groupPic.image = image;
+                if ([self.group[@"Royal"]integerValue] == 1) {
+                    self.groupPic.image = image;
+                }else{
+                    self.normalGroupImg.image = image;
+                }
+                
+
             });
         });
 
@@ -115,12 +125,14 @@
         //there-is-no-connection warning
         [self.groupFrame setHidden:YES];
         [self.groupPic setHidden:YES];
+        [self.normalGroupImg setHidden:YES];
         [self.groupDescription setHidden:YES];
         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"عفواً" message:@"تأكد من إتصالك بخدمة الإنترنت" delegate:self cancelButtonTitle:@"إغلاق" otherButtonTitles:nil, nil];
         [alertView show];
     }
     
     [self addOrRemoveFooter];
+    [self.eventsCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
     
 }
 
@@ -130,6 +142,11 @@
     [self removeFooter:remove];
     
 }
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
+}
+
 
 -(void)removeFooter:(BOOL)remove{
     self.footerContainer.clipsToBounds = YES;
@@ -141,6 +158,7 @@
     [self.userDefaults setObject:[NSNumber numberWithBool:remove] forKey:@"removeFooter"];
     [self.userDefaults synchronize];
 }
+
 
 -(void)viewDidAppear:(BOOL)animated{
     
@@ -234,7 +252,7 @@
             [cell.vipLabel setHidden:YES];
         }
         
-        NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",currentEvent[@"EventPic"]];
+        NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",currentEvent[@"EventPic"]];
         NSURL *imgURL = [NSURL URLWithString:imgURLString];
         UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [cell.profilePic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -258,7 +276,7 @@
             NSDictionary *oneNews = self.news[indexPath.row];
             cell.newsSubject.text = oneNews[@"Subject"];
 
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",oneNews[@"Image"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",oneNews[@"Image"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [cell.newsImage sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -336,14 +354,20 @@
     
     if (userType == 2 && self.userTypeFlag == 1) {
         [cell.userType setHidden:NO];
+        [cell.specialUser setHidden:YES];
         cell.userType.image = [UIImage imageNamed:@"ownerUser.png"];
     }else if (userType == 1 && self.userTypeFlag == 1){
-        [cell.userType setHidden:NO];
-        cell.userType.image = [UIImage imageNamed:@"vipUser.png"];
+        [cell.specialUser setHidden:NO];
+        [cell.userType setHidden:YES];
+        cell.specialUser.image = [UIImage imageNamed:@"vipUser.png"];
     }else if (userType == 0 && self.userTypeFlag == 1){
-        [cell.userType removeFromSuperview];
+       // [cell.userType removeFromSuperview];
+        [cell.userType setHidden:YES];
+        [cell.specialUser setHidden:YES];
     }else{
         [cell.userType setHidden:YES];
+        [cell.specialUser setHidden:YES];
+
     }
     
 }
@@ -377,7 +401,7 @@
             [self showOrHideUserType:userType andCell:cell];
             
 
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",tempUser[@"ProfilePic"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempUser[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [cell.userPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -430,6 +454,9 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
     
 }
@@ -460,7 +487,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -550,6 +577,7 @@
             if (self.groupDescription.text.length > 0) {
                 [self.groupFrame setHidden:NO];
                 [self.groupPic setHidden:NO];
+                [self.normalGroupImg setHidden:NO];
                 [self.groupDescription setHidden:NO];
 //                NSLog(@"%@",dict[@"Description"]);
             }
@@ -594,8 +622,11 @@
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }

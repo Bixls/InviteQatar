@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface SearchPageViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,headerContainerDelegate>
+@interface SearchPageViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,headerContainerDelegate,FooterContainerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;

@@ -23,7 +23,8 @@
 #import "customEventCollectionViewCell.h"
 #import "customGroupFooter.h"
 #import "SpecialEventsViewController.h"
-
+#import "WelcomePageViewController.h"
+#import "AppDelegate.h"
 
 @interface HomePageViewController ()
 
@@ -88,9 +89,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 
 
-//@property (nonatomic,strong) UIActivityIndicatorView *eventsSpinner;
-//@property (nonatomic,strong) UIActivityIndicatorView *groupsSpinner;
-
 
 @end
 
@@ -98,7 +96,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[self viewDidLoadClone];
+
     self.reloadFlag = YES;
     self.offlineNewsFlag = 1;
     self.counter = 0;
@@ -128,8 +126,8 @@
     self.sectionGroups = [[NSMutableDictionary alloc]init];
     self.view.backgroundColor = [UIColor blackColor];
 
-   //self.groupsCollectionView.collectionViewLayout = [[UICollectionViewRightAlignedLayout alloc] init];
     [self.groupsCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
+    [self.eventCollectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
     [self.newsCollectionView setPagingEnabled:YES];
     
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
@@ -169,7 +167,9 @@
     [self.invitationsNotificationsView setHidden:YES];
 
     [self addOrRemoveFooter];
+   
     //[self.groupsCollectionView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:NULL];
+
 }
 
 -(void)addOrRemoveFooter {
@@ -189,22 +189,33 @@
 //}
 
 
+
 -(void)viewDidAppear:(BOOL)animated {
     [self.userDefaults removeObjectForKey:@"invitees"];
     [self emptyMarkedGroups];
     [self.userDefaults synchronize];
     self.userPassword = [self.userDefaults objectForKey:@"password"];
     self.userMobile = [self.userDefaults objectForKey:@"mobile"];
-    
+
     
     NSDictionary *getInvNum = [[NSDictionary alloc]init];
     NSDictionary *getInvNumTag = [[NSDictionary alloc]init];
     
-    if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
-        [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
-        self.segueFlag = 0;
-        [self.myProfileLabel setText:@"حسابي"];
-    }
+    
+    
+//    if ([self.userDefaults integerForKey:@"activateFlag"] == 1) {
+//        
+//        //[self performSegueWithIdentifier:@"activateAccount" sender:self];
+//        [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
+//        
+//    }else if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
+//        [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
+////        WelcomePageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"welcome"];
+////        //[self presentViewController:vc animated:NO completion:nil];
+////        [self.navigationController pushViewController:vc animated:NO];
+//        self.segueFlag = 0;
+//        [self.myProfileLabel setText:@"حسابي"];
+//    }
     
     
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
@@ -379,7 +390,7 @@
         NetworkStatus internetStatus = [reachability currentReachabilityStatus];
         if (internetStatus != NotReachable) {
             self.offline = false;
-            [self downloadNewsImages];
+            //[self downloadNewsImages];
             [self postRequest:getGroups withTag:getGroupsTag];
             [self postRequest:getNews withTag:getNewsTag];
             [self postRequest:getEvents withTag:getEventsTag];
@@ -504,7 +515,11 @@
     }
 }
 
-#pragma mark - Footer Container Delegate 
+#pragma mark - Footer Container Delegate
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
+}
 
 -(void)removeFooter:(BOOL)remove{
     self.footerContainer.clipsToBounds = YES;
@@ -532,8 +547,6 @@
         return 1;
     }
 }
-
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
@@ -613,7 +626,7 @@
         
 
         if ([tempGroup[@"Royal"]integerValue] == 1) {
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",tempGroup[@"ProfilePic"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             
@@ -629,7 +642,7 @@
             
         }else{
             
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",tempGroup[@"ProfilePic"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",tempGroup[@"ProfilePic"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             // UIActivityIndicatorView *groupsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
             [cell.groupPP sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -659,7 +672,7 @@
 //            }
 //        }else{
 //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",tempGroup[@"ProfilePic"]];
+//                NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempGroup[@"ProfilePic"]];
 ////                NSLog(@"%@",imgURLString);
 //                NSURL *imgURL = [NSURL URLWithString:imgURLString];
 //                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
@@ -703,7 +716,7 @@
         cell.newsSubject.text =tempNews[@"Subject"];
         if (self.offlineNewsFlag ==0) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",tempNews[@"Image"]];
+                NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",tempNews[@"Image"]];
 //                NSLog(@"%@",imgURLString);
                 NSURL *imgURL = [NSURL URLWithString:imgURLString];
                 NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
@@ -756,11 +769,11 @@
         NSString *date = [formatter stringFromDate:dateString];
         NSString *dateWithoutSeconds = [date substringToIndex:16];
         cell.eventDate.text = [dateWithoutSeconds stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
-        //Likes w Comments hena
+       
         cell.eventPic.layer.masksToBounds = YES;
         cell.eventPic.layer.cornerRadius = cell.eventPic.bounds.size.width/2;
         
-        NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+        NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
         NSURL *imgURL = [NSURL URLWithString:imgURLString];
        // UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -779,34 +792,8 @@
         UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
         [aFlowLayout setSectionInset:UIEdgeInsetsMake(5, 0, 5, 0)];
 
-//            if (self.offline == false) {
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
-//                    NSURL *imgURL = [NSURL URLWithString:imgURLString];
-//                    NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-//                    UIImage *image = [[UIImage alloc]initWithData:imgData];
-//                    
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        cell.eventPic.image = image;
-//                        NSData *imageData = UIImagePNGRepresentation(image);
-//                        NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
-//                        [self.userDefaults setObject:encodedDate forKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
-//                        [self.userDefaults synchronize];
-//                    });
-//                    
-//                });
-//                
-//            }else if (self.offline == true || self.loadCache == true){
-//                NSData *encodedObject =[self.userDefaults objectForKey:[NSString stringWithFormat:@"Event%@",tempEvent[@"EventPic"]]];
-//                if (encodedObject) {
-//                    NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-//                    UIImage *img =  [UIImage imageWithData:imgData];
-//                    cell.eventPic.image = img;
-//                    
-//                }
-//            }
         
-        
+            [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
             self.eventCollectionViewConstraint.constant = self.eventCollectionView.contentSize.height;
             
             return cell ;
@@ -823,7 +810,7 @@
         NSDictionary *tempNews = self.news[i];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",tempNews[@"Image"]];
+            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",tempNews[@"Image"]];
             NSURL *imgURL = [NSURL URLWithString:imgURLString];
             NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
             UIImage *image = [[UIImage alloc]initWithData:imgData];
@@ -833,10 +820,11 @@
                 NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
                 [self.userDefaults setObject:encodedDate forKey:tempNews[@"Image"]];
                 [self.userDefaults synchronize];
+                [self.newsCollectionView reloadData];
                 
             });
         });
-        [self.newsCollectionView reloadData];
+       
     }
     
 }
@@ -855,7 +843,7 @@
         [footer setTransform:CGAffineTransformMakeScale(-1, 1)];
         
         NSLog(@"%@",self.sectionAds);
-      
+        NSLog(@"%ld",(long)indexPath.section);
 
             //NSMutableArray *threeAds = [[NSMutableArray alloc]init];
         
@@ -981,6 +969,7 @@
 }
 
 
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (collectionView.tag == 0) {
         NSArray *sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
@@ -1064,6 +1053,7 @@
     }
     
     return CGSizeMake([UIScreen mainScreen].bounds.size.width - 27, 142);
+    //was 142
 }
 //iPhone 6 Plus
 - (NSString *) platformType:(NSString *)platform
@@ -1177,7 +1167,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -1225,23 +1215,7 @@
         if ([self arraysContainSameObjects:responseArray andOtherArray:[self.userDefaults objectForKey:@"groups"]]) {
             [self.userDefaults setObject:self.groups forKey:@"groups"];
             [self assignGroupsToSections];
-//            
-//            NSLog(@"%lu",(unsigned long)self.sectionGroups.count);
-//            NSLog(@"%@",self.sectionGroups);
-            
-//            
-//            self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
-//            NSLog(@"First Section %@ ", self.firstSection);
-//            self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
-//            NSLog(@"Second Section %@ ", self.secondSection);
-//            self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
-//            NSLog(@"third Section %@ ", self.thirdSection);
-//            self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-//            NSLog(@"fourth Section %@ ", self.fourthSection);
-//            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
-//            NSLog(@"Fifth Section %@ ", self.fifthSection);
-//            self.groupSections = [[NSMutableArray alloc]init];
-//            [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
+
             
             [self.userDefaults synchronize];
             
@@ -1251,14 +1225,6 @@
             [self.userDefaults setObject:self.groups forKey:@"groups"];
             [self assignGroupsToSections];
             
-//            self.firstSection= [self.groups subarrayWithRange:NSMakeRange(0, 19)];
-//            self.secondSection =[self.groups subarrayWithRange:NSMakeRange(19, 20)];
-//            self.thirdSection = [self.groups subarrayWithRange:NSMakeRange(39, 20)];
-//            self.fourthSection = [self.groups subarrayWithRange:NSMakeRange(59, 20)];
-//            self.fifthSection = [self.groups subarrayWithRange:NSMakeRange(79,self.groups.count - 79)];
-//            
-//            self.groupSections = [[NSMutableArray alloc]init];
-//            [self.groupSections addObject:self.fifthSection];[self.groupSections addObject:self.secondSection];[self.groupSections addObject:self.thirdSection];[self.groupSections addObject:self.fourthSection];[self.groupSections addObject:self.fifthSection];
 
             [self.userDefaults synchronize];
             
@@ -1307,6 +1273,7 @@
             }
             [self.userDefaults setObject:self.events forKey:@"events"];
             [self.userDefaults synchronize];
+            self.eventCollectionViewConstraint.constant = 210;
             [self.eventCollectionView reloadData];
             self.pullToRefreshFlag ++;
         }else{
@@ -1348,6 +1315,8 @@
             NSInteger unread = [responseDictionary[@"unRead"]integerValue];
             if (unread > 0) {
                 [self.msgsNotificationView setHidden:NO];
+            }else{
+                [self.msgsNotificationView setHidden:YES];
             }
             [self.btnUnReadMsgs setHidden:NO];
 //            NSString *unread = [responseDictionary[@"unRead"]stringValue];
@@ -1365,6 +1334,8 @@
             NSInteger VIP = [responseDictionary[@"VIP"]integerValue];
             if (VIP > 0) {
                 [self.invitationsNotificationsView setHidden:NO];
+            }else{
+                [self.invitationsNotificationsView setHidden:YES];
             }
             self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
            // [s setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];

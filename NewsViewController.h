@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
 #import "customAlertView.h"
-@interface NewsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,headerContainerDelegate,customAlertViewDelegate>
+#import "FooterContainerViewController.h"
+
+@interface NewsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,headerContainerDelegate,customAlertViewDelegate,FooterContainerDelegate>
 
 @property(nonatomic,strong) NSDictionary *news;
 

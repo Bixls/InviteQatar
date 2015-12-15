@@ -8,7 +8,7 @@
 
 #import "SupportViewController.h"
 #import "ASIHTTPRequest.h"
-
+#import "HomePageViewController.h"
 
 @interface SupportViewController ()
 
@@ -44,6 +44,10 @@
     
 }
 
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
+}
+
 -(void)removeFooter:(BOOL)remove{
     self.footerContainer.clipsToBounds = YES;
     if (remove == YES) {
@@ -57,7 +61,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     if ([self.userDefaults objectForKey:@"userName"] != nil) {
-        self.nameField.text = [self.userDefaults objectForKey:@"userName"];
+        //self.nameField.text = [self.userDefaults objectForKey:@"userName"];
         [self getUser];
     }else{
         [self getUser];
@@ -145,7 +149,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -218,7 +222,6 @@
     [self.btnSendFeedback setEnabled:YES];
     
     NSError *error = [request error];
-//    NSLog(@"%@",error);
 }
 
 #pragma mark - Segue 
@@ -226,14 +229,20 @@
     if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -256,7 +265,7 @@
         NSMutableDictionary *sendFeedbackTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"sendFeedback",@"key", nil];
         
         
-        self.customAlert.viewLabel.text = @"من فضلك إنتظر حتي يتم إنشاء الدعوة" ;
+        self.customAlert.viewLabel.text = @"من فضلك إنتظر حتي يتم إنشاء الشكوة" ;
         [self.customAlertView setHidden:NO];
         [self.customAlert.closeButton setHidden:YES];
         [self.btnSendFeedback setEnabled:NO];

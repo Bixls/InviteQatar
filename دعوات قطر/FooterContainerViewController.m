@@ -18,6 +18,8 @@
 @property (nonatomic,strong) NSDictionary *ad2;
 @property (nonatomic,strong) NSDictionary *ad3;
 @property (nonatomic,strong) NSDictionary *bigAd;
+@property (nonatomic,strong) NSUserDefaults *userdefaults;
+@property (nonatomic) NSInteger footerHeight;
 
 @property (weak, nonatomic) IBOutlet UIButton *ad1Btn;
 @property (weak, nonatomic) IBOutlet UIButton *ad2Btn;
@@ -31,6 +33,20 @@
 @property (weak, nonatomic) IBOutlet UIImageView *ad3Img;
 @property (weak, nonatomic) IBOutlet UIImageView *bigAdImg;
 
+@property (weak, nonatomic) IBOutlet UIImageView *topFrame;
+@property (weak, nonatomic) IBOutlet UIImageView *bottomFrame;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topFrameHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomFrameHeight;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img1Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img2Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *img3Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn1Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn2Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *btn3Height;
+
+
+
 
 @end
 
@@ -38,11 +54,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
+    self.userdefaults = [NSUserDefaults standardUserDefaults];
+    self.allAds = [self.userdefaults objectForKey:@"footerAds"];
+
 }
 -(void)viewDidAppear:(BOOL)animated{
-    [self initAds];
+    self.footerHeight = 492;
+    BOOL var  =[self.userdefaults boolForKey:@"refreshFooter"];
+    if (self.allAds == nil || [self.userdefaults boolForKey:@"refreshFooter"] == YES) {
+        [self refreshAds];
+    }else {
+        [self initAds];
+    }
+    //[self initAds];
    
 }
 
@@ -60,15 +84,23 @@
 }
 
 -(void)initAds{
+    [self setAds];
+    [self showAds];
+}
+
+-(void)refreshAds{
     self.adsConnection = [[NetworkConnection alloc]initWithCompletionHandler:^(NSData *response) {
         NSArray *responseArray =[NSJSONSerialization JSONObjectWithData:response options:kNilOptions error:nil];
         self.allAds = responseArray;
+        [self.userdefaults setObject:self.allAds forKey:@"footerAds"];
+        [self.userdefaults setBool:NO forKey:@"refreshFooter"];
         [self setAds];
         [self showAds];
         
     }];
     [self.adsConnection getAdsWithStart:0 andLimit:4];
 }
+
 -(void)setAds{
     for (int i = 0; i < 4; i++) {
         NSDictionary *temp  = self.allAds[i];
@@ -98,23 +130,19 @@
         NSDictionary *temp  = self.allAds[i];
         switch (i) {
             case 0:{
-               // NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                //[self.imgConnection downloadImageWithID:picNumber andImageView:self.bigAdImg];
+
                 [self removeIfDisabled:temp imageView:self.bigAdImg andButton:self.bigAdBtn];
                 break;
             }case 1:{
-               // NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                //[self.imgConnection downloadImageWithID:picNumber andImageView:self.ad1Img];
+
                 [self removeIfDisabled:temp imageView:self.ad1Img andButton:self.ad1Btn];
                 break;
             }case 2:{
-                //NSInteger picNumber = [temp[@"adsImage"]integerValue];
-                //[self.imgConnection downloadImageWithID:picNumber andImageView:self.ad2Img];
+
                 [self removeIfDisabled:temp imageView:self.ad2Img andButton:self.ad2Btn];
                 break;
             }case 3:{
-               // NSInteger picNumber = [temp[@"adsImage"]integerValue];
-               // [self.imgConnection downloadImageWithID:picNumber andImageView:self.ad3Img];
+
                 [self removeIfDisabled:temp imageView:self.ad3Img andButton:self.ad3Btn];
                 break;
             }default:
@@ -129,19 +157,38 @@
     NSInteger adID = [ad[@"id"]integerValue];
     if (status == 0 && adID == 1) {
         [self.delegate removeFooter:YES];
-
+        self.footerHeight = 0;
     }else if (status == 0) {
+
         [imageV removeFromSuperview];
         [btn removeFromSuperview];
+        [self removeAdHeight];
     }else if (status == 1 && adID == 1){
         [self.imgConnection downloadImageWithID:picNumber andImageView:imageV];
         [self.delegate removeFooter:NO];
         
     }else if (status == 1){
+
         [self.imgConnection downloadImageWithID:picNumber andImageView:imageV];
     }
 }
 
+-(void)removeAdHeight{
+    self.footerHeight = self.footerHeight - 67;
+    if (self.footerHeight == 291) {
+
+            [self.topFrame removeFromSuperview];
+            [self.bottomFrame removeFromSuperview];
+            //self.topFrameHeight.constant = 0;
+            //self.bottomFrameHeight.constant = 0;
+            [self.userdefaults setBool:true forKey:@"removeFrames"];
+
+        [self.delegate adjustFooterHeight:self.footerHeight];
+    }else{
+        [self.delegate adjustFooterHeight:self.footerHeight];
+    }
+    
+}
 
 
 -(void)openWebPageWithBtnTag:(NSInteger)tag {

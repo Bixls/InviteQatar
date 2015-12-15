@@ -63,7 +63,7 @@
     cell.eventPic.layer.masksToBounds = YES;
     cell.eventPic.layer.cornerRadius = cell.eventPic.bounds.size.width/2;
     
-    NSString *imgURLString = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempEvent[@"EventPic"]];
     NSURL *imgURL = [NSURL URLWithString:imgURLString];
      UIActivityIndicatorView *eventsSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [cell.eventPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -82,12 +82,21 @@
 
     }];
     
+    [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
     UICollectionViewFlowLayout *aFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     [aFlowLayout setSectionInset:UIEdgeInsetsMake(5, 0, 5, 0)];
     
     if (self.height != nil) {
         self.height.constant = collectionView.contentSize.height;
 
+    }
+    
+    // hide or show the vip indicator
+    
+    if ([tempEvent[@"VIP"]boolValue] == true) {
+        [cell.vipPic setHidden:NO];
+    }else{
+        [cell.vipPic setHidden:YES];
     }
     
     return cell ;

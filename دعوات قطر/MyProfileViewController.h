@@ -10,8 +10,9 @@
 #import "MyLatestEventsTableViewCell.h"
 #import "NetworkConnection.h"
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface MyProfileViewController : UIViewController <UIActionSheetDelegate,UIDocumentInteractionControllerDelegate,NetworkConnectionDelegate,headerContainerDelegate>
+@interface MyProfileViewController : UIViewController <UIActionSheetDelegate,UIDocumentInteractionControllerDelegate,NetworkConnectionDelegate,headerContainerDelegate,FooterContainerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *smallerView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

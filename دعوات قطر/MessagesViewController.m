@@ -13,6 +13,7 @@
 #import "EventViewController.h"
 #import "chooseGroupViewController.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
+#import "HomePageViewController.h"
 
 @interface MessagesViewController ()
 
@@ -62,10 +63,39 @@
     [self addOrRemoveFooter];
 }
 
+
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self.messageSpinner stopAnimating];
+    [self getMessages];
+    [self.scrollView addInfiniteScrollingWithActionHandler:^{
+        self.start = self.messages.count;
+        [self getMessages];
+    }];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.messageSpinner stopAnimating];
+    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
+    {
+        if(![request isCancelled])
+        {
+            [request cancel];
+            [request setDelegate:nil];
+        }
+    }
+}
+
+#pragma mark - Methods 
+
 -(void)addOrRemoveFooter {
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -79,24 +109,21 @@
     [self.userDefaults synchronize];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [self getMessages];
-    [self.scrollView addInfiniteScrollingWithActionHandler:^{
-        self.start = self.messages.count;
-        [self getMessages];
-    }];
+-(void)storeEventInformation:(NSDictionary *)event {
+    
+    NSInteger eventID = [event[@"EventID"]integerValue];
+    
+    [self.userDefaults setInteger:2 forKey:@"notification"];
+    [self.userDefaults setInteger:eventID forKey:@"notificationID"];
+    [self.selectedMessage[@"invitationID"]integerValue];
+    [self.userDefaults setInteger:[self.selectedMessage[@"invitationID"]integerValue] forKey:@"selectedMessageID"];
+    [self.userDefaults setInteger:[self.selectedMessage[@"VIP"]integerValue] forKey:@"isVIP"];
+    [self.userDefaults synchronize];
+    
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    for (ASIHTTPRequest *request in ASIHTTPRequest.sharedQueue.operations)
-    {
-        if(![request isCancelled])
-        {
-            [request cancel];
-            [request setDelegate:nil];
-        }
-    }
-}
+
+
 #pragma mark - TableView DataSource
 
 
@@ -154,16 +181,7 @@
         return cell;
         
     }
-//    else if (indexPath.row == self.messages.count){
-//        
-//        MessagesFirstTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
-//        if (cell1==nil) {
-//            cell1=[[MessagesFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
-//        }
-//        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-//        return cell1;
-//    }
-   
+
     
     return nil ;
 }
@@ -254,6 +272,9 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
@@ -301,7 +322,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -376,7 +397,8 @@
         
 
         notifyAlarm.alertBody = [NSString stringWithFormat:@"لا تنسي %@ بتاريخ %@ الساعة %@",self.messageSubject,self.messageDate,self.messageTime];
-        //        NSLog(@"%@",notifyAlarm.alertBody);
+        // NSLog(@"%@",notifyAlarm.alertBody);
+        [self storeEventInformation:self.selectedMessage];
         [app scheduleLocalNotification:notifyAlarm];
     }
 
@@ -402,8 +424,11 @@
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }

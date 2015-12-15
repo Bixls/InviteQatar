@@ -10,6 +10,8 @@
 #import "ASIHTTPRequest.h"
 #import "UserViewController.h"
 #import "NetworkConnection.h"
+#import "InviteTableViewCell.h"
+#import "HomePageViewController.h"
 
 @interface SearchPageViewController ()
 
@@ -19,6 +21,8 @@
 @property (nonatomic,strong) NSUserDefaults *userDefaults;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 @property (weak, nonatomic) IBOutlet UIView *footerContainer;
+
+
 
 @end
 
@@ -33,7 +37,7 @@
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
    // self.viewHeight.constant = self.view.bounds.size.height - 35;
-    
+
     [self addOrRemoveFooter];
 }
 
@@ -41,6 +45,10 @@
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -99,6 +107,9 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
@@ -115,13 +126,40 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+//    if (cell==nil) {
+//        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//    }
+//
+    
+    InviteTableViewCell *cell = (InviteTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    
     if (cell==nil) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell=[[InviteTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        
     }
     
     NSDictionary *user = self.filteredNames[indexPath.row];
-    cell.detailTextLabel.text = user[@"name"];
+    NSLog(@"%@",user);
+    cell.userName.text = user[@"name"];
+    
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",user[@"ProfilePic"]];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    [cell.userPic sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        spinner.center = cell.userPic.center;
+        spinner.hidesWhenStopped = YES;
+        [cell addSubview:spinner];
+        [spinner startAnimating];
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        cell.userPic.image = image;
+        [spinner stopAnimating];
+        //        NSLog(@"Cache Type %ld",(long)cacheType);
+    }];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     self.tableViewHeight.constant = tableView.contentSize.height;
     return cell ;
@@ -139,8 +177,11 @@
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }

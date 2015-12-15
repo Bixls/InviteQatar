@@ -10,6 +10,7 @@
 #import "SpecialEventsCollectionViewCell.h"
 #import "NetworkConnection.h"
 #import "ServiceViewController.h"
+#import "HomePageViewController.h"
 
 @interface SpecialEventsViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -67,7 +68,7 @@
         default:
             break;
     }
-    
+    [self.collectionView setTransform:CGAffineTransformMakeScale(-1, 1)];
     [self addOrRemoveFooter];
     
 }
@@ -76,6 +77,10 @@
     BOOL remove = [[self.userDefaults objectForKey:@"removeFooter"]boolValue];
     [self removeFooter:remove];
     
+}
+
+-(void)adjustFooterHeight:(NSInteger)height{
+    self.footerHeight.constant = height;
 }
 
 -(void)removeFooter:(BOOL)remove{
@@ -152,7 +157,7 @@
         cell.eventViews.text = views;
         cell.eventTitle.text = event[@"title"];
         
-        NSURL *imgURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%@",event[@"image"]]];
+        NSURL *imgURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",event[@"image"]]];
         
         [cell.eventImage sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
@@ -160,6 +165,7 @@
             cell.eventImage.image = image;
         }];
         
+        [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
         self.collectionViewHeightConstraint.constant = self.collectionView.contentSize.height;
         
         return cell;
@@ -200,14 +206,20 @@
     }else if ([segue.identifier isEqualToString:@"header"]){
         HeaderContainerViewController *header = segue.destinationViewController;
         header.delegate = self;
+    }else if ([segue.identifier isEqualToString:@"footer"]){
+        FooterContainerViewController *footerController = segue.destinationViewController;
+        footerController.delegate = self;
     }
 }
 
 #pragma mark - Header Delegate
 
 -(void)homePageBtnPressed{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    HomePageViewController *homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"home"]; //
+    [self.navigationController pushViewController:homeVC animated:NO];
 }
+
+
 -(void)backBtnPressed{
     [self.navigationController popViewControllerAnimated:YES];
 }

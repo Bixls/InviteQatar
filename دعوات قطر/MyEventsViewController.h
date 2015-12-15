@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface MyEventsViewController : UIViewController <headerContainerDelegate>
+@interface MyEventsViewController : UIViewController <headerContainerDelegate,FooterContainerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *eventsCollectionView;

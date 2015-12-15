@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HeaderContainerViewController.h"
+#import "FooterContainerViewController.h"
 
-@interface EventAttendeesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate>
+@interface EventAttendeesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,headerContainerDelegate,FooterContainerDelegate>
 
 @property (nonatomic)NSInteger eventID;
 

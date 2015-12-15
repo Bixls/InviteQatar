@@ -25,7 +25,7 @@
     self.labelSubject.text = self.messageSubject;
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *imageURL = [NSString stringWithFormat:@"http://da3wat-qatar.com/api/image.php?id=%ld&t=150x150",(long)self.profilePicNumber];
+        NSString *imageURL = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%ld&t=150x150",(long)self.profilePicNumber];
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
         UIImage *img = [[UIImage alloc]initWithData:data];
         dispatch_async(dispatch_get_main_queue(), ^(void){
@@ -89,7 +89,7 @@
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", @"admin", @"admin"];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    NSString *urlString = @"http://da3wat-qatar.com/api/" ;
+    NSString *urlString = @"http://Bixls.com/api/" ;
     NSURL *url = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
