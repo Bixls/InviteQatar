@@ -16,6 +16,7 @@
 @property (nonatomic,strong) NSDictionary *ad2;
 @property (nonatomic,strong) NSDictionary *ad3;
 @property (nonatomic) NSInteger allAdsRemoved;
+@property (nonatomic) BOOL isTopRemoved;
 @property (weak, nonatomic) IBOutlet UIImageView *topAdImg;
 @property (weak, nonatomic) IBOutlet UIImageView *rightAdImg;
 @property (weak, nonatomic) IBOutlet UIImageView *leftAdImg;
@@ -122,6 +123,8 @@
                 BOOL removed =[self removeIfDisabled:temp imageView:self.topAdImg andButton:self.topAdBtn];
                 if (removed) {
                     self.allAdsRemoved ++ ;
+                }else{
+                    self.isTopRemoved = NO;
                 }
                // [self.imgConnection downloadImageWithID:picNumber andImageView:self.topAdImg];
                 break;
@@ -144,6 +147,8 @@
                     //call delegate
                     [self.delegate removeContainerIfEmpty:YES withContainerID:self.containerID];
                     self.allAdsRemoved = 0;
+                }else if ([self isTopOnly] == YES){
+                    [self.delegate setContainerHeight:75 withContainerID:self.containerID];
                 }
                 break;
             }default:
@@ -154,7 +159,14 @@
 
 -(BOOL)isAllRemoved {
     if (self.allAdsRemoved == 3) {
-       
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+-(BOOL)isTopOnly{
+    if (self.isTopRemoved == NO && self.allAdsRemoved == 2) {
         return YES;
     }else{
         return NO;

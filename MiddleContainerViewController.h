@@ -13,6 +13,7 @@
 @protocol MiddleContainerDelegate <NSObject>
 
 -(void)removeContainerIfEmpty:(BOOL)isEmpty withContainerID:(NSInteger)containerID ;
+-(void)setContainerHeight:(NSInteger)height withContainerID:(NSInteger)containerID;
 
 @end
 
