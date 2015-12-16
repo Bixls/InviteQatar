@@ -2436,7 +2436,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="540"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UA6-uW-Bpc">
-                                        <rect key="frame" x="0.0" y="-1600" width="320" height="2485"/>
+                                        <rect key="frame" x="0.0" y="-300" width="320" height="2485"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Tk-ZX-kE3">
                                                 <rect key="frame" x="209" y="113" width="106" height="56"/>
@@ -2625,7 +2625,7 @@
                                                                 <constraint firstAttribute="height" constant="75" id="aqR-sG-ymk"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BE177BD9-F90E-4883-8574-6FA177936C20" translatesAutoresizingMaskIntoConstraints="NO" id="heL-aH-x2M">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="537DB520-1429-4F4A-A58E-C3079338F560" translatesAutoresizingMaskIntoConstraints="NO" id="heL-aH-x2M">
                                                             <rect key="frame" x="0.0" y="0.0" width="300" height="70"/>
                                                             <animations/>
                                                             <constraints>
@@ -3573,6 +3573,7 @@
                                             <constraint firstAttribute="trailing" secondItem="z1d-s7-Jsk" secondAttribute="trailing" constant="30" id="drs-2i-qlA"/>
                                             <constraint firstItem="l0b-ee-96A" firstAttribute="top" secondItem="eMh-fa-xHV" secondAttribute="bottom" constant="6" id="e8v-DM-6qE"/>
                                             <constraint firstItem="jcz-Bg-yg2" firstAttribute="top" secondItem="UA6-uW-Bpc" secondAttribute="top" constant="110" id="eJw-le-g5o"/>
+                                            <constraint firstItem="i9D-DA-8VM" firstAttribute="top" secondItem="tCa-x3-GAF" secondAttribute="bottom" constant="25" id="eYl-tD-pRf"/>
                                             <constraint firstItem="rfL-Yf-E2a" firstAttribute="top" secondItem="IXc-Fs-Nml" secondAttribute="bottom" constant="1" id="fRF-1f-eY6"/>
                                             <constraint firstAttribute="centerX" secondItem="VI6-YD-bpx" secondAttribute="centerX" constant="-2" id="foL-To-hXx"/>
                                             <constraint firstItem="SJC-PY-WYu" firstAttribute="top" secondItem="U0w-BQ-Zvj" secondAttribute="bottom" constant="23" id="fpR-7q-hvk"/>
@@ -3584,7 +3585,6 @@
                                             <constraint firstAttribute="trailing" secondItem="wpK-In-NSx" secondAttribute="trailing" constant="10.5" id="hTf-ui-Ox3"/>
                                             <constraint firstItem="ZSX-aA-yxu" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="4" id="iKZ-PL-K2V"/>
                                             <constraint firstItem="1ly-jm-OWG" firstAttribute="top" secondItem="4Tk-ZX-kE3" secondAttribute="bottom" constant="-2" id="jfD-DQ-uzZ"/>
-                                            <constraint firstItem="i9D-DA-8VM" firstAttribute="top" secondItem="tCa-x3-GAF" secondAttribute="bottom" constant="25" id="jgB-9l-0MF"/>
                                             <constraint firstItem="rcY-W1-QjF" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="-8" id="k0m-qD-AXB"/>
                                             <constraint firstItem="zCB-GU-NHK" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="10" id="kDE-9b-9pa"/>
                                             <constraint firstItem="Lpb-gT-CyS" firstAttribute="leading" secondItem="UA6-uW-Bpc" secondAttribute="leading" constant="30" id="kvN-Nd-tx9"/>
@@ -11463,7 +11463,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BE177BD9-F90E-4883-8574-6FA177936C20" width="1088" height="192">
+        <image name="537DB520-1429-4F4A-A58E-C3079338F560" width="1088" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

@@ -80,6 +80,7 @@
 @property (nonatomic,strong) NSMutableDictionary *sectionGroups;
 @property (nonatomic) NSInteger footerContentHeight;
 @property (nonatomic) BOOL enableReloading;
+@property (nonatomic) NSInteger currentNewsCell;
 @property (weak, nonatomic) IBOutlet UIView *msgsNotificationView;
 @property (weak, nonatomic) IBOutlet UIView *invitationsNotificationsView;
 @property (weak, nonatomic) IBOutlet UIView *container0;
@@ -168,7 +169,9 @@
     [self.invitationsNotificationsView setHidden:YES];
 
     [self addOrRemoveFooter];
-   
+    
+    self.currentNewsCell = 0;
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scrollNews) userInfo:nil repeats:YES];
     //[self.groupsCollectionView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionOld context:NULL];
 
 }
@@ -179,6 +182,17 @@
     
 }
 
+-(void)scrollNews{
+    if (self.news.count >0) {
+        
+        if ( self.currentNewsCell % 4 == 0 && self.currentNewsCell != 0) {
+            self.currentNewsCell = 0;
+        }
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.currentNewsCell inSection:0];
+        [self.newsCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+        self.currentNewsCell++;
+    }
+}
 
 
 -(void)viewDidAppear:(BOOL)animated {
