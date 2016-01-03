@@ -69,6 +69,7 @@ static void *getAllLikesContext = &getAllLikesContext;
 @property (weak, nonatomic) IBOutlet customAlertView *customAlert;
 @property (weak, nonatomic) IBOutlet UIView *footerContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *vipImage;
 
 @end
 
@@ -105,6 +106,7 @@ static void *getAllLikesContext = &getAllLikesContext;
     [self.btnLike setHidden:YES];
     [self.imgLike setHidden:YES];
     
+    [self.vipImage setHidden:YES];
     
     [self.imgTitle setHidden:YES];
     
@@ -458,15 +460,18 @@ static void *getAllLikesContext = &getAllLikesContext;
         
         [self.imgRemindMe setHidden:NO];
         [self.btnRemindMe setHidden:NO];
+      
         
     }else if ((self.isVIP != 1 || self.isInvited != 1) && self.isInvitedFlag == 1){
         [self.imgRemindMe setHidden:YES];
         [self.btnRemindMe setHidden:YES];
         [self.imgRemindMe removeFromSuperview];
         [self.btnRemindMe removeFromSuperview];
+        
     }else {
         [self.imgRemindMe setHidden:YES];
         [self.btnRemindMe setHidden:YES];
+        
     }
     
     
@@ -601,10 +606,19 @@ static void *getAllLikesContext = &getAllLikesContext;
         [self.imgGoingList setHidden:YES];
     }
 
-    
+    [self showOrRemoveVIPIcon];
 
 
 }
+
+-(void)showOrRemoveVIPIcon{
+    if (self.isVIP == YES) {
+        [self.vipImage setHidden:NO];
+    }else{
+        [self.vipImage setHidden:YES];
+    }
+}
+
 #pragma mark - Segue
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     

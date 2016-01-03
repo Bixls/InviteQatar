@@ -11,7 +11,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NetworkConnection.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,SKPaymentTransactionObserver >
+@interface AppDelegate : UIResponder <UIApplicationDelegate,SKPaymentTransactionObserver,UIAlertViewDelegate >
 
 @property (strong, nonatomic) UIWindow *window;
 

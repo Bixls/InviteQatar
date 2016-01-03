@@ -66,34 +66,37 @@
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateActive) {
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"لديك دعوة الآن هل تود فتحها؟" delegate:self cancelButtonTitle:@"لا" otherButtonTitles:@"نعم", nil];
+        [alertView show];
+    }else{
+        [self jumpToEvent];
+
+    }
+    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        //donothing
+    }else if (buttonIndex == 1){
+        [self jumpToEvent];
+    }
+}
+
+-(void)jumpToEvent{
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.userDefaults setBool:YES forKey:@"showNotification"];
     UIStoryboard *storyboard = self.window.rootViewController.storyboard;
-    
-    //self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[storyboard instantiateViewControllerWithIdentifier:@"home"]];
-    
-    
     EventViewController *eventVC = [storyboard instantiateViewControllerWithIdentifier:@"event"];
     UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:eventVC];
     [navCtrl setNavigationBarHidden:YES];
     [self.window.rootViewController presentViewController:navCtrl animated:NO completion:nil];
-//    [self.window.rootViewController.navigationController pushViewController:eventVC animated:NO];
-    
-  
-    
-    
-    
-    //[self.window setRootViewController:eventVC];
-    
-//    UIStoryboard *mainstoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    HomePageViewController *homeVC = [mainstoryboard instantiateViewControllerWithIdentifier:@"home"];
-//    UINavigationController *homeNav = [[UINavigationController alloc]initWithRootViewController:homeVC];
-//    
-//    
-//    [homeNav pushViewController:eventVC animated:NO];
-    
-    
 }
+
+
 
 #pragma mark - StoreKit Methods
 
