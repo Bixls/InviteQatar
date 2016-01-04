@@ -22,4 +22,6 @@
 @property (nonatomic,strong) NSArray *footerAds;
 @property (nonatomic,strong) id <FooterContainerDelegate> delegate;
 
+-(void)refreshFooter ;
+
 @end

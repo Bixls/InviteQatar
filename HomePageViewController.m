@@ -90,7 +90,9 @@
 @property (weak, nonatomic) IBOutlet UIView *footerContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerHeight;
 
-
+@property (nonatomic,strong) MiddleContainerViewController *middleContainer0;
+@property (nonatomic,strong) MiddleContainerViewController *middleContainer1;
+@property (nonatomic,strong) FooterContainerViewController *footerRef;
 
 @end
 
@@ -208,21 +210,6 @@
     
     
     
-//    if ([self.userDefaults integerForKey:@"activateFlag"] == 1) {
-//        
-//        //[self performSegueWithIdentifier:@"activateAccount" sender:self];
-//        [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
-//        
-//    }else if ([self.userDefaults integerForKey:@"signedIn"] == 0 && [self.userDefaults integerForKey:@"Guest"]==0 && [self.userDefaults integerForKey:@"Visitor"] == 0) {
-//        [self performSegueWithIdentifier:@"welcomeSegue" sender:self];
-////        WelcomePageViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"welcome"];
-////        //[self presentViewController:vc animated:NO completion:nil];
-////        [self.navigationController pushViewController:vc animated:NO];
-//        self.segueFlag = 0;
-//        [self.myProfileLabel setText:@"حسابي"];
-//    }
-    
-    
     if ([self.userDefaults integerForKey:@"Guest"]==1) {
         //Not functional any more
         [self.btnBuyInvitations setEnabled:NO];
@@ -239,8 +226,7 @@
         
     }else if ([self.userDefaults integerForKey:@"Visitor"] == 1){
         
-       // [self.btnBuyInvitations setEnabled:NO];
-        //        [self.btnMyAccount setEnabled:NO];
+
         self.segueFlag = 1;
         [self.btnMyProfile setTitle:@"خروج" forState:UIControlStateNormal];
         
@@ -252,10 +238,7 @@
         [self.btnInvitationsBuySmall setEnabled:NO];
         [self.btnCreateNewInvitation setEnabled:NO];
         
-//        self.eventsTableView.allowsSelection = NO;
-//        self.eventCollectionView.allowsSelection = NO;
-//        self.newsCollectionView.allowsSelection = NO;
-//        self.groupsCollectionView.allowsSelection = NO;
+
 
         
     }else{
@@ -269,21 +252,11 @@
         [self.btnInvitationsBuySmall setEnabled:YES];
         [self.btnCreateNewInvitation setEnabled:YES];
         
-//        [self.btnBuyInvitations setEnabled:YES];
-//        //        [self.btnMyAccount setEnabled:NO];
-//        [self.btnMyMessages setEnabled:YES];
-//        [self.btnSearch setEnabled:YES];
-//        [self.btnSupport setEnabled:YES];
-//        [self.btnInvitationsBuy setEnabled:YES];
-//        self.segueFlag = 0;
-//        [self.myProfileLabel setText:@"حسابي"];
-        
-//        self.eventsTableView.allowsSelection = YES;
+
         self.eventCollectionView.allowsSelection = YES;
         self.newsCollectionView.allowsSelection = YES;
         self.groupsCollectionView.allowsSelection = YES;
         
-       
     }
     
     
@@ -295,19 +268,10 @@
         self.groups = groups;
     
         [self assignGroupsToSections];
-//        
-      //  [self.groupsCollectionView reloadData];
+
     }
   
-//
-    
-//    NSArray *news = [self.userDefaults objectForKey:@"news"];
-//
-//    if (news != nil) {
-//        //self.offlineNewsFlag = 1 ;
-//        self.news = news;
-//        [self.newsCollectionView reloadData];
-//    }
+
     
     [self initAds];
     NSDictionary *getUserPoints = @{
@@ -334,13 +298,6 @@
     NSMutableDictionary *getEventsTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"getEvents",@"key", nil];
     
     
-    NSDictionary *getUnReadInbox = @{@"FunctionName":@"unReadInbox" , @"inputs":@[@{@"ReciverID":[NSString stringWithFormat:@"%ld",(long)self.userID],
-                                                                                    //                                                                             @"catID":@"-1",
-                                                                                    //                                                                             @"start":@"0",@"limit":@"3"
-                                                                                    }]};
-    NSMutableDictionary *getUnReadInboxTag = [[NSMutableDictionary alloc]initWithObjectsAndKeys:@"unReadInbox",@"key", nil];
-    
-    
     if (self.userMobile && self.userPassword) {
         getInvNum = @{@"FunctionName":@"signIn" ,
                       @"inputs":@[@{@"Mobile":self.userMobile,
@@ -350,16 +307,6 @@
     }
     
     
-//    NSArray *mutableGroups = [self.userDefaults objectForKey:@"mutableGroups"];
-//    if (mutableGroups != nil) {
-//        //        self.offlineGroupsFlag = 1 ;
-//        self.mutableGroups = mutableGroups;
-//        [self.groupsCollectionView reloadData];
-//    }else{
-//        [self postRequest:getGroups withTag:getGroupsTag];
-//    }
-    
-    
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
@@ -367,10 +314,7 @@
         [self postRequest:getGroups withTag:getGroupsTag];
         [self postRequest:getNews withTag:getNewsTag];
         [self postRequest:getEvents withTag:getEventsTag];
-        //[self.adsConnection getAdsWithStart:0 andLimit:1000];
         
-//        [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-//         [self postRequest:getInvNum withTag:getInvNumTag];
         
         @try {
             [self postRequest:getUserPoints withTag:getUserPointsTag];
@@ -384,6 +328,7 @@
     }
     else {
         self.offline = true;
+
 
     }
 
@@ -401,9 +346,12 @@
             [self postRequest:getEvents withTag:getEventsTag];
             [self postRequest:getUserPoints withTag:getUserPointsTag];
             [self initAds];
-            //[self.adsConnection getAdsWithStart:0 andLimit:1000];
-//            [self postRequest:getUnReadInbox withTag:getUnReadInboxTag];
-//            [self postRequest:getUserPointsTag withTag:getUserPointsTag];
+            
+            [self.middleContainer0 refreshAds];
+            [self.middleContainer1 refreshAds];
+            [self.footerRef refreshFooter];
+            
+            
         }
         else {
             self.offline = true;
@@ -1126,14 +1074,17 @@
         specialEvent.eventType = self.selectedSpecialEventType;
     }else if ([segue.identifier isEqualToString:@"footer"]){
         FooterContainerViewController *footerController = segue.destinationViewController;
+        self.footerRef = segue.destinationViewController;
         footerController.footerAds = self.footerAds;
         footerController.delegate = self;
     }else if ([segue.identifier isEqualToString:@"middle0"]){
         MiddleContainerViewController *middleController = segue.destinationViewController;
+        self.middleContainer0 = segue.destinationViewController;
         middleController.containerID = 0;
         middleController.delegate = self;
     }else if ([segue.identifier isEqualToString:@"middle1"]){
         MiddleContainerViewController *middleContainer = segue.destinationViewController;
+        self.middleContainer1 = segue.destinationViewController;
         middleContainer.containerID = 1;
         middleContainer.delegate = self;
     }

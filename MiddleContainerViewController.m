@@ -41,6 +41,15 @@
 
 }
 
+-(void)refreshAds{
+    self.allAds = [[NSMutableArray alloc]init];
+    for (NSInteger i = 0; i < 3; i++ )
+    {
+        [self.allAds addObject:[NSNull null]];
+    }
+    [self initAds];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [self initAds];
 }

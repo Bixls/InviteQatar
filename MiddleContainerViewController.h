@@ -22,4 +22,6 @@
 @property (nonatomic) NSInteger containerID;
 @property (nonatomic,weak) id <MiddleContainerDelegate> delegate;
 
+-(void)refreshAds;
+
 @end

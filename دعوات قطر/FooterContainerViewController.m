@@ -60,14 +60,24 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     self.footerHeight = 492;
-    BOOL var  =[self.userdefaults boolForKey:@"refreshFooter"];
+
     if (self.allAds == nil || [self.userdefaults boolForKey:@"refreshFooter"] == YES) {
         [self refreshAds];
     }else {
         [self initAds];
     }
-    //[self initAds];
+    
    
+}
+
+-(void)refreshFooter {
+    self.footerHeight = 492;
+    
+    if (self.allAds == nil || [self.userdefaults boolForKey:@"refreshFooter"] == YES) {
+        [self refreshAds];
+    }else {
+        [self initAds];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
