@@ -426,10 +426,10 @@
            // [self distributeAds];
             [self numberOfSectionsFromEnabledAds];
             [self assignGroupsToSections];
-            [self.groupsCollectionView reloadData];
+            //[self.groupsCollectionView reloadData];
         }
         
-        [self.groupsCollectionView reloadData];
+        //[self.groupsCollectionView reloadData];
         
     }];
     [self.adsConnection getAdsWithStart:10 andLimit:1000];
@@ -442,25 +442,25 @@
         NSDictionary *ad = self.allAds[i];
         NSInteger isEnabled = [ad[@"Enable"]integerValue];
         if ((i+1) % 3 == 0) {
-            if (isEnabled == 1) {
+            //if (isEnabled == 1) {
                 [tempAds addObject:ad];
                 [self.sectionAds setValue:[tempAds copy] forKey:[NSString stringWithFormat:@"%ld",(long)section]];
                 section++;
                 [tempAds removeAllObjects];
-            }else{
-                section++;
-                [tempAds removeAllObjects];
-            }
+           // }else{
+            //    section++;
+//                [tempAds removeAllObjects];
+//            }
            
         }else{
-            if (isEnabled == 1) {
+            //if (isEnabled == 1) {
                 [tempAds addObject:ad];
                 [self.sectionAds setValue:[tempAds copy] forKey:[NSString stringWithFormat:@"%ld",(long)section]];
                 if ((i+1) %3 == 0 && i+1 < self.allAds.count) {
                     section++;
                     [tempAds removeAllObjects];
                 }
-            }
+            //}
         }
 
     }
@@ -619,7 +619,15 @@
                 return CGSizeMake((self.groupsCollectionView.bounds.size.width), 1);
             }else{
                 NSArray *ads = [self.sectionAds objectForKey:[NSString stringWithFormat:@"%ld",(long)section]];
-                if (ads.count == 1) {
+                NSDictionary *firstAd = ads[0];
+                NSDictionary *secondAd = ads[1];
+                NSDictionary *thirdAd = ads[2];
+                
+                NSInteger isFirstEnabled = [firstAd[@"Enable"]integerValue];
+                NSInteger isSecondEnabled = [secondAd[@"Enable"]integerValue];
+                NSInteger isThirdEnabled = [thirdAd[@"Enable"]integerValue];
+                
+                if ((isFirstEnabled == 1 && isSecondEnabled == 0 && isThirdEnabled == 0) || (isFirstEnabled == 0 && isSecondEnabled == 1 && isThirdEnabled == 1)) {
                     return CGSizeMake((self.groupsCollectionView.bounds.size.width), 75);
                 }else{
                     return CGSizeMake((self.groupsCollectionView.bounds.size.width), 155);
@@ -711,54 +719,12 @@
             }];
             
         }
-//        NSData *encodedObject =[self.userDefaults objectForKey:tempGroup[@"ProfilePic"]];
-//
-//        NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-//        
-//        if (imgData != nil) {
-//            UIImage *img =  [UIImage imageWithData:imgData];
-//            if ([tempGroup[@"Royal"]integerValue] == 1) {
-//                cell.royalPP.image = img;
-//            }else{
-//                cell.groupPP.image = img;
-//            }
-//        }else{
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//                NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempGroup[@"ProfilePic"]];
-////                NSLog(@"%@",imgURLString);
-//                NSURL *imgURL = [NSURL URLWithString:imgURLString];
-//                NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-//                UIImage *image = [[UIImage alloc]initWithData:imgData];
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    if ([tempGroup[@"Royal"]integerValue] == 1) {
-//                        cell.royalPP.image = image;
-//                    }else{
-//                        cell.groupPP.image = image;
-//                    }
-//                    NSData *imageData = UIImagePNGRepresentation(image);
-//                    NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
-//                    if (encodedDate != nil) {
-//                        [self.userDefaults setObject:encodedDate forKey:tempGroup[@"ProfilePic"]];
-//                        [self.userDefaults synchronize];
-//                    }
-//                    
-//                });
-//            });
-//
-//        }
-        
         
         [cell.contentView setTransform:CGAffineTransformMakeScale(-1, 1)];
         self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
        return cell;
     }
-//    else if (collectionView.tag == 0) {
-//        cellGroupsCollectionView *cell = [[cellGroupsCollectionView alloc]init];
-//        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"adSpace" forIndexPath:indexPath];
-//        self.verticalLayoutConstraint.constant = self.groupsCollectionView.contentSize.height;
-//        return cell;
-//        
-//    }
+
     else if (collectionView.tag == 1){
         
     
@@ -905,92 +871,70 @@
             //NSInteger numberOfDeletedAds = 0 ;
             for (int i = 0; i < threeAds.count; i++) {
                 NSDictionary *tempAd = threeAds[i];
+                NSDictionary *firstAd = threeAds[0];
+                NSDictionary *secondAd = threeAds[1];
+                NSDictionary *thirdAd = threeAds[2];
+                
+                NSInteger isFirstEnabled = [firstAd[@"Enable"]integerValue];
+                NSInteger isSecondEnabled = [secondAd[@"Enable"]integerValue];
+                NSInteger isThirdEnabled = [thirdAd[@"Enable"]integerValue];
+
                 NSInteger picID = [tempAd[@"adsImage"]integerValue];
                 NSInteger adID = [tempAd[@"id"]integerValue];
+                NSInteger isEnabled = [tempAd[@"Enable"]integerValue];
                 self.footerImgConnection = [[NetworkConnection alloc]init];
+                
                 switch (i) {
                     case 0:{
-                       // NSLog(@"%ld",(long)picID);
-                        footer.btn1.tag = adID;
-                        //[self removePermenantlyIfDisabled:tempAd imageView:footer.img1 button:footer.btn1];
-                        
-                        
-//                        [self removeIfDisabled:tempAd imageView:footer.img1 imageHeight:footer.img1Height imgWidth:nil andButtonHeight:footer.img1Height buttonWidth:nil];
-                       // [self removeIfDisabled:tempAd imageView:footer.img1 imageHeight:footer.img1Height andButtonHeight:footer.btn1Height];
-                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
-//                        [self removeIfDisabled:tempAd imageView:footer.img1 andButton:footer.btn1];
-                        if (threeAds.count == 1) {
+                        if (isEnabled == 1) {
+                            footer.btn1.tag = adID;
                             
-//                            [self removePermenantlyIfDisabled:tempAd imageView:footer.img2 button:footer.btn2];
-//                            [self removePermenantlyIfDisabled:tempAd imageView:footer.img3 button:footer.btn3];
+                            [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img1];
                             
-//                            footer.btn2Height.constant = 0;
-//                            footer.img2Height.constant = 0;
-//                            footer.btn2Width.constant = 0;
-//                            footer.img2Width.constant = 0;
-//                            
-//                            footer.btn3Height.constant = 0;
-//                            footer.img3Height.constant = 0;
-//                            footer.btn3Width.constant =0;
-//                            footer.img3Width.constant = 0;
+                            if (isSecondEnabled == 0 && isThirdEnabled == 0) {
+                                
+                                [footer.img2 removeFromSuperview];
+                                [footer.btn2 removeFromSuperview];
+                                
+                                [footer.img3 removeFromSuperview];
+                                [footer.btn3 removeFromSuperview];
+                            }
                             
-                            [footer.img2 removeFromSuperview];
-                            [footer.btn2 removeFromSuperview];
-                            
-                            [footer.img3 removeFromSuperview];
-                            [footer.btn3 removeFromSuperview];
+                            break;
                         }
-//                        if (remove == YES) {
-//                            numberOfDeletedAds ++ ;
-//                        }
-                        break;
+       
                     }case 1:{
-
-                        footer.btn2.tag = adID;
-                        //[self removePermenantlyIfDisabled:tempAd imageView:footer.img2 button:footer.btn2];
+                        if (isEnabled == 1) {
+                            footer.btn2.tag = adID;
+                            [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
+                            
+                            if ( isFirstEnabled == 1 && isThirdEnabled == 0) {
+                                [footer.img3 removeFromSuperview];
+                                [footer.btn3 removeFromSuperview];
+                            }
                         
-//                        [self removeIfDisabled:tempAd imageView:footer.img2 imageHeight:footer.img2Height imgWidth:footer.img2Width andButtonHeight:footer.btn2Height buttonWidth:footer.btn2Width];
-                        //[self removeIfDisabled:tempAd imageView:footer.img2 imageHeight:footer.img2Height andButtonHeight:footer.btn2Height];
-                        
-                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img2];
-                        //[self removeIfDisabled:tempAd imageView:footer.img2 andButton:footer.btn2];
-//                        if (remove == YES) {
-//                            numberOfDeletedAds ++ ;
-//                        }
-                        
-//                        footer.img2Width.constant = (footer.frame.size.width/2) - 5;
-//                        footer.btn2Width.constant = (footer.frame.size.width/2) - 5;
-                        if (threeAds.count == 2) {
-                            [footer.img3 removeFromSuperview];
-                            [footer.btn3 removeFromSuperview];
-                            
-                            //footer.btn3Height.constant = 0;
-//                            footer.btn3Width.constant = 0 ;
-                            
-                            //footer.img3Height.constant = 0;
-//                            footer.img3Width.constant = 0;
-                            
-                            //[footer.img3 removeFromSuperview];
-                            //[footer.btn3 removeFromSuperview];
-                            
-                            
-//                            [footer.img3 removeFromSuperview];
-//                            [footer.btn3 removeFromSuperview];
+                            break;
                         }
-                        break;
+                        
+        
                     }case 2:{
                         
-                       // NSLog(@"%ld",(long)picID);
-                        footer.btn3.tag = adID;
+                        if (isEnabled == 1) {
+                            footer.btn3.tag = adID;
+                            [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
+                            
+                            if (isFirstEnabled == 0 && isSecondEnabled == 1 ) {
+                                [footer.img1 removeFromSuperview];
+                                [footer.btn1 removeFromSuperview];
+                            }else if (isFirstEnabled == 1 && isSecondEnabled == 0 ){
+                                
+                                [footer.img2 removeFromSuperview];
+                                [footer.btn2 removeFromSuperview];
+                            
+                            }
+                            break;
+                        }
 
-
-//                        footer.img3Width.constant = (footer.frame.size.width/2) - 5;
-//                        footer.btn3Width.constant = (footer.frame.size.width/2) - 5;
-                        [self.footerImgConnection downloadImageWithID:picID andImageView:footer.img3];
-                        //[self removeIfDisabled:tempAd imageView:footer.img3 imageHeight:footer.img3Height andButton:footer.btn3Height];
-//                        [self removeIfDisabled:tempAd imageView:footer.img3 imageHeight:footer.img3Height imgWidth:footer.img3Width andButtonHeight:footer.btn3Height buttonWidth:footer.btn3Width];
-                        //[self removeIfDisabled:tempAd imageView:footer.img3 imageHeight:footer.img3Height andButtonHeight:footer.btn3Height];
-                        break;
                     }
                     default:
                         break;
@@ -1052,42 +996,6 @@
     if (collectionView.tag == 0) {
         NSArray *sectionGroups = [self.sectionGroups valueForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
         self.selectedGroup = sectionGroups[indexPath.row];
-//        self.selectedGroup = self.groups[indexPath.item];
-//        switch (indexPath.section) {
-//            case 0:{
-//                self.selectedGroup = self.firstSection[indexPath.row];
-//                break;
-//            }
-//                
-//            case 1:{
-//                
-//                self.selectedGroup = self.secondSection[indexPath.row];
-//                
-//                break;
-//            }
-//                
-//            case 2:{
-//                
-//                self.selectedGroup = self.thirdSection[indexPath.row];
-//                break;
-//            }
-//                
-//            case 3:{
-//                self.selectedGroup = self.fourthSection[indexPath.row];
-//
-//                break;
-//            }
-//                
-//            case 4:{
-//
-//                self.selectedGroup = self.fifthSection[indexPath.row];
-//                break;
-//            }
-//                
-//            default:
-//                break;
-//        }
-
         [collectionView deselectItemAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"group" sender:self];
     }else if (collectionView.tag == 1){
@@ -1296,8 +1204,9 @@
 
             
             [self.userDefaults synchronize];
-            
             [self.groupsCollectionView reloadData];
+            
+            
         }else{
 
             [self.userDefaults setObject:self.groups forKey:@"groups"];

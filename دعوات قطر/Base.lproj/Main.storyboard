@@ -2436,7 +2436,7 @@
                                 <rect key="frame" x="0.0" y="28" width="320" height="540"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UA6-uW-Bpc">
-                                        <rect key="frame" x="0.0" y="-300" width="320" height="2485"/>
+                                        <rect key="frame" x="0.0" y="-1500" width="320" height="2485"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Tk-ZX-kE3">
                                                 <rect key="frame" x="209" y="113" width="106" height="56"/>
@@ -2615,7 +2615,6 @@
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="75" id="N2y-Fb-SZk"/>
-                                                                <constraint firstAttribute="width" constant="148" id="Vf8-ff-MVr"/>
                                                             </constraints>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="golden_button.png" translatesAutoresizingMaskIntoConstraints="NO" id="xKN-YE-JIw">
@@ -2625,7 +2624,7 @@
                                                                 <constraint firstAttribute="height" constant="75" id="aqR-sG-ymk"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="67BD5C19-823A-4696-91AF-073CE36C6498" translatesAutoresizingMaskIntoConstraints="NO" id="heL-aH-x2M">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="27787EFC-F5E5-4CF8-9697-5FE5B1E31C18" translatesAutoresizingMaskIntoConstraints="NO" id="heL-aH-x2M">
                                                             <rect key="frame" x="0.0" y="0.0" width="300" height="70"/>
                                                             <animations/>
                                                             <constraints>
@@ -2658,7 +2657,6 @@
                                                             <rect key="frame" x="0.0" y="80" width="148" height="75"/>
                                                             <animations/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="148" id="f93-3p-SnE"/>
                                                                 <constraint firstAttribute="height" constant="75" id="liR-Xl-vtp"/>
                                                             </constraints>
                                                             <connections>
@@ -2674,18 +2672,22 @@
                                                         <constraint firstItem="7JL-x4-PME" firstAttribute="top" secondItem="WAu-Nm-aGU" secondAttribute="bottom" constant="4" id="5ID-CN-gmY"/>
                                                         <constraint firstAttribute="trailing" secondItem="xKN-YE-JIw" secondAttribute="trailing" id="5u8-s1-Fwe"/>
                                                         <constraint firstItem="rPn-7o-4DX" firstAttribute="leading" secondItem="WAu-Nm-aGU" secondAttribute="leading" priority="900" id="6cX-H1-9x6"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="tY3-js-3J2" secondAttribute="bottom" constant="-8" id="7AF-eg-YjA"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="rPn-7o-4DX" secondAttribute="bottom" constant="-1" id="8br-Ck-FRp"/>
                                                         <constraint firstItem="tY3-js-3J2" firstAttribute="trailing" secondItem="heL-aH-x2M" secondAttribute="trailing" priority="800" id="AUb-Jl-Kef"/>
                                                         <constraint firstItem="xKN-YE-JIw" firstAttribute="width" secondItem="tY3-js-3J2" secondAttribute="width" id="Bem-fS-FB2"/>
                                                         <constraint firstItem="rPn-7o-4DX" firstAttribute="leading" secondItem="7JL-x4-PME" secondAttribute="trailing" constant="4" id="COf-6F-Elt"/>
                                                         <constraint firstAttribute="trailing" secondItem="heL-aH-x2M" secondAttribute="trailing" id="DCn-y0-oT0"/>
                                                         <constraint firstItem="tY3-js-3J2" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" id="Egj-5q-aqQ"/>
                                                         <constraint firstItem="xKN-YE-JIw" firstAttribute="leading" secondItem="tY3-js-3J2" secondAttribute="trailing" constant="4" id="FbQ-7B-iHF"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="7JL-x4-PME" secondAttribute="bottom" constant="-8" id="G30-3L-X0d"/>
                                                         <constraint firstItem="heL-aH-x2M" firstAttribute="top" secondItem="T26-a7-2S8" secondAttribute="top" id="IYK-00-MpP"/>
                                                         <constraint firstItem="heL-aH-x2M" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" id="JIm-Zn-gmB"/>
                                                         <constraint firstItem="xKN-YE-JIw" firstAttribute="top" secondItem="WAu-Nm-aGU" secondAttribute="bottom" constant="4" id="MgN-w2-A53"/>
                                                         <constraint firstAttribute="trailing" secondItem="rPn-7o-4DX" secondAttribute="trailing" id="a5o-a3-AUa"/>
                                                         <constraint firstItem="7JL-x4-PME" firstAttribute="leading" secondItem="T26-a7-2S8" secondAttribute="leading" id="ae5-m7-T8w"/>
                                                         <constraint firstItem="xKN-YE-JIw" firstAttribute="leading" secondItem="heL-aH-x2M" secondAttribute="leading" priority="900" id="c7B-af-C3r"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="xKN-YE-JIw" secondAttribute="bottom" constant="-8" id="cs5-11-0WB"/>
                                                         <constraint firstItem="tY3-js-3J2" firstAttribute="top" secondItem="WAu-Nm-aGU" secondAttribute="bottom" constant="4" id="knx-yR-1hQ"/>
                                                         <constraint firstAttribute="trailing" secondItem="WAu-Nm-aGU" secondAttribute="trailing" id="l3D-IR-rbl"/>
                                                         <constraint firstItem="rPn-7o-4DX" firstAttribute="top" secondItem="WAu-Nm-aGU" secondAttribute="bottom" constant="4" id="q82-K0-s43"/>
@@ -2700,14 +2702,12 @@
                                                         <outlet property="btn2Height" destination="fub-f7-pVm" id="hPP-cI-Tab"/>
                                                         <outlet property="btn3" destination="7JL-x4-PME" id="Uif-8F-r9P"/>
                                                         <outlet property="btn3Height" destination="liR-Xl-vtp" id="VWI-MP-qEX"/>
-                                                        <outlet property="btn3Width" destination="f93-3p-SnE" id="YdE-Ri-evp"/>
                                                         <outlet property="img1" destination="heL-aH-x2M" id="37S-6m-eBC"/>
                                                         <outlet property="img1Height" destination="V6E-a1-Fho" id="ygJ-UL-SUg"/>
                                                         <outlet property="img2" destination="xKN-YE-JIw" id="7x5-oR-2G1"/>
                                                         <outlet property="img2Height" destination="aqR-sG-ymk" id="r79-MH-FjM"/>
                                                         <outlet property="img3" destination="tY3-js-3J2" id="17S-DF-lSx"/>
                                                         <outlet property="img3Height" destination="N2y-Fb-SZk" id="a5T-4B-ADN"/>
-                                                        <outlet property="img3Width" destination="Vf8-ff-MVr" id="xln-ge-mDj"/>
                                                     </connections>
                                                 </collectionReusableView>
                                                 <connections>
@@ -11435,6 +11435,7 @@
                             <constraint firstItem="1gT-2U-Xxp" firstAttribute="top" secondItem="zET-GU-be0" secondAttribute="top" id="Dzj-9S-vGW"/>
                             <constraint firstItem="1gT-2U-Xxp" firstAttribute="leading" secondItem="zET-GU-be0" secondAttribute="leadingMargin" constant="-20" id="EOf-IG-IKj"/>
                             <constraint firstItem="2Lb-N9-3aZ" firstAttribute="width" secondItem="Hag-o5-2Ck" secondAttribute="width" id="KTa-rj-5qu"/>
+                            <constraint firstItem="tAO-OL-zzx" firstAttribute="top" secondItem="d2Z-Iu-mWW" secondAttribute="bottom" priority="800" id="Kuv-pf-P8Y"/>
                             <constraint firstItem="Jtb-0R-cee" firstAttribute="leading" secondItem="ayj-e6-ThO" secondAttribute="trailing" constant="4" id="MBE-od-ezz"/>
                             <constraint firstItem="Jtb-0R-cee" firstAttribute="top" secondItem="1gT-2U-Xxp" secondAttribute="bottom" constant="5" id="OkQ-Iw-CrX"/>
                             <constraint firstItem="ayj-e6-ThO" firstAttribute="width" secondItem="Jtb-0R-cee" secondAttribute="width" id="POS-U2-2TZ"/>
@@ -11473,7 +11474,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="67BD5C19-823A-4696-91AF-073CE36C6498" width="1088" height="192">
+        <image name="27787EFC-F5E5-4CF8-9697-5FE5B1E31C18" width="1088" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -25497,22 +25498,22 @@ AAAAAAAAAAAAAAzKiQ
         <image name="withoutdecorations.png" width="640" height="116"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PT9-5c-oKB"/>
-        <segue reference="Jgt-me-3nt"/>
-        <segue reference="ehv-QV-wmo"/>
-        <segue reference="7J1-Rt-qJs"/>
         <segue reference="FzJ-6b-ZNA"/>
-        <segue reference="kMD-e6-iDp"/>
-        <segue reference="mYb-7K-k86"/>
-        <segue reference="Ms0-5r-99t"/>
-        <segue reference="hWi-sg-g8m"/>
-        <segue reference="fPj-P0-xuP"/>
-        <segue reference="4OK-YO-KNn"/>
-        <segue reference="hTI-TE-OlE"/>
-        <segue reference="eTO-GU-BSU"/>
-        <segue reference="1o2-k6-8rD"/>
+        <segue reference="ehv-QV-wmo"/>
+        <segue reference="PT9-5c-oKB"/>
+        <segue reference="Ff3-m5-J1l"/>
+        <segue reference="Jgt-me-3nt"/>
+        <segue reference="Q1U-zT-bIh"/>
+        <segue reference="7J1-Rt-qJs"/>
+        <segue reference="De6-P3-Poq"/>
         <segue reference="qMc-nt-nCm"/>
         <segue reference="ZIm-fH-sIf"/>
-        <segue reference="De6-P3-Poq"/>
+        <segue reference="4OK-YO-KNn"/>
+        <segue reference="kMD-e6-iDp"/>
+        <segue reference="Ms0-5r-99t"/>
+        <segue reference="fPj-P0-xuP"/>
+        <segue reference="hTI-TE-OlE"/>
+        <segue reference="mYb-7K-k86"/>
+        <segue reference="1o2-k6-8rD"/>
     </inferredMetricsTieBreakers>
 </document>

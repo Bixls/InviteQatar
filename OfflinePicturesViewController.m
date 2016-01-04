@@ -9,6 +9,8 @@
 #import "OfflinePicturesViewController.h"
 #import "OfflinePicturesCollectionViewCell.h"
 #import "ASIHTTPRequest.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 @interface OfflinePicturesViewController ()
 
 @property (nonatomic,strong) NSArray *imageArray;
@@ -66,46 +68,20 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
     OfflinePicturesCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+   
     NSDictionary *tempImage = self.imageArray [indexPath.item];
+    
+    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempImage[@"imageID"]];
+    NSURL *imgURL = [NSURL URLWithString:imgURLString];
+    [cell.picture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        cell.picture.image = image;
     
-//
+    }];
     
-    
-    if (self.offlineGroupsFlag ==0) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",tempImage[@"imageID"]];
-//            NSLog(@"%@",imgURLString);
-            NSURL *imgURL = [NSURL URLWithString:imgURLString];
-            NSData *imgData = [NSData dataWithContentsOfURL:imgURL];
-            UIImage *image = [[UIImage alloc]initWithData:imgData];
-            dispatch_async(dispatch_get_main_queue(), ^{
-
-                cell.picture.image = image;
- 
-                NSData *imageData = UIImagePNGRepresentation(image);
-                NSData *encodedDate = [NSKeyedArchiver archivedDataWithRootObject:imageData];
-                [self.userDefaults setObject:encodedDate forKey:tempImage[@"imageID"]];
-                [self.userDefaults synchronize];
-                
-                //                    [self.groupImages addObject:@"plus"];
-                //                    [self.userDefaults setObject:self.groupImages forKey:@"groupImages"];
-                //                    [self.userDefaults synchronize];
-            });
-        });
-        
-    }else if (self.offlineGroupsFlag == 1){
-        //self.groupImages = [self.userDefaults objectForKey:@"groupImages"];
-        //            if (self.groupImages.count >0) {
-        //NSDictionary *tempGroup = self.groups[indexPath.item];
-        NSData *encodedObject =[self.userDefaults objectForKey:tempImage[@"imageID"]];
-        if (encodedObject) {
-            NSData *imgData = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-            UIImage *img =  [UIImage imageWithData:imgData];
-            cell.picture.image = img;
-        }
-    }
 
     return cell;
 }
