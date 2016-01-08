@@ -32,7 +32,7 @@
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     self.getAllGroupsConn = [[NetworkConnection alloc]init];
     self.mutableResponse = [[NSMutableArray alloc]init];
-//    NSLog(@"EVENT ID %ld" , (long)self.eventID );
+
     
 }
 
@@ -42,8 +42,14 @@
     NSDictionary *postDict = @{
                                @"FunctionName":@"getGroupList" ,
                                @"inputs":@[@{@"limit":[NSNumber numberWithInt:1000]}]};
+    
+    if (self.mutableResponse.count > 0) {
+        [self.mutableResponse removeAllObjects];
+    }else{
+        //donothing
+    }
     [self.getAllGroupsConn postRequest:postDict withTag:nil];
-//    [self postRequest:postDict];
+    
 
 }
 
@@ -74,8 +80,6 @@
             }
         }
         
-        
-//        NSLog(@"%@", self.responseArray );
         if ([self.responseArray isEqualToArray:[self.userDefaults objectForKey:@"groupArray"]]) {
             //do nothing
         }else{
@@ -135,9 +139,9 @@
     }
     
     NSArray *tempArray = [self.userDefaults objectForKey:@"groupArray"];
-//    NSLog(@"%@",tempArray);
+
     cell.groupName.text = tempArray[indexPath.row][@"name"];
-//    NSLog(@"%@",cell.groupName.text);
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell ;
 }
@@ -151,7 +155,7 @@
         if ([self.delegate respondsToSelector:@selector(selectedGroup:)]) {
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.delegate selectedGroup:selectedGroup];
-//            NSLog(@"%@",selectedGroup);
+
             [self dismissViewControllerAnimated:YES completion:nil];
         }
     }else if (self.flag ==1){

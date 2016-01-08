@@ -2624,7 +2624,7 @@
                                                                 <constraint firstAttribute="height" constant="75" id="aqR-sG-ymk"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="27787EFC-F5E5-4CF8-9697-5FE5B1E31C18" translatesAutoresizingMaskIntoConstraints="NO" id="heL-aH-x2M">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="B0F36803-52DA-4518-8C20-430EC27F70E6" translatesAutoresizingMaskIntoConstraints="NO" id="heL-aH-x2M">
                                                             <rect key="frame" x="0.0" y="0.0" width="300" height="70"/>
                                                             <animations/>
                                                             <constraints>
@@ -11474,7 +11474,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="27787EFC-F5E5-4CF8-9697-5FE5B1E31C18" width="1088" height="192">
+        <image name="B0F36803-52DA-4518-8C20-430EC27F70E6" width="1088" height="192">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
