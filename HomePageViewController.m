@@ -373,7 +373,9 @@
         if (self.allAds.count > 0) {
            // [self distributeAds];
             [self numberOfSectionsFromEnabledAds];
-            [self assignGroupsToSections];
+            //[self assignGroupsToSections];
+            
+            
             //[self.groupsCollectionView reloadData];
         }
         
