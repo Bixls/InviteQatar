@@ -100,30 +100,7 @@
             cell2.userName.text = comment[@"name"];
             cell2.userComment.text = comment[@"comment"];
             
-//            [cell2.userImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",comment[@"ProfilePic"]]] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                if (error) {
-//                    NSLog(@"Error downloading images");
-//                }else{
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        cell2.userImage.image = image;
-//                    });
-//                }
-//            }];
-            
-            
-//            [cell2.userComment addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
-            
-//            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-//                //Background Thread
-//                NSString *imageURL = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@",comment[@"ProfilePic"]];
-//                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-//                UIImage *img = [[UIImage alloc]initWithData:data];
-//                dispatch_async(dispatch_get_main_queue(), ^(void){
-//                    //Run UI Updates
-//                    cell2.userImage.image = img;
-//                    
-//                });
-//            });
+
             
 
         }
@@ -132,14 +109,7 @@
         return cell2;
     }
     
-//    else if (indexPath.row == (self.comments.count+1)){
-//        UITableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"Cell1" forIndexPath:indexPath];
-//        if (cell1==nil) {
-//            cell1=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell1"];
-//        }
-//        cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-//        return cell1;
-//    }
+
 
     
     

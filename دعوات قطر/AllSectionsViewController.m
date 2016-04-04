@@ -141,40 +141,7 @@
 }
 
 -(customEventCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    static NSString *cellIdentifier = @"eventCell";
-//    
-//    AllSectionsCellCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-//    
-//    if (self.allSections.count) {
-//        NSArray *content = self.sectionContent[[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
-//        if (content) {
-////            NSLog(@"%@",self.sectionContent);
-////            NSLog(@"%@",content);
-//            if (content.count>0) {
-//                NSDictionary *event = content[indexPath.row];
-//                cell.eventName.text = event[@"subject"];
-//                cell.eventCreator.text = event[@"CreatorName"];
-//                cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]];
-//                NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]];
-//                NSURL *imgURL = [NSURL URLWithString:imgURLString];
-//                UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//                [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//                    spinner.center = cell.eventPicture.center;
-//                    spinner.hidesWhenStopped = YES;
-//                    [cell addSubview:spinner];
-//                    [spinner startAnimating];
-//                } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                    cell.eventPicture.image = image;
-//                    [spinner stopAnimating];
-////                    NSLog(@"Cache Type %ld",(long)cacheType);
-//                }];
-//
-//            }
-//        }
-//
-//        // NSArray *content = [self.sectionContent objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section+1]] ;
-//    }
-//    return cell;
+
     
     customEventCollectionViewCell *cell = (customEventCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"eventCell" forIndexPath:indexPath];
     

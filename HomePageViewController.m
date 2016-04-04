@@ -816,9 +816,7 @@
             //NSMutableArray *threeAds = [[NSMutableArray alloc]init];
         
         NSMutableArray *threeAds = [self.sectionAds objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
-        //NSLog(@"%ld",(long)indexPath.section);
-       
-            //NSInteger numberOfDeletedAds = 0 ;
+
             for (int i = 0; i < threeAds.count; i++) {
                 NSDictionary *tempAd = threeAds[i];
                 NSDictionary *firstAd = threeAds[0];
@@ -921,8 +919,7 @@
     NSInteger picNumber = [ad[@"adsImage"]integerValue];
     NSInteger status = [ad[@"Enable"]integerValue];
     if (status == 0) {
-        //[imageV removeFromSuperview];
-        //[btn removeFromSuperview];
+
         imgHeight.constant = 0;
         btnHeight.constant = 0;
         
@@ -931,8 +928,7 @@
         imgHeight.constant = 68;
         btnHeight.constant = 68;
         if (imgWidth != nil && btnWidth != nil) {
-           //imgWidth.constant = 30;
-            //btnWidth.constant = 142;
+
         }
         [self.footerImgConnection downloadImageWithID:picNumber andImageView:imageV];
 
@@ -981,9 +977,7 @@
             return CGSizeMake(70, 84);
         }
     }
-//    else if (collectionView.tag == 0){
-//        return CGSizeMake(self.groupsCollectionView.bounds.size.width, 100);
-//    }
+
     else if (collectionView.tag == 2){
         return CGSizeMake((self.eventCollectionView.bounds.size.width - 5)/2, 210);
     }
@@ -1045,8 +1039,7 @@
     if ([platform isEqualToString:@"x86_64"])       return @"Simulator";
     return platform;
 }
-//298
-//
+
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
 
@@ -1193,11 +1186,7 @@
             [self.userDefaults synchronize];
             self.newsCollectionView.scrollEnabled = NO;
 
-//            self.newsCollectionView.frame = CGRectMake(self.newsCollectionView.frame.origin.x, self.newsCollectionView.frame.origin.y, self.newsCollectionView.frame.size.width, 500);
-//            [self.newsCollectionView setNeedsDisplay];
-//            [self.newsCollectionView setNeedsLayout];
-//            [self.view setNeedsDisplay];
-            //self.newsCollectionViewHeight.constant = 0;
+
             [self.newsCollectionView reloadData];
             self.pullToRefreshFlag ++;
         }
@@ -1230,22 +1219,6 @@
 
 
     }
-//    else if ([key isEqualToString:@"unReadInbox"]){
-//        NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        self.unReadMsgs = [dict[@"unReaded"]integerValue];
-//        [self.btnUnReadMsgs setHidden:NO];
-//        [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)self.unReadMsgs] forState:UIControlStateNormal];
-//        self.pullToRefreshFlag ++;
-//    }
-//    else if ([key isEqualToString:@"invNum"]){
-//        NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
-//        NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
-//        self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
-//        [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
-//        [self.userDefaults synchronize];
-//        
-//       // UPDATE CONTROLS
-//    }
     else if ([key isEqualToString:@"getUserPoints"]){
         
         NSDictionary *responseDictionary =[NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:nil];
@@ -1259,13 +1232,10 @@
                 [self.msgsNotificationView setHidden:YES];
             }
             [self.btnUnReadMsgs setHidden:NO];
-//            NSString *unread = [responseDictionary[@"unRead"]stringValue];
-//            NSLog(@"%@",unread);
+
             [self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%ld",(long)unread] forState:UIControlStateNormal];
             
-            //[self.btnUnReadMsgs setTitle:[responseDictionary[@"unRead"]stringValue] forState:UIControlStateNormal];
-//            [[self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%@",unread] forState:UIControlStateNormal];
-//             self.btnUnReadMsgs setTitle:[NSString stringWithFormat:@"%@",unread] forState:UIControlStateNormal];
+
             self.pullToRefreshFlag ++;
         }
         
@@ -1278,11 +1248,6 @@
                 [self.invitationsNotificationsView setHidden:YES];
             }
             self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
-           // [s setTitle:[NSString stringWithFormat:@"%ld",(long)VIP] forState:UIControlStateNormal];
-            
-//            NSInteger VIP  = [responseDictionary[@"inVIP"]integerValue];
-//            self.VIPPointsNumber.text = [NSString stringWithFormat:@"%ld",(long)VIP];
-//            self.lblVIPPoints.text = [NSString stringWithFormat:@"%ld",(long)VIP];
             
             [self.userDefaults setInteger:VIP forKey:@"VIPPoints"];
             [self.userDefaults synchronize];

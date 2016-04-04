@@ -146,56 +146,8 @@
     return [date stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     
 }
-#pragma mark - TableView DataSource Methods
 
-//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-//    return 1;
-//    
-//}
-//
-//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    return self.allEvents.count;
-//}
-//
-//-(SecEventTableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    static NSString *cellIdentifier = @"Cell";
-//    
-//    SecEventTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-//    if (cell==nil) {
-//        cell=[[SecEventTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//    }
-//    
-//    NSDictionary *event = self.allEvents[indexPath.row];
-//    cell.eventSubject.text = event[@"subject"];
-//    cell.eventCreator.text = event[@"CreatorName"];
-//    cell.eventDate.text = [self GenerateArabicDateWithDate:event[@"TimeEnded"]] ;
-//    
-//    NSString *imgURLString = [NSString stringWithFormat:@"http://Bixls.com/api/image.php?id=%@&t=150x150",event[@"EventPic"]];
-//    NSURL *imgURL = [NSURL URLWithString:imgURLString];
-//    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    [cell.eventPicture sd_setImageWithURL:imgURL placeholderImage:nil options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//        spinner.center = cell.eventPicture.center;
-//        spinner.hidesWhenStopped = YES;
-//        [cell addSubview:spinner];
-//        [spinner startAnimating];
-//    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//        cell.eventPicture.image = image;
-//        [spinner stopAnimating];
-////        NSLog(@"Cache Type %ld",(long)cacheType);
-//    }];
-//
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    return cell ;
-//}
-//
-//#pragma mark - Delegate Methods
-//
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    self.selectedEvent = self.allEvents[indexPath.row];
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    [self performSegueWithIdentifier:@"enterEvent" sender:self];
-//
-//}
+
 
 #pragma mark - Segue Method 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
